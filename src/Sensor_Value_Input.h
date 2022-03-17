@@ -20,11 +20,11 @@ void set_CH1_DIV(bool div);
 void set_CH2_DIV(bool div);
 void set_CH3_DIV(bool div);
 
-
 bool get_CH1_DIV();
 bool get_CH2_DIV();
 bool get_CH3_DIV();
 
+void clearInitFlags_ADC();
 
 void StartAdcConversation(uint8_t ch);
 void StartAdcConversation_BOT(uint8_t ch);

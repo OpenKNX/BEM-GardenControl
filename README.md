@@ -1,6 +1,6 @@
 # BEM-GardenControl
 
-> GardenControl is intelligent watering system based on the KNX-Bus to control sprinklers, pumps, sensors
+> GardenControl is intelligent watering system based on the KNX-Bus to control sprinklers, pumps and sensors
 
 
 
