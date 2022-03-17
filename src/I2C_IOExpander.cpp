@@ -7,9 +7,9 @@
 PCA9554 pca9554(i2cAddr_IO, &Wire1);     // Create an object at this address
 PCA9555 pca9555(i2cAddr_IO_Bot, &Wire1); // Create an object at this address
 
-void init_IOExpander_GPIOs()
+void init_IOExpander_GPIOs_TOP()
 {
-  SERIAL_PORT.print("PCA9554: ");
+  SERIAL_PORT.print("  PCA9554: ");
   if (pca9554.isConnected())
   {
     SERIAL_PORT.println("OK");
@@ -28,11 +28,14 @@ void init_IOExpander_GPIOs()
   {
     SERIAL_PORT.println("NOK");
   }
+}
 
+void init_IOExpander_GPIOs_BOT()
+{
   // check if +5V iso is available
   if (digitalRead(iso_5V) == 0)
   {
-    SERIAL_PORT.print("PCA9555: ");
+    SERIAL_PORT.print("  PCA9555: ");
     if (pca9555.isConnected())
     {
       SERIAL_PORT.println("OK");
@@ -51,7 +54,7 @@ void init_IOExpander_GPIOs()
   }
   else
   {
-    SERIAL_PORT.print("PCA9555 ERROR: no +5V_Iso");
+    SERIAL_PORT.print("  PCA9555 ERROR: no +5V_Iso");
   }
 }
 

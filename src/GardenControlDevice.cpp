@@ -26,36 +26,28 @@ bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
 
 void appSetup()
 {
-  SERIAL_PORT.println("init I2C");
-  // I2C Init
-  // Wire.setSDA(20);
-  // Wire.setSCL(21);
+  SERIAL_PORT.println("Start init HW TOP");
+  read_HW_ID_TOP();
+  print_HW_ID_TOP(get_HW_ID_TOP());
+  initHW();
+  SERIAL_PORT.println("Done");
 
-  Wire1.setSDA(14);
-  Wire1.setSCL(15);
-
-  // Wire.begin();
-  Wire1.begin();
-
+  SERIAL_PORT.println("Start init HW BOT");
 #ifdef IOExp_enable
-  init_IOExpander_GPIOs();
+  read_HW_ID_BOT();
   print_HW_ID_BOT(get_HW_ID_BOT());
+  initHW_Bot();
 #endif
+  SERIAL_PORT.println("Done");
 
-  SERIAL_PORT.println("IOExp Done");
-
-#ifdef ADC_enable
-  initADC(Resolution16Bit, Resolution16Bit);
-  set_CH1_DIV(DIV_5V);
-  set_CH2_DIV(DIV_5V);
-  set_CH3_DIV(DIV_5V);
-  ADC_State = Set;
-#endif
-
-  SERIAL_PORT.println("Init ADC Done");
 
   // load ETS parameters
   // load_ETS_par();
+
+  digitalWrite(SSR_EN, HIGH);
+  delay(1000);
+  digitalWrite(SSR_EN, LOW);
+  delay(1000);
 }
 
 void appLoop()

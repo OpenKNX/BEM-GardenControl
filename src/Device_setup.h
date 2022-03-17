@@ -6,13 +6,20 @@
 #define ID2 1
 #define ID3 3
 
+// IDs TOP
+#define HW_1_0      7 // ID1 = H ; ID2 = H ; ID3 = H  --> b00000111 --> 0x07 --> dez 7
 
-#define HW_1_0  7 // ID1 = H ; ID2 = H ; ID3 = H  --> b00000111 --> 0x07 --> dez 7
+// IDs BOT
+#define HW_BOT_1_0  7 // ID1 = H ; ID2 = H ; ID3 = H  --> b00000111 --> 0x07 --> dez 7
 
-void init_GPIOs();
+
+//void init_GPIOs();
+void read_HW_ID_TOP();
+void read_HW_ID_BOT();
 uint8_t get_HW_ID_TOP();
 uint8_t get_HW_ID_BOT();
 void initHW();
+void initHW_Bot();
 void print_HW_ID_TOP(uint8_t id);
 void print_HW_ID_BOT(uint8_t id);
 uint8_t get_PROG_LED_PIN(uint8_t hwID);

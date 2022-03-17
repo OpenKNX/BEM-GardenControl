@@ -53,31 +53,31 @@ void readBinInput4()
   inputState[3] = digitalRead(OptoIN_4);  
 }
 
-void InitBinInput1()
+void InitBinInput1(uint8_t GPIO)
 {
-   pinMode(OptoIN_1, INPUT_PULLUP); 
-   attachInterrupt(digitalPinToInterrupt(OptoIN_1), interrupt_BIN_1, CHANGE);
+   pinMode(GPIO, INPUT_PULLUP); 
+   attachInterrupt(digitalPinToInterrupt(GPIO), interrupt_BIN_1, CHANGE);
    readBinInput1();
 }
 
-void InitBinInput2()
+void InitBinInput2(uint8_t GPIO)
 {
-   pinMode(OptoIN_2, INPUT_PULLUP); 
-   attachInterrupt(digitalPinToInterrupt(OptoIN_2), interrupt_BIN_2, CHANGE);
+   pinMode(GPIO, INPUT_PULLUP); 
+   attachInterrupt(digitalPinToInterrupt(GPIO), interrupt_BIN_2, CHANGE);
    readBinInput2();
 }
 
-void InitBinInput3()
+void InitBinInput3(uint8_t GPIO)
 {
-   pinMode(OptoIN_3, INPUT_PULLUP); 
-   attachInterrupt(digitalPinToInterrupt(OptoIN_3), interrupt_BIN_3, CHANGE);
+   pinMode(GPIO, INPUT_PULLUP); 
+   attachInterrupt(digitalPinToInterrupt(GPIO), interrupt_BIN_3, CHANGE);
    readBinInput3();
 }
 
-void InitBinInput4()
+void InitBinInput4(uint8_t GPIO)
 {
-   pinMode(OptoIN_4, INPUT_PULLUP); 
-   attachInterrupt(digitalPinToInterrupt(OptoIN_4), interrupt_BIN_4, CHANGE);
+   pinMode(GPIO, INPUT_PULLUP); 
+   attachInterrupt(digitalPinToInterrupt(GPIO), interrupt_BIN_4, CHANGE);
    readBinInput4();
 }
 

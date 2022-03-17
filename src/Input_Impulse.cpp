@@ -17,10 +17,10 @@ void interrupt_Impluse()
     counter++;
 }
 
-void InitImpulseInput()
+void InitImpulseInput(uint8_t GPIO)
 {
-    pinMode(OptoIN_4, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(OptoIN_4), interrupt_Impluse, CHANGE);
+    pinMode(GPIO, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(GPIO), interrupt_Impluse, CHANGE);
 }
 
 void processImpulseInput()

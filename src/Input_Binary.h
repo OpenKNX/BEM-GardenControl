@@ -3,10 +3,10 @@
 
 void processBinInputs();
 
-void InitBinInput1();
-void InitBinInput2();
-void InitBinInput3();
-void InitBinInput4();
+void InitBinInput1(uint8_t GPIO);
+void InitBinInput2(uint8_t GPIO);
+void InitBinInput3(uint8_t GPIO);
+void InitBinInput4(uint8_t GPIO);
 
 void input_BIN_1();
 void input_BIN_2();

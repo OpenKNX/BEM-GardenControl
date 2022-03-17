@@ -16,21 +16,10 @@ void setup()
   Serial.begin(115200);
   delay(6000);
   Serial.println("Start Appication");
-
-  init_GPIOs();
-  initHW();
-
-  // Print HW-ID
-  print_HW_ID_TOP(get_HW_ID_TOP());
-
-  digitalWrite(SSR_EN, HIGH);
-  delay(1000);
-  digitalWrite(SSR_EN, LOW);
-  delay(1000);
  
- appSetup();
+  appSetup();
 
-  SERIAL_PORT.println("Setup Done");
+  
 }
 
 void loop()
