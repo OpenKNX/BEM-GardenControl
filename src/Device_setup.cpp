@@ -15,9 +15,9 @@ void init_GPIOs()
 {
 }
 
-uint8_t get_PROG_LED_PIN(uint8_t hwID)
+uint8_t get_PROG_LED_PIN()
 {
-  switch (hwID)
+  switch (hw_ID)
   {
   case HW_1_0: // V1.x
     return 24;
@@ -28,9 +28,9 @@ uint8_t get_PROG_LED_PIN(uint8_t hwID)
   }
 }
 
-uint8_t get_PROG_BUTTON_PIN(uint8_t hwID)
+uint8_t get_PROG_BUTTON_PIN()
 {
-  switch (hwID)
+  switch (hw_ID)
   {
   case HW_1_0: // V1.x
     return 25;
@@ -42,9 +42,9 @@ uint8_t get_PROG_BUTTON_PIN(uint8_t hwID)
   }
 }
 
-uint8_t get_SAVE_INTERRUPT_PIN(uint8_t hwID)
+uint8_t get_SAVE_INTERRUPT_PIN()
 {
-  switch (hwID)
+  switch (hw_ID)
   {
   case HW_1_0: // V1.x
     return 23;
@@ -52,6 +52,58 @@ uint8_t get_SAVE_INTERRUPT_PIN(uint8_t hwID)
 
   default:
     return 252;
+    break;
+  }
+}
+
+uint8_t get_SSR_EN_PIN()
+{
+  switch (hw_ID)
+  {
+  case HW_1_0: // V1.x
+    return GPIO_SSR_EN;
+    break;
+  default:
+    return 255;
+    break;
+  }
+}
+
+uint8_t get_5V_EN_PIN()
+{
+  switch (hw_ID)
+  {
+  case HW_1_0: // V1.x
+    return GPIO_5V_EN;
+    break;
+  default:
+    return 255;
+    break;
+  }
+}
+
+uint8_t get_5V_status_PIN()
+{
+  switch (hw_ID)
+  {
+  case HW_1_0: // V1.x
+    return GPIO_5V_status;
+    break;
+  default:
+    return 255;
+    break;
+  }
+}
+
+uint8_t get_5V_fault_PIN()
+{
+  switch (hw_ID)
+  {
+  case HW_1_0: // V1.x
+    return IO_5V_fault;
+    break;
+  default:
+    return 255;
     break;
   }
 }
@@ -123,15 +175,18 @@ void initHW()
   {
   case HW_1_0:
     // RP2040 GPIO Init
-    pinMode(PROG_LED_PIN, OUTPUT);
-    pinMode(SSR_EN, OUTPUT);
-    pinMode(iso_5V, INPUT);
+    pinMode(get_PROG_LED_PIN(),OUTPUT);
+    pinMode(get_SSR_EN_PIN(), OUTPUT);
+    pinMode(get_5V_EN_PIN(), OUTPUT);
+    pinMode(get_5V_status_PIN(), INPUT);
     pinMode(OptoIN_1, INPUT);
     pinMode(OptoIN_2, INPUT);
     pinMode(OptoIN_3, INPUT);
     pinMode(OptoIN_4, INPUT);
 
     digitalWrite(PROG_LED_PIN, LOW);
+    digitalWrite(GPIO_SSR_EN, LOW);
+    digitalWrite(GPIO_5V_EN, LOW);
 
     // init Inputs: diese können später Individuell konfiguriert werden
     InitBinInput1(OptoIN_1);    // Input 1
@@ -153,8 +208,6 @@ void initHW()
     init_IOExpander_GPIOs_TOP();
 
     initADC_TOP(Resolution16Bit);
-
-
     break;
 
   default:
@@ -171,8 +224,8 @@ void initHW_Bot()
   switch (hw_ID_Bot)
   {
   case HW_BOT_1_0:
-  
-  init_IOExpander_GPIOs_BOT();
+
+    init_IOExpander_GPIOs_BOT();
 
 #ifdef ADC_enable
     initADC_BOT(Resolution16Bit);

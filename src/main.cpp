@@ -29,7 +29,7 @@ void loop()
   if (delayCheck(LED_Delay, 200))
   {
     TestLEDstate = !TestLEDstate;
-    digitalWrite(PROG_LED_PIN, TestLEDstate);   
+    digitalWrite(get_PROG_LED_PIN(), TestLEDstate);   
     LED_Delay = millis();
   }
 }

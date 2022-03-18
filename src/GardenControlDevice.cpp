@@ -25,13 +25,42 @@ bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
   return millis() - iOldTimer >= iDuration;
 }
 
+void waitStartupLoop()
+{
+
+}
+
 void appSetup()
 {
+
   SERIAL_PORT.println("Start init HW TOP");
   read_HW_ID_TOP();
   print_HW_ID_TOP(get_HW_ID_TOP());
   initHW();
   SERIAL_PORT.println("Done");
+  // enable Main Relay
+  SERIAL_PORT.println("enable Main Relay");
+  digitalWrite(get_SSR_EN_PIN(), HIGH);
+  // wait so start Relay and Power Supply
+  SERIAL_PORT.println("wait");
+  delay(1000);
+  // disable 5V to clear Errors
+  SERIAL_PORT.println("stop 5V");
+  digitalWrite(get_5V_EN_PIN(), HIGH);
+  // wait until 5V voltage go to 0V
+  SERIAL_PORT.println("wait");
+  delay(1000);
+  // restart 5V
+  SERIAL_PORT.println("restart 5V");
+  digitalWrite(get_5V_EN_PIN(), LOW);
+  // wait until 5V powered up
+  SERIAL_PORT.println("wait");
+  delay(1000);
+  // wait 
+  while (digitalRead(get_5V_status_PIN()))
+  {
+    waitStartupLoop();
+  }
 
   SERIAL_PORT.println("Start init HW BOT");
 #ifdef IOExp_enable
@@ -43,11 +72,6 @@ void appSetup()
 
   // load ETS parameters
   // load_ETS_par();
-
-  digitalWrite(SSR_EN, HIGH);
-  delay(1000);
-  digitalWrite(SSR_EN, LOW);
-  delay(1000);
 }
 
 void appLoop()
@@ -88,57 +112,57 @@ void appLoop()
       SERIAL_PORT.println(getError());
     }
 #ifdef ADC_enable
-      SERIAL_PORT.print("ADC CH1: ");
-      SERIAL_PORT.println(getAdcVoltage_CH1());
-      SERIAL_PORT.print("ADC CH2: ");
-      SERIAL_PORT.println(getAdcVoltage_CH2());
-      SERIAL_PORT.print("ADC CH3: ");
-      SERIAL_PORT.println(getAdcVoltage_CH3());
-      SERIAL_PORT.print("ADC CH4: ");
-      SERIAL_PORT.println(getAdcVoltage_12V());
+    SERIAL_PORT.print("ADC CH1: ");
+    SERIAL_PORT.println(getAdcVoltage_CH1());
+    SERIAL_PORT.print("ADC CH2: ");
+    SERIAL_PORT.println(getAdcVoltage_CH2());
+    SERIAL_PORT.print("ADC CH3: ");
+    SERIAL_PORT.println(getAdcVoltage_CH3());
+    SERIAL_PORT.print("ADC CH4: ");
+    SERIAL_PORT.println(getAdcVoltage_12V());
 
-      SERIAL_PORT.print("ADC CH5: ");
-      SERIAL_PORT.println(get4_20mA_CH1());
-      SERIAL_PORT.print("ADC CH6: ");
-      SERIAL_PORT.println(get4_20mA_CH2());
-      SERIAL_PORT.print("ADC CH7: ");
-      SERIAL_PORT.println(getAdcVoltage_24V());
+    SERIAL_PORT.print("ADC CH5: ");
+    SERIAL_PORT.println(get4_20mA_CH1());
+    SERIAL_PORT.print("ADC CH6: ");
+    SERIAL_PORT.println(get4_20mA_CH2());
+    SERIAL_PORT.print("ADC CH7: ");
+    SERIAL_PORT.println(getAdcVoltage_24V());
 #endif
 
 #ifdef BinInputs
-      SERIAL_PORT.print("BIN CH1: ");
-      SERIAL_PORT.println(getStateInput1());
-      SERIAL_PORT.print("BIN CH2: ");
-      SERIAL_PORT.println(getStateInput2());
-      SERIAL_PORT.print("BIN CH3: ");
-      SERIAL_PORT.println(getStateInput3());
-      SERIAL_PORT.print("BIN CH4: ");
-      SERIAL_PORT.println(getStateInput4());
+    SERIAL_PORT.print("BIN CH1: ");
+    SERIAL_PORT.println(getStateInput1());
+    SERIAL_PORT.print("BIN CH2: ");
+    SERIAL_PORT.println(getStateInput2());
+    SERIAL_PORT.print("BIN CH3: ");
+    SERIAL_PORT.println(getStateInput3());
+    SERIAL_PORT.print("BIN CH4: ");
+    SERIAL_PORT.println(getStateInput4());
 #endif
 
 #ifdef ImplInput
-      SERIAL_PORT.print("Impl: ");
-      SERIAL_PORT.println(getFlowValue());
+    SERIAL_PORT.print("Impl: ");
+    SERIAL_PORT.println(getFlowValue());
 #endif
 
 #ifdef IOExp_enable
-      // enable/disable +5V BaseNoard
-      enable_5V(LOW);
+    // enable/disable +5V BaseNoard
+    enable_5V(LOW);
 
-      control_Ventil(Ventil_1, HIGH);
-      control_Ventil(Ventil_2, HIGH);
-      control_Ventil(Ventil_3, HIGH);
-      control_Ventil(Ventil_4, HIGH);
+    control_Ventil(Ventil_1, HIGH);
+    control_Ventil(Ventil_2, HIGH);
+    control_Ventil(Ventil_3, HIGH);
+    control_Ventil(Ventil_4, HIGH);
 #endif
 #ifdef Opto_IN
-      SERIAL_PORT.print("Opto CH1: ");
-      SERIAL_PORT.println(digitalRead(OptoIN_1));
-      SERIAL_PORT.print("Opto CH2: ");
-      SERIAL_PORT.println(digitalRead(OptoIN_2));
-      SERIAL_PORT.print("Opto CH3: ");
-      SERIAL_PORT.println(digitalRead(OptoIN_3));
-      SERIAL_PORT.print("Opto CH4: ");
-      SERIAL_PORT.println(digitalRead(OptoIN_4));
+    SERIAL_PORT.print("Opto CH1: ");
+    SERIAL_PORT.println(digitalRead(OptoIN_1));
+    SERIAL_PORT.print("Opto CH2: ");
+    SERIAL_PORT.println(digitalRead(OptoIN_2));
+    SERIAL_PORT.print("Opto CH3: ");
+    SERIAL_PORT.println(digitalRead(OptoIN_3));
+    SERIAL_PORT.print("Opto CH4: ");
+    SERIAL_PORT.println(digitalRead(OptoIN_4));
 #endif
 
     Output_Delay = millis();

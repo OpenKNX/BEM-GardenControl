@@ -69,10 +69,13 @@
 #define  i2cADC_BOT           0x6E
 
 // SSR Reilais
-#define SSR_EN 2
+#define GPIO_SSR_EN 2
 
 // Status Isolated 5V
-#define iso_5V 8
+#define GPIO_5V_status 8
+
+// enable 5V
+#define GPIO_5V_EN 22
 
 // Inputs Optocoupler
 #define OptoIN_1 12

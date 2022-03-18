@@ -6,15 +6,16 @@
 #include "Sensor_Value_Input.h"
 #include "I2C_IOExpander.h"
 #include "GardenControlDevice.h"
+#include "Device_setup.h"
 
 #define Threshold_24V_min 22
 #define Threshold_24V_max 26
 #define Threshold_12V_min 11
 #define Threshold_12V_max 12
 
-#define ERROR_24V 0
-#define ERROR_12V 1
-#define ERROR_5V 2
+#define ERROR_24V       0
+#define ERROR_12V       1
+#define ERROR_5V        2
 #define ERROR_5V_output 3
 
 #define DelayTime 1000
@@ -49,7 +50,7 @@ uint8_t processErrorHandling()
     }
 
     // Check 5V
-    if (digitalRead(iso_5V))
+    if (digitalRead(get_5V_status_PIN()))
     {
         error |= 1 << ERROR_5V;
         clearInitFlags_ADC();
@@ -66,7 +67,7 @@ uint8_t processErrorHandling()
     }
 
     // read +5V Sensor fault
-    if (!get_IOExpander_Input(IO_5V_fault))
+    if (!get_IOExpander_Input(get_5V_fault_PIN()))
     {
         error |= 1 << ERROR_5V_output;
     }
