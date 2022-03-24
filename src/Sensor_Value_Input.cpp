@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "Sensor_Value_Input.h"
 
-#include "hardware.h"
+#include "BEM_hardware.h"
 #include "MCP3428.h"
 #include "GardenControlDevice.h"
 #include "I2C_IOExpander.h"

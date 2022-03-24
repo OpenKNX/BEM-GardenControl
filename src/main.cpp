@@ -1,8 +1,9 @@
 #include <Arduino.h>
 #include "Device_setup.h"
-#include "hardware.h"
+#include "BEM_hardware.h"
 #include "I2C_IOExpander.h"
 #include "GardenControlDevice.h"
+
 
 uint32_t LED_Delay = 0;
 

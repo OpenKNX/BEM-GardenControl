@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 //#include <knx.h>
-#include "hardware.h"
+#include "BEM_hardware.h"
 //#include "KnxHelper.h"
 #include "GardenControlDevice.h"
 #include "I2C_IOExpander.h"
@@ -17,8 +17,10 @@ uint32_t READ_ADC_Delay = 0;
 uint32_t Output_Delay = 0;
 uint32_t READ_PRINT = 0;
 uint32_t TestDelay = 0;
+uint32_t LED_Delay2 = 0;
 
 bool TestState = false;
+bool TestLEDstate2 = false;
 
 bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
 {
@@ -27,7 +29,14 @@ bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
 
 void waitStartupLoop()
 {
+  // KNX.loop();
 
+  if (delayCheck(LED_Delay2, 700))
+  {
+    TestLEDstate2 = !TestLEDstate2;
+    digitalWrite(get_PROG_LED_PIN(), TestLEDstate2);
+    LED_Delay2 = millis();
+  }
 }
 
 void appSetup()
@@ -46,17 +55,17 @@ void appSetup()
   delay(1000);
   // disable 5V to clear Errors
   SERIAL_PORT.println("stop 5V");
-  digitalWrite(get_5V_EN_PIN(), HIGH);
+  digitalWrite(get_5V_EN_PIN(), LOW);
   // wait until 5V voltage go to 0V
   SERIAL_PORT.println("wait");
   delay(1000);
   // restart 5V
   SERIAL_PORT.println("restart 5V");
-  digitalWrite(get_5V_EN_PIN(), LOW);
+  digitalWrite(get_5V_EN_PIN(), HIGH);
   // wait until 5V powered up
   SERIAL_PORT.println("wait");
   delay(1000);
-  // wait 
+  // wait
   while (digitalRead(get_5V_status_PIN()))
   {
     waitStartupLoop();
@@ -102,6 +111,8 @@ void appLoop()
       control_Relais(2, TestState);
       control_Relais(3, TestState);
       READ_ADC_Delay = millis();
+      SERIAL_PORT.print("--> Relais: ");
+      SERIAL_PORT.println(TestState);
     }
   }
 

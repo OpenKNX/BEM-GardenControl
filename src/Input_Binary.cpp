@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 //#include <knx.h>
-#include "hardware.h"
+#include "BEM_hardware.h"
 //#include "KnxHelper.h"
 #include "Input_Binary.h"
 

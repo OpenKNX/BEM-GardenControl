@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#include "hardware.h"
+#include "BEM_hardware.h"
 #include "PCA9554.h"
 #include "PCA9555.h"
 #include "ErrorHandling.h"
@@ -145,6 +145,10 @@ void set_IOExpander_BOT_Input(uint8_t ch, bool state)
       init_IOExpander_GPIOs_BOT();
       pca9555.digitalWrite(ch, state);
     }
+  }
+  else
+  {
+    SERIAL_PORT.println("EE");
   }
 }
 

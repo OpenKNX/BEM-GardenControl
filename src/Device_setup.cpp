@@ -1,7 +1,7 @@
 #include "Device_setup.h"
 #include <stdint.h>
 #include <Arduino.h>
-#include "hardware.h"
+#include "BEM_hardware.h"
 #include "I2C_IOExpander.h"
 #include "Input_Binary.h"
 #include "Input_Impulse.h"

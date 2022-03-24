@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 //#include <knx.h>
-#include "hardware.h"
+#include "BEM_hardware.h"
 #include "ErrorHandling.h"
 #include "Sensor_Value_Input.h"
 #include "I2C_IOExpander.h"
@@ -13,9 +13,9 @@
 #define Threshold_12V_min 11
 #define Threshold_12V_max 12
 
-#define ERROR_24V       0
-#define ERROR_12V       1
-#define ERROR_5V        2
+#define ERROR_24V 0
+#define ERROR_12V 1
+#define ERROR_5V 2
 #define ERROR_5V_output 3
 
 #define DelayTime 1000
@@ -27,6 +27,7 @@ uint8_t error = 0;
 
 uint8_t processErrorHandling()
 {
+#ifdef ADC_enable
     // Check 24V
     float value = (float)getAdcVoltage_24V();
     if (value > Threshold_24V_max || value < Threshold_24V_min)
@@ -48,7 +49,7 @@ uint8_t processErrorHandling()
     {
         error &= ~(1 << ERROR_12V);
     }
-
+#endif
     // Check 5V
     if (digitalRead(get_5V_status_PIN()))
     {
