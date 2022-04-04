@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<KNX xmlns:op="http://github.com/OpenKNX/OpenKNXproducer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="KNX MT" ToolVersion="5.1.255.16695" xmlns="http://knx.org/xml/project/14">
+  <ManufacturerData>
+    <Manufacturer RefId="M-00FA">
+      <Catalog>
+        <CatalogSection Id="M-00FA_CS-OpenKNX" Name="OpenKNX" Number="OpenKNX" DefaultLanguage="de">
+          <CatalogItem Id="M-00FA_H-GardenControlV1-1_HP-0001-01-0000_CI-MFKnxBem-1" Name="OpenKNX: GardenControl" Number="1" ProductRefId="M-00FA_H-GardenControlV1-1_P-MFKnxBem" Hardware2ProgramRefId="M-00FA_H-GardenControlV1-1_HP-0001-01-0000" DefaultLanguage="de" />
+        </CatalogSection>
+      </Catalog>
+      <ApplicationPrograms>
+        <!-- Each increase of AppliationVersion FORCES the Enduser to update according firmware, too -->
+        <!-- If you just want to have a BUGFIX-Update of the ETS-Appliation (without firmware), increase ApplicationVersion AND ApplicationRevision simultaneously -->
+        <!-- To sync ETS-Application and firmware again, increase ApplicationVersion AND set ApplicationRevision to 0 -->
+        <op:version OpenKnxId="0xA2" ApplicationNumber="16" ApplicationVersion="1" ReplacesVersions="0" ApplicationRevision="0" />
+        <ApplicationProgram Id="M-00FA_A-0001-01-0000" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="KNX-GardenControl" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0" ApplicationNumber="0" ApplicationVersion="0" ReplacesVersions="0">
+          <Static>
+            <Code>
+              <RelativeSegment Id="M-00FA_A-0001-01-0000_RS-04-00000" Name="Parameters" Offset="0" Size="4" LoadStateMachine="4" />
+            </Code>
+            <op:define prefix="LOG" header="GardenControl.h" NumChannels="10" KoOffset="320" ModuleType="1" />
+            <op:define prefix="BEM" header="GardenControl.h" NumChannels="2" KoOffset="20" ModuleType="2" />
+            <ParameterTypes>
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ParameterTypes/ParameterType" prefix="LOG" />
+              <op:include href="GardenControl.share.xml" xpath="//ParameterTypes/ParameterType" prefix="BEM" />
+            </ParameterTypes>
+            <Parameters>
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="LOG" />
+              <op:include href="GardenControl.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="BEM" />
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="LOG" />
+              <op:include href="GardenControl.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="BEM" />
+            </Parameters>
+            <ParameterRefs>
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="LOG" />
+              <op:include href="GardenControl.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="BEM" />
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="LOG" />
+              <op:include href="GardenControl.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="BEM" />
+            </ParameterRefs>
+            <ComObjectTable>
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ComObjectTable/ComObject" prefix="LOG" />
+              <op:include href="GardenControl.share.xml" xpath="//ComObjectTable/ComObject" prefix="BEM" />
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="LOG" />
+              <op:include href="GardenControl.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="BEM" />
+            </ComObjectTable>
+            <ComObjectRefs>
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="LOG" />
+              <op:include href="GardenControl.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="BEM" />
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="LOG" />
+              <op:include href="GardenControl.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="BEM" />
+            </ComObjectRefs>
+            <AddressTable MaxEntries="2047" />
+            <AssociationTable MaxEntries="2047" />
+            <Messages>
+              <Message Id="M-00FA_A-0001-01-0000_M-1" Name="VersionMismatch" Text="Die Applikaitons- und Firmware-Versionen passen nicht zusammen!" />
+            </Messages>
+            <LoadProcedures>
+              <LoadProcedure MergeId="1">
+                <LdCtrlCompareProp InlineData="000099999900" ObjIdx="0" PropId="78">
+                  <OnError Cause="CompareMismatch" MessageRef="M-00FA_A-0001-01-0000_M-1" />
+                </LdCtrlCompareProp>
+              </LoadProcedure>
+              <LoadProcedure MergeId="2">
+                <LdCtrlRelSegment LsmIdx="4" Size="0" Mode="1" Fill="0" AppliesTo="full" />
+                <LdCtrlRelSegment LsmIdx="4" Size="0" Mode="0" Fill="0" AppliesTo="par" />
+              </LoadProcedure>
+              <LoadProcedure MergeId="4">
+                <LdCtrlWriteRelMem ObjIdx="4" Offset="0" Size="0" Verify="true" AppliesTo="full,par" />
+              </LoadProcedure>
+              <LoadProcedure MergeId="7">
+                <LdCtrlLoadImageProp ObjIdx="1" PropId="27" />
+                <LdCtrlLoadImageProp ObjIdx="2" PropId="27" />
+                <LdCtrlLoadImageProp ObjIdx="3" PropId="27" />
+                <LdCtrlLoadImageProp ObjIdx="4" PropId="27" />
+              </LoadProcedure>
+            </LoadProcedures>
+            <Options />
+          </Static>
+          <!-- Here statrs the UI definition -->
+          <Dynamic>
+            <ChannelIndependentBlock>
+              <!-- ChannelIndependentBlock is a composition of different parts of different modules -->
+              <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-1" Name="Doku" Text="Dokumenation">
+                <op:include href="GardenControl.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='Docu']/*" prefix="BEM" />
+              </ParameterBlock>
+              <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-2" Name="General" Text="Allgemeine Parameter">
+                <op:include href="../../OAM-LogicModule/src/Logikmodul.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='General']/*" prefix="LOG" />
+                <op:include href="GardenControl.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='General']/*" prefix="BEM" />
+                <op:include href="GardenControl.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='Hardware']/*" prefix="BEM" />
+                <op:include href="../../OAM-LogicModule/src/Logikmodul.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='Diagnose']/*" prefix="LOG" />
+              </ParameterBlock>
+            </ChannelIndependentBlock>
+            <!-- Erster Enocean Kanal -->
+            <Channel Id="M-00FA_A-0001-01-0000_CH-1" Name="Standard" Number="1" Text="Enocean">
+              <op:include href="GardenControl.templ.xml" xpath="//Dynamic/*" type="template" prefix="BEM" />
+            </Channel>
+            <Channel Id="M-00FA_A-0001-01-0000_CH-2" Name="Logik" Number="2" Text="Logikkanäle">
+              <!-- Logic channel independent settings -->
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//Dynamic/Channel/*" prefix="LOG" />
+              <!-- Logic channel settings -->
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//Dynamic/*" type="template" prefix="LOG" />
+            </Channel>
+          </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+      <Hardware>
+        <Hardware Id="M-00FA_H-GardenControlV1-1" Name="GardenControl" SerialNumber="GardenControlV1" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-00FA_H-GardenControlV1-1_P-MFKnxBem" Text="GardenControl" OrderNumber="MFKnxBem" IsRailMounted="false" DefaultLanguage="de">
+              <RegistrationInfo RegistrationStatus="Registered" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-00FA_H-GardenControlV1-1_HP-0001-01-0000" MediumTypes="MT-0">
+              <ApplicationProgramRef RefId="M-00FA_A-0001-01-0000" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="0001/11" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

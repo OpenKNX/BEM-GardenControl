@@ -1,4 +1,3 @@
-#pragma once
 
 #include <stdint.h>
 #include "Sensor_Value_Input.h"

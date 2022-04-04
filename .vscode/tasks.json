@@ -4,17 +4,6 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build on Linux",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "--build",
-                "linux"
-            ],
-            "group": "build",
-            "problemMatcher": []
-        },
-        {
             "label": "Build PlatformIO",
             "type": "shell",
             "command": "${env:USERPROFILE}\\.platformio\\penv\\Scripts\\pio.exe",
@@ -69,28 +58,17 @@
             "problemMatcher": []
         },
         {
-            "label": "MultiplyChannels",
+            "label": "OpenKNXproducer",
             "type": "shell",
-            "command": "${env:USERPROFILE}\\bin\\MultiplyChannels.exe",
+            "command": "${env:USERPROFILE}\\bin\\OpenKNXproducer.exe",
             "args": [
                 "create",
                 "--Debug",
-                "src/Sensormodul"
-            ],
-            "problemMatcher": [],
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "MultiplyChannels-Release",
-            "type": "shell",
-            "command": "release\\BuildRelease.cmd",
-            "args": [
+                "src/GardenControl"
             ],
             "problemMatcher": [],
             "group": "test"
         }
+        
     ]
 }

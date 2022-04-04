@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<KNX xmlns:mc="http://github.com/mumpf/multiply-channels" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knx.org/xml/project/14 ../../../knx.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="KNX MT" ToolVersion="5.1.255.16695" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://knx.org/xml/project/14">
+  <ManufacturerData>
+    <Manufacturer RefId="M-00FA">
+      <ApplicationPrograms>
+        <ApplicationProgram Id="M-00FA_A-0001-01-0000" ApplicationNumber="203" ApplicationVersion="10" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="WP-Logic" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
+          <Dynamic>
+             <ChannelIndependentBlock>
+              <!-- A parameter block represents a tab on the left side, showing a page full of parameters -->
+              <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-1" Name="Docu" Text="Dokumentation">
+                <!-- In this example the first Tab shows some documentation -->
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-1" Text="Kurze Einführung" UIHint="Headline" />
+                <!-- A parameter seperator shows just some text -->
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-2" Text="Das Gerät kann ein 'In Betrieb'-Telegramm in einstellbarer Zeit senden." />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-3" Text="Die Zeit, bis das Gerät nach einem Neustart erstmals meldet, ist einstellbar." />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="Es kann ein Repeater (Level-1/2) aktiviert werden" />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Falls das Gateway mal getauscht werden muss, kann man dem neuen Gateway die Base-ID des alten Gateways geben, damit müssen nicht wieder alle Sensoren/Aktoren eingelernt werden" />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="Je nach Variante steht eine vielzahl an Kanälen zur Verfügung" />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-7" Text="Pro Kanal kann ein EnOcean Device angelernt werden" />
+              </ParameterBlock>
+              <!-- A tab page with general settings -->
+              <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-2" Name="General" Text="Allgemeine Parameter">
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-nnn" Text="Gateway-Optionen" UIHint="Headline" />
+                <!-- Parameter to choose startup delay -->
+                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%000000_R-%T%00000001" /> <!-- Repeater ON/OFF -->
+                <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%000000_R-%T%00000001">
+                  <when test="1">
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%000010_R-%T%00001001" /> <!-- Repeater Level -->
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-100" Text="Level-1 = nur Nachrichten die noch nicht weitergeleitet wurden, werden 'repeated'" />
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-101" Text="Level-2 = alle Nachrichten werden 'repeated'" />
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-102" Text="ACHTUNG:" />
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-103" Text="When using repeaters, care must be taken to ensure that regulatory transmitter duty cycle limits (if applicable) are not exceeded." />
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-104" Text="Level-2 repeating function should only be activated after careful study of the radio conditions! Otherwise the system function can be compromised by collisions of telegrams." />
+                  </when>
+                </choose>
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-7" Text="" UIHint="HorizontalRuler" />
+                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%000001_R-%T%00000101" />
+                <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%000001_R-%T%00000101">
+                  <when test="0">
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-99" Text="                                                                  ACHTUNG: die Base-ID kann nur 10x geändert werden!" />
+                  </when>
+                  <when test="1">
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-8" Text="Hier die neue Base-ID eingeben:" />
+                          <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-3" Name="Id1" Text="Id" Inline="true" Layout="Grid">
+                            <Rows>
+                              <Row Id="M-00FA_A-0001-01-0000_PB-3_R-1" Name="Row1" />
+                            </Rows>
+                            <Columns>
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-1" Name="Col1" Width="25%" />
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-2" Name="Col2" Width="9%" />
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-3" Name="Col3" Width="9%" />
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-4" Name="Col4" Width="2%" />
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-5" Name="Col5" Width="9%" />
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-6" Name="Col6" Width="9%" />
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-7" Name="Col7" Width="2%" />
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-8" Name="Col8" Width="9%" />
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-9" Name="Col9" Width="9%" />
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-10" Name="Col10" Width="2%" />
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-11" Name="Col11" Width="9%" />
+                              <Column Id="M-00FA_A-0001-01-0000_PB-3_C-12" Name="Col12" Width="9%" />
+                            </Columns>
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-9" Text="Base-ID:"  Cell="1,1" />
+                            <!-- <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-nnn" Text="." Cell="1,3"/> -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000002_R-%T%00000201" Cell="1,2" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000003_R-%T%00000301" Cell="1,3" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000004_R-%T%00000401" Cell="1,5" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000005_R-%T%00000501" Cell="1,6" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000006_R-%T%00000601" Cell="1,8" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000007_R-%T%00000701" Cell="1,9" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000008_R-%T%00000801" Cell="1,11" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000009_R-%T%00000901" Cell="1,12" />
+                          </ParameterBlock>
+                      <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-13" Text="Zulässiger Base-ID Bereich: 0xFF800000 to 0xFFFFFFFE" />
+                  </when>
+                </choose>
+              </ParameterBlock>
+               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
+               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
+               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
+               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
+               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
+              <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-2" Name="Hardware" Text="Logik: Hardware (vorbelegt)">
+                <!-- buzzer available (invisible, false) -->
+                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-1000035_R-100003502" />
+                <!-- rgb led available (invisible, false) -->
+                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-1000036_R-100003602" />
+                <!-- eeprom available (invisible, false) -->
+                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-1000037_R-100003702" />
+                <!-- move locally set values to global parameters -->
+                <!-- this is used for decoupling specific applications from global behaviour -->
+                <Assign TargetParamRefRef="M-00FA_A-0001-01-0000_UP-1000035_R-100003501" SourceParamRefRef="M-00FA_A-0001-01-0000_UP-1000035_R-100003502" />
+                <Assign TargetParamRefRef="M-00FA_A-0001-01-0000_UP-1000036_R-100003601" SourceParamRefRef="M-00FA_A-0001-01-0000_UP-1000036_R-100003602" />
+                <Assign TargetParamRefRef="M-00FA_A-0001-01-0000_UP-1000037_R-100003701" SourceParamRefRef="M-00FA_A-0001-01-0000_UP-1000037_R-100003702" />
+                <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
+              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
+              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
+              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
+              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
+              </ParameterBlock>
+            </ChannelIndependentBlock>
+          </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

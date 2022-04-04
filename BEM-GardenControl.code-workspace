@@ -1,0 +1,31 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\OAM-LogicModule"
+		},
+		{
+			"path": "..\\OGM-SensorDevices"
+		},
+		{
+			"path": "..\\OGM-Common"
+		},
+		{
+			"path": "..\\knx"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"optional": "cpp",
+			"ostream": "cpp",
+			"system_error": "cpp",
+			"array": "cpp",
+			"functional": "cpp",
+			"tuple": "cpp",
+			"type_traits": "cpp",
+			"utility": "cpp"
+		}
+	}
+}
