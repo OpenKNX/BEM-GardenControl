@@ -71,12 +71,11 @@ void appSetup()
     waitStartupLoop();
   }
 
-  SERIAL_PORT.println("Start init HW BOT");
-#ifdef IOExp_enable
+  SERIAL_PORT.println("Start init HW TOP + BOT");
+  initHW_Top();
   read_HW_ID_BOT();
   print_HW_ID_BOT(get_HW_ID_BOT());
   initHW_Bot();
-#endif
   SERIAL_PORT.println("Done");
 
   // load ETS parameters
@@ -121,6 +120,10 @@ void appLoop()
     if (getError())
     {
       SERIAL_PORT.println(getError());
+      SERIAL_PORT.println(get_5V_Error());
+      SERIAL_PORT.println(get_12V_Error());
+      SERIAL_PORT.println(get_24V_Error());
+      SERIAL_PORT.println(get_5V_out_Error());     
     }
 #ifdef ADC_enable
     SERIAL_PORT.print("ADC CH1: ");

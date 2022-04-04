@@ -66,6 +66,12 @@ uint8_t processErrorHandling()
         }
         // error &= ~(1 << ERROR_5V);
     }
+    
+    if (startDelay && delayCheck(delayTimer, DelayTime))
+    {
+        startDelay = false;
+        error &= ~(1 << ERROR_5V);
+    }
 
     // read +5V Sensor fault
     if (!get_IOExpander_Input(get_5V_fault_PIN()))
@@ -75,12 +81,6 @@ uint8_t processErrorHandling()
     else
     {
         error &= ~(1 << ERROR_5V_output);
-    }
-
-    if (startDelay && delayCheck(delayTimer, DelayTime))
-    {
-        startDelay = false;
-        error &= ~(1 << ERROR_5V);
     }
 
     return error;

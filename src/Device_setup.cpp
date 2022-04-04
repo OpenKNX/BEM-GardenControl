@@ -194,6 +194,23 @@ void initHW()
     InitBinInput3(OptoIN_3);    // Input 3
     InitImpulseInput(OptoIN_4); // Input 4
 
+    
+    break;
+
+  default:
+    SERIAL_PORT.println("Wrong HW-ID  = STOPP");
+    while (true)
+    {
+    };
+    break;
+  }
+}
+
+void initHW_Top()
+{
+  switch (hw_ID)
+  {
+  case HW_1_0:
     SERIAL_PORT.println("  I2C.begin");
     // I2C Init
     // Wire.setSDA(20);
@@ -209,7 +226,7 @@ void initHW()
 
     initADC_TOP(Resolution16Bit);
     break;
-
+  
   default:
     SERIAL_PORT.println("Wrong HW-ID  = STOPP");
     while (true)
@@ -217,6 +234,7 @@ void initHW()
     };
     break;
   }
+
 }
 
 void initHW_Bot()

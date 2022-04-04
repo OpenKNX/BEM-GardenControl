@@ -19,6 +19,7 @@ void read_HW_ID_BOT();
 uint8_t get_HW_ID_TOP();
 uint8_t get_HW_ID_BOT();
 void initHW();
+void initHW_Top();
 void initHW_Bot();
 void print_HW_ID_TOP(uint8_t id);
 void print_HW_ID_BOT(uint8_t id);

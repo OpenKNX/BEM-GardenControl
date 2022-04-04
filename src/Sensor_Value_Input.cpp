@@ -57,8 +57,16 @@ void initADC_TOP(uint8_t res_top)
     if (!get_5V_Error())
     {
         SERIAL_PORT.print("  MCP3428_TOP:");
-        SERIAL_PORT.println(MCP3428_adc.testConnection());
-        init_flag_PCP3428_Top = true;
+        if (MCP3428_adc.testConnection())
+        {
+            SERIAL_PORT.println("OK");
+            init_flag_PCP3428_Top = true;
+        }
+        else
+        {
+            init_flag_PCP3428_Top = false;
+            SERIAL_PORT.println("NOK");
+        }
     }
     else
     {
@@ -73,8 +81,16 @@ void initADC_BOT(uint8_t res_bot)
     if (!get_5V_Error())
     {
         SERIAL_PORT.print("  MCP3428_BOT:");
-        SERIAL_PORT.println(MCP3428_adc_BOT.testConnection());
-        init_flag_PCP3428_Bot = true;
+        if (MCP3428_adc_BOT.testConnection())
+        {
+            SERIAL_PORT.println("OK");
+            init_flag_PCP3428_Bot = true;
+        }
+        else
+        {
+            init_flag_PCP3428_Bot = false;
+            SERIAL_PORT.println("NOK");
+        }
     }
     else
     {
@@ -181,7 +197,8 @@ float getAdcVoltage(uint8_t ch, bool div)
             return (float)adc_Value[ch - 1] * 0.000375; // 2.047 / 32767.0 * 6.0;
             break;
         default:
-            SERIAL_PORT.print("wrong RES");
+            SERIAL_PORT.println("wrong RES 0-12V");
+            SERIAL_PORT.println(resolution_TOP);
             return 0;
             break;
         }
@@ -207,7 +224,7 @@ float getAdcVoltage(uint8_t ch, bool div)
             return adc_Value[ch - 1] * 0.0001875; // 2.047 / 32767.0 * 3.0;
             break;
         default:
-            SERIAL_PORT.print("wrong RES");
+            SERIAL_PORT.println("wrong RES 0-5V");
             return 0;
             break;
         }
@@ -230,7 +247,7 @@ float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
             return adc_Value_BOT[ch - 1] * 0.000625; // 2.047 / 32767.0 / 100;
             break;
         default:
-            SERIAL_PORT.print("wrong RES");
+            SERIAL_PORT.println("wrong RES 4-20mA");
             return 0;
             break;
         }
@@ -249,7 +266,7 @@ float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
             return adc_Value_BOT[ch - 1] * 0.001; // 2.047 / 32767.0 * 16;
             break;
         default:
-            SERIAL_PORT.print("wrong RES");
+            SERIAL_PORT.println("wrong RES 0-24V");
             return 0;
             break;
         }

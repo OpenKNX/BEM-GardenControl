@@ -7,7 +7,7 @@
 //#define V1
 //#define V2
 
-//#define ADC_enable
+#define ADC_enable
 #define IOExp_enable
 //#define Opto_IN
 #define BinInputs
