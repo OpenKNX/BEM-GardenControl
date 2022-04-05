@@ -1,8 +1,9 @@
 #include <Arduino.h>
 #include <Wire.h>
-//#include <knx.h>
+#include <knx.h>
+#include "GardenControl.h"
 #include "BEM_hardware.h"
-//#include "KnxHelper.h"
+#include "KnxHelper.h"
 #include "GardenControlDevice.h"
 #include "I2C_IOExpander.h"
 #include "Sensor_Value_Input.h"
@@ -10,6 +11,15 @@
 #include "Input_Binary.h"
 #include "Input_Impulse.h"
 #include "ErrorHandling.h"
+#include "handleVentil.h"
+
+//#include "Logic.h"
+
+// Logic gLogic;
+
+const uint8_t cFirmwareMajor = 1;    // 0-31
+const uint8_t cFirmwareMinor = 0;    // 0-31
+const uint8_t cFirmwareRevision = 0; // 0-63
 
 uint32_t heartbeatDelay = 0;
 uint32_t startupDelay = 0;
@@ -18,8 +28,10 @@ uint32_t Output_Delay = 0;
 uint32_t READ_PRINT = 0;
 uint32_t TestDelay = 0;
 uint32_t LED_Delay2 = 0;
+uint32_t LED_Delay = 0;
 
 bool TestState = false;
+bool TestLEDstate = false;
 bool TestLEDstate2 = false;
 
 bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
@@ -39,8 +51,112 @@ void waitStartupLoop()
   }
 }
 
+void ProcessReadRequests()
+{
+  // this method is called after startup delay and executes read requests, which should just happen once after startup
+  static bool sCalledProcessReadRequests = false;
+  if (!sCalledProcessReadRequests)
+  {
+    // we go through all IO devices defined as outputs and check for initial read requests
+    sCalledProcessReadRequests = true;
+  }
+  // gLogic.processReadRequests();    // ******************************************************************************  ändern !!!!!!!!!!!!!
+}
+
+/*
+bool processDiagnoseCommand()
+{
+  char *lBuffer = gLogic.getDiagnoseBuffer();
+  bool lOutput = false;
+  if (lBuffer[0] == 'v')
+  {
+    // Command v: retrun fimware version, do not forward this to logic,
+    // because it means firmware version of the outermost module
+    sprintf(lBuffer, "VER [%d] %d.%d", cFirmwareMajor, cFirmwareMinor, cFirmwareRevision);
+    lOutput = true;
+  }
+  else
+  {
+    // let's check other modules for this command
+    lOutput = gLogic.processDiagnoseCommand();
+  }
+  return lOutput;
+}
+
+void ProcessDiagnoseCommand(GroupObject &iKo)
+{
+  // this method is called as soon as iKo is changed
+  // an external change is expected
+  // because this iKo also is changed within this method,
+  // the method is called again. This might result in
+  // an endless loop. This is prevented by the isCalled pattern.
+  static bool sIsCalled = false;
+  if (!sIsCalled)
+  {
+    sIsCalled = true;
+    //diagnose is interactive and reacts on commands
+    gLogic.initDiagnose(iKo);
+    if (processDiagnoseCommand())
+      gLogic.outputDiagnose(iKo);
+    sIsCalled = false;
+  }
+};
+*/
+
+void ProcessKoCallback(GroupObject &iKo)
+{
+  // SERIAL_PORT.print("KO: ");
+  // SERIAL_PORT.println(iKo.asap());
+
+  // check if we evaluate own KO
+  if (iKo.asap() == LOG_KoDiagnose)
+  {
+    // ProcessDiagnoseCommand(iKo);       // ******************************************************************************  ändern !!!!!!!!!!!!!
+  }
+  else
+  {
+    bool callLogic = true;
+    for (int koIndex = 0; koIndex < BEM_ChannelCount + REL_ChannelCount; koIndex++)
+    {
+      // KO Abfrage für Ventile 
+      if (iKo.asap() == BEM_KoOffset + (BEM_Ko_Set_ventil + (koIndex * BEM_KoBlockSize)))
+      {
+        uint8_t ventil_Nr = ((iKo.asap() - BEM_KoOffset) / BEM_KoBlockSize);
+        set_Ventil_State(ventil_Nr, iKo.value(getDPT(VAL_DPT_1)));
+        callLogic = false;
+      }
+      // KO Abfrage für Relais 
+      else if (iKo.asap() == REL_KoOffset + (REL_Ko_Set_relais + (koIndex * REL_KoBlockSize)))
+      {
+#ifdef KNXcallback
+        SERIAL_PORT.print("KO: ");
+        SERIAL_PORT.println(iKo.asap());
+#endif
+        uint8_t relais_Nr = ((iKo.asap() - REL_KoOffset) / REL_KoBlockSize);
+#ifdef KNXcallback
+        SERIAL_PORT.print("Relais: ");
+        SERIAL_PORT.println(relais_Nr);
+#endif
+        set_Relais_State(relais_Nr, iKo.value(getDPT(VAL_DPT_1)));
+        callLogic = false;
+      }
+    }
+
+    // for handling external inputs, logik always to be called
+    // gLogic.processInputKo(iKo);          // ******************************************************************************  ändern !!!!!!!!!!!!!
+  }
+}
+
 void appSetup()
 {
+  if (knx.configured())
+  {
+    if (GroupObject::classCallback() == 0)
+      GroupObject::classCallback(ProcessKoCallback);
+    // Setup Logik
+    // Logic::addLoopCallback(EnOcean::taskCallback, &enOcean);        // ************************************************************
+    // gLogic.setup(false);                                            // ************************************************************
+  }
 
   SERIAL_PORT.println("Start init HW TOP");
   read_HW_ID_TOP();
@@ -66,10 +182,10 @@ void appSetup()
   SERIAL_PORT.println("wait");
   delay(1000);
   // wait
-  while (digitalRead(get_5V_status_PIN()))
+  /*while (digitalRead(get_5V_status_PIN()))   // ******************************************************************************  ändern !!!!!!!!!!!!!
   {
     waitStartupLoop();
-  }
+  }*/
 
   SERIAL_PORT.println("Start init HW TOP + BOT");
   initHW_Top();
@@ -85,6 +201,7 @@ void appSetup()
 void appLoop()
 {
   processErrorHandling();
+  processVentil();
 
 #ifdef ADC_enable
   processADConversation();
@@ -119,11 +236,13 @@ void appLoop()
   {
     if (getError())
     {
+#ifdef SerialError
       SERIAL_PORT.println(getError());
       SERIAL_PORT.println(get_5V_Error());
       SERIAL_PORT.println(get_12V_Error());
       SERIAL_PORT.println(get_24V_Error());
-      SERIAL_PORT.println(get_5V_out_Error());     
+      SERIAL_PORT.println(get_5V_out_Error());
+#endif
     }
 #ifdef ADC_enable
     SERIAL_PORT.print("ADC CH1: ");
@@ -181,4 +300,13 @@ void appLoop()
 
     Output_Delay = millis();
   }
+
+  if (delayCheck(LED_Delay, 200))
+  {
+    TestLEDstate = !TestLEDstate;
+    digitalWrite(get_PROG_LED_PIN(), TestLEDstate);
+    LED_Delay = millis();
+  }
+
+  ProcessReadRequests();
 }

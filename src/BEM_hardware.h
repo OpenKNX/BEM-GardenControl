@@ -7,12 +7,13 @@
 //#define V1
 //#define V2
 
-#define ADC_enable
-#define IOExp_enable
+#define KNXcallback
+//#define ADC_enable
+//#define IOExp_enable
 //#define Opto_IN
-#define BinInputs
+//#define BinInputs
 //#define S0Inputs
-#define ImplInput
+//#define ImplInput
 
 
 
@@ -58,10 +59,10 @@
 // MUst be updated to the new Project HW !!!
 #define PROG_LED_PIN 24
 #define PROG_LED_PIN_ACTIVE_ON HIGH
-#define PROG_BUTTON_PIN 25
+#define PROG_BUTTON_PIN 13
 #define PROG_BUTTON_PIN_INTERRUPT_ON FALLING
 #define SAVE_INTERRUPT_PIN 38 
-#define LED_YELLOW_PIN 27
+#define LED_YELLOW_PIN 27  //nicht 22 weil es in V1 für GPIO_5V_EN verwendet wird, 27 frei gewählt weil in HW nicht belegt!
 // Set i2c address
 #define  i2cAddr_IO           0x27
 #define  i2cAddr_IO_Bot       0x20

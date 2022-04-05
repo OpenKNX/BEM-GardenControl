@@ -8,7 +8,7 @@
         </CatalogSection>
       </Catalog>
       <ApplicationPrograms>
-        <ApplicationProgram Id="M-00FA_A-0001-01-0000" ApplicationNumber="203" ApplicationVersion="1" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="EnoceanGateway" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
+        <ApplicationProgram Id="M-00FA_A-0001-01-0000" ApplicationNumber="203" ApplicationVersion="1" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="GardenControl" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
           <Static>
             <Code>
               <RelativeSegment Id="M-00FA_A-0001-01-0000_RS-04-00000" Name="Parameters" Offset="0" Size="4" LoadStateMachine="4" />
@@ -27,6 +27,12 @@
                   <Enumeration Text="1" Value="1" Id="M-00FA_A-0001-01-0000_PT-OneZero_EN-1" />
                 </TypeRestriction>
               </ParameterType>
+              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ActiveInactive" Name="ActiveInactive">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Text="inaktiv" Value="0" Id="M-00FA_A-0001-01-0000_PT-ActiveInactive_EN-0" />
+                  <Enumeration Text="aktiv" Value="1" Id="M-00FA_A-0001-01-0000_PT-ActiveInactive_EN-1" />
+                </TypeRestriction>
+              </ParameterType>
               <!-- Parameter type for an 8 bit percent parameter -->
               <ParameterType Id="M-00FA_A-0001-01-0000_PT-Percentage" Name="Percentage">
                 <TypeNumber SizeInBit="8" Type="signedInt" minInclusive="0" maxInclusive="100" />
@@ -38,34 +44,13 @@
                   <Enumeration Text="DPT 9.007 (2 Byte, Fließkommawert)" Value="9" Id="M-00FA_A-0001-01-0000_PT-DptSelect_EN-1" />
                 </TypeRestriction>
               </ParameterType>
-
-
-
             </ParameterTypes>
             <Parameters>
-              <!-- the follwoing 3 parameters represent a productive example -->
-              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%000001" Name="SetBaseIdFunc" ParameterType="M-00FA_A-0001-01-0000_PT-YesNo" Text="Base-ID anpassen?" Value="0">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="51" BitOffset="0" />
-              </Parameter>
-              <!-- Device-Id -->
-              <Union SizeInBit="32">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="52" BitOffset="0" />
-                <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%000002" Name="Id0" Offset="0" BitOffset="0" ParameterType="M-00FA_A-0001-01-0000_PT-NibbleF"  Text="" Value="15" />
-                <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%000003" Name="Id1" Offset="0" BitOffset="4" ParameterType="M-00FA_A-0001-01-0000_PT-NibbleF"  Text="" Value="15" />
-                <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%000004" Name="Id2" Offset="1" BitOffset="0" ParameterType="M-00FA_A-0001-01-0000_PT-Nibble8"  Text="" Value="8" />
-                <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%000005" Name="Id3" Offset="1" BitOffset="4" ParameterType="M-00FA_A-0001-01-0000_PT-Nibble"   Text="" Value="0" />
-                <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%000006" Name="Id4" Offset="2" BitOffset="0" ParameterType="M-00FA_A-0001-01-0000_PT-Nibble"   Text="" Value="0" />
-                <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%000007" Name="Id5" Offset="2" BitOffset="4" ParameterType="M-00FA_A-0001-01-0000_PT-Nibble"   Text="" Value="0" />
-                <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%000008" Name="Id6" Offset="3" BitOffset="0" ParameterType="M-00FA_A-0001-01-0000_PT-Nibble08" Text="" Value="0" />
-                <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%000009" Name="Id7" Offset="3" BitOffset="4" ParameterType="M-00FA_A-0001-01-0000_PT-Nibble0"  Text="" Value="0" />
-              </Union>
             </Parameters>
             <ParameterRefs>
-               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
+              <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
+              <!-- ParameterRef are used in the ETS UI -->       
+              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
               <!-- Predefined parameters for hardware selection, influences logic module application -->
               <!-- buzzer available (invisible, false) -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_UP-1000035_R-100003502" RefId="M-00FA_A-0001-01-0000_UP-1000035" Value="0" Access="None" />
@@ -74,24 +59,7 @@
               <!-- eeprom available (invisible, false) -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_UP-1000037_R-100003702" RefId="M-00FA_A-0001-01-0000_UP-1000037" Value="0" Access="None" />
               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
 
-              <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
-              <!-- ParameterRef are used in the ETS UI -->
-              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%000000_R-%T%00000001" RefId="M-00FA_A-0001-01-0000_P-%T%000000" />
-              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%000001_R-%T%00000101" RefId="M-00FA_A-0001-01-0000_P-%T%000001" />
-              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000002_R-%T%00000201" RefId="M-00FA_A-0001-01-0000_UP-%T%000002" />
-              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000003_R-%T%00000301" RefId="M-00FA_A-0001-01-0000_UP-%T%000003" />
-              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000004_R-%T%00000401" RefId="M-00FA_A-0001-01-0000_UP-%T%000004" />
-              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000005_R-%T%00000501" RefId="M-00FA_A-0001-01-0000_UP-%T%000005" />
-              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000006_R-%T%00000601" RefId="M-00FA_A-0001-01-0000_UP-%T%000006" />
-              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000007_R-%T%00000701" RefId="M-00FA_A-0001-01-0000_UP-%T%000007" />
-              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000008_R-%T%00000801" RefId="M-00FA_A-0001-01-0000_UP-%T%000008" />
-              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000009_R-%T%00000901" RefId="M-00FA_A-0001-01-0000_UP-%T%000009" />
-              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%000010_R-%T%00001001" RefId="M-00FA_A-0001-01-0000_P-%T%000010" />
             </ParameterRefs>
             <ComObjectTable>
             </ComObjectTable>
