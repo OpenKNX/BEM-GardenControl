@@ -49,8 +49,6 @@
 #define Relais_3  14 
 #define BOT_5V_EN 15
 
-#define maxCountVentil 12
-#define maxCountRelais 3
 #define RelaisOffset 11
 
 

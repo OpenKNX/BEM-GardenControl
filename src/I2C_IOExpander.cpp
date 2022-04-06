@@ -4,6 +4,7 @@
 #include "PCA9554.h"
 #include "PCA9555.h"
 #include "ErrorHandling.h"
+#include "GardenControl.h"
 
 PCA9554 pca9554(i2cAddr_IO, &Wire1);     // Create an object at this address
 PCA9555 pca9555(i2cAddr_IO_Bot, &Wire1); // Create an object at this address
@@ -13,6 +14,9 @@ bool init_flag_PCA9554 = false;
 
 void init_IOExpander_GPIOs_TOP()
 {
+  // check if +5V iso is available
+  if (!get_5V_Error())
+  {
   SERIAL_PORT.print("  PCA9554: ");
   if (pca9554.isConnected())
   {
@@ -33,6 +37,11 @@ void init_IOExpander_GPIOs_TOP()
   else
   {
     SERIAL_PORT.println("NOK");
+  }
+  }
+  else
+  {
+    SERIAL_PORT.println("  PCA9554 ERROR: no +5V_Iso");
   }
 }
 
@@ -68,8 +77,8 @@ void init_IOExpander_GPIOs_BOT()
 
 void clearInitFlags_IOExp()
 {
-    init_flag_PCA9554 = false;
-    init_flag_PCA9555 = false;
+  init_flag_PCA9554 = false;
+  init_flag_PCA9555 = false;
 }
 
 void set_IOExpander_Input(uint8_t ch, bool state)
@@ -106,6 +115,7 @@ bool get_IOExpander_Input(uint8_t ch)
   }
   else
   {
+    SERIAL_PORT.println("5V ERROR");
     return 0;
   }
 }
@@ -136,9 +146,9 @@ void set_IOExpander_BOT_Input(uint8_t ch, bool state)
   // check if +5V iso is available
   if (!get_5V_Error())
   {
-    if( init_flag_PCA9555)
+    if (init_flag_PCA9555)
     {
-    pca9555.digitalWrite(ch, state);
+      pca9555.digitalWrite(ch, state);
     }
     else
     {
@@ -152,30 +162,12 @@ void set_IOExpander_BOT_Input(uint8_t ch, bool state)
   }
 }
 
-void control_Ventil(uint8_t ch, bool state)
-{
 
-  if (ch <= maxCountVentil && ch > 0)
-  {
-    ch = ch - 1;
-    set_IOExpander_BOT_Input(ch, state);
-  }
-}
-
-void control_Relais(uint8_t nr, bool state)
-{
-  if (nr <= maxCountRelais && nr > 0)
-  {
-    nr = nr + RelaisOffset;
-    set_IOExpander_BOT_Input(nr, state);
-  }
-}
 
 bool getStatus_Ventil(uint8_t ch)
 {
-  if (ch <= maxCountVentil && ch > 0)
+  if (ch <= BEM_ChannelCount && ch > 0)
   {
-    ch = ch - 1;
     return get_IOExpander_BOT_Input(ch);
   }
   {
@@ -185,7 +177,7 @@ bool getStatus_Ventil(uint8_t ch)
 
 bool getStatus_Relais(uint8_t nr)
 {
-  if (nr <= maxCountRelais && nr > 0)
+  if (nr <= REL_ChannelCount && nr > 0)
   {
     nr = nr + RelaisOffset;
     return get_IOExpander_BOT_Input(nr);

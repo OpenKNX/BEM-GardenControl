@@ -134,7 +134,8 @@ void print_HW_ID_BOT(uint8_t id)
     break;
 
   default:
-    SERIAL_PORT.println("Not Defined");
+    SERIAL_PORT.print("Not Defined: ");
+    SERIAL_PORT.println(id,BIN);
     break;
   }
 }

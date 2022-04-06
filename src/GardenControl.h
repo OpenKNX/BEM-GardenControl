@@ -154,10 +154,23 @@
 #define LOG_KoLedLock 8
 #define LOG_KoBuzzerLock 9
 
+#define BEM_ext5VRelais               50      // 1 Bit, Bit 7
+#define     BEM_ext5VRelaisMask 0x80
+#define     BEM_ext5VRelaisShift 7
+#define BEM_ext5VRelaisStateBegin     50      // 1 Bit, Bit 6
+#define     BEM_ext5VRelaisStateBeginMask 0x40
+#define     BEM_ext5VRelaisStateBeginShift 6
+#define BEM_ext5VRelaisStartState     50      // 1 Bit, Bit 5
+#define     BEM_ext5VRelaisStartStateMask 0x20
+#define     BEM_ext5VRelaisStartStateShift 5
+
+#define BEM_Ko_Set_5V_relais 21
+#define BEM_Ko_Status_5V_relais 22
+
 #define LOG_ChannelCount 10
 
 // Parameter per channel
-#define LOG_ParamBlockOffset 26
+#define LOG_ParamBlockOffset 51
 #define LOG_ParamBlockSize 87
 #define LOG_fChannelDelayBase          0      // 2 Bits, Bit 7-6
 #define     LOG_fChannelDelayBaseMask 0xC0
@@ -814,14 +827,14 @@
 #define LOG_KoKOfE2 1
 #define LOG_KoKOfO 2
 
-#define BEM_ChannelCount 2
+#define BEM_ChannelCount 12
 
 // Parameter per channel
 #define BEM_ParamBlockOffset 0
 #define BEM_ParamBlockSize -1
 
 // Communication objects per channel (multiple occurance)
-#define BEM_KoOffset 20
+#define BEM_KoOffset 30
 #define BEM_KoBlockSize 3
 #define BEM_Ko_Set_ventil 0
 #define BEM_Ko_Status_ventil 1
@@ -834,7 +847,7 @@
 #define REL_ParamBlockSize -1
 
 // Communication objects per channel (multiple occurance)
-#define REL_KoOffset 60
+#define REL_KoOffset 66
 #define REL_KoBlockSize 3
 #define REL_Ko_Set_relais 0
 #define REL_Ko_Status_relais 1

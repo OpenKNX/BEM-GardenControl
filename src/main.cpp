@@ -52,7 +52,7 @@ void setup()
   if (knx.configured())
     appSetup();
 
-  // start the framework.
+  // start the framework
   knx.start();
   // ledInfo(false);
 }

@@ -11,7 +11,7 @@
 #include "Input_Binary.h"
 #include "Input_Impulse.h"
 #include "ErrorHandling.h"
-#include "handleVentil.h"
+#include "handleVentilRelais.h"
 
 //#include "Logic.h"
 
@@ -41,7 +41,7 @@ bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
 
 void waitStartupLoop()
 {
-  // KNX.loop();
+   //KNX.loop();
 
   if (delayCheck(LED_Delay2, 700))
   {
@@ -105,40 +105,42 @@ void ProcessDiagnoseCommand(GroupObject &iKo)
 
 void ProcessKoCallback(GroupObject &iKo)
 {
-  // SERIAL_PORT.print("KO: ");
-  // SERIAL_PORT.println(iKo.asap());
-
   // check if we evaluate own KO
   if (iKo.asap() == LOG_KoDiagnose)
   {
     // ProcessDiagnoseCommand(iKo);       // ******************************************************************************  ändern !!!!!!!!!!!!!
+  }
+  else if(iKo.asap() == BEM_Ko_Set_5V_relais)
+  {
+    set_5V_Relais_State(iKo.value(getDPT(VAL_DPT_1)));
   }
   else
   {
     bool callLogic = true;
     for (int koIndex = 0; koIndex < BEM_ChannelCount + REL_ChannelCount; koIndex++)
     {
-      // KO Abfrage für Ventile 
-      if (iKo.asap() == BEM_KoOffset + (BEM_Ko_Set_ventil + (koIndex * BEM_KoBlockSize)))
+      if (iKo.asap() == BEM_KoOffset + (BEM_Ko_Set_ventil + (koIndex * BEM_KoBlockSize))) // KO Abfrage für Ventile 
       {
         uint8_t ventil_Nr = ((iKo.asap() - BEM_KoOffset) / BEM_KoBlockSize);
         set_Ventil_State(ventil_Nr, iKo.value(getDPT(VAL_DPT_1)));
         callLogic = false;
       }
-      // KO Abfrage für Relais 
-      else if (iKo.asap() == REL_KoOffset + (REL_Ko_Set_relais + (koIndex * REL_KoBlockSize)))
+      else if(iKo.asap() == BEM_KoOffset + (BEM_Ko_Sperr_ventil + (koIndex * BEM_KoBlockSize))) // KO Abfrage für Sperrobjekte Ventile 
       {
-#ifdef KNXcallback
-        SERIAL_PORT.print("KO: ");
-        SERIAL_PORT.println(iKo.asap());
-#endif
+        uint8_t ventil_Nr = ((iKo.asap() - BEM_KoOffset) / BEM_KoBlockSize);
+        set_Ventil_Sperrobjekt(ventil_Nr, iKo.value(getDPT(VAL_DPT_1)));
+      }
+      else if (iKo.asap() == REL_KoOffset + (REL_Ko_Set_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Relais 
+      {
         uint8_t relais_Nr = ((iKo.asap() - REL_KoOffset) / REL_KoBlockSize);
-#ifdef KNXcallback
-        SERIAL_PORT.print("Relais: ");
-        SERIAL_PORT.println(relais_Nr);
-#endif
+        SERIAL_PORT.println(relais_Nr+1);
         set_Relais_State(relais_Nr, iKo.value(getDPT(VAL_DPT_1)));
         callLogic = false;
+      }
+      else if(iKo.asap() == REL_KoOffset + (REL_Ko_Sperr_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Sperrobjekte Relais 
+      {
+        uint8_t relais_Nr = ((iKo.asap() - REL_KoOffset) / REL_KoBlockSize);
+        set_Relais_Sperrobjekt(relais_Nr+1, iKo.value(getDPT(VAL_DPT_1)));
       }
     }
 
@@ -165,20 +167,20 @@ void appSetup()
   SERIAL_PORT.println("Done");
   // enable Main Relay
   SERIAL_PORT.println("enable Main Relay");
-  digitalWrite(get_SSR_EN_PIN(), HIGH);
+  control_5V_Relais((knx.paramByte(BEM_ext5VRelaisStateBegin) >> BEM_ext5VRelaisStateBeginShift) & 1);
   // wait so start Relay and Power Supply
   SERIAL_PORT.println("wait");
   delay(1000);
-  // disable 5V to clear Errors
+  // disable internal 5V to clear Errors
   SERIAL_PORT.println("stop 5V");
   digitalWrite(get_5V_EN_PIN(), LOW);
-  // wait until 5V voltage go to 0V
+  // wait until internal 5V voltage go to 0V
   SERIAL_PORT.println("wait");
   delay(1000);
   // restart 5V
   SERIAL_PORT.println("restart 5V");
   digitalWrite(get_5V_EN_PIN(), HIGH);
-  // wait until 5V powered up
+  // wait until internal 5V powered up
   SERIAL_PORT.println("wait");
   delay(1000);
   // wait
@@ -202,6 +204,8 @@ void appLoop()
 {
   processErrorHandling();
   processVentil();
+  processRelais();
+  process_5V_Relais();
 
 #ifdef ADC_enable
   processADConversation();
@@ -217,7 +221,7 @@ void appLoop()
 #ifdef ImplInput
   processImpulseInput();
 #endif
-
+/*
   if (delayCheck(READ_ADC_Delay, 10000))
   {
     if (!getError())
@@ -231,7 +235,7 @@ void appLoop()
       SERIAL_PORT.println(TestState);
     }
   }
-
+*/
   if (delayCheck(Output_Delay, 1000))
   {
     if (getError())

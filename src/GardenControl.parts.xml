@@ -13,16 +13,24 @@
                 <!-- A parameter seperator shows just some text -->
                 <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-2" Text="Das Gerät kann ein 'In Betrieb'-Telegramm in einstellbarer Zeit senden." />
                 <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-3" Text="Die Zeit, bis das Gerät nach einem Neustart erstmals meldet, ist einstellbar." />
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="Es kann ein Repeater (Level-1/2) aktiviert werden" />
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Falls das Gateway mal getauscht werden muss, kann man dem neuen Gateway die Base-ID des alten Gateways geben, damit müssen nicht wieder alle Sensoren/Aktoren eingelernt werden" />
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="Je nach Variante steht eine vielzahl an Kanälen zur Verfügung" />
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-7" Text="Pro Kanal kann ein EnOcean Device angelernt werden" />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="" />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="" />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-7" Text="" />
               </ParameterBlock>
               <!-- A tab page with general settings -->
               <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-2" Name="General" Text="Allgemeine Parameter">
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-1" Text="" UIHint="HorizontalRuler" />
                 <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-nnn" Text="GardenControl-Optionen" UIHint="Headline" />
-                <!-- Parameter to choose startup delay -->
+                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000000_R-%T%00000001" />  <!-- +5V Relais vorhanden -->
+                <choose ParamRefId="M-00FA_A-0001-01-0000_UP-%T%000000_R-%T%00000001">
+                  <when test="!=0">
+                    <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%000000_R-%T%00000001" /> <!-- KO: ext +5V Relais -->
+                    <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%000001_R-%T%00000101" /> <!-- KO: ext +5V Relais Status -->
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000001_R-%T%00000101" />  <!-- +5V Relais Zustand Start -->
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000002_R-%T%00000201" />  <!-- +5V Relais Status senden nach Start -->
+                  </when>
+                </choose>
                 <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-7" Text="" UIHint="HorizontalRuler" />
               </ParameterBlock>
                <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
