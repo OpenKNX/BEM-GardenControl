@@ -89,6 +89,7 @@ void initInputADC()
         switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
         {
         case ADC_Wert:
+            set_ADC_CorrFactor(channel, 1); // inital all Factors to 1 
             if (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)))
             {
                 set_ADC_CorrFactor(channel, knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel))/100.0);

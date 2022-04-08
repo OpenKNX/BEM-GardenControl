@@ -58,6 +58,8 @@ State ADC_State = wait_Init;
 void initADC_TOP(uint8_t res_top)
 {
     resolution_TOP = res_top; // set resolution TOP
+    corr_Factor[3] = 1;  // Correctionfactor 12V input always 1
+ 
     if (!get_5V_Error())
     {
         SERIAL_PORT.print("  MCP3428_TOP:");
@@ -199,13 +201,13 @@ float getAdcVoltage(uint8_t ch, bool div)
         switch (resolution_TOP)
         {
         case Resolution12Bit:
-            return checkZero(adc_Value[ch] * 0.006 / corr_Factor[ch]); // 2.047 / 2047.0 * 6.0;
+            return checkZero((adc_Value[ch] * 0.006) / corr_Factor[ch]); // 2.047 / 2047.0 * 6.0;
             break;
         case Resolution14Bit:
-            return checkZero(adc_Value[ch] * 0.0015 / corr_Factor[ch]); // 2.047 / 8191.0 * 6.0;
+            return checkZero((adc_Value[ch] * 0.0015) / corr_Factor[ch]); // 2.047 / 8191.0 * 6.0;
             break;
         case Resolution16Bit:
-            return checkZero(adc_Value[ch] * 0.000375 / corr_Factor[ch]); // 2.047 / 32767.0 * 6.0;
+            return checkZero((adc_Value[ch] * 0.000375) / corr_Factor[ch]); // 2.047 / 32767.0 * 6.0;
             break;
         default:
             SERIAL_PORT.println("wrong RES 0-12V");
@@ -220,13 +222,13 @@ float getAdcVoltage(uint8_t ch, bool div)
         switch (resolution_TOP)
         {
         case Resolution12Bit:
-            return checkZero(adc_Value[ch] * 0.003 / corr_Factor[ch]); // 2.047 / 2047.0 * 3.0;
+            return checkZero(adc_Value[ch] * 0.003); // 2.047 / 2047.0 * 3.0;
             break;
         case Resolution14Bit:
-            return checkZero(adc_Value[ch] * 0.00075 / corr_Factor[ch]); // 2.047 / 8191.0 * 3.0;
+            return checkZero(adc_Value[ch] * 0.00075); // 2.047 / 8191.0 * 3.0;
             break;
         case Resolution16Bit:
-            return checkZero(adc_Value[ch] * 0.0001875 / corr_Factor[ch]); // 2.047 / 32767.0 * 3.0;
+            return checkZero(adc_Value[ch] * 0.0001875); // 2.047 / 32767.0 * 3.0;
             break;
         default:
             SERIAL_PORT.println("wrong RES 0-5V");
