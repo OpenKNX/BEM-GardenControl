@@ -5,7 +5,7 @@
 #include "I2C_IOExpander.h"
 #include "Input_Binary.h"
 #include "Input_Impulse.h"
-#include "Sensor_Value_Input.h"
+#include "ReadADC.h"
 #include "GardenControlDevice.h"
 
 uint8_t hw_ID = 0;

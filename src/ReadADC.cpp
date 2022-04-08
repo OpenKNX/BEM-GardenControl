@@ -1,6 +1,6 @@
 
 #include <stdint.h>
-#include "Sensor_Value_Input.h"
+#include "ReadADC.h"
 #include "HelperFunc.h"
 #include "BEM_hardware.h"
 #include "MCP3428.h"
@@ -14,6 +14,8 @@
 #define gain_4 4
 #define gain_8 8
 
+#define MaxInputChannel 4
+
 #define sampleRate_100SPS 10 // read each  10ms
 #define sampleRate_20SPS 50  // read each  50ms
 #define sampleRate_10SPS 100 // read each 100ms
@@ -26,16 +28,16 @@ bool init_flag_PCP3428_Top = false;
 bool init_flag_PCP3428_Bot = false;
 
 uint32_t READ_Delay = 0;
-uint8_t adc_CH = 0;
+uint8_t adc_CH = 1;
 uint8_t adc_CH_BOT = 0;
 
-long adc_Value[ADC_ChannelCount] = {1};
-long adc_Value_BOT[ADC_ChannelCount] = {1};
+long adc_Value[MaxInputChannel] = {1};
+long adc_Value_BOT[MaxInputChannel] = {1};
 
 uint8_t resolution_TOP = 0;
 uint8_t resolution_BOT = 0;
 
-bool ADC_div[ADC_ChannelCount]  = {false};
+bool ADC_div[MaxInputChannel]  = {false};
 
 bool Ch1_div = false;
 bool Ch2_div = false;
@@ -105,7 +107,7 @@ void clearInitFlags_ADC()
     init_flag_PCP3428_Bot = false;
 
     // clear ADC values
-    for (int i = 0; i < ADC_ChannelCount; i++)
+    for (int i = 0; i < MaxInputChannel; i++)
     {
         adc_Value[i] = 0;
         adc_Value_BOT[i] = 0;
@@ -212,18 +214,12 @@ float getAdcVoltage(uint8_t ch, bool div)
         switch (resolution_TOP)
         {
         case Resolution12Bit:
-            // Serial.print(adc_Value[ch - 1]);
-            // Serial.print(" ");
             return checkZero(adc_Value[ch] * 0.003); // 2.047 / 2047.0 * 3.0;
             break;
         case Resolution14Bit:
-            // Serial.print(adc_Value[ch - 1]);
-            // Serial.print(" ");
             return checkZero(adc_Value[ch] * 0.00075); // 2.047 / 8191.0 * 3.0;
             break;
         case Resolution16Bit:
-             Serial.print(adc_Value[ch]);
-             Serial.print(" ");
             return checkZero(adc_Value[ch] * 0.0001875); // 2.047 / 32767.0 * 3.0;
             break;
         default:
@@ -241,13 +237,13 @@ float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
         switch (resolution_BOT)
         {
         case Resolution12Bit:
-            return adc_Value_BOT[ch] * 0.01; // 2.047 / 2047.0 / 100;
+            return checkZero(adc_Value_BOT[ch] * 0.01); // 2.047 / 2047.0 / 100;
             break;
         case Resolution14Bit:
-            return adc_Value_BOT[ch] * 0.0025; // 2.047 / 8191.0 / 100;
+            return checkZero(adc_Value_BOT[ch] * 0.0025); // 2.047 / 8191.0 / 100;
             break;
         case Resolution16Bit:
-            return adc_Value_BOT[ch] * 0.000625; // 2.047 / 32767.0 / 100;
+            return checkZero(adc_Value_BOT[ch] * 0.000625); // 2.047 / 32767.0 / 100;
             break;
         default:
             SERIAL_PORT.println("wrong RES 4-20mA");
@@ -260,13 +256,13 @@ float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
         switch (resolution_BOT)
         {
         case Resolution12Bit:
-            return adc_Value_BOT[ch] * 0.016; // 2.047 / 2047.0 * 6.0;
+            return checkZero(adc_Value_BOT[ch] * 0.016); // 2.047 / 2047.0 * 6.0;
             break;
         case Resolution14Bit:
-            return adc_Value_BOT[ch] * 0.004; // 2.047 / 8191.0 * 6.0;
+            return checkZero(adc_Value_BOT[ch] * 0.004); // 2.047 / 8191.0 * 6.0;
             break;
         case Resolution16Bit:
-            return adc_Value_BOT[ch] * 0.001; // 2.047 / 32767.0 * 16;
+            return checkZero(adc_Value_BOT[ch] * 0.001); // 2.047 / 32767.0 * 16;
             break;
         default:
             SERIAL_PORT.println("wrong RES 0-24V");
@@ -281,40 +277,32 @@ bool isADCready()
     return MCP3428_adc.CheckConversion();
 }
 
-float getAdcVoltage_CH1()
+float getAdcVoltage(uint8_t ch)
 {
-    return checkZero(getAdcVoltage(1, ADC_div[0]));
-}
-
-float getAdcVoltage_CH2()
-{
-    return checkZero(getAdcVoltage(2, ADC_div[1]));
-}
-
-float getAdcVoltage_CH3()
-{
-    return checkZero(getAdcVoltage(3, ADC_div[2]));
+  return getAdcVoltage(ch, ADC_div[ch]);
 }
 
 float getAdcVoltage_12V()
 {
-    return checkZero(getAdcVoltage(4, DIV_12V));
-}
-
-float get4_20mA_CH1()
-{
-    return checkZero(getAdcVoltage_BOT(1, is4_20mA));
-}
-
-float get4_20mA_CH2()
-{
-    return checkZero(getAdcVoltage_BOT(2, is4_20mA));
+    return getAdcVoltage(ADC_12V_CH, DIV_12V);
 }
 
 float getAdcVoltage_24V()
 {
-    return checkZero(getAdcVoltage_BOT(3, DIV_24V));
+    return getAdcVoltage_BOT(ADC_24V_CH, DIV_24V);
 }
+
+float get4_20mA_CH1()
+{
+    return getAdcVoltage_BOT(ADC_4_20mA_Ch1, is4_20mA);
+}
+
+float get4_20mA_CH2()
+{
+    return getAdcVoltage_BOT(ADC_4_20mA_Ch2, is4_20mA);
+}
+
+
 
 void processADConversation()
 {
@@ -345,11 +333,11 @@ void processADConversation()
         {
             if (!get_5V_Error() && init_flag_PCP3428_Top)
             {
-                adc_Value[adc_CH] = ReadAdcValue();
+                adc_Value[adc_CH-1] = ReadAdcValue();
             }
             else
             {
-                adc_Value[adc_CH] = 0;
+                adc_Value[adc_CH-1] = 0;
             }
 
             READ_Delay = millis();
@@ -359,16 +347,16 @@ void processADConversation()
     case Read_BOT:
         if (!get_5V_Error() && init_flag_PCP3428_Bot)
         {
-            adc_Value_BOT[adc_CH] = ReadAdcValue_BOT();
+            adc_Value_BOT[adc_CH-1] = ReadAdcValue_BOT();
         }
         else
         {
-            adc_Value_BOT[adc_CH] = 0;
+            adc_Value_BOT[adc_CH-1] = 0;
         }
 
         adc_CH++;
-        if (adc_CH >= ADC_ChannelCount)
-            adc_CH = 0;
+        if (adc_CH > MaxInputChannel)
+            adc_CH = 1;
 
         READ_Delay = millis();
 

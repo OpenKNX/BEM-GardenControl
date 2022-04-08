@@ -4,10 +4,20 @@
 #define Resolution14Bit 14 //  60SPS max
 #define Resolution16Bit 16 //  15SPS max
 
-#define DIV_12V 1
-#define DIV_5V 0
+// ADC TOP
+#define ADC_Ch1    0
+#define ADC_Ch2    1
+#define ADC_Ch3    2
+#define ADC_12V_CH 3
+// ADC BOT
+#define ADC_4_20mA_Ch1 0
+#define ADC_4_20mA_Ch2 1
+#define ADC_24V_CH     2
+
+#define DIV_12V  1
+#define DIV_5V   0
 #define is4_20mA 1
-#define DIV_24V 0
+#define DIV_24V  0
 
 
 
@@ -17,9 +27,6 @@ void initADC_TOP(uint8_t res_top);
 void initADC_BOT(uint8_t res_bot);
 
 void set_ADC_DIV(uint8_t ch, bool div);
-void set_CH1_DIV(bool div);
-void set_CH2_DIV(bool div);
-void set_CH3_DIV(bool div);
 
 bool get_CH1_DIV();
 bool get_CH2_DIV();

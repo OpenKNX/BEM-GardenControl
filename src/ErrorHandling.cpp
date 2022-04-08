@@ -4,7 +4,7 @@
 #include "BEM_hardware.h"
 #include "HelperFunc.h"
 #include "ErrorHandling.h"
-#include "Sensor_Value_Input.h"
+#include "ReadADC.h"
 #include "I2C_IOExpander.h"
 #include "Device_setup.h"
 

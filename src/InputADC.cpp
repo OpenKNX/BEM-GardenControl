@@ -4,7 +4,7 @@
 #include "KnxHelper.h"
 #include "BEM_hardware.h"
 #include "HelperFunc.h"
-#include "Sensor_Value_Input.h"
+#include "ReadADC.h"
 
 uint32_t processDelay = 0;
 uint8_t channel = 0;
@@ -118,18 +118,18 @@ float getSensorValue(uint8_t channel)
     {
     case ADC_Wert:
         SERIAL_PORT.print(" ADC-WERT: ");
-        value = getAdcVoltage(channel + 1, (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel))));
+        value = getAdcVoltage(channel, (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel))));
         break;
 
     case SMT50_Bodenfeuchte:
         SERIAL_PORT.print(" SMT50-BF: ");
-        value = getAdcVoltage(channel + 1, DIV_5V);
+        value = getAdcVoltage(channel, DIV_5V);
         value = value / 3.0 * 50.0;
         break;
 
     case SMT50_BodenTemperatur:
         SERIAL_PORT.print(" SMT50-BT: ");
-        value = getAdcVoltage(channel + 1, DIV_5V);
+        value = getAdcVoltage(channel, DIV_5V);
         value = (value - 0.5) / 0.01;
         break;
 

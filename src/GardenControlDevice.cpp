@@ -7,7 +7,7 @@
 #include "KnxHelper.h"
 #include "GardenControlDevice.h"
 #include "I2C_IOExpander.h"
-#include "Sensor_Value_Input.h"
+#include "ReadADC.h"
 #include "S0Function.h"
 #include "Device_setup.h"
 #include "Input_Binary.h"
@@ -213,7 +213,7 @@ void appLoop()
   process_5V_Relais();
 
 #ifdef ADC_enable
-  //processADConversation();
+  processADConversation();
 #endif
 #ifdef BinInputs
   processBinInputs();
@@ -254,27 +254,23 @@ void appLoop()
 #endif
     }
 #ifdef ADC_enable_Output
-
     SERIAL_PORT.print("ADC CH1: ");
     SERIAL_PORT.println(getSensorValue(0));
-    SERIAL_PORT.println(getAdcVoltage_CH1());
-    SERIAL_PORT.println(getAdcValue(0));
     SERIAL_PORT.print("ADC CH2: ");
     SERIAL_PORT.println(getSensorValue(1));
-    SERIAL_PORT.println(getAdcVoltage_CH2());
-    SERIAL_PORT.println(getAdcValue(1));
     SERIAL_PORT.print("ADC CH3: ");
     SERIAL_PORT.println(getSensorValue(2));
-    SERIAL_PORT.println(getAdcVoltage_CH3());
-    SERIAL_PORT.println(getAdcValue(2));
-    SERIAL_PORT.print("ADC CH4: ");
+    SERIAL_PORT.print("VCC_12V: ");
     SERIAL_PORT.println(getAdcVoltage_12V());
+    SERIAL_PORT.print("VCC_24V: ");
+    SERIAL_PORT.println(getAdcVoltage_24V());
+    /*
     SERIAL_PORT.print("ADC CH5: ");
     SERIAL_PORT.println(get4_20mA_CH1());
     SERIAL_PORT.print("ADC CH6: ");
     SERIAL_PORT.println(get4_20mA_CH2());
-    SERIAL_PORT.print("ADC CH7: ");
-    SERIAL_PORT.println(getAdcVoltage_24V());
+    */
+    SERIAL_PORT.println(" ");
 #endif
 
 #ifdef BinInputs_Output
