@@ -4,6 +4,12 @@
 #include <Arduino.h>
 #include <Wire.h>
 
+
+#define Reg_input_Ports    0
+#define Reg_output_Ports   1
+#define Reg_polarity_Ports 2
+#define Reg_Config         3
+
 #define NORMAL 0
 #define INVERTED 1
 

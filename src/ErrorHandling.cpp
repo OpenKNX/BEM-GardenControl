@@ -2,10 +2,10 @@
 #include <Wire.h>
 //#include <knx.h>
 #include "BEM_hardware.h"
+#include "HelperFunc.h"
 #include "ErrorHandling.h"
 #include "Sensor_Value_Input.h"
 #include "I2C_IOExpander.h"
-#include "GardenControlDevice.h"
 #include "Device_setup.h"
 
 #define Threshold_24V_min 22

@@ -2,9 +2,8 @@
 #include <Wire.h>
 //#include <knx.h>
 #include "BEM_hardware.h"
-//#include "KnxHelper.h"
+#include "HelperFunc.h"
 #include "Input_Impulse.h"
-#include "GardenControlDevice.h"
 
 uint32_t counter = 0;
 uint32_t readTimer = 0;

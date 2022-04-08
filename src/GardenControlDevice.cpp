@@ -2,16 +2,20 @@
 #include <Wire.h>
 #include <knx.h>
 #include "GardenControl.h"
+#include "HelperFunc.h"
 #include "BEM_hardware.h"
 #include "KnxHelper.h"
 #include "GardenControlDevice.h"
 #include "I2C_IOExpander.h"
 #include "Sensor_Value_Input.h"
+#include "S0Function.h"
 #include "Device_setup.h"
 #include "Input_Binary.h"
 #include "Input_Impulse.h"
 #include "ErrorHandling.h"
 #include "handleVentilRelais.h"
+#include "InputADC.h"
+
 
 //#include "Logic.h"
 
@@ -21,8 +25,8 @@ const uint8_t cFirmwareMajor = 1;    // 0-31
 const uint8_t cFirmwareMinor = 0;    // 0-31
 const uint8_t cFirmwareRevision = 0; // 0-63
 
-uint32_t heartbeatDelay = 0;
-uint32_t startupDelay = 0;
+//uint32_t heartbeatDelay = 0;
+//uint32_t startupDelay = 0;
 uint32_t READ_ADC_Delay = 0;
 uint32_t Output_Delay = 0;
 uint32_t READ_PRINT = 0;
@@ -33,11 +37,6 @@ uint32_t LED_Delay = 0;
 bool TestState = false;
 bool TestLEDstate = false;
 bool TestLEDstate2 = false;
-
-bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
-{
-  return millis() - iOldTimer >= iDuration;
-}
 
 void waitStartupLoop()
 {
@@ -133,14 +132,13 @@ void ProcessKoCallback(GroupObject &iKo)
       else if (iKo.asap() == REL_KoOffset + (REL_Ko_Set_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Relais 
       {
         uint8_t relais_Nr = ((iKo.asap() - REL_KoOffset) / REL_KoBlockSize);
-        SERIAL_PORT.println(relais_Nr+1);
         set_Relais_State(relais_Nr, iKo.value(getDPT(VAL_DPT_1)));
         callLogic = false;
       }
       else if(iKo.asap() == REL_KoOffset + (REL_Ko_Sperr_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Sperrobjekte Relais 
       {
         uint8_t relais_Nr = ((iKo.asap() - REL_KoOffset) / REL_KoBlockSize);
-        set_Relais_Sperrobjekt(relais_Nr+1, iKo.value(getDPT(VAL_DPT_1)));
+        set_Relais_Sperrobjekt(relais_Nr, iKo.value(getDPT(VAL_DPT_1)));
       }
     }
 
@@ -166,7 +164,9 @@ void appSetup()
   initHW();
   SERIAL_PORT.println("Done");
   // enable Main Relay
-  SERIAL_PORT.println("enable Main Relay");
+  SERIAL_PORT.print("enable Main Relay: ");
+  SERIAL_PORT.println((knx.paramByte(BEM_ext5VRelaisStateBegin) >> BEM_ext5VRelaisStateBeginShift) & 1);
+  SERIAL_PORT.println(knx.paramByte(BEM_ext5VRelaisStateBegin),BIN);
   control_5V_Relais((knx.paramByte(BEM_ext5VRelaisStateBegin) >> BEM_ext5VRelaisStateBeginShift) & 1);
   // wait so start Relay and Power Supply
   SERIAL_PORT.println("wait");
@@ -182,8 +182,8 @@ void appSetup()
   digitalWrite(get_5V_EN_PIN(), HIGH);
   // wait until internal 5V powered up
   SERIAL_PORT.println("wait");
-  delay(1000);
   // wait
+  delay(1000);
   /*while (digitalRead(get_5V_status_PIN()))   // ******************************************************************************  ändern !!!!!!!!!!!!!
   {
     waitStartupLoop();
@@ -194,10 +194,15 @@ void appSetup()
   read_HW_ID_BOT();
   print_HW_ID_BOT(get_HW_ID_BOT());
   initHW_Bot();
-  SERIAL_PORT.println("Done");
+  
 
+  
   // load ETS parameters
+  SERIAL_PORT.println("Load Parameters");
+  initInputADC();
   // load_ETS_par();
+  SERIAL_PORT.println("Done");
+  delay(3000);
 }
 
 void appLoop()
@@ -208,7 +213,7 @@ void appLoop()
   process_5V_Relais();
 
 #ifdef ADC_enable
-  processADConversation();
+  //processADConversation();
 #endif
 #ifdef BinInputs
   processBinInputs();
@@ -248,16 +253,22 @@ void appLoop()
       SERIAL_PORT.println(get_5V_out_Error());
 #endif
     }
-#ifdef ADC_enable
+#ifdef ADC_enable_Output
+
     SERIAL_PORT.print("ADC CH1: ");
+    SERIAL_PORT.println(getSensorValue(0));
     SERIAL_PORT.println(getAdcVoltage_CH1());
+    SERIAL_PORT.println(getAdcValue(0));
     SERIAL_PORT.print("ADC CH2: ");
+    SERIAL_PORT.println(getSensorValue(1));
     SERIAL_PORT.println(getAdcVoltage_CH2());
+    SERIAL_PORT.println(getAdcValue(1));
     SERIAL_PORT.print("ADC CH3: ");
+    SERIAL_PORT.println(getSensorValue(2));
     SERIAL_PORT.println(getAdcVoltage_CH3());
+    SERIAL_PORT.println(getAdcValue(2));
     SERIAL_PORT.print("ADC CH4: ");
     SERIAL_PORT.println(getAdcVoltage_12V());
-
     SERIAL_PORT.print("ADC CH5: ");
     SERIAL_PORT.println(get4_20mA_CH1());
     SERIAL_PORT.print("ADC CH6: ");
@@ -266,7 +277,7 @@ void appLoop()
     SERIAL_PORT.println(getAdcVoltage_24V());
 #endif
 
-#ifdef BinInputs
+#ifdef BinInputs_Output
     SERIAL_PORT.print("BIN CH1: ");
     SERIAL_PORT.println(getStateInput1());
     SERIAL_PORT.print("BIN CH2: ");
@@ -277,21 +288,12 @@ void appLoop()
     SERIAL_PORT.println(getStateInput4());
 #endif
 
-#ifdef ImplInput
+#ifdef ImplInput_Output
     SERIAL_PORT.print("Impl: ");
     SERIAL_PORT.println(getFlowValue());
 #endif
 
-#ifdef IOExp_enable
-    // enable/disable +5V BaseNoard
-    enable_5V(LOW);
-
-    control_Ventil(Ventil_1, HIGH);
-    control_Ventil(Ventil_2, HIGH);
-    control_Ventil(Ventil_3, HIGH);
-    control_Ventil(Ventil_4, HIGH);
-#endif
-#ifdef Opto_IN
+#ifdef Opto_IN_Output
     SERIAL_PORT.print("Opto CH1: ");
     SERIAL_PORT.println(digitalRead(OptoIN_1));
     SERIAL_PORT.print("Opto CH2: ");

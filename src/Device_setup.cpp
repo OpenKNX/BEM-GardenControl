@@ -129,7 +129,7 @@ void print_HW_ID_BOT(uint8_t id)
   SERIAL_PORT.print("  HW-ID-BOT: ");
   switch (id)
   {
-  case HW_1_0:
+  case HW_BOT_1_0:
     SERIAL_PORT.println("V1.x");
     break;
 
@@ -248,9 +248,6 @@ void initHW_Bot()
 
 #ifdef ADC_enable
     initADC_BOT(Resolution16Bit);
-    set_CH1_DIV(DIV_5V);
-    set_CH2_DIV(DIV_5V);
-    set_CH3_DIV(DIV_5V);
 #endif
     break;
 

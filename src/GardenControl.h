@@ -830,8 +830,14 @@
 #define BEM_ChannelCount 12
 
 // Parameter per channel
-#define BEM_ParamBlockOffset 0
-#define BEM_ParamBlockSize -1
+#define BEM_ParamBlockOffset 921
+#define BEM_ParamBlockSize 71
+#define BEM_CHAktive                  70      // 1 Bit, Bit 7
+#define     BEM_CHAktiveMask 0x80
+#define     BEM_CHAktiveShift 7
+#define BEM_CHSperr                   70      // 1 Bit, Bit 6
+#define     BEM_CHSperrMask 0x40
+#define     BEM_CHSperrShift 6
 
 // Communication objects per channel (multiple occurance)
 #define BEM_KoOffset 30
@@ -843,8 +849,14 @@
 #define REL_ChannelCount 3
 
 // Parameter per channel
-#define REL_ParamBlockOffset 0
-#define REL_ParamBlockSize -1
+#define REL_ParamBlockOffset 1773
+#define REL_ParamBlockSize 211
+#define REL_CHaktive                  210      // 0 Bits, Bit 7
+#define     REL_CHaktiveMask 0x00
+#define     REL_CHaktiveShift 8
+#define REL_CHsperr                   210      // 0 Bits, Bit 6
+#define     REL_CHsperrMask 0x00
+#define     REL_CHsperrShift 7
 
 // Communication objects per channel (multiple occurance)
 #define REL_KoOffset 66
@@ -852,6 +864,25 @@
 #define REL_Ko_Set_relais 0
 #define REL_Ko_Status_relais 1
 #define REL_Ko_Sperr_relais 2
+
+#define ADC_ChannelCount 3
+
+// Parameter per channel
+#define ADC_ParamBlockOffset 2406
+#define ADC_ParamBlockSize 258
+#define ADC_CHSensorType              250      // 8 Bits, Bit 7-0
+#define ADC_CHSendcycletime           251      // int16_t
+#define ADC_CHSendenAbsolut           253      // int16_t
+#define ADC_CHSendenRelativ           255      // int8_t
+#define ADC_CHValueFilter             256      // int8_t
+#define ADC_CHVoltageDiv              257      // 1 Bit, Bit 7
+#define     ADC_CHVoltageDivMask 0x80
+#define     ADC_CHVoltageDivShift 7
+
+// Communication objects per channel (multiple occurance)
+#define ADC_KoOffset 75
+#define ADC_KoBlockSize 1
+#define ADC_KoGO_BASE__1 0
 
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16

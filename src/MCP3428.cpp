@@ -63,7 +63,7 @@ void MCP3428::SetConfiguration(uint8_t channel, uint8_t resolution, bool mode, u
     config = 0;
     config = config << 2;
     // Setting the Channel
-    config |= (channel - 1);
+    config |= (channel);
     config = config << 1;
     // Setting the Conversion Mode
     config |= mode;

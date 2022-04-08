@@ -20,7 +20,6 @@ void init_IOExpander_GPIOs_TOP()
   SERIAL_PORT.print("  PCA9554: ");
   if (pca9554.isConnected())
   {
-    SERIAL_PORT.println("OK");
     pca9554.begin();
 
     pca9554.pinMode(0, OUTPUT);
@@ -31,6 +30,10 @@ void init_IOExpander_GPIOs_TOP()
     pca9554.pinMode(5, OUTPUT);
     pca9554.pinMode(6, OUTPUT);
     pca9554.pinMode(7, OUTPUT);
+
+    SERIAL_PORT.print(pca9554.readRegister(Reg_input_Ports),BIN);
+
+    SERIAL_PORT.println(" OK");
 
     init_flag_PCA9554 = true;
   }
@@ -44,6 +47,8 @@ void init_IOExpander_GPIOs_TOP()
     SERIAL_PORT.println("  PCA9554 ERROR: no +5V_Iso");
   }
 }
+
+
 
 void init_IOExpander_GPIOs_BOT()
 {

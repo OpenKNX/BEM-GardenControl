@@ -63,7 +63,7 @@ void processRelais()
   {
     if (relais_State_old[ch] != relais_State[ch] && relais_Sperrobjekt[ch] == false)
     {
-      control_Relais(ch+1, relais_State[ch]);
+      control_Relais(ch, relais_State[ch]);
       SERIAL_PORT.print("Relais_");
       SERIAL_PORT.print(ch+1);
       SERIAL_PORT.print(": ");
@@ -87,13 +87,13 @@ void control_Relais(uint8_t nr, bool state)
 {
   switch (nr)
   {
-  case 1:
+  case 0:
     set_IOExpander_BOT_Input(14, state);
     break;
-  case 2:
+  case 1:
     set_IOExpander_BOT_Input(13, state);
     break;
-  case 3:
+  case 2:
     set_IOExpander_BOT_Input(12, state);
     break;
   default:

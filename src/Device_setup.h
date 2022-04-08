@@ -10,7 +10,7 @@
 #define HW_1_0      7 // ID1 = H ; ID2 = H ; ID3 = H  --> b00000111 --> 0x07 --> dez 7
 
 // IDs BOT
-#define HW_BOT_1_0  7 // ID1 = H ; ID2 = H ; ID3 = H  --> b00000111 --> 0x07 --> dez 7
+#define HW_BOT_1_0  0 // ID1 = L ; ID2 = L ; ID3 = L  --> b00000000 --> 0x00 --> dez 0
 
 
 //void init_GPIOs();

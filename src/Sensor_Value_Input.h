@@ -16,6 +16,7 @@ void processADConversation();
 void initADC_TOP(uint8_t res_top);
 void initADC_BOT(uint8_t res_bot);
 
+void set_ADC_DIV(uint8_t ch, bool div);
 void set_CH1_DIV(bool div);
 void set_CH2_DIV(bool div);
 void set_CH3_DIV(bool div);

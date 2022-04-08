@@ -25,7 +25,10 @@
 			"functional": "cpp",
 			"tuple": "cpp",
 			"type_traits": "cpp",
-			"utility": "cpp"
+			"utility": "cpp",
+			"istream": "cpp",
+			"ratio": "cpp",
+			"variant": "cpp"
 		}
 	}
 }

@@ -8,12 +8,18 @@
 //#define V2
 
 #define KNXcallback
-//#define ADC_enable
-//#define IOExp_enable
-//#define Opto_IN
-//#define BinInputs
+#define ADC_enable
+//#define ADC_enable_Output
+#define IOExp_enable
+//#define IOExp_enable_Output
+#define Opto_IN
+//#define Opto_IN_Output
+#define BinInputs
+//#define BinInputs_Output
 //#define S0Inputs
-//#define ImplInput
+//#define S0Inputs_Output
+#define ImplInput
+//#define ImplInput_Output
 
 
 
