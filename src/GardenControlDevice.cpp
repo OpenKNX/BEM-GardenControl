@@ -213,6 +213,8 @@ void appLoop()
   processRelais();
   process_5V_Relais();
 
+  processInputADC();
+
 #ifdef ADC_enable
   processADConversation();
 #endif
