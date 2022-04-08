@@ -90,7 +90,12 @@ void initInputADC()
         {
         case ADC_Wert:
             if (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)))
+            {
+                set_ADC_CorrFactor(channel, knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel))/100.0);
                 SERIAL_PORT.println("ADC-Wert: (0-12V)");
+                SERIAL_PORT.print("Kor: ");
+                SERIAL_PORT.println(knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel))/100.0);    
+            }
             else
                 SERIAL_PORT.println("ADC-Wert: (0-5V)");
             set_ADC_DIV(channel, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));

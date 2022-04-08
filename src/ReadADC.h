@@ -27,6 +27,7 @@ void initADC_TOP(uint8_t res_top);
 void initADC_BOT(uint8_t res_bot);
 
 void set_ADC_DIV(uint8_t ch, bool div);
+void set_ADC_CorrFactor(uint8_t ch, float corrFactor);
 
 bool get_CH1_DIV();
 bool get_CH2_DIV();

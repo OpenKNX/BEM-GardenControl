@@ -869,7 +869,7 @@
 
 // Parameter per channel
 #define ADC_ParamBlockOffset 2406
-#define ADC_ParamBlockSize 258
+#define ADC_ParamBlockSize 260
 #define ADC_CHSensorType              250      // 8 Bits, Bit 7-0
 #define ADC_CHSendcycletime           251      // int16_t
 #define ADC_CHSendenAbsolut           253      // int16_t
@@ -878,6 +878,7 @@
 #define ADC_CHVoltageDiv              257      // 1 Bit, Bit 7
 #define     ADC_CHVoltageDivMask 0x80
 #define     ADC_CHVoltageDivShift 7
+#define ADC_CHVoltageCorrection       258      // int16_t
 
 // Communication objects per channel (multiple occurance)
 #define ADC_KoOffset 75

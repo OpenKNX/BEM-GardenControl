@@ -16,7 +16,6 @@
 #include "handleVentilRelais.h"
 #include "InputADC.h"
 
-
 //#include "Logic.h"
 
 // Logic gLogic;
@@ -25,8 +24,8 @@ const uint8_t cFirmwareMajor = 1;    // 0-31
 const uint8_t cFirmwareMinor = 0;    // 0-31
 const uint8_t cFirmwareRevision = 0; // 0-63
 
-//uint32_t heartbeatDelay = 0;
-//uint32_t startupDelay = 0;
+// uint32_t heartbeatDelay = 0;
+// uint32_t startupDelay = 0;
 uint32_t READ_ADC_Delay = 0;
 uint32_t Output_Delay = 0;
 uint32_t READ_PRINT = 0;
@@ -40,7 +39,7 @@ bool TestLEDstate2 = false;
 
 void waitStartupLoop()
 {
-   //KNX.loop();
+  // KNX.loop();
 
   if (delayCheck(LED_Delay2, 700))
   {
@@ -109,7 +108,7 @@ void ProcessKoCallback(GroupObject &iKo)
   {
     // ProcessDiagnoseCommand(iKo);       // ******************************************************************************  ändern !!!!!!!!!!!!!
   }
-  else if(iKo.asap() == BEM_Ko_Set_5V_relais)
+  else if (iKo.asap() == BEM_Ko_Set_5V_relais)
   {
     set_5V_Relais_State(iKo.value(getDPT(VAL_DPT_1)));
   }
@@ -118,24 +117,24 @@ void ProcessKoCallback(GroupObject &iKo)
     bool callLogic = true;
     for (int koIndex = 0; koIndex < BEM_ChannelCount + REL_ChannelCount; koIndex++)
     {
-      if (iKo.asap() == BEM_KoOffset + (BEM_Ko_Set_ventil + (koIndex * BEM_KoBlockSize))) // KO Abfrage für Ventile 
+      if (iKo.asap() == BEM_KoOffset + (BEM_Ko_Set_ventil + (koIndex * BEM_KoBlockSize))) // KO Abfrage für Ventile
       {
         uint8_t ventil_Nr = ((iKo.asap() - BEM_KoOffset) / BEM_KoBlockSize);
         set_Ventil_State(ventil_Nr, iKo.value(getDPT(VAL_DPT_1)));
         callLogic = false;
       }
-      else if(iKo.asap() == BEM_KoOffset + (BEM_Ko_Sperr_ventil + (koIndex * BEM_KoBlockSize))) // KO Abfrage für Sperrobjekte Ventile 
+      else if (iKo.asap() == BEM_KoOffset + (BEM_Ko_Sperr_ventil + (koIndex * BEM_KoBlockSize))) // KO Abfrage für Sperrobjekte Ventile
       {
         uint8_t ventil_Nr = ((iKo.asap() - BEM_KoOffset) / BEM_KoBlockSize);
         set_Ventil_Sperrobjekt(ventil_Nr, iKo.value(getDPT(VAL_DPT_1)));
       }
-      else if (iKo.asap() == REL_KoOffset + (REL_Ko_Set_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Relais 
+      else if (iKo.asap() == REL_KoOffset + (REL_Ko_Set_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Relais
       {
         uint8_t relais_Nr = ((iKo.asap() - REL_KoOffset) / REL_KoBlockSize);
         set_Relais_State(relais_Nr, iKo.value(getDPT(VAL_DPT_1)));
         callLogic = false;
       }
-      else if(iKo.asap() == REL_KoOffset + (REL_Ko_Sperr_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Sperrobjekte Relais 
+      else if (iKo.asap() == REL_KoOffset + (REL_Ko_Sperr_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Sperrobjekte Relais
       {
         uint8_t relais_Nr = ((iKo.asap() - REL_KoOffset) / REL_KoBlockSize);
         set_Relais_Sperrobjekt(relais_Nr, iKo.value(getDPT(VAL_DPT_1)));
@@ -166,7 +165,7 @@ void appSetup()
   // enable Main Relay
   SERIAL_PORT.print("enable Main Relay: ");
   SERIAL_PORT.println((knx.paramByte(BEM_ext5VRelaisStateBegin) >> BEM_ext5VRelaisStateBeginShift) & 1);
-  SERIAL_PORT.println(knx.paramByte(BEM_ext5VRelaisStateBegin),BIN);
+  SERIAL_PORT.println(knx.paramByte(BEM_ext5VRelaisStateBegin), BIN);
   control_5V_Relais((knx.paramByte(BEM_ext5VRelaisStateBegin) >> BEM_ext5VRelaisStateBeginShift) & 1);
   // wait so start Relay and Power Supply
   SERIAL_PORT.println("wait");
@@ -189,20 +188,22 @@ void appSetup()
     waitStartupLoop();
   }*/
 
-  SERIAL_PORT.println("Start init HW TOP + BOT");
-  initHW_Top();
-  read_HW_ID_BOT();
-  print_HW_ID_BOT(get_HW_ID_BOT());
-  initHW_Bot();
+  if (!digitalRead(get_5V_status_PIN()))
+  {
+    SERIAL_PORT.println("Start init HW TOP + BOT");
+    initHW_Top();
+    read_HW_ID_BOT();
+    print_HW_ID_BOT(get_HW_ID_BOT());
+    initHW_Bot();
   
 
-  
   // load ETS parameters
   SERIAL_PORT.println("Load Parameters");
   initInputADC();
   // load_ETS_par();
   SERIAL_PORT.println("Done");
   delay(3000);
+  }
 }
 
 void appLoop()
@@ -226,21 +227,21 @@ void appLoop()
 #ifdef ImplInput
   processImpulseInput();
 #endif
-/*
-  if (delayCheck(READ_ADC_Delay, 10000))
-  {
-    if (!getError())
+  /*
+    if (delayCheck(READ_ADC_Delay, 10000))
     {
-      TestState = !TestState;
-      control_Relais(1, TestState);
-      control_Relais(2, TestState);
-      control_Relais(3, TestState);
-      READ_ADC_Delay = millis();
-      SERIAL_PORT.print("--> Relais: ");
-      SERIAL_PORT.println(TestState);
+      if (!getError())
+      {
+        TestState = !TestState;
+        control_Relais(1, TestState);
+        control_Relais(2, TestState);
+        control_Relais(3, TestState);
+        READ_ADC_Delay = millis();
+        SERIAL_PORT.print("--> Relais: ");
+        SERIAL_PORT.println(TestState);
+      }
     }
-  }
-*/
+  */
   if (delayCheck(Output_Delay, 1000))
   {
     if (getError())
@@ -255,6 +256,8 @@ void appLoop()
     }
 #ifdef ADC_enable_Output
     SERIAL_PORT.print("ADC CH1: ");
+    SERIAL_PORT.print(getAdcValue(0));
+    SERIAL_PORT.print(" | ");
     SERIAL_PORT.println(getSensorValue(0));
     SERIAL_PORT.print("ADC CH2: ");
     SERIAL_PORT.println(getSensorValue(1));

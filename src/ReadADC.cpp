@@ -38,6 +38,7 @@ uint8_t resolution_TOP = 0;
 uint8_t resolution_BOT = 0;
 
 bool ADC_div[MaxInputChannel]  = {false};
+float corr_Factor[MaxInputChannel] = {1};
 
 bool Ch1_div = false;
 bool Ch2_div = false;
@@ -141,6 +142,11 @@ void set_ADC_DIV(uint8_t ch, bool div)
     }
 }
 
+void set_ADC_CorrFactor(uint8_t ch, float corrFactor)
+{
+   corr_Factor[ch] = corrFactor;
+}
+
 void StartAdcConversation(uint8_t ch)
 {
     if (!get_5V_Error() && init_flag_PCP3428_Top)
@@ -193,13 +199,13 @@ float getAdcVoltage(uint8_t ch, bool div)
         switch (resolution_TOP)
         {
         case Resolution12Bit:
-            return checkZero(adc_Value[ch] * 0.006); // 2.047 / 2047.0 * 6.0;
+            return checkZero(adc_Value[ch] * 0.006 / corr_Factor[ch]); // 2.047 / 2047.0 * 6.0;
             break;
         case Resolution14Bit:
-            return checkZero(adc_Value[ch] * 0.0015); // 2.047 / 8191.0 * 6.0;
+            return checkZero(adc_Value[ch] * 0.0015 / corr_Factor[ch]); // 2.047 / 8191.0 * 6.0;
             break;
         case Resolution16Bit:
-            return checkZero(adc_Value[ch] * 0.000375); // 2.047 / 32767.0 * 6.0;
+            return checkZero(adc_Value[ch] * 0.000375 / corr_Factor[ch]); // 2.047 / 32767.0 * 6.0;
             break;
         default:
             SERIAL_PORT.println("wrong RES 0-12V");
@@ -214,13 +220,13 @@ float getAdcVoltage(uint8_t ch, bool div)
         switch (resolution_TOP)
         {
         case Resolution12Bit:
-            return checkZero(adc_Value[ch] * 0.003); // 2.047 / 2047.0 * 3.0;
+            return checkZero(adc_Value[ch] * 0.003 / corr_Factor[ch]); // 2.047 / 2047.0 * 3.0;
             break;
         case Resolution14Bit:
-            return checkZero(adc_Value[ch] * 0.00075); // 2.047 / 8191.0 * 3.0;
+            return checkZero(adc_Value[ch] * 0.00075 / corr_Factor[ch]); // 2.047 / 8191.0 * 3.0;
             break;
         case Resolution16Bit:
-            return checkZero(adc_Value[ch] * 0.0001875); // 2.047 / 32767.0 * 3.0;
+            return checkZero(adc_Value[ch] * 0.0001875 / corr_Factor[ch]); // 2.047 / 32767.0 * 3.0;
             break;
         default:
             SERIAL_PORT.println("wrong RES 0-5V");
