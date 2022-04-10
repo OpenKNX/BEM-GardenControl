@@ -821,7 +821,7 @@
 #define LOG_fE2OtherKO                85      // uint12_t
 
 // Communication objects per channel (multiple occurance)
-#define LOG_KoOffset 320
+#define LOG_KoOffset 420
 #define LOG_KoBlockSize 3
 #define LOG_KoKOfE1 0
 #define LOG_KoKOfE2 1
@@ -887,6 +887,25 @@
 #define ADC_KoOffset 75
 #define ADC_KoBlockSize 1
 #define ADC_KoGO_BASE__1 0
+
+#define CUR_ChannelCount 2
+
+// Parameter per channel
+#define CUR_ParamBlockOffset 3201
+#define CUR_ParamBlockSize 325
+#define CUR_CHSensorType2             310      // 8 Bits, Bit 7-0
+#define CUR_CHSendcycletime2          311      // int16_t
+#define CUR_CHSendenAbsolut2          313      // int16_t
+#define CUR_CHSendenRelativ2          315      // int8_t
+#define CUR_CHValueFilter2            316      // int8_t
+#define CUR_CHSensorTypes2            320      // 8 Bits, Bit 7-0
+#define CUR_CHGeradeM2                321      // int16_t
+#define CUR_CHGeradeB2                323      // int16_t
+
+// Communication objects per channel (multiple occurance)
+#define CUR_KoOffset 81
+#define CUR_KoBlockSize 1
+#define CUR_KoCUR_BASE__1 0
 
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16
