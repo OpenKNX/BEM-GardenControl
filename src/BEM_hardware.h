@@ -10,6 +10,7 @@
 #define KNXcallback
 #define ADC_enable
 //#define ADC_enable_Output
+#define InputADC_Output
 #define IOExp_enable
 //#define IOExp_enable_Output
 #define Opto_IN

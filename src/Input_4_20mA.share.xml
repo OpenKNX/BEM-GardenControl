@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="KNX MT" ToolVersion="5.1.255.16695" xmlns="http://knx.org/xml/project/14">
+  <ManufacturerData>
+    <Manufacturer RefId="M-00FA">
+      <Catalog>
+        <CatalogSection Id="M-00FA_CS-1" Name="Geräte" Number="1" DefaultLanguage="de">
+          <CatalogItem Id="M-00FA_H-202-1_HP-0000-00-0000_CI-202-1" Name="OpenKNX" Number="1" ProductRefId="M-00FA_H-202-1_P-202" Hardware2ProgramRefId="M-00FA_H-202-1_HP-0000-00-0000" DefaultLanguage="de" />
+        </CatalogSection>
+      </Catalog>
+      <ApplicationPrograms>
+        <ApplicationProgram Id="M-00FA_A-0001-01-0000" ApplicationNumber="203" ApplicationVersion="1" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="OpenKNX" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
+          <Static>
+            <Code>
+              <RelativeSegment Id="M-00FA_A-0001-01-0000_RS-04-00000" Name="Parameters" Offset="0" Size="4" LoadStateMachine="4" />
+            </Code>
+            <ParameterTypes>
+              <ParameterType Id="M-00FA_A-0001-01-0000_PT-CURYesNo" Name="CURYesNo">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Text="Nein" Value="0" Id="M-00FA_A-0001-01-0000_PT-CURYesNo_EN-0" />
+                  <Enumeration Text="Ja" Value="1" Id="M-00FA_A-0001-01-0000_PT-CURYesNo_EN-1" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-00FA_A-0001-01-0000_PT-CURActiveInactive" Name="CURActiveInactive">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Text="inaktiv" Value="0" Id="M-00FA_A-0001-01-0000_PT-CURActiveInactive_EN-0" />
+                  <Enumeration Text="aktiv" Value="1" Id="M-00FA_A-0001-01-0000_PT-CURActiveInactive_EN-1" />
+                </TypeRestriction>
+              </ParameterType>
+               <ParameterType Id="M-00FA_A-0001-01-0000_PT-CURValueWORD" Name="CURValueWORD">
+                <TypeNumber SizeInBit="16" Type="signedInt" minInclusive="0" maxInclusive="30000" />
+              </ParameterType>
+                <ParameterType Id="M-00FA_A-0001-01-0000_PT-CURPercentage" Name="CURPercentage">
+                <TypeNumber SizeInBit="8" Type="signedInt" minInclusive="0" maxInclusive="100" />
+              </ParameterType>
+              <ParameterType Id="M-00FA_A-0001-01-0000_PT-CURSensorCalc" Name="CURSensorCalc">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Text="wähle"         Value="0" Id="M-00FA_A-0001-01-0000_PT-CURSensorCalc_EN-0" />
+                  <Enumeration Text="input: 4-20mA" Value="1" Id="M-00FA_A-0001-01-0000_PT-CURSensorCalc_EN-1" />
+                  <Enumeration Text="input: 0-20mA" Value="2" Id="M-00FA_A-0001-01-0000_PT-CURSensorCalc_EN-2" />
+                </TypeRestriction>
+
+
+            </ParameterTypes>
+            <Parameters>
+    
+            </Parameters>
+            <ParameterRefs>
+             
+              
+            </ParameterRefs>
+            <ComObjectTable>
+            </ComObjectTable>
+            <ComObjectRefs>
+            </ComObjectRefs>
+            <AddressTable MaxEntries="65535" />
+            <AssociationTable MaxEntries="65535" />
+            <LoadProcedures>
+              <LoadProcedure MergeId="2">
+                <LdCtrlRelSegment LsmIdx="4" Size="4" Mode="0" Fill="0" AppliesTo="full" />
+              </LoadProcedure>
+              <LoadProcedure MergeId="4">
+                <LdCtrlWriteRelMem ObjIdx="4" Offset="0" Size="4" Verify="true" />
+              </LoadProcedure>
+            </LoadProcedures>
+            <Options />
+          </Static>
+          <!-- Here statrs the UI definition -->
+          <Dynamic>
+          </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+      <Hardware>
+        <Hardware Id="M-00FA_H-202-1" Name="OpenKNX" SerialNumber="202" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-00FA_H-202-1_P-202" Text="OpenKNX" OrderNumber="MF-Knx" IsRailMounted="false" DefaultLanguage="de">
+              <RegistrationInfo RegistrationStatus="Registered" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-00FA_H-202-1_HP-0000-00-0000" MediumTypes="MT-0">
+              <ApplicationProgramRef RefId="M-00FA_A-0001-01-0000" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="0001/11" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

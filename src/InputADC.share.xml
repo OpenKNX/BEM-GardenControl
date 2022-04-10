@@ -29,6 +29,9 @@
                <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCValueWORD" Name="ADCValueWORD">
                 <TypeNumber SizeInBit="16" Type="signedInt" minInclusive="0" maxInclusive="30000" />
               </ParameterType>
+              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCValueI16" Name="ADCValueI16">
+                <TypeNumber SizeInBit="16" Type="signedInt" minInclusive="-30000" maxInclusive="30000" />
+              </ParameterType>
                 <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCPercentage" Name="ADCPercentage">
                 <TypeNumber SizeInBit="8" Type="signedInt" minInclusive="0" maxInclusive="100" />
               </ParameterType>
@@ -51,6 +54,20 @@
                   <Enumeration Text="12Bit"  Value="0" Id="M-00FA_A-0001-01-0000_PT-ADCResolution_EN-0" />
                   <Enumeration Text="14Bit"  Value="1" Id="M-00FA_A-0001-01-0000_PT-ADCResolution_EN-1" />
                   <Enumeration Text="16Bit"  Value="2" Id="M-00FA_A-0001-01-0000_PT-ADCResolution_EN-2" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCSensorType" Name="ADCSensorType">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Text="Spannung (mV)"             Value="0" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-0" />
+                  <Enumeration Text="Temperatur (°C)"           Value="1" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-1" />
+                  <Enumeration Text="Feuchte (%)"               Value="2" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-2" />
+                  <Enumeration Text="CO2 (ppm)"                 Value="3" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-3" />
+                  <Enumeration Text="LUX (Lux)"                 Value="4" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-4" />
+                  <Enumeration Text="Druck (Pa)"                Value="5" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-5" />
+                  <Enumeration Text="Strömung (l/h)"            Value="6" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-6" />
+                  <Enumeration Text="Regenmenge (l/m²)"         Value="7" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-7" />
+                  <Enumeration Text="Windgeschwindigkeit (m/s)" Value="8" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-8" />
+                  <Enumeration Text="Prozent (%)"               Value="9" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-9" />
                 </TypeRestriction>
               </ParameterType>
 

@@ -36,8 +36,18 @@
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="257" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%007" Name="CH%C%VoltageCorrection"  ParameterType="M-00FA_A-0001-01-0000_PT-ADCValueWORD" Text="Korrekturfaktor:"  Value="0">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="258" BitOffset="100" />
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="258" BitOffset="0" />
               </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%008" Name="CH%C%SensorTypes"  ParameterType="M-00FA_A-0001-01-0000_PT-ADCSensorType" Text="Meßwerteinheit (KO):"  Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="260" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%009" Name="CH%C%GeradeM"  ParameterType="M-00FA_A-0001-01-0000_PT-ADCValueI16" Text="Wert m:"  Value="100">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="261" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%010" Name="CH%C%GeradeB"  ParameterType="M-00FA_A-0001-01-0000_PT-ADCValueI16" Text="Wert b:"  Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="263" BitOffset="0" />
+              </Parameter>
+                    
 
             </Parameters>
             <ParameterRefs>
@@ -45,23 +55,39 @@
               <!-- ParameterRef are used in the ETS UI -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000" /> <!-- Kanal Beschreibung -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%001_R-%T%%CCC%00101" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%001" /> <!-- Sensor Auswahl -->
-              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002" SuffixText="Sek"/> <!-- Zyklisch senden -->
-              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00301" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="mV"/>     <!-- Senden Abw Abs -->
-              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00302" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="*0.1°C"/> <!-- Senden Abw Abs -->
-              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00303" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="%"/>      <!-- Senden Abw Abs -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002" SuffixText="Sek"/>     <!-- Zyklisch senden -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00301" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="mV"/>      <!-- Senden Abw Abs -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00302" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="*0.1°C"/>  <!-- Senden Abw Abs -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00303" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="%"/>       <!-- Senden Abw Abs -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00304" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="ppm"/>     <!-- Senden Abw Abs -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00305" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="lux"/>     <!-- Senden Abw Abs -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00306" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="Pa"/>      <!-- Senden Abw Abs -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00307" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="*0.1l/h"/> <!-- Senden Abw Abs -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00308" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="*0.1l/m²"/><!-- Senden Abw Abs -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00309" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003" SuffixText="m/s"/>     <!-- Senden Abw Abs -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004" SuffixText="%"/>      <!-- Senden Abw Rel -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%005_R-%T%%CCC%00501" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%005" /> <!-- Glätten -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%006_R-%T%%CCC%00601" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%006" /> <!-- Eingangsspannungsbereich -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%007_R-%T%%CCC%00701" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%007" SuffixText="*0.01"/> <!-- Korrekturfaktor -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%008_R-%T%%CCC%00801" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%008" /> <!-- Sensor Messwert (mV, °C, Pa, %, m/s, ..) -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009" SuffixText="*0.01"/> <!-- Geadengleichung Wert M -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010" SuffixText="*0.01"/> <!-- Geadengleichung Wert B -->
             </ParameterRefs>
             <ComObjectTable>
                 <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="GO_BASE_%C%_1" Text="GO_BASE_%C%_1" Number="%K0%" ObjectSize="4 Bytes" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Disabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-14 DPST-14-0" />            </ComObjectTable>
             <ComObjectRefs>
-                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00001" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Volt_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="ADC voltage"              Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-20" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
-                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00002" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Perc_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="Prozent"                  Priority="Low" ObjectSize="1 Byte"  ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-5 DPST-5-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
-                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00003" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Temp_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="SMT-50 Boden-Temperatur"  Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
-                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00004" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Bodf_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="SMT-50 Bodenfeuchte"      Priority="Low" ObjectSize="1 Byte"  ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-5 DPST-5-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
-                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00005" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Fuel_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="Füllstand"                Priority="Low" ObjectSize="1 Byte"  ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-5 DPST-5-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00001" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Volt_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="ADC voltage (mV)"          Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-20" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00002" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Temp_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="Temperatur (°C)"           Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-1" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00003" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Feuc_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="Feuchte (%)"               Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-7" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00004" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_CO2__DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="CO2 (ppm)"                 Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-8" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00005" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Lux__DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="Lux (lux)"                 Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-4" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00006" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Druc_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="Druck (Pa)"                Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-6" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00007" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Stro_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="Strömung (l/h)"            Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-25" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00008" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Rege_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="Regenmenge (l/m²)"         Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-26" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00009" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Wind_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="Windgeschwindigkeit (m/s)" Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-5" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00010" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_Perc_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="Prozent"                   Priority="Low" ObjectSize="1 Byte"  ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-5 DPST-5-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00011" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_BodT_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="SMT-50 Boden-Temperatur"   Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+                <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00012" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="Out_BodF_DPT_09" Text="ADC Input %C%: {{0:-}}" FunctionText="SMT-50 Bodenfeuchte"       Priority="Low" ObjectSize="1 Byte"  ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-5 DPST-5-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
             </ComObjectRefs>
             <AddressTable MaxEntries="65535" />
             <AssociationTable MaxEntries="65535" />
@@ -95,12 +121,64 @@
                           </when>
                         </choose>  
                         <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%008_R-%T%%CCC%00801" />  <!-- Meßwert (mV, °C, Pa, m/s, ..) -->
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Der Sensorwert wird über die Geradengleichung y = m*x + b bestimmt. Ist die Geradengleichung des Sensors nicht bekannt, dann kann diese auch über zwei Punkte (x,y) der Sensor-Kennlinie bestimmmt werden" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Geradengleichung m -->
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Geradengleichung b  -->
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
                         <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
-                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00301" />  <!-- Zyklisch Senden Absolut (mV) -->
-                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
+                        <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%008_R-%T%%CCC%00801">
+                          <when test="0">  <!-- Spannung --> 
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00301" />  <!-- Zyklisch Senden Absolut (mV) -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00001" />  <!-- KO: ADC Wert (mV)-->
+                          </when>
+                          <when test="1">  <!-- Temperatur--> 
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00302" />  <!-- Zyklisch Senden Absolut (°C) -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00002" />  <!-- KO: ADC Wert (°C)-->
+                          </when>
+                          <when test="2">  <!-- Feuchte --> 
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00303" />  <!-- Zyklisch Senden Absolut (%) -->
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00003" />  <!-- KO: ADC Wert (%)-->
+                          </when>
+                          <when test="3">  <!-- CO2 --> 
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00304" />  <!-- Zyklisch Senden Absolut (ppm) -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00004" />  <!-- KO: ADC Wert (ppm)-->
+                          </when>
+                          <when test="4">  <!-- LUX--> 
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00305" />  <!-- Zyklisch Senden Absolut (Lux) -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00005" />  <!-- KO: ADC Wert (lux)-->
+                          </when>
+                          <when test="5">  <!-- Druck--> 
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00306" />  <!-- Zyklisch Senden Absolut (Pa) -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00006" />  <!-- KO: ADC Wert (Pa)-->
+                          </when>
+                          <when test="6">  <!-- Strömung --> 
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00307" />  <!-- Zyklisch Senden Absolut (l/h) -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00007" />  <!-- KO: ADC Wert (l/h)-->
+                          </when>
+                          <when test="7">  <!-- Regenmenge --> 
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00308" />  <!-- Zyklisch Senden Absolut (l/m²V) -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00008" />  <!-- KO: ADC Wert (l/m²)-->
+                          </when>
+                          <when test="8">  <!-- Windgeschwindigkeit --> 
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00309" />  <!-- Zyklisch Senden Absolut (m/s) -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00009" />  <!-- KO: ADC Wert (m/s)-->
+                          </when>
+                          <when test="9">  <!-- Prozent --> 
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00303" />  <!-- Zyklisch Senden Absolut (%) -->
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00010" />  <!-- KO: ADC Wert (%)-->
+                          </when>
+                        </choose>   
                         <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="" UIHint="HorizontalRuler" />
                         <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%005_R-%T%%CCC%00501" />  <!-- Wert gläten --> 
-                        <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00001" />  <!-- KO: ADC Wert -->
                     </when>
                     <when test="2">  <!-- Sensor: SMT50-Feuchte --> 
                         <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-2" Text="" UIHint="HorizontalRuler" />
@@ -108,7 +186,7 @@
                         <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00303" />  <!-- Zyklisch Senden Absolut (%)-->
                         <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-3" Text="" UIHint="HorizontalRuler" />
                         <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%005_R-%T%%CCC%00501" />  <!-- Wert gläten --> 
-                        <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00004" />  <!-- KO: Bodenfeuchte -->
+                        <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00012" />  <!-- KO: Bodenfeuchte -->
                     </when>
                     <when test="3">  <!-- Sensor: SMT50-Temp --> 
                         <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-2" Text="" UIHint="HorizontalRuler" />
@@ -117,7 +195,7 @@
                         <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
                         <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-3" Text="" UIHint="HorizontalRuler" />
                         <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%005_R-%T%%CCC%00501" />  <!-- Wert gläten --> 
-                        <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00003" />  <!-- KO: Temp -->
+                        <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00011" />  <!-- KO: Temp -->
                     </when>
                 </choose>
               </Channel>
