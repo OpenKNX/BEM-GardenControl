@@ -18,34 +18,34 @@
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%000" Name="%T%CH%C%Name" ParameterType="M-00FA_A-0001-01-0000_PT-Text40Byte" Text="Beschreibung des Kanals" Value="" /> <!-- Definition im Logikmodul -->
               <!-- ADC_Inputs -->
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%001" Name="CH%C%SensorType"     ParameterType="M-00FA_A-0001-01-0000_PT-ADCSensorCalc"   Text="Sensortyp:" Value="0">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="250" BitOffset="0" />
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="0" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%002" Name="CH%C%Sendcycletime"  ParameterType="M-00FA_A-0001-01-0000_PT-ADCValueWORD"    Text="zyklisch senden: (0 = nicht zyklisch senden)"  Value="0">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="251" BitOffset="0" />
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="1" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%003" Name="CH%C%SendenAbsolut"  ParameterType="M-00FA_A-0001-01-0000_PT-ADCValueWORD"    Text="senden bei absoluter Abweichung: (0 = nicht zyklisch senden)"  Value="0">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="253" BitOffset="0" />
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="3" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%004" Name="CH%C%SendenRelativ"  ParameterType="M-00FA_A-0001-01-0000_PT-ADCPercentage"   Text="senden bei relativer Abweichung: (0 = nicht zyklisch senden)"  Value="0">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="255" BitOffset="0" />
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="5" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%005" Name="CH%C%ValueFilter"    ParameterType="M-00FA_A-0001-01-0000_PT-ADCPercentage"   Text="Wert glätten: P ="  Value="0">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="256" BitOffset="0" />
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="6" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%006" Name="CH%C%VoltageDiv"     ParameterType="M-00FA_A-0001-01-0000_PT-ADCInputdividor" Text="Eingangsspannungsbereich:"  Value="0">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="257" BitOffset="0" />
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="7" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%007" Name="CH%C%VoltageCorrection"  ParameterType="M-00FA_A-0001-01-0000_PT-ADCValueWORD" Text="Korrekturfaktor:"  Value="0">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="258" BitOffset="0" />
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="8" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%008" Name="CH%C%SensorTypes"  ParameterType="M-00FA_A-0001-01-0000_PT-ADCSensorType" Text="Meßwerteinheit (KO):"  Value="0">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="260" BitOffset="0" />
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="10" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%009" Name="CH%C%GeradeM"  ParameterType="M-00FA_A-0001-01-0000_PT-ADCValueI16" Text="Wert m:"  Value="100">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="261" BitOffset="0" />
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="11" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%010" Name="CH%C%GeradeB"  ParameterType="M-00FA_A-0001-01-0000_PT-ADCValueI16" Text="Wert b:"  Value="0">
-                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="263" BitOffset="0" />
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="13" BitOffset="0" />
               </Parameter>
                     
 

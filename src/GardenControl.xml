@@ -26,14 +26,11 @@
               <!-- Parameter Offset Table 
               000 - 049  Reserve LOG
               050 - 069  BEM Share (20 Bytes)
-              070 - 189  BEM templ (12 * 10Bytes)
-              190 - 209  REL Share (20 Bytes)
-              210 - 239  REL templ (3 * 10Bytes)
-              240 - 249  ADC Share (20 Bytes) 
-              250 - 309  ADC templ (3 * 20Bytes)      
-              310 - 329  CUR Share (20 Bytes) 
-              330 - 369  CUR templ (2 * 20Bytes)        
-              
+              070 - 089  REL Share (20 Bytes)
+              090 - 109  ADC Share (20 Bytes)   
+              110 - 129  CUR Share (20 Bytes) 
+               
+              templ Werte beginnen mit 0 und werden automatisch erzeugt             
               -->
               <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ParameterTypes/ParameterType" prefix="LOG" />
               <op:include href="GardenControl.share.xml" xpath="//ParameterTypes/ParameterType" prefix="BEM" />

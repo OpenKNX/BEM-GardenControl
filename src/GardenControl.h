@@ -831,11 +831,11 @@
 
 // Parameter per channel
 #define BEM_ParamBlockOffset 921
-#define BEM_ParamBlockSize 71
-#define BEM_CHAktive                  70      // 1 Bit, Bit 7
+#define BEM_ParamBlockSize 1
+#define BEM_CHAktive                   0      // 1 Bit, Bit 7
 #define     BEM_CHAktiveMask 0x80
 #define     BEM_CHAktiveShift 7
-#define BEM_CHSperr                   70      // 1 Bit, Bit 6
+#define BEM_CHSperr                    0      // 1 Bit, Bit 6
 #define     BEM_CHSperrMask 0x40
 #define     BEM_CHSperrShift 6
 
@@ -849,12 +849,12 @@
 #define REL_ChannelCount 3
 
 // Parameter per channel
-#define REL_ParamBlockOffset 1773
-#define REL_ParamBlockSize 211
-#define REL_CHaktive                  210      // 0 Bits, Bit 7
+#define REL_ParamBlockOffset 933
+#define REL_ParamBlockSize 1
+#define REL_CHaktive                   0      // 0 Bits, Bit 7
 #define     REL_CHaktiveMask 0x00
 #define     REL_CHaktiveShift 8
-#define REL_CHsperr                   210      // 0 Bits, Bit 6
+#define REL_CHsperr                    0      // 0 Bits, Bit 6
 #define     REL_CHsperrMask 0x00
 #define     REL_CHsperrShift 7
 
@@ -868,20 +868,20 @@
 #define ADC_ChannelCount 3
 
 // Parameter per channel
-#define ADC_ParamBlockOffset 2406
-#define ADC_ParamBlockSize 265
-#define ADC_CHSensorType              250      // 8 Bits, Bit 7-0
-#define ADC_CHSendcycletime           251      // int16_t
-#define ADC_CHSendenAbsolut           253      // int16_t
-#define ADC_CHSendenRelativ           255      // int8_t
-#define ADC_CHValueFilter             256      // int8_t
-#define ADC_CHVoltageDiv              257      // 1 Bit, Bit 7
+#define ADC_ParamBlockOffset 936
+#define ADC_ParamBlockSize 15
+#define ADC_CHSensorType               0      // 8 Bits, Bit 7-0
+#define ADC_CHSendcycletime            1      // int16_t
+#define ADC_CHSendenAbsolut            3      // int16_t
+#define ADC_CHSendenRelativ            5      // int8_t
+#define ADC_CHValueFilter              6      // int8_t
+#define ADC_CHVoltageDiv               7      // 1 Bit, Bit 7
 #define     ADC_CHVoltageDivMask 0x80
 #define     ADC_CHVoltageDivShift 7
-#define ADC_CHVoltageCorrection       258      // int16_t
-#define ADC_CHSensorTypes             260      // 8 Bits, Bit 7-0
-#define ADC_CHGeradeM                 261      // int16_t
-#define ADC_CHGeradeB                 263      // int16_t
+#define ADC_CHVoltageCorrection        8      // int16_t
+#define ADC_CHSensorTypes             10      // 8 Bits, Bit 7-0
+#define ADC_CHGeradeM                 11      // int16_t
+#define ADC_CHGeradeB                 13      // int16_t
 
 // Communication objects per channel (multiple occurance)
 #define ADC_KoOffset 75
@@ -891,16 +891,16 @@
 #define CUR_ChannelCount 2
 
 // Parameter per channel
-#define CUR_ParamBlockOffset 3201
-#define CUR_ParamBlockSize 325
-#define CUR_CHSensorType2             310      // 8 Bits, Bit 7-0
-#define CUR_CHSendcycletime2          311      // int16_t
-#define CUR_CHSendenAbsolut2          313      // int16_t
-#define CUR_CHSendenRelativ2          315      // int8_t
-#define CUR_CHValueFilter2            316      // int8_t
-#define CUR_CHSensorTypes2            320      // 8 Bits, Bit 7-0
-#define CUR_CHPoint4mA                321      // int16_t
-#define CUR_CHPoint20mA               323      // int16_t
+#define CUR_ParamBlockOffset 981
+#define CUR_ParamBlockSize 15
+#define CUR_CHSensorType2              0      // 8 Bits, Bit 7-0
+#define CUR_CHSendcycletime2           1      // int16_t
+#define CUR_CHSendenAbsolut2           3      // int16_t
+#define CUR_CHSendenRelativ2           5      // int8_t
+#define CUR_CHValueFilter2             6      // int8_t
+#define CUR_CHSensorTypes2            10      // 8 Bits, Bit 7-0
+#define CUR_CHPoint4mA                11      // int16_t
+#define CUR_CHPoint20mA               13      // int16_t
 
 // Communication objects per channel (multiple occurance)
 #define CUR_KoOffset 81
