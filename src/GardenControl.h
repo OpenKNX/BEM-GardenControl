@@ -899,8 +899,8 @@
 #define CUR_CHSendenRelativ2          315      // int8_t
 #define CUR_CHValueFilter2            316      // int8_t
 #define CUR_CHSensorTypes2            320      // 8 Bits, Bit 7-0
-#define CUR_CHGeradeM2                321      // int16_t
-#define CUR_CHGeradeB2                323      // int16_t
+#define CUR_CHPoint4mA                321      // int16_t
+#define CUR_CHPoint20mA               323      // int16_t
 
 // Communication objects per channel (multiple occurance)
 #define CUR_KoOffset 81

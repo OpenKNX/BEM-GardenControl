@@ -37,7 +37,7 @@ long adc_Value_BOT[MaxInputChannel] = {1};
 uint8_t resolution_TOP = 0;
 uint8_t resolution_BOT = 0;
 
-bool ADC_div[MaxInputChannel]  = {false};
+bool ADC_div[MaxInputChannel] = {false};
 float corr_Factor[MaxInputChannel] = {1};
 
 bool Ch1_div = false;
@@ -58,8 +58,8 @@ State ADC_State = wait_Init;
 void initADC_TOP(uint8_t res_top)
 {
     resolution_TOP = res_top; // set resolution TOP
-    corr_Factor[3] = 1;  // Correctionfactor 12V input always 1
- 
+    corr_Factor[3] = 1;       // Correctionfactor 12V input always 1
+
     if (!get_5V_Error())
     {
         SERIAL_PORT.print("  MCP3428_TOP:");
@@ -119,7 +119,7 @@ void clearInitFlags_ADC()
 
 void set_ADC_DIV(uint8_t ch, bool div)
 {
-    ADC_div[ch]  = div;
+    ADC_div[ch] = div;
 
     switch (ch)
     {
@@ -137,8 +137,8 @@ void set_ADC_DIV(uint8_t ch, bool div)
         set_IOExpander_Input(IO_Set_DIV_3, div);
         SERIAL_PORT.print("Ch3 set ADC Div: ");
         SERIAL_PORT.println(div);
-        break;        
-    
+        break;
+
     default:
         break;
     }
@@ -146,7 +146,7 @@ void set_ADC_DIV(uint8_t ch, bool div)
 
 void set_ADC_CorrFactor(uint8_t ch, float corrFactor)
 {
-   corr_Factor[ch] = corrFactor;
+    corr_Factor[ch] = corrFactor;
 }
 
 void StartAdcConversation(uint8_t ch)
@@ -210,15 +210,19 @@ float getAdcVoltage(uint8_t ch, bool div)
             return checkZero((adc_Value[ch] * 0.000375) / corr_Factor[ch]); // 2.047 / 32767.0 * 6.0;
             break;
         default:
+#ifdef InputADC_Output
             SERIAL_PORT.println("wrong RES 0-12V");
             SERIAL_PORT.println(resolution_TOP);
+#endif
             return 0;
             break;
         }
     }
     else // 0-5V
     {
+#ifdef InputADC_Output
         SERIAL_PORT.print("5V ");
+#endif
         switch (resolution_TOP)
         {
         case Resolution12Bit:
@@ -231,7 +235,9 @@ float getAdcVoltage(uint8_t ch, bool div)
             return checkZero(adc_Value[ch] * 0.0001875); // 2.047 / 32767.0 * 3.0;
             break;
         default:
+#ifdef InputADC_Output
             SERIAL_PORT.println("wrong RES 0-5V");
+#endif
             return 0;
             break;
         }
@@ -254,7 +260,9 @@ float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
             return checkZero(adc_Value_BOT[ch] * 0.000625); // 2.047 / 32767.0 / 100;
             break;
         default:
+#ifdef Input_4_20mA_Output
             SERIAL_PORT.println("wrong RES 4-20mA");
+#endif
             return 0;
             break;
         }
@@ -273,7 +281,9 @@ float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
             return checkZero(adc_Value_BOT[ch] * 0.001); // 2.047 / 32767.0 * 16;
             break;
         default:
+#ifdef InputADC_Output
             SERIAL_PORT.println("wrong RES 0-24V");
+#endif
             return 0;
             break;
         }
@@ -287,7 +297,7 @@ bool isADCready()
 
 float getAdcVoltage(uint8_t ch)
 {
-  return getAdcVoltage(ch, ADC_div[ch]);
+    return getAdcVoltage(ch, ADC_div[ch]);
 }
 
 float getAdcVoltage_12V()
@@ -300,17 +310,10 @@ float getAdcVoltage_24V()
     return getAdcVoltage_BOT(ADC_24V_CH, DIV_24V);
 }
 
-float get4_20mA_CH1()
+float get4_20mA(uint8_t ch)
 {
-    return getAdcVoltage_BOT(ADC_4_20mA_Ch1, is4_20mA);
+    return getAdcVoltage_BOT(ch, is4_20mA);
 }
-
-float get4_20mA_CH2()
-{
-    return getAdcVoltage_BOT(ADC_4_20mA_Ch2, is4_20mA);
-}
-
-
 
 void processADConversation()
 {
@@ -341,11 +344,11 @@ void processADConversation()
         {
             if (!get_5V_Error() && init_flag_PCP3428_Top)
             {
-                adc_Value[adc_CH-1] = ReadAdcValue();
+                adc_Value[adc_CH - 1] = ReadAdcValue();
             }
             else
             {
-                adc_Value[adc_CH-1] = 0;
+                adc_Value[adc_CH - 1] = 0;
             }
 
             READ_Delay = millis();
@@ -355,11 +358,11 @@ void processADConversation()
     case Read_BOT:
         if (!get_5V_Error() && init_flag_PCP3428_Bot)
         {
-            adc_Value_BOT[adc_CH-1] = ReadAdcValue_BOT();
+            adc_Value_BOT[adc_CH - 1] = ReadAdcValue_BOT();
         }
         else
         {
-            adc_Value_BOT[adc_CH-1] = 0;
+            adc_Value_BOT[adc_CH - 1] = 0;
         }
 
         adc_CH++;

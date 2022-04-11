@@ -122,57 +122,96 @@
                         </choose>  
                         <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="" UIHint="HorizontalRuler" />
                         <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%008_R-%T%%CCC%00801" />  <!-- Meßwert (mV, °C, Pa, m/s, ..) -->
-                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Der Sensorwert wird über die Geradengleichung y = m*x + b bestimmt. Ist die Geradengleichung des Sensors nicht bekannt, dann kann diese auch über zwei Punkte (x,y) der Sensor-Kennlinie bestimmmt werden" />
-                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Geradengleichung m -->
-                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Geradengleichung b  -->
-                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
-                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                         <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%008_R-%T%%CCC%00801">
                           <when test="0">  <!-- Spannung --> 
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00301" />  <!-- Zyklisch Senden Absolut (mV) -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
                             <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00001" />  <!-- KO: ADC Wert (mV)-->
                           </when>
                           <when test="1">  <!-- Temperatur--> 
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Der Sensorwert wird über die Geradengleichung y = m*x + b bestimmt. Ist die Geradengleichung des Sensors nicht bekannt, dann kann diese auch über zwei Punkte (x,y) der Sensor-Kennlinie bestimmmt werden" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Geradengleichung m -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Geradengleichung b  -->
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00302" />  <!-- Zyklisch Senden Absolut (°C) -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
                             <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00002" />  <!-- KO: ADC Wert (°C)-->
                           </when>
                           <when test="2">  <!-- Feuchte --> 
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Der Sensorwert wird über die Geradengleichung y = m*x + b bestimmt. Ist die Geradengleichung des Sensors nicht bekannt, dann kann diese auch über zwei Punkte (x,y) der Sensor-Kennlinie bestimmmt werden" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Geradengleichung m -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Geradengleichung b  -->
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00303" />  <!-- Zyklisch Senden Absolut (%) -->
                             <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00003" />  <!-- KO: ADC Wert (%)-->
                           </when>
                           <when test="3">  <!-- CO2 --> 
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Der Sensorwert wird über die Geradengleichung y = m*x + b bestimmt. Ist die Geradengleichung des Sensors nicht bekannt, dann kann diese auch über zwei Punkte (x,y) der Sensor-Kennlinie bestimmmt werden" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Geradengleichung m -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Geradengleichung b  -->
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00304" />  <!-- Zyklisch Senden Absolut (ppm) -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
                             <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00004" />  <!-- KO: ADC Wert (ppm)-->
                           </when>
                           <when test="4">  <!-- LUX--> 
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Der Sensorwert wird über die Geradengleichung y = m*x + b bestimmt. Ist die Geradengleichung des Sensors nicht bekannt, dann kann diese auch über zwei Punkte (x,y) der Sensor-Kennlinie bestimmmt werden" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Geradengleichung m -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Geradengleichung b  -->
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00305" />  <!-- Zyklisch Senden Absolut (Lux) -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
                             <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00005" />  <!-- KO: ADC Wert (lux)-->
                           </when>
                           <when test="5">  <!-- Druck--> 
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Der Sensorwert wird über die Geradengleichung y = m*x + b bestimmt. Ist die Geradengleichung des Sensors nicht bekannt, dann kann diese auch über zwei Punkte (x,y) der Sensor-Kennlinie bestimmmt werden" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Geradengleichung m -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Geradengleichung b  -->
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00306" />  <!-- Zyklisch Senden Absolut (Pa) -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
                             <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00006" />  <!-- KO: ADC Wert (Pa)-->
                           </when>
                           <when test="6">  <!-- Strömung --> 
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Der Sensorwert wird über die Geradengleichung y = m*x + b bestimmt. Ist die Geradengleichung des Sensors nicht bekannt, dann kann diese auch über zwei Punkte (x,y) der Sensor-Kennlinie bestimmmt werden" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Geradengleichung m -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Geradengleichung b  -->
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00307" />  <!-- Zyklisch Senden Absolut (l/h) -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
                             <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00007" />  <!-- KO: ADC Wert (l/h)-->
                           </when>
                           <when test="7">  <!-- Regenmenge --> 
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Der Sensorwert wird über die Geradengleichung y = m*x + b bestimmt. Ist die Geradengleichung des Sensors nicht bekannt, dann kann diese auch über zwei Punkte (x,y) der Sensor-Kennlinie bestimmmt werden" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Geradengleichung m -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Geradengleichung b  -->
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00308" />  <!-- Zyklisch Senden Absolut (l/m²V) -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
                             <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00008" />  <!-- KO: ADC Wert (l/m²)-->
                           </when>
                           <when test="8">  <!-- Windgeschwindigkeit --> 
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Der Sensorwert wird über die Geradengleichung y = m*x + b bestimmt. Ist die Geradengleichung des Sensors nicht bekannt, dann kann diese auch über zwei Punkte (x,y) der Sensor-Kennlinie bestimmmt werden" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Geradengleichung m -->
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Geradengleichung b  -->
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00309" />  <!-- Zyklisch Senden Absolut (m/s) -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
                             <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00009" />  <!-- KO: ADC Wert (m/s)-->
                           </when>
                           <when test="9">  <!-- Prozent --> 
+                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%003_R-%T%%CCC%00303" />  <!-- Zyklisch Senden Absolut (%) -->
                             <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00010" />  <!-- KO: ADC Wert (%)-->
                           </when>

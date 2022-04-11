@@ -6,6 +6,10 @@
 #include "HelperFunc.h"
 #include "ReadADC.h"
 
+#define ADC_Wert 1
+#define SMT50_Bodenfeuchte 2
+#define SMT50_BodenTemperatur 3
+
 #define SensorType_voltage 0
 #define SensorType_temperature 1
 #define SensorType_humidity 2
@@ -90,13 +94,14 @@ void processInputADC()
 
             // STEP 1: Get new Sensor value
             value.ladcValue = calculateSensorValueLinearFunction(channel, knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0, knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
+#ifdef InputADC_Output
             SERIAL_PORT.print(value.ladcValue);
             SERIAL_PORT.print(" | ");
             SERIAL_PORT.print(knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0);
             SERIAL_PORT.print(" | ");
             SERIAL_PORT.print(knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0);
             SERIAL_PORT.print(" | ");
-
+#endif
             // STEP 2: Check value Change "Absolut"
             // STEP 2a: read Parameter DPT Format
             switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
@@ -121,18 +126,18 @@ void processInputADC()
             // STEP 3a: read Parameter DPT Format
             switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
             {
-            case SensorType_voltage:                                                                            // DPT9.020 (mV)
+            case SensorType_voltage:                                                           // DPT9.020 (mV)
                 lAbsolute = (knx.paramByte(getParADC(ADC_CHSendenRelativ, channel))) / 1000.0; // Value in mV
                 break;
 
-            case SensorType_humidity:                                                                            
+            case SensorType_humidity:
                 lAbsolute = 100;
-                break;    
+                break;
 
-            case SensorType_percent:                                                                           
+            case SensorType_percent:
                 lAbsolute = 100;
-                break;        
-                
+                break;
+
             default:
                 lAbsolute = (knx.paramByte(getParADC(ADC_CHSendenRelativ, channel)));
                 break;
@@ -217,7 +222,7 @@ void processInputADC()
 
             // senden bei Wertänderung Absolut
             lAbsolute = knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel)) / 10.0; // Value in 0.1°C
-            if (lAbsolute > 0 && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= lAbsolute)
+            if (lAbsolute > 0 && (abs(value.ladcValue - valueOld.ladcValue[channel])) >= lAbsolute)
             {
                 lSend = true;
 #ifdef InputADC_Output
@@ -276,9 +281,11 @@ void initInputADC()
 {
     for (int channel = 0; channel < ADC_ChannelCount; channel++)
     {
+#ifdef InputADC_Output
         SERIAL_PORT.print("init ADC");
         SERIAL_PORT.print(channel + 1);
         SERIAL_PORT.print(": ");
+#endif
         switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
         {
         case ADC_Wert:
@@ -286,20 +293,28 @@ void initInputADC()
             if (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)))
             {
                 set_ADC_CorrFactor(channel, knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel)) / 100.0);
+#ifdef InputADC_Output
                 SERIAL_PORT.println("ADC-Wert: (0-12V)");
                 SERIAL_PORT.print("Kor: ");
                 SERIAL_PORT.println(knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel)) / 100.0);
+#endif
             }
             else
+#ifdef InputADC_Output
                 SERIAL_PORT.println("ADC-Wert: (0-5V)");
+#endif
             set_ADC_DIV(channel, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
             break;
         case SMT50_Bodenfeuchte:
+#ifdef InputADC_Output
             SERIAL_PORT.println("SMT50-BF");
+#endif
             set_ADC_DIV(channel, DIV_5V);
             break;
         case SMT50_BodenTemperatur:
+#ifdef InputADC_Output
             SERIAL_PORT.println("SMT50-BT");
+#endif
             set_ADC_DIV(channel, DIV_5V);
             break;
 
@@ -316,18 +331,24 @@ float getSensorValue(uint8_t channel)
     switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
     {
     case ADC_Wert:
+#ifdef InputADC_Output
         SERIAL_PORT.print(" ADC-WERT: ");
+#endif
         value = getAdcVoltage(channel, (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel))));
         break;
 
     case SMT50_Bodenfeuchte:
+#ifdef InputADC_Output
         SERIAL_PORT.print(" SMT50-BF: ");
+#endif
         value = getAdcVoltage(channel, DIV_5V);
         value = value / 3.0 * 50.0;
         break;
 
     case SMT50_BodenTemperatur:
+#ifdef InputADC_Output
         SERIAL_PORT.print(" SMT50-BT: ");
+#endif
         value = getAdcVoltage(channel, DIV_5V);
         value = (value - 0.5) / 0.01;
         break;

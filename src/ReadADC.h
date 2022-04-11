@@ -55,6 +55,7 @@ float getAdcVoltage_CH2();
 float getAdcVoltage_CH3();
 float getAdcVoltage_12V();
 
+float get4_20mA(uint8_t ch);
 float get4_20mA_CH1();
 float get4_20mA_CH2();
 

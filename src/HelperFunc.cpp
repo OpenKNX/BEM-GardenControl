@@ -37,3 +37,13 @@ uint16_t getComADC(uint16_t COM, uint8_t CH)
 {
     return  ADC_KoOffset + (CH * ADC_KoBlockSize) + COM;
 }
+
+uint16_t getParCUR(uint16_t PAR, uint8_t CH)
+{
+    return  CUR_ParamBlockOffset + (CH * CUR_ParamBlockSize) + PAR;
+}
+
+uint16_t getComCUR(uint16_t COM, uint8_t CH)
+{
+    return  CUR_KoOffset + (CH * CUR_KoBlockSize) + COM;
+}

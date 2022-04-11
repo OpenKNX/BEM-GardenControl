@@ -15,6 +15,7 @@
 #include "ErrorHandling.h"
 #include "handleVentilRelais.h"
 #include "InputADC.h"
+#include "Input_4_20mA.h"
 
 //#include "Logic.h"
 
@@ -214,6 +215,7 @@ void appLoop()
   process_5V_Relais();
 
   processInputADC();
+  processInput_4_20mA();
 
 #ifdef ADC_enable
   processADConversation();
