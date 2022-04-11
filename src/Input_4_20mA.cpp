@@ -10,8 +10,8 @@
 #define Input_4_20mA 1
 #define Input_0_20mA 2
 
-#define value_4mA    4
-#define value_0mA    0
+#define value_4mA 4
+#define value_0mA 0
 
 #define SensorType_current 0
 #define SensorType_temperature 1
@@ -41,25 +41,25 @@ float calculateSensorValueLinearFunction(uint8_t channel2, float a, float b)
     return ((get4_20mA(channel2)) - b) / a;
 }
 
-float calculateSensorValueLinearFunction2(uint8_t channel2, uint8_t p1y, int16_t p1x, int16_t p2x) 
+float calculateSensorValueLinearFunction2(uint8_t channel2, uint8_t p1y, int16_t p1x, int16_t p2x)
 {
-    float store = p2x-p1x;
+    float store = p2x - p1x;
     float m = (20 - p1y) / store;
-    float b =  p1y - (m * p1x);
+    float b = p1y - (m * p1x);
     return ((get4_20mA(channel2)) - b) / m;
 }
 
 float getFunctionM(int16_t p1x, int16_t p1y, int16_t p2x, int16_t p2y)
 {
-  float store = p2x-p1x;
-  return (p2y - p1y) / store;
+    float store = p2x - p1x;
+    return (p2y - p1y) / store;
 }
 
 float getFunctionB(int16_t p1x, int16_t p1y, int16_t p2x, int16_t p2y)
 {
-  float store = p2x-p1x;
-  float m = (p2y - p1y) / store;
-  return  p1y - (m * p1x);
+    float store = p2x - p1x;
+    float m = (p2y - p1y) / store;
+    return p1y - (m * p1x);
 }
 
 void processInput_4_20mA()
@@ -98,87 +98,107 @@ void processInput_4_20mA()
             SERIAL_PORT.print(channel2);
             SERIAL_PORT.print(": ");
 #endif
+            break;
+        case Input_0_20mA:
+#ifdef Input_4_20mA_Output
+            SERIAL_PORT.print("0_20mA_CH");
+            SERIAL_PORT.print(channel2);
+            SERIAL_PORT.print(": ");
+#endif
+            break;
+        }
 
-            // STEP 1: Get new Sensor value
-            switch (knx.paramByte(getParCUR(CUR_CHSensorTypes2, channel2)))
+        // STEP 1: Get new Sensor value
+        switch (knx.paramByte(getParCUR(CUR_CHSensorTypes2, channel2)))
+        {
+        case SensorType_current:
+            value2.ladcValue = get4_20mA(channel2);
+            break;
+        case SensorType_percent:
+            value2.ladcValue = get4_20mA(channel2);
+            break;
+        default:
+
+            switch (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)))
             {
-            case SensorType_current:
-                value2.ladcValue = get4_20mA(channel2);
-                break;
-            case SensorType_percent:
-                value2.ladcValue = get4_20mA(channel2);
-                break;
-            default:
+            case Input_4_20mA:
                 value2.ladcValue = calculateSensorValueLinearFunction2(channel2, value_4mA, knx.paramWord(getParCUR(CUR_CHPoint4mA, channel2)), knx.paramWord(getParCUR(CUR_CHPoint20mA, channel2)));
                 break;
-            }
-#ifdef Input_4_20mA_Output
-            SERIAL_PORT.print(value2.ladcValue);
-            SERIAL_PORT.print(" | ");
-            SERIAL_PORT.print(knx.paramWord(getParCUR(CUR_CHPoint4mA, channel2)) );
-            SERIAL_PORT.print(" | ");
-            SERIAL_PORT.print(knx.paramWord(getParCUR(CUR_CHPoint20mA, channel2)));
-            SERIAL_PORT.print(" | ");
-#endif
-            // STEP 2: Check value Change "Absolut"
-            // STEP 2a: read Parameter DPT Format
-            lAbsolute = (knx.paramWord(getParCUR(CUR_CHSendenAbsolut2, channel2)));
-
-            // STEP 2b: Check if Change detected
-            if (lAbsolute > 0 && (abs(value2.ladcValue - valueOld2.ladcValue[channel2])) >= lAbsolute)
-            {
-                lSend = true;
-#ifdef Input_4_20mA_Output
-                SERIAL_PORT.print(" Abs ");
-#endif
-            }
-            // STEP 3: Check value Change "Releative"
-            // STEP 3a: read Parameter DPT Format
-            switch (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)))
-            {
-            case SensorType_humidity:
-                lAbsolute = 100;
+            case Input_0_20mA:
+                value2.ladcValue = calculateSensorValueLinearFunction2(channel2, value_0mA, knx.paramWord(getParCUR(CUR_CHPoint4mA, channel2)), knx.paramWord(getParCUR(CUR_CHPoint20mA, channel2)));
                 break;
-
-            case SensorType_percent:
-                lAbsolute = 100;
-                break;
-
             default:
-                lAbsolute = (knx.paramByte(getParCUR(CUR_CHSendenRelativ2, channel2)));
+                value2.ladcValue = 0;
+#ifdef Input_4_20mA_Output
+                SERIAL_PORT.print("Wrong Par");
+#endif
                 break;
             }
-            // STEP 3b: Check if Change detected
-            if (lAbsolute > 0 && value2.ladcValue > 0.2 && roundf(abs(value2.ladcValue - valueOld2.ladcValue[channel2])) >= value2.ladcValue / 100 * lAbsolute)
-            {
-                lSend = true;
+            break;
+        }
 #ifdef Input_4_20mA_Output
-                SERIAL_PORT.print(" Rel ");
+        SERIAL_PORT.print(value2.ladcValue);
+        SERIAL_PORT.print(" | ");
+        SERIAL_PORT.print(knx.paramWord(getParCUR(CUR_CHPoint4mA, channel2)));
+        SERIAL_PORT.print(" | ");
+        SERIAL_PORT.print(knx.paramWord(getParCUR(CUR_CHPoint20mA, channel2)));
+        SERIAL_PORT.print(" | ");
 #endif
-            }
-            // STEP 4: Preset KO
-            switch (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)))
-            {
-            case SensorType_percent:
-#ifdef Input_4_20mA_Output
-                SERIAL_PORT.println(value2.ladcValue);
-#endif
-                // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue * 2.55, getDPT(VAL_DPT_5));
-                break;
+        // STEP 2: Check value Change "Absolut"
+        // STEP 2a: read Parameter DPT Format
+        lAbsolute = (knx.paramWord(getParCUR(CUR_CHSendenAbsolut2, channel2)));
 
-            default:
+        // STEP 2b: Check if Change detected
+        if (lAbsolute > 0 && (abs(value2.ladcValue - valueOld2.ladcValue[channel2])) >= lAbsolute)
+        {
+            lSend = true;
 #ifdef Input_4_20mA_Output
-                SERIAL_PORT.println(value2.ladcValue);
+            SERIAL_PORT.print(" Abs ");
 #endif
-                // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue, getDPT(VAL_DPT_9));
-                break;
-            }
-
+        }
+        // STEP 3: Check value Change "Releative"
+        // STEP 3a: read Parameter DPT Format
+        switch (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)))
+        {
+        case SensorType_humidity:
+            lAbsolute = 100;
             break;
 
-        } // ENDE Switch
+        case SensorType_percent:
+            lAbsolute = 100;
+            break;
+
+        default:
+            lAbsolute = (knx.paramByte(getParCUR(CUR_CHSendenRelativ2, channel2)));
+            break;
+        }
+        // STEP 3b: Check if Change detected
+        if (lAbsolute > 0 && value2.ladcValue > 0.2 && roundf(abs(value2.ladcValue - valueOld2.ladcValue[channel2])) >= value2.ladcValue / 100 * lAbsolute)
+        {
+            lSend = true;
+#ifdef Input_4_20mA_Output
+            SERIAL_PORT.print(" Rel ");
+#endif
+        }
+        // STEP 4: Preset KO
+        switch (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)))
+        {
+        case SensorType_percent:
+#ifdef Input_4_20mA_Output
+            SERIAL_PORT.println(value2.ladcValue);
+#endif
+            // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+            knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue * 2.55, getDPT(VAL_DPT_5));
+            break;
+
+        default:
+#ifdef Input_4_20mA_Output
+            SERIAL_PORT.println(value2.ladcValue);
+#endif
+            // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+            knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue, getDPT(VAL_DPT_9));
+            break;
+        }
 
         processDelay2[channel2] = millis();
     } // ENDE DelayCheck
