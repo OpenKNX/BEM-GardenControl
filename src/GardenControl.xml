@@ -22,6 +22,7 @@
             <op:define prefix="REL" header="GardenControl.h" NumChannels="3"  KoOffset="66"  ModuleType="3" />  <!-- KoOffset = 66 -> 30 + BEM (12ch*3kO) 36 --> 
             <op:define prefix="ADC" header="GardenControl.h" NumChannels="3"  KoOffset="75"  ModuleType="4" />  <!-- KoOffset = 75 -> 66 + REL (3ch*3kO) 9 --> 
             <op:define prefix="CUR" header="GardenControl.h" NumChannels="2"  KoOffset="81"  ModuleType="5" />  <!-- KoOffset = 81 -> 75 + ADC (3ch*1kO) 6 --> 
+            <op:define prefix="BIN" header="GardenControl.h" NumChannels="3"  KoOffset="90"  ModuleType="6" />  <!-- KoOffset = 90 -> 81 + CUR (3ch*3kO) 9 --> 
             <ParameterTypes>
               <!-- Parameter Offset Table 
               000 - 049  Reserve LOG
@@ -29,6 +30,7 @@
               070 - 089  REL Share (20 Bytes)
               090 - 109  ADC Share (20 Bytes)   
               110 - 129  CUR Share (20 Bytes) 
+              130 - 169  BIN Share (40 Bytes) 
                
               templ Werte beginnen mit 0 und werden automatisch erzeugt             
               -->
@@ -37,6 +39,7 @@
               <op:include href="GardenControlRelais.share.xml" xpath="//ParameterTypes/ParameterType" prefix="REL" />
               <op:include href="InputADC.share.xml" xpath="//ParameterTypes/ParameterType" prefix="ADC" />
               <op:include href="Input_4_20mA.share.xml" xpath="//ParameterTypes/ParameterType" prefix="CUR" />
+              <op:include href="Input_BIN_S0.share.xml" xpath="//ParameterTypes/ParameterType" prefix="BIN" />
             </ParameterTypes>
             <Parameters>
               <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="LOG" />
@@ -44,11 +47,13 @@
               <op:include href="GardenControlRelais.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="REL" />
               <op:include href="InputADC.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="ADC" />
               <op:include href="Input_4_20mA.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="CUR" />
+              <op:include href="Input_BIN_S0.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="BIN" />
               <op:include href="../../OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="LOG" />
               <op:include href="GardenControl.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="BEM" />
               <op:include href="GardenControlRelais.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="REL" />
               <op:include href="InputADC.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="ADC" />
               <op:include href="Input_4_20mA.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="CUR" />
+              <op:include href="Input_BIN_S0.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="BIN" />
             </Parameters>
             <ParameterRefs>
               <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="LOG" />
@@ -56,11 +61,13 @@
               <op:include href="GardenControlRelais.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="REL" />
               <op:include href="InputADC.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="ADC" />
               <op:include href="Input_4_20mA.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="CUR" />
+              <op:include href="Input_BIN_S0.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="BIN" />
               <op:include href="../../OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="LOG" />
               <op:include href="GardenControl.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="BEM" />
               <op:include href="GardenControlRelais.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="REL" />
               <op:include href="InputADC.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="ADC" />
               <op:include href="Input_4_20mA.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="CUR" />
+              <op:include href="Input_BIN_S0.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="BIN" />
             </ParameterRefs>
             <ComObjectTable>
               <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ComObjectTable/ComObject" prefix="LOG" />
@@ -68,11 +75,13 @@
               <op:include href="GardenControlRelais.share.xml" xpath="//ComObjectTable/ComObject" prefix="REL" />
               <op:include href="InputADC.share.xml" xpath="//ComObjectTable/ComObject" prefix="ADC" />
               <op:include href="Input_4_20mA.share.xml" xpath="//ComObjectTable/ComObject" prefix="CUR" />
+              <op:include href="Input_BIN_S0.share.xml" xpath="//ComObjectTable/ComObject" prefix="BIN" />
               <op:include href="../../OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="LOG" />
               <op:include href="GardenControl.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="BEM" />
               <op:include href="GardenControlRelais.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="REL" />
               <op:include href="InputADC.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="ADC" />
               <op:include href="Input_4_20mA.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="CUR" />
+              <op:include href="Input_BIN_S0.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="BIN" />
             </ComObjectTable>
             <ComObjectRefs>
               <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="LOG" />
@@ -80,11 +89,13 @@
               <op:include href="GardenControlRelais.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="REL" />
               <op:include href="InputADC.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="ADC" />
               <op:include href="Input_4_20mA.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="CUR" />
+              <op:include href="Input_BIN_S0.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="BIN" />
               <op:include href="../../OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="LOG" />
               <op:include href="GardenControl.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="BEM" />
               <op:include href="GardenControlRelais.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="REL" />
               <op:include href="InputADC.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="ADC" />
               <op:include href="Input_4_20mA.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="CUR" />
+              <op:include href="Input_BIN_S0.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="BIN" />
             </ComObjectRefs>
             <AddressTable MaxEntries="2047" />
             <AssociationTable MaxEntries="2047" />
@@ -140,7 +151,10 @@
             <Channel Id="M-00FA_A-0001-01-0000_CH-4" Name="Standard" Number="4" Text="4-20mA">
               <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/*" type="template" prefix="CUR" />
             </Channel>
-            <Channel Id="M-00FA_A-0001-01-0000_CH-5" Name="Logik" Number="5" Text="Logikkanäle">
+            <Channel Id="M-00FA_A-0001-01-0000_CH-5" Name="Standard" Number="5" Text="Binär/S0 ">
+              <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/*" type="template" prefix="BIN" />
+            </Channel>
+            <Channel Id="M-00FA_A-0001-01-0000_CH-6" Name="Logik" Number="6" Text="Logikkanäle">
               <!-- Logic channel independent settings -->
               <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//Dynamic/Channel/*" prefix="LOG" />
               <!-- Logic channel settings -->

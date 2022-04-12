@@ -315,7 +315,7 @@ float get4_20mA(uint8_t ch)
     return getAdcVoltage_BOT(ch, is4_20mA);
 }
 
-void processADConversation()
+bool processADConversation()
 {
     switch (ADC_State)
     {
@@ -329,14 +329,17 @@ void processADConversation()
             }
             ADC_State = Set;
         }
+        return false;
         break;
     case Set:
         StartAdcConversation(adc_CH);
         ADC_State = Set_BOT;
+        return false;
         break;
     case Set_BOT:
         StartAdcConversation_BOT(adc_CH);
         ADC_State = Read;
+        return false;
         break;
 
     case Read:
@@ -354,6 +357,7 @@ void processADConversation()
             READ_Delay = millis();
             ADC_State = Read_BOT;
         }
+        return false;
         break;
     case Read_BOT:
         if (!get_5V_Error() && init_flag_PCP3428_Bot)
@@ -378,10 +382,13 @@ void processADConversation()
         else
         {
             ADC_State = Set;
+            return true;
         }
+        return false;
         break;
 
     default:
+        return false;
         break;
     }
 }

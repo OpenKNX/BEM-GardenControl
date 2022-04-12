@@ -22,7 +22,7 @@ void InitImpulseInput(uint8_t GPIO)
     attachInterrupt(digitalPinToInterrupt(GPIO), interrupt_Impluse, CHANGE);
 }
 
-void processImpulseInput()
+void processReadImpulseInput()
 {
     if (delayCheck(readTimer, 1000))
     {

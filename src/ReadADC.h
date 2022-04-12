@@ -21,7 +21,7 @@
 
 
 
-void processADConversation();
+bool processADConversation();
 
 void initADC_TOP(uint8_t res_top);
 void initADC_BOT(uint8_t res_bot);

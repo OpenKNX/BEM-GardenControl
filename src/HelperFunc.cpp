@@ -47,3 +47,13 @@ uint16_t getComCUR(uint16_t COM, uint8_t CH)
 {
     return  CUR_KoOffset + (CH * CUR_KoBlockSize) + COM;
 }
+
+uint16_t getParBIN(uint16_t PAR, uint8_t CH)
+{
+    return  BIN_ParamBlockOffset + (CH * BIN_ParamBlockSize) + PAR;
+}
+
+uint16_t getComBIN(uint16_t COM, uint8_t CH)
+{
+    return  BIN_KoOffset + (CH * BIN_KoBlockSize) + COM;
+}

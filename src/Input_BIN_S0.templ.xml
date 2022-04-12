@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="KNX MT" ToolVersion="5.1.255.16695" xmlns="http://knx.org/xml/project/14">
+  <ManufacturerData>
+    <Manufacturer RefId="M-00FA">
+      <Catalog>
+        <CatalogSection Id="M-00FA_CS-1" Name="Geräte" Number="1" DefaultLanguage="de">
+          <CatalogItem Id="M-00FA_H-202-1_HP-0000-00-0000_CI-202-1" Name="Wirdüberschriebenup to" Number="1" ProductRefId="M-00FA_H-202-1_P-202" Hardware2ProgramRefId="M-00FA_H-202-1_HP-0000-00-0000" DefaultLanguage="de" />
+        </CatalogSection>
+      </Catalog>
+      <ApplicationPrograms>
+        <ApplicationProgram Id="M-00FA_A-0001-01-0000" ApplicationNumber="0" ApplicationVersion="0" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="Wirdüberschrieben" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
+          <Static>
+            <Code>
+              <RelativeSegment Id="M-00FA_A-0001-01-0000_RS-04-00000" Name="Parameters" Offset="0" Size="4" LoadStateMachine="4" />
+            </Code>
+            <Parameters>
+               <!-- only description no offset -->
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%000" Name="%T%CH%C%Name" ParameterType="M-00FA_A-0001-01-0000_PT-Text40Byte" Text="Beschreibung des Kanals" Value="" /> <!-- Definition im Logikmodul -->
+              <!-- Relais Control -->
+              <Union SizeInBit="8">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="0" BitOffset="0" />
+                  <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%%CCC%001" Name="CH%C%SendenStart3" ParameterType="M-00FA_A-0001-01-0000_PT-BINYesNo"      Text="Zustand senden bei Buswiederkehr:" Value="0" Offset="0" BitOffset="0" />
+                  <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%%CCC%002" Name="CH%C%sperr3"       ParameterType="M-00FA_A-0001-01-0000_PT-BINYesNo"       Text="Sperrobjekt:"     Value="0" Offset="0" BitOffset="1" />
+                  <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%%CCC%003" Name="CH%C%ValueOpen3"   ParameterType="M-00FA_A-0001-01-0000_PT-BINNullEINS"   Text="Zustand 'Open':"  Value="0" Offset="0" BitOffset="2" />
+              </Union>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%009" Name="CH%C%InputTypes3" ParameterType="M-00FA_A-0001-01-0000_PT-BINInputType"        Text="Kanal Auswahl:" Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="1" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%010" Name="CH%C%Sendcycletime3"  ParameterType="M-00FA_A-0001-01-0000_PT-BINValueWORD"    Text="zyklisch senden: (0 = nicht zyklisch senden)"  Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="2" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%011" Name="CH%C%SendFlanken3"  ParameterType="M-00FA_A-0001-01-0000_PT-BINSendFlanken"   Text="Flanken senden:"  Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="4" BitOffset="0" />
+              </Parameter>
+
+
+              
+
+            </Parameters>
+            <ParameterRefs>
+              <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
+              <!-- ParameterRef are used in the ETS UI -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000" />
+              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%%CCC%001_R-%T%%CCC%00101" RefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%001" /> <!-- Senden bei Buswiederkehr -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%%CCC%002_R-%T%%CCC%00201" RefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%002" /> <!-- Sperrobjekt -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%%CCC%003_R-%T%%CCC%00301" RefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%003" /> <!-- Zustand für OPEN -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009" />  <!-- Auswahl Kanal (Bin oder S0) -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010" SuffixText="Sek"/>  <!-- Zyklisches Senden -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%011_R-%T%%CCC%01101"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%011" />  <!-- Flanken senden -->
+            </ParameterRefs>
+            <ComObjectTable>
+              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="_Status_BinarInput%C%" Text="BIN-Input %C%:" FunctionText="Status"      Number="%K0%" ObjectSize="1 Bit" ReadFlag="Enabled"  WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-11" />
+              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%001" Name="_Sperr_BinarInput%C%"  Text="BIN-Input %C%:" FunctionText="Sperrobjekt" Number="%K1%" ObjectSize="1 Bit" ReadFlag="Disabled" WriteFlag="Enabled"  CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-1"  />
+            </ComObjectTable>
+            <ComObjectRefs>
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00001" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Text="BIN-Input %C%: {{0:-}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%001_R-%T%%CCC%00101" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%001" Text="BIN-Input %C%: {{0:-}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
+            </ComObjectRefs>
+            <AddressTable MaxEntries="65535" />
+            <AssociationTable MaxEntries="65535" />
+            <LoadProcedures>
+              <LoadProcedure MergeId="2">
+                <LdCtrlRelSegment LsmIdx="4" Size="4" Mode="0" Fill="0" AppliesTo="full" />
+              </LoadProcedure>
+              <LoadProcedure MergeId="4">
+                <LdCtrlWriteRelMem ObjIdx="4" Offset="0" Size="4" Verify="true" />
+              </LoadProcedure>
+            </LoadProcedures>
+            <Options />
+          </Static>
+          <!-- Here statrs the UI definition -->
+          <Dynamic>
+            <!-- The following block is always there -->
+            <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-4" Name="BINKanal" Text="Binäreingang | S0 CH%C% {{0:---}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001">  
+              <Channel Id="M-00FA_A-0001-01-0000_CH-BIN%C%" Number="BIN%C%" Name="RelaisKanal%C%" Text="Binäreingang | S0 CH%C% {{0:---}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"> 
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-1" Text="Settings Binäreingang|S0 %C%" UIHint="Headline" />
+                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-2" Text="" UIHint="HorizontalRuler" />
+                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Channel aktive / inaktive-->
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-3" Text="" UIHint="HorizontalRuler" />
+                <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901">
+                  <!-- BINÄREINGANG -->
+                  <when test="1"> 
+                    <!-- KOs for Channel -->
+                    <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00001" /> <!-- KO: status   -->
+                    <!-- weitere Parameter -->
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Zyklisch Senden-->
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%011_R-%T%%CCC%01101" />  <!-- Flanken Senden-->
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%003_R-%T%%CCC%00301" />  <!-- Definiert Zustand für Open-->
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="" UIHint="HorizontalRuler" />
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%001_R-%T%%CCC%00101" />  <!-- Senden bei Buswiederkehr JA/NEIN-->
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="" UIHint="HorizontalRuler" />
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Sperrobjakt JA/NEIN-->
+                    <choose ParamRefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%002_R-%T%%CCC%00201">
+                        <when test="!=0">
+                           <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%001_R-%T%%CCC%00101" /> <!-- KO: sperrobjekt -->
+                           <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text=" Wird der Zustand des Relais geändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und Ausgeführt, sobald das Sperrobjekt wieder deaktiviert wird." />
+                        </when>
+                    </choose>
+                  </when>
+                </choose>
+              </Channel>
+            </ParameterBlock>
+          </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+      <Hardware>
+        <Hardware Id="M-00FA_H-202-1" Name="Wirdüberschrieben" SerialNumber="202" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-00FA_H-202-1_P-202" Text="Wirdüberschrieben" OrderNumber="Wirdüberschrieben" IsRailMounted="false" DefaultLanguage="de">
+              <RegistrationInfo RegistrationStatus="Registered" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-00FA_H-202-1_HP-0000-00-0000" MediumTypes="MT-0">
+              <ApplicationProgramRef RefId="M-00FA_A-0001-01-0000" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="0001/11" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

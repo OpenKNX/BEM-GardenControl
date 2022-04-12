@@ -10,12 +10,13 @@
 #include "ReadADC.h"
 #include "S0Function.h"
 #include "Device_setup.h"
-#include "Input_Binary.h"
+#include "ReadBinary.h"
 #include "Input_Impulse.h"
 #include "ErrorHandling.h"
 #include "handleVentilRelais.h"
 #include "InputADC.h"
 #include "Input_4_20mA.h"
+#include "Input_BIN.h"
 
 //#include "Logic.h"
 
@@ -34,6 +35,7 @@ uint32_t TestDelay = 0;
 uint32_t LED_Delay2 = 0;
 uint32_t LED_Delay = 0;
 
+bool initADCFlag = false;
 bool TestState = false;
 bool TestLEDstate = false;
 bool TestLEDstate2 = false;
@@ -196,41 +198,48 @@ void appSetup()
     read_HW_ID_BOT();
     print_HW_ID_BOT(get_HW_ID_BOT());
     initHW_Bot();
-  
 
-  // load ETS parameters
-  SERIAL_PORT.println("Load Parameters");
-  initInputADC();
-  // load_ETS_par();
-  SERIAL_PORT.println("Done");
-  delay(3000);
+    // load ETS parameters
+    SERIAL_PORT.println("Load Parameters");
+    initInputADC();
+    // load_ETS_par();
+    SERIAL_PORT.println("Done");
+    delay(3000);
   }
 }
 
 void appLoop()
 {
-  processErrorHandling();
-  processVentil();
-  processRelais();
-  process_5V_Relais();
-
-  processInputADC();
-  processInput_4_20mA();
+ 
+  processErrorHandling(); // PRIO 1
 
 #ifdef ADC_enable
-  processADConversation();
+if(processADConversation() && initADCFlag == false)
+{
+   SERIAL_PORT.println("--> ADC ready <--"); // PRIO 3
+   initADCFlag = true;
+}
 #endif
 #ifdef BinInputs
-  processBinInputs();
+  processReadInputs(); // PRIO 1
 #endif
-
 #ifdef S0Inputs
-  processS0Input(0);
-  processS0Input(1);
+  processReadS0Input(0);  // PRIO 2
+  processReadS0Input(1);  // PRIO 2
 #endif
 #ifdef ImplInput
-  processImpulseInput();
+  processReadImpulseInput(); // PRIO 1
 #endif
+
+  // Hier warten bis die Funktionen davor schon ein paar mal ausgeführt wurden !!!!
+
+  processInput_ADC();
+  processInput_4_20mA();
+  processInput_BIN();
+  processVentil();     // PRIO 3
+  processRelais();     // PRIO 3
+  process_5V_Relais(); // PRIO 3
+
   /*
     if (delayCheck(READ_ADC_Delay, 10000))
     {

@@ -6,6 +6,7 @@
 #include "HelperFunc.h"
 #include "ReadADC.h"
 
+#define Channel_inaktiv 0
 #define ADC_Wert 1
 #define SMT50_Bodenfeuchte 2
 #define SMT50_BodenTemperatur 3
@@ -33,30 +34,13 @@ union InputADCValuesOLD
     // uint8_t lsoilmoistureU8[ADC_ChannelCount];
 } valueOld;
 
-float calculateSensorValue(uint8_t channel, float x1, float x2)
-{
-    switch (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)))
-    {
-    case 0: // 0-5V
-        return ((getAdcVoltage(channel, (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)))) - x1) * (x2 / 5));
-        break;
-
-    case 1: // 0-12V
-        return ((getAdcVoltage(channel, (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)))) - x1) * (x2 / 12));
-        break;
-
-    default:
-        return 0;
-        break;
-    }
-}
 
 float calculateSensorValueLinearFunction(uint8_t channel, float a, float b, bool Div)
 {
     return ((getAdcVoltage(channel, Div)) - b) / a;
 }
 
-void processInputADC()
+void processInput_ADC()
 {
     bool lSend = false;
     float lAbsolute;
@@ -73,202 +57,209 @@ void processInputADC()
         // uint8_t lsoilmoistureU8;
     } value;
 
-    lCycle = knx.paramWord(getParADC(ADC_CHSendcycletime, channel)) * 1000;
-
-    // we waited enough, let's send the value
-    if (lCycle && delayCheck(sendDelay[channel], lCycle))
+    if (knx.paramByte(getParADC(ADC_CHSensorType, channel)) != Channel_inaktiv)
     {
-        lSend = true;
-    }
 
-    if (delayCheck(processDelay[channel], 1000))
-    {
-        switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
+        lCycle = knx.paramWord(getParADC(ADC_CHSendcycletime, channel)) * 1000;
+
+        // we waited enough, let's send the value
+        if (lCycle && delayCheck(sendDelay[channel], lCycle))
         {
-        case ADC_Wert:
-#ifdef InputADC_Output
-            SERIAL_PORT.print("ADC");
-            SERIAL_PORT.print(channel);
-            SERIAL_PORT.print(": ");
-#endif
+            lSend = true;
+        }
 
-            // STEP 1: Get new Sensor value
-            value.ladcValue = calculateSensorValueLinearFunction(channel, knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0, knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
-#ifdef InputADC_Output
-            SERIAL_PORT.print(value.ladcValue);
-            SERIAL_PORT.print(" | ");
-            SERIAL_PORT.print(knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0);
-            SERIAL_PORT.print(" | ");
-            SERIAL_PORT.print(knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0);
-            SERIAL_PORT.print(" | ");
-#endif
-            // STEP 2: Check value Change "Absolut"
-            // STEP 2a: read Parameter DPT Format
+        if (delayCheck(processDelay[channel], 1000))
+        {
             switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
             {
-            case SensorType_voltage:                                                           // DPT9.020 (mV)
-                lAbsolute = (knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel))) / 1000.0; // Value in mV
-                break;
-
-            default:
-                lAbsolute = (knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel)));
-                break;
-            }
-            // STEP 2b: Check if Change detected
-            if (lAbsolute > 0 && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= lAbsolute)
-            {
-                lSend = true;
+            case ADC_Wert:
 #ifdef InputADC_Output
-                SERIAL_PORT.print(" Abs ");
+                SERIAL_PORT.print("ADC_");
+                SERIAL_PORT.print(channel);
+                SERIAL_PORT.print(": ");
 #endif
-            }
-            // STEP 3: Check value Change "Releative"
-            // STEP 3a: read Parameter DPT Format
-            switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
-            {
-            case SensorType_voltage:                                                           // DPT9.020 (mV)
-                lAbsolute = (knx.paramByte(getParADC(ADC_CHSendenRelativ, channel))) / 1000.0; // Value in mV
-                break;
 
-            case SensorType_humidity:
-                lAbsolute = 100;
-                break;
+                
+                // STEP 1: read Parameter DPT Format
+                switch (knx.paramByte(getParADC(ADC_CHSensorTypes, channel)))
+                {
+                case SensorType_voltage:                                                           // DPT9.020 (mV)
+                    value.ladcValue = getAdcVoltage(channel,knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
+                    // STEP 2: Get new Sensor value
+                    lAbsolute = (knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel))) / 1000.0; // Value in mV
+                    break;
 
-            case SensorType_percent:
-                lAbsolute = 100;
-                break;
-
-            default:
-                lAbsolute = (knx.paramByte(getParADC(ADC_CHSendenRelativ, channel)));
-                break;
-            }
-            // STEP 3b: Check if Change detected
-            if (lAbsolute > 0 && value.ladcValue > 0.2 && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= value.ladcValue / 100 * lAbsolute)
-            {
-                lSend = true;
+                default:
+                    // STEP 2: Get new Sensor value
+                    value.ladcValue = calculateSensorValueLinearFunction(channel, knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0, knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
 #ifdef InputADC_Output
-                SERIAL_PORT.print(" Rel ");
+                    SERIAL_PORT.print(value.ladcValue);
+                    SERIAL_PORT.print(" | ");
+                    SERIAL_PORT.print(knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0);
+                    SERIAL_PORT.print(" | ");
+                    SERIAL_PORT.print(knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0);
+                    SERIAL_PORT.print(" | ");
 #endif
-            }
-            // STEP 4: Preset KO
-            switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
-            {
-            case SensorType_voltage: // DPT9.020 (mV)
+                    // STEP 3: Check value Change "Absolut"
+                    lAbsolute = (knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel)));
+                    break;
+                }
+                // STEP 3a: Check if Change detected
+                if (lAbsolute > 0 && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= lAbsolute)
+                {
+                    lSend = true;
 #ifdef InputADC_Output
-                SERIAL_PORT.println(value.ladcValue * 1000);
+                    SERIAL_PORT.print(" Abs ");
 #endif
-                // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue * 1000, getDPT(VAL_DPT_9));
+                }
+                // STEP 4: Check value Change "Releative"
+                // STEP 4a: read Parameter DPT Format
+                switch (knx.paramByte(getParADC(ADC_CHSensorTypes, channel)))
+                {
+                case SensorType_voltage:                                                           // DPT9.020 (mV)
+                    lAbsolute = (knx.paramByte(getParADC(ADC_CHSendenRelativ, channel))) / 1000.0; // Value in mV
+                    break;
+
+                case SensorType_humidity:
+                    lAbsolute = 100;
+                    break;
+
+                case SensorType_percent:
+                    lAbsolute = 100;
+                    break;
+
+                default:
+                    lAbsolute = (knx.paramByte(getParADC(ADC_CHSendenRelativ, channel)));
+                    break;
+                }
+                // STEP 3b: Check if Change detected
+                if (lAbsolute > 0 && value.ladcValue > 0.2 && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= value.ladcValue / 100 * lAbsolute)
+                {
+                    lSend = true;
+#ifdef InputADC_Output
+                    SERIAL_PORT.print(" Rel ");
+#endif
+                }
+                // STEP 4: Preset KO
+                switch (knx.paramByte(getParADC(ADC_CHSensorTypes, channel)))
+                {
+                case SensorType_voltage: // DPT9.020 (mV)
+#ifdef InputADC_Output
+                    SERIAL_PORT.println(value.ladcValue);
+#endif
+                    // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                    knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue * 1000, getDPT(VAL_DPT_9));
+                    break;
+
+                case SensorType_percent:
+#ifdef InputADC_Output
+                    SERIAL_PORT.println(value.ladcValue);
+#endif
+                    // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                    knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue * 2.55, getDPT(VAL_DPT_5));
+                    break;
+
+                default:
+#ifdef InputADC_Output
+                    SERIAL_PORT.println(value.ladcValue);
+#endif
+                    // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                    knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue, getDPT(VAL_DPT_9));
+                    break;
+                }
+
                 break;
 
-            case SensorType_percent:
+                /**********************************************************************************************************
+                 *              SMT50 Bodenfeuchte                                                                        *
+                 *********************************************************************************************************/
+            case SMT50_Bodenfeuchte:
+#ifdef InputADC_Output
+                SERIAL_PORT.print("ADC_");
+                SERIAL_PORT.print(channel);
+                SERIAL_PORT.print(" ");
+#endif
+                value.ladcValue = calculateSensorValueLinearFunction(channel, 0.06, 0, DIV_5V);
+
+                // senden bei Wertänderung Absolut
+                lAbsolute = knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel)); // Value in %
+                if (lAbsolute > 0 && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= lAbsolute)
+                {
+                    lSend = true;
+#ifdef InputADC_Output
+                    SERIAL_PORT.print("Abs ");
+#endif
+                }
 #ifdef InputADC_Output
                 SERIAL_PORT.println(value.ladcValue);
 #endif
                 // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue * 2.55, getDPT(VAL_DPT_5));
+                knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend((uint8_t)(value.ladcValue * 2.55), getDPT(VAL_DPT_5));
+
                 break;
 
-            default:
+                /**********************************************************************************************************
+                 *              SMT50 BodenTemperatur                                                                     *
+                 *********************************************************************************************************/
+            case SMT50_BodenTemperatur:
+#ifdef InputADC_Output
+                SERIAL_PORT.print("ADC_");
+                SERIAL_PORT.print(channel);
+                SERIAL_PORT.print(" ");
+#endif
+                // value.ladcValue = calculateSensorValue(channel, 0, 450); // x1 = 0.  x2 = 450°C
+                value.ladcValue = calculateSensorValueLinearFunction(channel, 0.01, 0.5, DIV_5V);
+
+                // senden bei Wertänderung Absolut
+                lAbsolute = knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel)) / 10.0; // Value in 0.1°C
+                if (lAbsolute > 0 && (abs(value.ladcValue - valueOld.ladcValue[channel])) >= lAbsolute)
+                {
+                    lSend = true;
+#ifdef InputADC_Output
+                    SERIAL_PORT.print(" Abs ");
+#endif
+                }
+                // senden bei Wertänderung Relativ
+                lAbsolute = knx.paramByte(getParADC(ADC_CHSendenRelativ, channel));
+                if (lAbsolute > 0 && (value.ladcValue > 0.5 || value.ladcValue < -0.5) && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= value.ladcValue / 100 * lAbsolute)
+                {
+                    lSend = true;
+#ifdef InputADC_Output
+                    SERIAL_PORT.print(" Rel ");
+#endif
+                }
+
 #ifdef InputADC_Output
                 SERIAL_PORT.println(value.ladcValue);
 #endif
                 // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
                 knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue, getDPT(VAL_DPT_9));
                 break;
+
+            default:
+#ifdef InputADC_Output
+                SERIAL_PORT.println("Wrong ADC SensorTyp");
+#endif
+                break;
             }
 
-            break;
-
-            /**********************************************************************************************************
-             *              SMT50 Bodenfeuchte                                                                        *
-             *********************************************************************************************************/
-        case SMT50_Bodenfeuchte:
-#ifdef InputADC_Output
-            SERIAL_PORT.print("ADC");
-            SERIAL_PORT.print(channel);
-            SERIAL_PORT.print(" ");
-#endif
-            value.ladcValue = calculateSensorValueLinearFunction(channel, 0.06, 0, DIV_5V);
-
-            // senden bei Wertänderung Absolut
-            lAbsolute = knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel)); // Value in %
-            if (lAbsolute > 0 && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= lAbsolute)
-            {
-                lSend = true;
-#ifdef InputADC_Output
-                SERIAL_PORT.print("Abs ");
-#endif
-            }
-#ifdef InputADC_Output
-            SERIAL_PORT.println(value.ladcValue);
-#endif
-            // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-            knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend((uint8_t)(value.ladcValue * 2.55), getDPT(VAL_DPT_5));
-
-            break;
-
-            /**********************************************************************************************************
-             *              SMT50 BodenTemperatur                                                                     *
-             *********************************************************************************************************/
-        case SMT50_BodenTemperatur:
-#ifdef InputADC_Output
-            SERIAL_PORT.print("ADC");
-            SERIAL_PORT.print(channel);
-            SERIAL_PORT.print(" ");
-#endif
-            // value.ladcValue = calculateSensorValue(channel, 0, 450); // x1 = 0.  x2 = 450°C
-            value.ladcValue = calculateSensorValueLinearFunction(channel, 0.01, 0.5, DIV_5V);
-
-            // senden bei Wertänderung Absolut
-            lAbsolute = knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel)) / 10.0; // Value in 0.1°C
-            if (lAbsolute > 0 && (abs(value.ladcValue - valueOld.ladcValue[channel])) >= lAbsolute)
-            {
-                lSend = true;
-#ifdef InputADC_Output
-                SERIAL_PORT.print(" Abs ");
-#endif
-            }
-            // senden bei Wertänderung Relativ
-            lAbsolute = knx.paramByte(getParADC(ADC_CHSendenRelativ, channel));
-            if (lAbsolute > 0 && (value.ladcValue > 0.5 || value.ladcValue < -0.5) && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= value.ladcValue / 100 * lAbsolute)
-            {
-                lSend = true;
-#ifdef InputADC_Output
-                SERIAL_PORT.print(" Rel ");
-#endif
-            }
-
-#ifdef InputADC_Output
-            SERIAL_PORT.println(value.ladcValue);
-#endif
-            // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-            knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue, getDPT(VAL_DPT_9));
-            break;
-
-        default:
-#ifdef InputADC_Output
-            SERIAL_PORT.println("Wrong ADC SensorTyp");
-#endif
-            break;
+            processDelay[channel] = millis();
         }
 
-        processDelay[channel] = millis();
-    }
-
-    if (lSend)
-    {
+        if (lSend)
+        {
 #ifdef InputADC_Output
-        SERIAL_PORT.print("KNX_ADC");
-        SERIAL_PORT.print(channel);
-        SERIAL_PORT.print(": senden: ");
-        SERIAL_PORT.println(value.ladcValue);
+            SERIAL_PORT.print("KNX_ADC_");
+            SERIAL_PORT.print(channel);
+            SERIAL_PORT.print(": senden: ");
+            SERIAL_PORT.println(value.ladcValue);
 #endif
-        knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).objectWritten();
-        valueOld.ladcValue[channel] = value.ladcValue;
-        sendDelay[channel] = millis();
-        lSend = false;
-    }
+            knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).objectWritten();
+            valueOld.ladcValue[channel] = value.ladcValue;
+            sendDelay[channel] = millis();
+            lSend = false;
+        }
+    } // ENDE if Channel aktive
 
     channel++;
     if (channel >= ADC_ChannelCount)
@@ -282,7 +273,7 @@ void initInputADC()
     for (int channel = 0; channel < ADC_ChannelCount; channel++)
     {
 #ifdef InputADC_Output
-        SERIAL_PORT.print("init ADC");
+        SERIAL_PORT.print("init ADC_");
         SERIAL_PORT.print(channel + 1);
         SERIAL_PORT.print(": ");
 #endif
@@ -323,7 +314,7 @@ void initInputADC()
         }
     }
 }
-
+/*
 float getSensorValue(uint8_t channel)
 {
     float value;
@@ -358,3 +349,4 @@ float getSensorValue(uint8_t channel)
     }
     return value;
 }
+*/

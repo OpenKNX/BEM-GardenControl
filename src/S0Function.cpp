@@ -78,7 +78,7 @@ void InitS0Input2()
 
 
 /*
-void processS0Input(uint8_t channel)
+void processReadS0Input(uint8_t channel)
 {
     float mom_S0[channel];
     uint32_t maxPulsLength;

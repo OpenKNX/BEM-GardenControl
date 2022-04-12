@@ -1,7 +1,7 @@
 #pragma once
 
 
-void processImpulseInput();
+void processReadImpulseInput();
 
 void InitImpulseInput(uint8_t GPIO);
 

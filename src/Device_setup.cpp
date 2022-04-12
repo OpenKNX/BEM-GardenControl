@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include "BEM_hardware.h"
 #include "I2C_IOExpander.h"
-#include "Input_Binary.h"
+#include "ReadBinary.h"
 #include "Input_Impulse.h"
 #include "ReadADC.h"
 #include "GardenControlDevice.h"

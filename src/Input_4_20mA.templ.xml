@@ -36,7 +36,7 @@
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%008" Name="CH%C%SensorTypes2"  ParameterType="M-00FA_A-0001-01-0000_PT-CURSensorType" Text="Meßwerteinheit (KO):"  Value="0">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="10" BitOffset="0" />
               </Parameter>
-              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%009" Name="CH%C%Point4mA"  ParameterType="M-00FA_A-0001-01-0000_PT-CURValueI16" Text="Wert bei: 4mA"  Value="100">
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%009" Name="CH%C%Point4mA"  ParameterType="M-00FA_A-0001-01-0000_PT-CURValueI16" Text="Wert bei: 4mA"  Value="0">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="11" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%010" Name="CH%C%Point20mA"  ParameterType="M-00FA_A-0001-01-0000_PT-CURValueI16" Text="Wert bei: 20mA"  Value="0">

@@ -28,7 +28,18 @@
 			"utility": "cpp",
 			"istream": "cpp",
 			"ratio": "cpp",
-			"variant": "cpp"
+			"variant": "cpp",
+			"*.tcc": "cpp",
+			"memory": "cpp",
+			"fstream": "cpp",
+			"limits": "cpp",
+			"numeric": "cpp",
+			"ranges": "cpp",
+			"sstream": "cpp",
+			"stop_token": "cpp",
+			"streambuf": "cpp",
+			"thread": "cpp",
+			"valarray": "cpp"
 		}
 	}
 }
