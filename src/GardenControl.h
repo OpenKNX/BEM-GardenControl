@@ -907,11 +907,11 @@
 #define CUR_KoBlockSize 1
 #define CUR_KoCUR_BASE__1 0
 
-#define BIN_ChannelCount 3
+#define BIN_ChannelCount 4
 
 // Parameter per channel
 #define BIN_ParamBlockOffset 1011
-#define BIN_ParamBlockSize 5
+#define BIN_ParamBlockSize 10
 #define BIN_CHSendenStart3             0      // 1 Bit, Bit 7
 #define     BIN_CHSendenStart3Mask 0x80
 #define     BIN_CHSendenStart3Shift 7
@@ -924,12 +924,16 @@
 #define BIN_CHInputTypes3              1      // 8 Bits, Bit 7-0
 #define BIN_CHSendcycletime3           2      // int16_t
 #define BIN_CHSendFlanken3             4      // 8 Bits, Bit 7-0
+#define BIN_CHFrequenceEqu3            5      // int16_t
+#define BIN_CHSendenAbsolut3           7      // int16_t
+#define BIN_CHSendenRelativ3           9      // int8_t
 
 // Communication objects per channel (multiple occurance)
 #define BIN_KoOffset 90
-#define BIN_KoBlockSize 2
+#define BIN_KoBlockSize 3
 #define BIN_Ko_Status_BinarInput 0
 #define BIN_Ko_Sperr_BinarInput 1
+#define BIN_KoBIN_BASE__1 2
 
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16

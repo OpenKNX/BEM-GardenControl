@@ -22,7 +22,7 @@
             <op:define prefix="REL" header="GardenControl.h" NumChannels="3"  KoOffset="66"  ModuleType="3" />  <!-- KoOffset = 66 -> 30 + BEM (12ch*3kO) 36 --> 
             <op:define prefix="ADC" header="GardenControl.h" NumChannels="3"  KoOffset="75"  ModuleType="4" />  <!-- KoOffset = 75 -> 66 + REL (3ch*3kO) 9 --> 
             <op:define prefix="CUR" header="GardenControl.h" NumChannels="2"  KoOffset="81"  ModuleType="5" />  <!-- KoOffset = 81 -> 75 + ADC (3ch*1kO) 6 --> 
-            <op:define prefix="BIN" header="GardenControl.h" NumChannels="3"  KoOffset="90"  ModuleType="6" />  <!-- KoOffset = 90 -> 81 + CUR (3ch*3kO) 9 --> 
+            <op:define prefix="BIN" header="GardenControl.h" NumChannels="4"  KoOffset="90"  ModuleType="6" />  <!-- KoOffset = 90 -> 81 + CUR (3ch*3kO) 9 --> 
             <ParameterTypes>
               <!-- Parameter Offset Table 
               000 - 049  Reserve LOG
@@ -151,7 +151,7 @@
             <Channel Id="M-00FA_A-0001-01-0000_CH-4" Name="Standard" Number="4" Text="4-20mA">
               <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/*" type="template" prefix="CUR" />
             </Channel>
-            <Channel Id="M-00FA_A-0001-01-0000_CH-5" Name="Standard" Number="5" Text="Binär/S0 ">
+            <Channel Id="M-00FA_A-0001-01-0000_CH-5" Name="Standard" Number="5" Text="Binär | S0 | Impuls ">
               <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/*" type="template" prefix="BIN" />
             </Channel>
             <Channel Id="M-00FA_A-0001-01-0000_CH-6" Name="Logik" Number="6" Text="Logikkanäle">

@@ -40,6 +40,17 @@ bool TestState = false;
 bool TestLEDstate = false;
 bool TestLEDstate2 = false;
 
+enum StateMaschine
+{
+  Pos1 = 1,
+  Pos2 = 2,
+  Pos3 = 3,
+  Pos4 = 4,
+  Pos5 = 5,
+};
+
+StateMaschine StateM = Pos1;
+
 void waitStartupLoop()
 {
   // KNX.loop();
@@ -201,7 +212,15 @@ void appSetup()
 
     // load ETS parameters
     SERIAL_PORT.println("Load Parameters");
+    // init Inputs: Binäereingänge
+    InitBinInput1(OptoIN_1); // Input 1
+    InitBinInput2(OptoIN_2); // Input 2
+    InitBinInput3(OptoIN_3); // Input 3
+    InitBinInput4(OptoIN_4); // Input 4
+
     initInputADC();
+
+    InitImpulseInputs();
     // load_ETS_par();
     SERIAL_PORT.println("Done");
     delay(3000);
@@ -210,35 +229,56 @@ void appSetup()
 
 void appLoop()
 {
- 
+
   processErrorHandling(); // PRIO 1
 
-#ifdef ADC_enable
-if(processADConversation() && initADCFlag == false)
-{
-   SERIAL_PORT.println("--> ADC ready <--"); // PRIO 3
-   initADCFlag = true;
-}
-#endif
 #ifdef BinInputs
   processReadInputs(); // PRIO 1
 #endif
 #ifdef S0Inputs
-  processReadS0Input(0);  // PRIO 2
-  processReadS0Input(1);  // PRIO 2
+  processReadS0Input(0); // PRIO 2
+  processReadS0Input(1); // PRIO 2
 #endif
 #ifdef ImplInput
   processReadImpulseInput(); // PRIO 1
 #endif
 
-  // Hier warten bis die Funktionen davor schon ein paar mal ausgeführt wurden !!!!
+  switch (StateM)
+  {
+  case Pos1:
+#ifdef ADC_enable
+    if (processADConversation() && initADCFlag == false)
+    {
+      SERIAL_PORT.println("--> ADC ready <--"); // PRIO 3
+      initADCFlag = true;
+    }
+#endif
+    processInput_ADC(initADCFlag);
+    StateM = Pos2;
+    break;
+  case Pos2:
+    processInput_4_20mA(initADCFlag);
+    StateM = Pos3;
+    break;
+  case Pos3:
+    processInput_BIN();
+    StateM = Pos4;
+    break;
+  case Pos4:
+    processInputImpulse();
+    StateM = Pos2;
+    break;
+  case Pos5:
+    processVentil();     // PRIO 3
+    processRelais();     // PRIO 3
+    process_5V_Relais(); // PRIO 3
+    StateM = Pos1;
+    break;
+  default:
+    break;
+  }
 
-  processInput_ADC();
-  processInput_4_20mA();
-  processInput_BIN();
-  processVentil();     // PRIO 3
-  processRelais();     // PRIO 3
-  process_5V_Relais(); // PRIO 3
+  // Hier warten bis die Funktionen davor schon ein paar mal ausgeführt wurden !!!!
 
   /*
     if (delayCheck(READ_ADC_Delay, 10000))

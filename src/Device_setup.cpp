@@ -189,11 +189,7 @@ void initHW()
     digitalWrite(GPIO_SSR_EN, LOW);
     digitalWrite(GPIO_5V_EN, LOW);
 
-    // init Inputs: diese können später Individuell konfiguriert werden
-    InitBinInput1(OptoIN_1);    // Input 1
-    InitBinInput2(OptoIN_2);    // Input 2
-    InitBinInput3(OptoIN_3);    // Input 3
-    InitImpulseInput(OptoIN_4); // Input 4
+    
 
     
     break;

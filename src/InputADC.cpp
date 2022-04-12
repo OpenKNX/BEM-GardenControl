@@ -40,7 +40,7 @@ float calculateSensorValueLinearFunction(uint8_t channel, float a, float b, bool
     return ((getAdcVoltage(channel, Div)) - b) / a;
 }
 
-void processInput_ADC()
+void processInput_ADC(bool readyFlag)
 {
     bool lSend = false;
     float lAbsolute;
@@ -57,7 +57,7 @@ void processInput_ADC()
         // uint8_t lsoilmoistureU8;
     } value;
 
-    if (knx.paramByte(getParADC(ADC_CHSensorType, channel)) != Channel_inaktiv)
+    if (knx.paramByte(getParADC(ADC_CHSensorType, channel)) != Channel_inaktiv && readyFlag)
     {
 
         lCycle = knx.paramWord(getParADC(ADC_CHSendcycletime, channel)) * 1000;
@@ -84,8 +84,9 @@ void processInput_ADC()
                 switch (knx.paramByte(getParADC(ADC_CHSensorTypes, channel)))
                 {
                 case SensorType_voltage:                                                           // DPT9.020 (mV)
-                    value.ladcValue = getAdcVoltage(channel,knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
                     // STEP 2: Get new Sensor value
+                    value.ladcValue = getAdcVoltage(channel,knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
+                    // STEP 2a: Get Abs value
                     lAbsolute = (knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel))) / 1000.0; // Value in mV
                     break;
 
@@ -105,7 +106,7 @@ void processInput_ADC()
                     break;
                 }
                 // STEP 3a: Check if Change detected
-                if (lAbsolute > 0 && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= lAbsolute)
+                if (lAbsolute > 0 && (abs(value.ladcValue - valueOld.ladcValue[channel])) >= lAbsolute)
                 {
                     lSend = true;
 #ifdef InputADC_Output
@@ -133,7 +134,7 @@ void processInput_ADC()
                     break;
                 }
                 // STEP 3b: Check if Change detected
-                if (lAbsolute > 0 && value.ladcValue > 0.2 && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= value.ladcValue / 100 * lAbsolute)
+                if (lAbsolute > 0 && value.ladcValue > 0.2 && (abs(value.ladcValue - valueOld.ladcValue[channel])) >= value.ladcValue / 100 * lAbsolute)
                 {
                     lSend = true;
 #ifdef InputADC_Output

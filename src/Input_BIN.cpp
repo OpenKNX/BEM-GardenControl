@@ -19,9 +19,8 @@ uint8_t channel_BIN = 0;
 
 uint32_t sendDelay_BIN[BIN_ChannelCount] = {0};
 
-bool ladcValueOLD[ADC_ChannelCount] = {0};
-bool linitFlag[ADC_ChannelCount] = {0};
-
+bool ladcValueOLD[BIN_ChannelCount] = {0};
+bool linitFlag[BIN_ChannelCount] = {0};
 
 void processInput_BIN()
 {
@@ -142,11 +141,11 @@ void processInput_BIN()
             lSend = false;
         }
 
-        channel_BIN++;
-        if (channel_BIN >= BIN_ChannelCount)
-        {
-            channel_BIN = 0;
-        }
-
     } // ENDE IF
+
+    channel_BIN++;
+    if (channel_BIN >= BIN_ChannelCount)
+    {
+        channel_BIN = 0;
+    }
 }

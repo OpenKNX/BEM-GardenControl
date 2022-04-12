@@ -63,7 +63,7 @@ float getFunctionB(int16_t p1x, int16_t p1y, int16_t p2x, int16_t p2y)
     return p1y - (m * p1x);
 }
 
-void processInput_4_20mA()
+void processInput_4_20mA(bool readyFlag)
 {
     bool lSend = false;
     float lAbsolute;
@@ -79,7 +79,7 @@ void processInput_4_20mA()
         // uint8_t lsoilmoistureU8;
     } value2;
 
-    if (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)) != Input_x_20mA_CH_inaktiv)
+    if (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)) != Input_x_20mA_CH_inaktiv && readyFlag)
     {
 
         lCycle = knx.paramWord(getParADC(CUR_CHSendcycletime2, channel2)) * 1000;

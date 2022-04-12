@@ -32,6 +32,15 @@
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%011" Name="CH%C%SendFlanken3"  ParameterType="M-00FA_A-0001-01-0000_PT-BINSendFlanken"   Text="Flanken senden:"  Value="0">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="4" BitOffset="0" />
               </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%012" Name="CH%C%FrequenceEqu3"  ParameterType="M-00FA_A-0001-01-0000_PT-BINValueWORD"    Text="F = 'x' * Q "  Value="10">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="5" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%013" Name="CH%C%SendenAbsolut3"  ParameterType="M-00FA_A-0001-01-0000_PT-BINValueWORD"    Text="senden bei absoluter Abweichung: (0 = nicht zyklisch senden)"  Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="7" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%014" Name="CH%C%SendenRelativ3"  ParameterType="M-00FA_A-0001-01-0000_PT-BINPercentage"   Text="senden bei relativer Abweichung: (0 = nicht zyklisch senden)"  Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="9" BitOffset="0" />
+              </Parameter>
 
 
               
@@ -46,15 +55,22 @@
               <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%%CCC%003_R-%T%%CCC%00301" RefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%003" /> <!-- Zustand für OPEN -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009" />  <!-- Auswahl Kanal (Bin oder S0) -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010" SuffixText="Sek"/>  <!-- Zyklisches Senden -->
-              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%011_R-%T%%CCC%01101"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%011" />  <!-- Flanken senden -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%011_R-%T%%CCC%01101"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%011" />                       <!-- Flanken senden -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%012_R-%T%%CCC%01201"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%012" SuffixText="*0.1 (für l/min)"/> <!-- Formel Impulszähler -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%013_R-%T%%CCC%01301"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%013" SuffixText="*0.1l/min"/>   <!-- Senden Absolut -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%014_R-%T%%CCC%01401"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%014" SuffixText="%"/>         <!-- Senden Relativ -->
             </ParameterRefs>
             <ComObjectTable>
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="_Status_BinarInput%C%" Text="BIN-Input %C%:" FunctionText="Status"      Number="%K0%" ObjectSize="1 Bit" ReadFlag="Enabled"  WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-11" />
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%001" Name="_Sperr_BinarInput%C%"  Text="BIN-Input %C%:" FunctionText="Sperrobjekt" Number="%K1%" ObjectSize="1 Bit" ReadFlag="Disabled" WriteFlag="Enabled"  CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-1"  />
+              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%002" Name="BIN_BASE_%C%_1" Text="BIN_BASE_%C%_1" Number="%K2%" ObjectSize="4 Bytes" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Disabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-14 DPST-14-0" />           
             </ComObjectTable>
             <ComObjectRefs>
+              <!-- BIN INPUT -->
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00001" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Text="BIN-Input %C%: {{0:-}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%001_R-%T%%CCC%00101" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%001" Text="BIN-Input %C%: {{0:-}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
+              <!-- Impuls OUTPUT -->
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%002_R-%T%%CCC%00201" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%002" Name="Out_Stro_DPT_09" Text="Impulszähler %C%: {{0:-}}" FunctionText="Strömung (l/h)" Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-25" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
             </ComObjectRefs>
             <AddressTable MaxEntries="65535" />
             <AssociationTable MaxEntries="65535" />
@@ -71,9 +87,9 @@
           <!-- Here statrs the UI definition -->
           <Dynamic>
             <!-- The following block is always there -->
-            <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-4" Name="BINKanal" Text="Binäreingang | S0 CH%C% {{0:---}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001">  
-              <Channel Id="M-00FA_A-0001-01-0000_CH-BIN%C%" Number="BIN%C%" Name="RelaisKanal%C%" Text="Binäreingang | S0 CH%C% {{0:---}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"> 
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-1" Text="Settings Binäreingang|S0 %C%" UIHint="Headline" />
+            <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-4" Name="BINKanal" Text="Bin | S0 | Impuls CH%C% {{0:---}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001">  
+              <Channel Id="M-00FA_A-0001-01-0000_CH-BIN%C%" Number="BIN%C%" Name="RelaisKanal%C%" Text="Bin | S0 | Impuls CH%C% {{0:---}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"> 
+                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-1" Text="Settings Binäreingang | S0 | Impuls %C%" UIHint="Headline" />
                 <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
                 <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-2" Text="" UIHint="HorizontalRuler" />
                 <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%009_R-%T%%CCC%00901" />  <!-- Channel aktive / inaktive-->
@@ -97,6 +113,22 @@
                            <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text=" Wird der Zustand des Relais geändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und Ausgeführt, sobald das Sperrobjekt wieder deaktiviert wird." />
                         </when>
                     </choose>
+                  </when>
+                  <!-- S0-Schnittstelle -->
+                  <when test="2"> 
+                  </when>
+                  <!-- Impulszähler -->
+                  <when test="3"> 
+                    <!-- KOs for Channel -->
+                    <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%002_R-%T%%CCC%00201" /> <!-- KO: Impulszähler L/h   -->
+                    <!-- weitere Parameter -->
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%012_R-%T%%CCC%01201" />  <!-- Formel Wert -->
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="Hinweis: Der Wert wird mit L/min berechnet, aber mit L/h gesendet !" />
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="" UIHint="HorizontalRuler" />
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%010_R-%T%%CCC%01001" />  <!-- Zyklisch Senden-->
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%013_R-%T%%CCC%01301" />  <!-- Absolut  Senden-->
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%014_R-%T%%CCC%01401" />  <!-- Releativ Senden-->
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" UIHint="HorizontalRuler" />
                   </when>
                 </choose>
               </Channel>

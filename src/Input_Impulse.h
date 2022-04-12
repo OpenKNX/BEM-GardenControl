@@ -2,7 +2,8 @@
 
 
 void processReadImpulseInput();
+void processInputImpulse();
 
-void InitImpulseInput(uint8_t GPIO);
+void InitImpulseInputs();
 
-float getFlowValue();
+float getFlowValue(uint8_t ch);

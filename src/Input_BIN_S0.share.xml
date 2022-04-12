@@ -31,10 +31,14 @@
                   <Enumeration Text="inaktiv"          Value="0" Id="M-00FA_A-0001-01-0000_PT-BINInputType_EN-0" />
                   <Enumeration Text="Binäreingang"     Value="1" Id="M-00FA_A-0001-01-0000_PT-BINInputType_EN-1" />
                   <Enumeration Text="S0-Schnittstelle" Value="2" Id="M-00FA_A-0001-01-0000_PT-BINInputType_EN-2" />
+                  <Enumeration Text="Impulszähler"     Value="3" Id="M-00FA_A-0001-01-0000_PT-BINInputType_EN-3" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="M-00FA_A-0001-01-0000_PT-BINValueWORD" Name="BINalueWORD">
                 <TypeNumber SizeInBit="16" Type="signedInt" minInclusive="0" maxInclusive="30000" />
+              </ParameterType>
+              <ParameterType Id="M-00FA_A-0001-01-0000_PT-BINPercentage" Name="BINPercentage">
+                <TypeNumber SizeInBit="8" Type="signedInt" minInclusive="0" maxInclusive="100" />
               </ParameterType>
               <ParameterType Id="M-00FA_A-0001-01-0000_PT-BINSendFlanken" Name="BINSendFlanken">
                 <TypeRestriction Base="Value" SizeInBit="8">

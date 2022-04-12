@@ -4,4 +4,4 @@
 
 
 
-void processInput_4_20mA();
+void processInput_4_20mA(bool readyFlag);
