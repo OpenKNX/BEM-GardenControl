@@ -25,16 +25,16 @@
 #define SensorType_windspeed 8
 #define SensorType_percent 9
 
-uint32_t processDelay2[ADC_ChannelCount] = {0};
-uint32_t sendDelay2[ADC_ChannelCount] = {0};
+uint32_t processDelay2[CUR_ChannelCount] = {0};
+uint32_t sendDelay2[CUR_ChannelCount] = {0};
 
 uint8_t channel2 = 0;
 
 union InputADCValuesOLD
 {
-    float ladcValue[ADC_ChannelCount];
-    // uint16_t ladcValueU16[ADC_ChannelCount];
-    // uint8_t lsoilmoistureU8[ADC_ChannelCount];
+    float ladcValue[CUR_ChannelCount];
+    // uint16_t ladcValueU16[CUR_ChannelCount];
+    // uint8_t lsoilmoistureU8[CUR_ChannelCount];
 } valueOld2;
 
 float calculateSensorValueLinearFunction(uint8_t channel2, float a, float b)
@@ -70,7 +70,7 @@ void processInput_4_20mA(bool readyFlag)
     // uint16_t lAbsoluteU16;
     // uint8_t lRelativU8;
 
-    uint16_t lCycle;
+    uint32_t lCycle;
 
     union InputADCValues
     {
@@ -82,7 +82,7 @@ void processInput_4_20mA(bool readyFlag)
     if (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)) != Input_x_20mA_CH_inaktiv && readyFlag)
     {
 
-        lCycle = knx.paramWord(getParADC(CUR_CHSendcycletime2, channel2)) * 1000;
+        lCycle = knx.paramWord(getParCUR(CUR_CHSendcycletime2, channel2)) * 1000;
 
         // we waited enough, let's send the value
         if (lCycle && delayCheck(sendDelay2[channel2], lCycle))
@@ -100,6 +100,8 @@ void processInput_4_20mA(bool readyFlag)
 #ifdef Input_4_20mA_Output
                 SERIAL_PORT.print("4_20mA_CH");
                 SERIAL_PORT.print(channel2);
+                SERIAL_PORT.print(": ");
+                SERIAL_PORT.print(lCycle);
                 SERIAL_PORT.print(": ");
 #endif
                 break;

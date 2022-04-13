@@ -10,8 +10,8 @@
 #define KNXcallback
 #define ADC_enable
 //#define ADC_enable_Output
-//#define InputADC_Output
-//#define Input_4_20mA_Output
+#define InputADC_Output
+#define Input_4_20mA_Output
 //#define InputImpuls_Output2
 //#define InputImpuls_Output
 #define IOExp_enable
@@ -24,7 +24,7 @@
 //#define ImplInput_Output
 
 #define S0Inputs
-#define Input_S0_Output
+//#define Input_S0_Output
 //#define Serial_Debug_S0_Int
 
 

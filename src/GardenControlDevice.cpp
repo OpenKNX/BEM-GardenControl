@@ -272,7 +272,7 @@ void appLoop()
     break;
   case Pos4:
     processInputImpulse();
-    StateM = Pos2;
+    StateM = Pos5;
     break;
   case Pos5:
     processVentil();     // PRIO 3

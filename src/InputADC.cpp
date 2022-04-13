@@ -48,7 +48,7 @@ void processInput_ADC(bool readyFlag)
     // uint8_t lRelativU8;
     uint8_t Dpt = 0;
 
-    uint16_t lCycle;
+    uint32_t lCycle;
 
     union InputADCValues
     {
@@ -76,6 +76,8 @@ void processInput_ADC(bool readyFlag)
 #ifdef InputADC_Output
                 SERIAL_PORT.print("ADC_");
                 SERIAL_PORT.print(channel);
+                SERIAL_PORT.print(": ");
+                SERIAL_PORT.print(lCycle);
                 SERIAL_PORT.print(": ");
 #endif
 
