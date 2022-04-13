@@ -911,7 +911,7 @@
 
 // Parameter per channel
 #define BIN_ParamBlockOffset 1011
-#define BIN_ParamBlockSize 10
+#define BIN_ParamBlockSize 34
 #define BIN_CHSendenStart3             0      // 1 Bit, Bit 7
 #define     BIN_CHSendenStart3Mask 0x80
 #define     BIN_CHSendenStart3Shift 7
@@ -927,13 +927,34 @@
 #define BIN_CHFrequenceEqu3            5      // int16_t
 #define BIN_CHSendenAbsolut3           7      // int16_t
 #define BIN_CHSendenRelativ3           9      // int8_t
+#define BIN_CHS0Impulse               10      // uint16_t
+#define BIN_CHDefineS0zaehler         12      // 8 Bits, Bit 7-0
+#define BIN_CHSendDelayS0             13      // uint16_t
+#define BIN_CHdefineStartCounterS0    15      // 1 Bit, Bit 7
+#define     BIN_CHdefineStartCounterS0Mask 0x80
+#define     BIN_CHdefineStartCounterS0Shift 7
+#define BIN_CHS0CalDef                16      // 8 Bits, Bit 7-0
+#define BIN_CHS01SendModeCounter      17      // 8 Bits, Bit 7-0
+#define BIN_CHSendminValueDelayS0     18      // uint16_t
+#define BIN_CHSendminValuechangeS0    20      // uint16_t
+#define BIN_CHSendDelayConS0          22      // uint16_t
+#define BIN_CHSendminValuechangeConS0 24      // uint16_t
+#define BIN_CHS01SendModeCon          28      // 8 Bits, Bit 7-0
+#define BIN_CHSendminValueDelayConS01 29      // uint16_t
+#define BIN_CHDefineUnitS01           31      // 8 Bits, Bit 7-0
+#define BIN_CHDefineMinValueS01       32      // uint16_t
 
 // Communication objects per channel (multiple occurance)
 #define BIN_KoOffset 90
-#define BIN_KoBlockSize 3
+#define BIN_KoBlockSize 8
 #define BIN_Ko_Status_BinarInput 0
 #define BIN_Ko_Sperr_BinarInput 1
 #define BIN_KoBIN_BASE__1 2
+#define BIN_KoS01_ZaehlerWert 3
+#define BIN_KoS0_Ges_Verbrauch 4
+#define BIN_KoS0_Akt1_Verbrauch 5
+#define BIN_KoS0_Akt2_Verbrauch 6
+#define BIN_KoS0_Res 7
 
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16

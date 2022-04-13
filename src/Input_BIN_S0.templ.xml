@@ -4,7 +4,7 @@
     <Manufacturer RefId="M-00FA">
       <Catalog>
         <CatalogSection Id="M-00FA_CS-1" Name="Geräte" Number="1" DefaultLanguage="de">
-          <CatalogItem Id="M-00FA_H-202-1_HP-0000-00-0000_CI-202-1" Name="Wirdüberschriebenup to" Number="1" ProductRefId="M-00FA_H-202-1_P-202" Hardware2ProgramRefId="M-00FA_H-202-1_HP-0000-00-0000" DefaultLanguage="de" />
+          <CatalogItem Id="M-00FA_H-202-1_HP-0001-01-0000_CI-202-1" Name="Wirdüberschriebenup to" Number="1" ProductRefId="M-00FA_H-202-1_P-202" Hardware2ProgramRefId="M-00FA_H-202-1_HP-0001-01-0000" DefaultLanguage="de" />
         </CatalogSection>
       </Catalog>
       <ApplicationPrograms>
@@ -41,10 +41,51 @@
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%014" Name="CH%C%SendenRelativ3"  ParameterType="M-00FA_A-0001-01-0000_PT-BINPercentage"   Text="senden bei relativer Abweichung: (0 = nicht zyklisch senden)"  Value="0">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="9" BitOffset="0" />
               </Parameter>
-
-
-              
-
+              <!-- *************  -->
+              <!-- S0  -->
+              <!-- *************  -->
+               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%015" Name="CH%C%S0Impulse" ParameterType="M-00FA_A-0001-01-0000_PT-S0Impulse" Text="Anzahl Impulse" SuffixText="" Value="1000">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="10" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%016" Name="CH%C%DefineS0zaehler" ParameterType="M-00FA_A-0001-01-0000_PT-DefineS0Zaehler" Text="wähle Zähler-Typ" SuffixText="" Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="12" BitOffset="0" />
+              </Parameter>>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%017" Name="CH%C%SendDelayS0" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="zyklisch senden" SuffixText="" Value="60">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="13" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%018" Name="CH%C%defineStartCounterS0" ParameterType="M-00FA_A-0001-01-0000_PT-S0YesNo" Text="Zählerstand per KO anpassen" SuffixText="" Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="15" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%019" Name="CH%C%S0CalDef" ParameterType="M-00FA_A-0001-01-0000_PT-DefineS0Calculation"  Text="Berechungsverfahren Verbrauch:" Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="16" BitOffset="0" />
+              </Parameter>  
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%020" Name="CH%C%S01SendModeCounter" ParameterType="M-00FA_A-0001-01-0000_PT-SendModeConsumption"  Text="Sendemodus" Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="17" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%021" Name="CH%C%SendminValueDelayS0" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="Mindestintervall" SuffixText="" Value="10">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="18" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%022" Name="CH%C%SendminValuechangeS0" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="Mindeständerung zum Senden" SuffixText="" Value="10">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="20" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%023" Name="CH%C%SendDelayConS0" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="zyklisch senden" SuffixText="" Value="60">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="22" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%024" Name="CH%C%SendminValuechangeConS0" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="Mindeständerung zum Senden" SuffixText="" Value="10">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="24" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%025" Name="CH%C%S01SendModeCon" ParameterType="M-00FA_A-0001-01-0000_PT-SendModeConsumption"  Text="Sendemodus" Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="28" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%026" Name="CH%C%SendminValueDelayConS01" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="Mindestintervall" SuffixText="" Value="10">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="29" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%027" Name="CH%C%DefineUnitS01" ParameterType="M-00FA_A-0001-01-0000_PT-DefineUnit" Text="Einheit" SuffixText="" Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="31" BitOffset="0" />
+              </Parameter> 
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%028" Name="CH%C%DefineMinValueS01" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="" SuffixText="" Value="1">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="32" BitOffset="0" />
+              </Parameter> 
             </Parameters>
             <ParameterRefs>
               <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
@@ -59,11 +100,41 @@
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%012_R-%T%%CCC%01201"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%012" SuffixText="*0.1 (für l/min)"/> <!-- Formel Impulszähler -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%013_R-%T%%CCC%01301"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%013" SuffixText="*0.1l/min"/>   <!-- Senden Absolut -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%014_R-%T%%CCC%01401"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%014" SuffixText="%"/>         <!-- Senden Relativ -->
+              <!-- S0 -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%015_R-%T%%CCC%01501"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%015" SuffixText="puls/kWh"/>  <!-- Anzahl Impulse -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%015_R-%T%%CCC%01502"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%015" SuffixText="puls/m3"/>   <!-- Anzahl Impulse -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%015_R-%T%%CCC%01503"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%015" SuffixText="puls/l"/>    <!-- Anzahl Impulse -->   
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%015_R-%T%%CCC%01504"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%015" SuffixText=" "/>         <!-- Anzahl Impulse -->   
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%016_R-%T%%CCC%01601"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%016" />                       <!-- wähle Zähler-Typ -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%017_R-%T%%CCC%01701"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%017" SuffixText="Sek"/>       <!-- Senden zyklisch -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%018_R-%T%%CCC%01801"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%018" />                       <!-- Zählerstand per KO anpassen -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%019_R-%T%%CCC%01901"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%019" />                       <!-- Berechungsverfahren Verbrauch -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%020_R-%T%%CCC%02001"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%020" />                       <!-- Sendemodus -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%021_R-%T%%CCC%02101"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%021" SuffixText="Sek"/>       <!-- Mindestintervall -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%022_R-%T%%CCC%02201"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%022" SuffixText="kWh"/>        <!-- Mindeständerung zum Senden -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%022_R-%T%%CCC%02202"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%022" SuffixText="m3"/>        <!-- Mindeständerung zum Senden -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%022_R-%T%%CCC%02203"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%022" SuffixText="l"/>         <!-- Mindeständerung zum Senden -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%023_R-%T%%CCC%02301"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%023" SuffixText="Sek"/>       <!-- zyklisch senden Verbrauch-->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%024_R-%T%%CCC%02401"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%024" SuffixText="W"/>         <!-- Mindeständerung zum Senden Verbrauch -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%024_R-%T%%CCC%02402"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%024" SuffixText="l"/>         <!-- Mindeständerung zum Senden Verbrauch -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%025_R-%T%%CCC%02501"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%025" />                       <!-- Sendemodus Verbrauch -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%026_R-%T%%CCC%02601"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%026" SuffixText="Sek"/>       <!-- Mindestintervall Verbrauch -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%027_R-%T%%CCC%02701"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%027" />                       <!-- Einheit -->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%028_R-%T%%CCC%02801"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%028" SuffixText="W"/>         <!-- MIN Value WATT-->
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%028_R-%T%%CCC%02802"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%028" SuffixText="l"/>         <!-- MIN Value Liter-->
+            
             </ParameterRefs>
             <ComObjectTable>
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="_Status_BinarInput%C%" Text="BIN-Input %C%:" FunctionText="Status"      Number="%K0%" ObjectSize="1 Bit" ReadFlag="Enabled"  WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-11" />
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%001" Name="_Sperr_BinarInput%C%"  Text="BIN-Input %C%:" FunctionText="Sperrobjekt" Number="%K1%" ObjectSize="1 Bit" ReadFlag="Disabled" WriteFlag="Enabled"  CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-1"  />
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%002" Name="BIN_BASE_%C%_1" Text="BIN_BASE_%C%_1" Number="%K2%" ObjectSize="4 Bytes" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Disabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-14 DPST-14-0" />           
+               <!-- S0 Zählerwert setzen-->
+              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%003" Name="S01_ZaehlerWert%C%" Text="S0" Number="%K3%" FunctionText="Input" ObjectSize="4 Bytes" ReadFlag="Disabled"  WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-13-1" />
+              <!-- S01 KOS-->
+              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%004" Name="S0_Ges_Verbrauch%C%"  Text="S0 %C%" Number="%K4%" FunctionText="Ausgang" ObjectSize="4 Bytes" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-13-10" />
+              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%005" Name="S0_Akt1_Verbrauch%C%" Text="S0 %C%" Number="%K5%" FunctionText="Ausgang" ObjectSize="4 Bytes" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-14-76" />
+              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%006" Name="S0_Akt2_Verbrauch%C%" Text="S0 %C%" Number="%K6%" FunctionText="Ausgang" ObjectSize="2 Bytes" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-9-24" />
+              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%007" Name="S0_Res%C%"            Text="S0 %C%" Number="%K7%" FunctionText="Ausgang" ObjectSize="4 Bytes" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-9-24" />
             </ComObjectTable>
             <ComObjectRefs>
               <!-- BIN INPUT -->
@@ -71,6 +142,22 @@
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%001_R-%T%%CCC%00101" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%001" Text="BIN-Input %C%: {{0:-}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
               <!-- Impuls OUTPUT -->
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%002_R-%T%%CCC%00201" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%002" Name="Out_Stro_DPT_09" Text="Impulszähler %C%: {{0:-}}" FunctionText="Strömung (l/h)" Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-25" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
+               <!-- S01 Zähler -->
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%003_R-%T%%CCC%00301" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%003" Name="S01_ZaehlerWert%C%" Text="S0%C% Zählerstand {{0:-}}" FunctionText="neuer Wert (KWH)" DatapointType="DPT-13 DPST-13-13" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%003_R-%T%%CCC%00302" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%003" Name="S01_ZaehlerWert%C%" Text="S0%C% Zählerstand {{0:-}}" FunctionText="neuer Wert (m3)"  DatapointType="DPT-14 DPST-14-76" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%003_R-%T%%CCC%00303" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%003" Name="S01_ZaehlerWert%C%" Text="S0%C% Zählerstand {{0:-}}" FunctionText="neuer Wert (l)"   DatapointType="DPT-13 DPST-13-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
+              <!-- S01 Verbrauch-->                                                                                                                             
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00401" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004" Name="S0_Elek_Verbrauch"    Text="S0%C% Verbrauch {{0:-}}" FunctionText="Elektrische Energie (kWh)" Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-13-13" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00402" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004" Name="S0_WA_Verbrauch"      Text="S0%C% Verbrauch {{0:-}}" FunctionText="Volumen (m3)"              Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-14-76" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00403" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004" Name="S0_GA_Verbrauch"      Text="S0%C% Verbrauch {{0:-}}" FunctionText="Volumen (l)"               Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-13-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00404" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004" Name="S0_Sonstig_Verbrauch" Text="S0%C%  {{0:-}}"          FunctionText="Sonstiges"                 Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-13-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
+              <!-- S01 Leistung / Durchfluss-->
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%005_R-%T%%CCC%00501" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%005" Name="S0_Elek_Leistung"   Text="S0%C% Leistung {{0:-}}"   FunctionText="Elektrische Leistung (W)"   Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-14-56" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%005_R-%T%%CCC%00502" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%005" Name="S0_WA_Durchfluss"   Text="S0%C% Durchfluss {{0:-}}" FunctionText="Wasser Durchfluss (m3/s)"   Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-14-77" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%005_R-%T%%CCC%00503" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%005" Name="S0_GA_Durchfluss"   Text="S0%C% Durchfluss {{0:-}}" FunctionText="Gas Durchfluss (m3/s)"      Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-14-77" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%006_R-%T%%CCC%00601" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%006" Name="S0_Elek_LeistungKW" Text="S0%C% Leistung {{0:-}}"   FunctionText="Elektrische Leistung (KW)"  Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-9-24"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%006_R-%T%%CCC%00602" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%006" Name="S0_WA_Durchflusslh" Text="S0%C% Durchfluss {{0:-}}" FunctionText="Wasser Durchfluss (l/h)"    Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-9-25"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%006_R-%T%%CCC%00603" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%006" Name="S0_GA_Durchflusslh" Text="S0%C% Durchfluss {{0:-}}" FunctionText="Gas Durchfluss (l/h)"       Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-9-25"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
             </ComObjectRefs>
             <AddressTable MaxEntries="65535" />
             <AssociationTable MaxEntries="65535" />
@@ -116,6 +203,153 @@
                   </when>
                   <!-- S0-Schnittstelle -->
                   <when test="2"> 
+                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%016_R-%T%%CCC%01601" />
+                    <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%016_R-%T%%CCC%01601" >
+                      <when test="1"> <!-- Elektischer Zähler -->   
+                        <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00401" />
+                        <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%005_R-%T%%CCC%00501" />
+                        <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%006_R-%T%%CCC%00601" />
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-20" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%015_R-%T%%CCC%01501" /> <!-- impl/kWh -->  
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-22" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%018_R-%T%%CCC%01801" /> <!-- Neuer Zählerstand -->  
+                        <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%018_R-%T%%CCC%01801">
+                          <when test="1">
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          </when>
+                        </choose> 
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-100" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-101" Text="Zählerstand" UIHint="Headline"/>
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%020_R-%T%%CCC%02001" />
+                        <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%020_R-%T%%CCC%02001">
+                          <when test="1"> <!-- Bei Wertänderung -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%021_R-%T%%CCC%02101" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%022_R-%T%%CCC%02201" />
+                          </when>
+                          <when test="2"> <!-- Zyklisch -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%017_R-%T%%CCC%01701" />
+                          </when>
+                          <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%017_R-%T%%CCC%01701" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%021_R-%T%%CCC%02101" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%022_R-%T%%CCC%02201" />
+                          </when>
+                        </choose>   
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-100" Text="Verbrauch" UIHint="Headline"/>
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%025_R-%T%%CCC%02501" />
+                        <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%025_R-%T%%CCC%02501">
+                          <when test="1"> <!-- Bei Wertänderung -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%026_R-%T%%CCC%02601" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%024_R-%T%%CCC%02401" />
+                          </when>
+                          <when test="2"> <!-- Zyklisch -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%023_R-%T%%CCC%02301" />
+                          </when>
+                          <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%023_R-%T%%CCC%02301" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%026_R-%T%%CCC%02601" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%024_R-%T%%CCC%02401" />
+                          </when>
+                        </choose>   
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-24" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%019_R-%T%%CCC%01901" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%028_R-%T%%CCC%02801" /> <!-- Mindestleistung -->  
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-24" Text="                                                          Mindestleistung, Werte unterhalb werden mit 0W gesendet" />
+                      </when>  
+
+                      <when test="2 3">  <!-- Wasser & Gas Zähler -->     
+                        <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%005_R-%T%%CCC%00502" />
+                        <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%006_R-%T%%CCC%00602" />
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-20" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%027_R-%T%%CCC%02701" /> <!-- Wahl zwischen l & m3 --> 
+                        <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%027_R-%T%%CCC%02701">
+                          <when test="0"> <!-- Einheit Liter -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%015_R-%T%%CCC%01503" /> <!-- impl/l -->  
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00403" />
+                          </when>
+                          <when test="1"> <!-- Einheit m3-->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%015_R-%T%%CCC%01502" /> <!-- impl/m3 -->  
+                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00402" />
+                          </when>
+                        </choose>
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-22" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%018_R-%T%%CCC%01801" /> <!-- Neuer Zählerstand -->  
+                        <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%018_R-%T%%CCC%01801">
+                          <when test="1">
+                            <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%027_R-%T%%CCC%02701">
+                              <when test="0"> <!-- Einheit Liter -->  
+                                <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%003_R-%T%%CCC%00303" /> <!-- impl/l -->  
+                              </when>
+                              <when test="1"> <!-- Einheit m3-->  
+                                <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%003_R-%T%%CCC%00302" />  <!-- impl/m3 -->  
+                              </when>
+                            </choose>
+                          </when>
+                        </choose> 
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-100" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-101" Text="Zählerstand" UIHint="Headline"/>
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%020_R-%T%%CCC%02001" />
+                        <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%020_R-%T%%CCC%02001">
+                          <when test="1"> <!-- Bei Wertänderung -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%021_R-%T%%CCC%02101" />
+                            <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%027_R-%T%%CCC%02701">
+                              <when test="0"> <!-- Einheit Liter -->  
+                                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%022_R-%T%%CCC%02203" /> <!-- impl/l -->  
+                              </when>
+                              <when test="1"> <!-- Einheit m3-->  
+                                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%022_R-%T%%CCC%02202" /> <!-- impl/m3 -->  
+                              </when>
+                            </choose>
+                          </when>
+                          <when test="2"> <!-- Zyklisch -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%017_R-%T%%CCC%01701" />
+                          </when>
+                          <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%017_R-%T%%CCC%01701" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%021_R-%T%%CCC%02101" />
+                            <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%027_R-%T%%CCC%02701">
+                              <when test="0"> <!-- Einheit Liter -->  
+                                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%022_R-%T%%CCC%02203" /> <!-- impl/l -->  
+                              </when>
+                              <when test="1"> <!-- Einheit m3-->  
+                                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%022_R-%T%%CCC%02202" /> <!-- impl/m3 -->  
+                              </when>
+                            </choose>
+                          </when>
+                        </choose>   
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-100" Text="Verbrauch" UIHint="Headline"/>
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%025_R-%T%%CCC%02501" />
+                        <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%025_R-%T%%CCC%02501">
+                          <when test="1"> <!-- Bei Wertänderung -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%026_R-%T%%CCC%02601" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%024_R-%T%%CCC%02402" />
+                          </when>
+                          <when test="2"> <!-- Zyklisch -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%023_R-%T%%CCC%02301" />
+                          </when>
+                          <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->  
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%023_R-%T%%CCC%02301" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%026_R-%T%%CCC%02601" />
+                            <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%024_R-%T%%CCC%02402" />
+                          </when>
+                        </choose>   
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-24" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%019_R-%T%%CCC%01901" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%028_R-%T%%CCC%02802" /> <!-- Mindestdurchfluss-->  
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-24" Text="                                                          Mindestdurchfluss, Werte unterhalb werden mit 0W gesendet" />
+                      </when> 
+                      <when test="4"> <!-- sonstiges -->     
+                        <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00404" />
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-21" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%015_R-%T%%CCC%01504" /> <!-- impl -->  
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-23" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%018_R-%T%%CCC%01801" />
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-24" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%017_R-%T%%CCC%01701" />
+                        <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-25" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%019_R-%T%%CCC%01901" />
+                      </when> 
+                    </choose>   
                   </when>
                   <!-- Impulszähler -->
                   <when test="3"> 
@@ -144,7 +378,7 @@
             </Product>
           </Products>
           <Hardware2Programs>
-            <Hardware2Program Id="M-00FA_H-202-1_HP-0000-00-0000" MediumTypes="MT-0">
+            <Hardware2Program Id="M-00FA_H-202-1_HP-0001-01-0000" MediumTypes="MT-0">
               <ApplicationProgramRef RefId="M-00FA_A-0001-01-0000" />
               <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="0001/11" />
             </Hardware2Program>
