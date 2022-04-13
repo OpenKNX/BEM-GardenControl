@@ -59,7 +59,7 @@
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%019" Name="CH%C%S0CalDef" ParameterType="M-00FA_A-0001-01-0000_PT-DefineS0Calculation"  Text="Berechungsverfahren Verbrauch:" Value="0">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="16" BitOffset="0" />
               </Parameter>  
-              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%020" Name="CH%C%S01SendModeCounter" ParameterType="M-00FA_A-0001-01-0000_PT-SendModeConsumption"  Text="Sendemodus" Value="0">
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%020" Name="CH%C%S0SendModeCounter" ParameterType="M-00FA_A-0001-01-0000_PT-SendModeConsumption"  Text="Sendemodus" Value="0">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="17" BitOffset="0" />
               </Parameter>
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%021" Name="CH%C%SendminValueDelayS0" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="Mindestintervall" SuffixText="" Value="10">
@@ -74,16 +74,16 @@
               <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%024" Name="CH%C%SendminValuechangeConS0" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="Mindeständerung zum Senden" SuffixText="" Value="10">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="24" BitOffset="0" />
               </Parameter>
-              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%025" Name="CH%C%S01SendModeCon" ParameterType="M-00FA_A-0001-01-0000_PT-SendModeConsumption"  Text="Sendemodus" Value="0">
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%025" Name="CH%C%S0SendModeCon" ParameterType="M-00FA_A-0001-01-0000_PT-SendModeConsumption"  Text="Sendemodus" Value="0">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="28" BitOffset="0" />
               </Parameter>
-              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%026" Name="CH%C%SendminValueDelayConS01" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="Mindestintervall" SuffixText="" Value="10">
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%026" Name="CH%C%SendminValueDelayConS0" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="Mindestintervall" SuffixText="" Value="10">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="29" BitOffset="0" />
               </Parameter>
-              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%027" Name="CH%C%DefineUnitS01" ParameterType="M-00FA_A-0001-01-0000_PT-DefineUnit" Text="Einheit" SuffixText="" Value="0">
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%027" Name="CH%C%DefineUnitS0" ParameterType="M-00FA_A-0001-01-0000_PT-DefineUnit" Text="Einheit" SuffixText="" Value="0">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="31" BitOffset="0" />
               </Parameter> 
-              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%028" Name="CH%C%DefineMinValueS01" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="" SuffixText="" Value="1">
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%%CCC%028" Name="CH%C%DefineMinValueS0" ParameterType="M-00FA_A-0001-01-0000_PT-ValueUint16" Text="" SuffixText="" Value="1">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="32" BitOffset="0" />
               </Parameter> 
             </Parameters>
@@ -121,16 +121,15 @@
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%026_R-%T%%CCC%02601"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%026" SuffixText="Sek"/>       <!-- Mindestintervall Verbrauch -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%027_R-%T%%CCC%02701"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%027" />                       <!-- Einheit -->
               <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%028_R-%T%%CCC%02801"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%028" SuffixText="W"/>         <!-- MIN Value WATT-->
-              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%028_R-%T%%CCC%02802"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%028" SuffixText="l"/>         <!-- MIN Value Liter-->
-            
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%%CCC%028_R-%T%%CCC%02802"  RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%028" SuffixText="l"/>         <!-- MIN Value Liter-->       
             </ParameterRefs>
             <ComObjectTable>
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%000" Name="_Status_BinarInput%C%" Text="BIN-Input %C%:" FunctionText="Status"      Number="%K0%" ObjectSize="1 Bit" ReadFlag="Enabled"  WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-11" />
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%001" Name="_Sperr_BinarInput%C%"  Text="BIN-Input %C%:" FunctionText="Sperrobjekt" Number="%K1%" ObjectSize="1 Bit" ReadFlag="Disabled" WriteFlag="Enabled"  CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-1"  />
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%002" Name="BIN_BASE_%C%_1" Text="BIN_BASE_%C%_1" Number="%K2%" ObjectSize="4 Bytes" ReadFlag="Disabled" WriteFlag="Disabled" CommunicationFlag="Disabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-14 DPST-14-0" />           
-               <!-- S0 Zählerwert setzen-->
+              <!-- S0 Zählerwert setzen-->
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%003" Name="S01_ZaehlerWert%C%" Text="S0" Number="%K3%" FunctionText="Input" ObjectSize="4 Bytes" ReadFlag="Disabled"  WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-13-1" />
-              <!-- S01 KOS-->
+              <!-- S0 KOS-->
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%004" Name="S0_Ges_Verbrauch%C%"  Text="S0 %C%" Number="%K4%" FunctionText="Ausgang" ObjectSize="4 Bytes" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-13-10" />
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%005" Name="S0_Akt1_Verbrauch%C%" Text="S0 %C%" Number="%K5%" FunctionText="Ausgang" ObjectSize="4 Bytes" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-14-76" />
               <ComObject Id="M-00FA_A-0001-01-0000_O-%T%%CCC%006" Name="S0_Akt2_Verbrauch%C%" Text="S0 %C%" Number="%K6%" FunctionText="Ausgang" ObjectSize="2 Bytes" ReadFlag="Enabled" WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-9-24" />
@@ -142,16 +141,16 @@
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%001_R-%T%%CCC%00101" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%001" Text="BIN-Input %C%: {{0:-}}" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
               <!-- Impuls OUTPUT -->
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%002_R-%T%%CCC%00201" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%002" Name="Out_Stro_DPT_09" Text="Impulszähler %C%: {{0:-}}" FunctionText="Strömung (l/h)" Priority="Low" ObjectSize="2 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" DatapointType="DPT-9 DPST-9-25" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"  />
-               <!-- S01 Zähler -->
+               <!-- S0 Zähler -->
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%003_R-%T%%CCC%00301" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%003" Name="S01_ZaehlerWert%C%" Text="S0%C% Zählerstand {{0:-}}" FunctionText="neuer Wert (KWH)" DatapointType="DPT-13 DPST-13-13" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%003_R-%T%%CCC%00302" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%003" Name="S01_ZaehlerWert%C%" Text="S0%C% Zählerstand {{0:-}}" FunctionText="neuer Wert (m3)"  DatapointType="DPT-14 DPST-14-76" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%003_R-%T%%CCC%00303" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%003" Name="S01_ZaehlerWert%C%" Text="S0%C% Zählerstand {{0:-}}" FunctionText="neuer Wert (l)"   DatapointType="DPT-13 DPST-13-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
-              <!-- S01 Verbrauch-->                                                                                                                             
+              <!-- S0 Verbrauch-->                                                                                                                             
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00401" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004" Name="S0_Elek_Verbrauch"    Text="S0%C% Verbrauch {{0:-}}" FunctionText="Elektrische Energie (kWh)" Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-13-13" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00402" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004" Name="S0_WA_Verbrauch"      Text="S0%C% Verbrauch {{0:-}}" FunctionText="Volumen (m3)"              Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-14-76" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00403" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004" Name="S0_GA_Verbrauch"      Text="S0%C% Verbrauch {{0:-}}" FunctionText="Volumen (l)"               Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-13-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%004_R-%T%%CCC%00404" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%004" Name="S0_Sonstig_Verbrauch" Text="S0%C%  {{0:-}}"          FunctionText="Sonstiges"                 Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-13-1"  TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
-              <!-- S01 Leistung / Durchfluss-->
+              <!-- S0 Leistung / Durchfluss-->
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%005_R-%T%%CCC%00501" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%005" Name="S0_Elek_Leistung"   Text="S0%C% Leistung {{0:-}}"   FunctionText="Elektrische Leistung (W)"   Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-14-56" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001"/>
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%005_R-%T%%CCC%00502" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%005" Name="S0_WA_Durchfluss"   Text="S0%C% Durchfluss {{0:-}}" FunctionText="Wasser Durchfluss (m3/s)"   Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-14-77" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%%CCC%005_R-%T%%CCC%00503" RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%005" Name="S0_GA_Durchfluss"   Text="S0%C% Durchfluss {{0:-}}" FunctionText="Gas Durchfluss (m3/s)"      Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled" ReadOnInitFlag="Disabled" DatapointType="DPST-14-77" TextParameterRefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
@@ -256,7 +255,6 @@
                         <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%028_R-%T%%CCC%02801" /> <!-- Mindestleistung -->  
                         <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-24" Text="                                                          Mindestleistung, Werte unterhalb werden mit 0W gesendet" />
                       </when>  
-
                       <when test="2 3">  <!-- Wasser & Gas Zähler -->     
                         <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%005_R-%T%%CCC%00502" />
                         <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%006_R-%T%%CCC%00602" />

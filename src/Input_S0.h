@@ -11,7 +11,12 @@
 #define unit_l  0
 #define unit_m3 1
 
-void processReadS0Input(uint8_t channel);
+void InitS0Input1();
+void InitS0Input2();
+void InitS0Input3();
+void InitS0Input4();
+
+void processReadS0Input();
 
 uint16_t setZaehlerImpulse(uint8_t i, uint16_t impulse);
 

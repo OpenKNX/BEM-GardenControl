@@ -934,15 +934,15 @@
 #define     BIN_CHdefineStartCounterS0Mask 0x80
 #define     BIN_CHdefineStartCounterS0Shift 7
 #define BIN_CHS0CalDef                16      // 8 Bits, Bit 7-0
-#define BIN_CHS01SendModeCounter      17      // 8 Bits, Bit 7-0
+#define BIN_CHS0SendModeCounter       17      // 8 Bits, Bit 7-0
 #define BIN_CHSendminValueDelayS0     18      // uint16_t
 #define BIN_CHSendminValuechangeS0    20      // uint16_t
 #define BIN_CHSendDelayConS0          22      // uint16_t
 #define BIN_CHSendminValuechangeConS0 24      // uint16_t
-#define BIN_CHS01SendModeCon          28      // 8 Bits, Bit 7-0
-#define BIN_CHSendminValueDelayConS01 29      // uint16_t
-#define BIN_CHDefineUnitS01           31      // 8 Bits, Bit 7-0
-#define BIN_CHDefineMinValueS01       32      // uint16_t
+#define BIN_CHS0SendModeCon           28      // 8 Bits, Bit 7-0
+#define BIN_CHSendminValueDelayConS0  29      // uint16_t
+#define BIN_CHDefineUnitS0            31      // 8 Bits, Bit 7-0
+#define BIN_CHDefineMinValueS0        32      // uint16_t
 
 // Communication objects per channel (multiple occurance)
 #define BIN_KoOffset 90

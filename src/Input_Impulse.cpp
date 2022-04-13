@@ -62,28 +62,28 @@ void InitImpulseInputs()
             {
             case 0:
                 pinMode(OptoIN_1, INPUT_PULLUP);
-                attachInterrupt(digitalPinToInterrupt(OptoIN_1), interrupt_Impluse1, CHANGE);
+                attachInterrupt(digitalPinToInterrupt(OptoIN_1), interrupt_Impluse1, FALLING);
 #ifdef InputImpuls_Output
                 SERIAL_PORT.println(": TRUE");
 #endif
                 break;
             case 1:
                 pinMode(OptoIN_2, INPUT_PULLUP);
-                attachInterrupt(digitalPinToInterrupt(OptoIN_2), interrupt_Impluse2, CHANGE);
+                attachInterrupt(digitalPinToInterrupt(OptoIN_2), interrupt_Impluse2, FALLING);
 #ifdef InputImpuls_Output
                 SERIAL_PORT.println(": TRUE");
 #endif
                 break;
             case 2:
                 pinMode(OptoIN_3, INPUT_PULLUP);
-                attachInterrupt(digitalPinToInterrupt(OptoIN_3), interrupt_Impluse3, CHANGE);
+                attachInterrupt(digitalPinToInterrupt(OptoIN_3), interrupt_Impluse3, FALLING);
 #ifdef InputImpuls_Output
                 SERIAL_PORT.println(": TRUE");
 #endif
                 break;
             case 3:
                 pinMode(OptoIN_4, INPUT_PULLUP);
-                attachInterrupt(digitalPinToInterrupt(OptoIN_4), interrupt_Impluse4, CHANGE);
+                attachInterrupt(digitalPinToInterrupt(OptoIN_4), interrupt_Impluse4, FALLING);
 #ifdef InputImpuls_Output
                 SERIAL_PORT.println(": TRUE");
 #endif

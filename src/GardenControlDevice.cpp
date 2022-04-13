@@ -8,7 +8,6 @@
 #include "GardenControlDevice.h"
 #include "I2C_IOExpander.h"
 #include "ReadADC.h"
-#include "S0Function.h"
 #include "Device_setup.h"
 #include "ReadBinary.h"
 #include "Input_Impulse.h"
@@ -17,6 +16,7 @@
 #include "InputADC.h"
 #include "Input_4_20mA.h"
 #include "Input_BIN.h"
+#include "Input_S0.h"
 
 //#include "Logic.h"
 
@@ -218,6 +218,11 @@ void appSetup()
     InitBinInput3(OptoIN_3); // Input 3
     InitBinInput4(OptoIN_4); // Input 4
 
+    InitS0Input1();
+    InitS0Input2();
+    InitS0Input3();
+    InitS0Input4();
+
     initInputADC();
 
     InitImpulseInputs();
@@ -236,12 +241,13 @@ void appLoop()
   processReadInputs(); // PRIO 1
 #endif
 #ifdef S0Inputs
-  processReadS0Input(0); // PRIO 2
-  processReadS0Input(1); // PRIO 2
+  processReadS0Input();
 #endif
 #ifdef ImplInput
   processReadImpulseInput(); // PRIO 1
 #endif
+
+
 
   switch (StateM)
   {
