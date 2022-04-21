@@ -2,3 +2,5 @@
 
 
 void processSysFailure();
+
+void rebootExternalPWR();

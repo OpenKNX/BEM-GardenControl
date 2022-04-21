@@ -5,7 +5,7 @@
 #include "BEM_hardware.h"
 #include "MCP3428.h"
 #include "GardenControl.h"
-
+#include "SystemFailureHandling.h"
 #include "I2C_IOExpander.h"
 #include "ErrorHandling.h"
 
@@ -23,6 +23,9 @@
 
 MCP3428 MCP3428_adc(i2cADC, &Wire1);
 MCP3428 MCP3428_adc_BOT(i2cADC_BOT, &Wire1);
+
+uint8_t failureCounter_ADC_TOP = 0;
+uint8_t failureCounter_ADC_BOT = 0;
 
 bool init_flag_PCP3428_Top = false;
 bool init_flag_PCP3428_Bot = false;
@@ -72,6 +75,12 @@ void initADC_TOP(uint8_t res_top)
         {
             init_flag_PCP3428_Top = false;
             SERIAL_PORT.println("NOK");
+            failureCounter_ADC_TOP++;
+            if (failureCounter_ADC_TOP > 10)
+            {
+                rebootExternalPWR();
+                failureCounter_ADC_TOP = 0;
+            }
         }
     }
     else
@@ -95,7 +104,13 @@ void initADC_BOT(uint8_t res_bot)
         else
         {
             init_flag_PCP3428_Bot = false;
-            SERIAL_PORT.println("NOK");
+               SERIAL_PORT.println("NOK");
+            failureCounter_ADC_BOT++;
+            if (failureCounter_ADC_BOT > 10)
+            {
+                rebootExternalPWR();
+                failureCounter_ADC_BOT = 0;
+            }
         }
     }
     else

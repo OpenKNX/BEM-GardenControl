@@ -17,6 +17,7 @@
 #include "Input_4_20mA.h"
 #include "Input_BIN.h"
 #include "Input_S0.h"
+#include "SystemFailureHandling.h"
 
 //#include "Logic.h"
 
@@ -51,17 +52,7 @@ enum StateMaschine
 
 StateMaschine StateM = Pos1;
 
-void waitStartupLoop()
-{
-  // KNX.loop();
 
-  if (delayCheck(LED_Delay2, 700))
-  {
-    TestLEDstate2 = !TestLEDstate2;
-    digitalWrite(get_PROG_LED_PIN(), TestLEDstate2);
-    LED_Delay2 = millis();
-  }
-}
 
 void ProcessReadRequests()
 {
@@ -73,6 +64,23 @@ void ProcessReadRequests()
     sCalledProcessReadRequests = true;
   }
   // gLogic.processReadRequests();    // ******************************************************************************  ändern !!!!!!!!!!!!!
+}
+
+void waitStartupLoop()
+{
+  knx.loop();
+  ProcessReadRequests();
+  processVentil();     // PRIO 3
+  processRelais();     // PRIO 3
+  process_5V_Relais(); // PRIO 3
+
+  if (delayCheck(LED_Delay2, 700))
+  {
+    TestLEDstate2 = !TestLEDstate2;
+    digitalWrite(get_PROG_LED_PIN(), TestLEDstate2);
+    LED_Delay2 = millis();
+    SERIAL_PORT.println("Wait for 5V");
+  }
 }
 
 /*
@@ -197,10 +205,14 @@ void appSetup()
   SERIAL_PORT.println("wait");
   // wait
   delay(1000);
-  /*while (digitalRead(get_5V_status_PIN()))   // ******************************************************************************  ändern !!!!!!!!!!!!!
+  
+  // start the framework
+  knx.start();
+
+  while (digitalRead(get_5V_status_PIN())) // ******************************************************************************  ändern !!!!!!!!!!!!!
   {
     waitStartupLoop();
-  }*/
+  }
 
   if (!digitalRead(get_5V_status_PIN()))
   {
@@ -236,6 +248,7 @@ void appLoop()
 {
 
   processErrorHandling(); // PRIO 1
+  processSysFailure();    // PRIO 1
 
 #ifdef BinInputs
   processReadInputs(); // PRIO 1
@@ -246,8 +259,6 @@ void appLoop()
 #ifdef ImplInput
   processReadImpulseInput(); // PRIO 1
 #endif
-
-
 
   switch (StateM)
   {

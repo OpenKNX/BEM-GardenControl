@@ -5,6 +5,7 @@
 #include "PCA9555.h"
 #include "ErrorHandling.h"
 #include "GardenControl.h"
+#include "SystemFailureHandling.h"
 
 PCA9554 pca9554(i2cAddr_IO, &Wire1);     // Create an object at this address
 PCA9555 pca9555(i2cAddr_IO_Bot, &Wire1); // Create an object at this address
@@ -12,43 +13,50 @@ PCA9555 pca9555(i2cAddr_IO_Bot, &Wire1); // Create an object at this address
 bool init_flag_PCA9555 = false;
 bool init_flag_PCA9554 = false;
 
+uint8_t failureCounter = 0;
+uint8_t failureCounter2 = 0;
+
 void init_IOExpander_GPIOs_TOP()
 {
   // check if +5V iso is available
   if (!get_5V_Error())
   {
-  SERIAL_PORT.print("  PCA9554: ");
-  if (pca9554.isConnected())
-  {
-    pca9554.begin();
+    SERIAL_PORT.print("  PCA9554: ");
+    if (pca9554.isConnected())
+    {
+      pca9554.begin();
 
-    pca9554.pinMode(0, OUTPUT);
-    pca9554.pinMode(1, INPUT);
-    pca9554.pinMode(2, INPUT);
-    pca9554.pinMode(3, INPUT);
-    pca9554.pinMode(4, INPUT);
-    pca9554.pinMode(5, OUTPUT);
-    pca9554.pinMode(6, OUTPUT);
-    pca9554.pinMode(7, OUTPUT);
+      pca9554.pinMode(0, OUTPUT);
+      pca9554.pinMode(1, INPUT);
+      pca9554.pinMode(2, INPUT);
+      pca9554.pinMode(3, INPUT);
+      pca9554.pinMode(4, INPUT);
+      pca9554.pinMode(5, OUTPUT);
+      pca9554.pinMode(6, OUTPUT);
+      pca9554.pinMode(7, OUTPUT);
 
-    SERIAL_PORT.print(pca9554.readRegister(Reg_input_Ports),BIN);
+      SERIAL_PORT.print(pca9554.readRegister(Reg_input_Ports), BIN);
 
-    SERIAL_PORT.println(" OK");
+      SERIAL_PORT.println(" OK");
 
-    init_flag_PCA9554 = true;
-  }
-  else
-  {
-    SERIAL_PORT.println("NOK");
-  }
+      init_flag_PCA9554 = true;
+    }
+    else
+    {
+      SERIAL_PORT.println("NOK");
+      failureCounter++;
+      if (failureCounter > 10)
+      {
+        rebootExternalPWR();
+        failureCounter = 0;
+      }
+    }
   }
   else
   {
     SERIAL_PORT.println("  PCA9554 ERROR: no +5V_Iso");
   }
 }
-
-
 
 void init_IOExpander_GPIOs_BOT()
 {
@@ -72,6 +80,12 @@ void init_IOExpander_GPIOs_BOT()
     else
     {
       SERIAL_PORT.println("NOK");
+      failureCounter2++;
+      if (failureCounter2 > 10)
+      {
+        rebootExternalPWR();
+        failureCounter2 = 0;
+      }
     }
   }
   else
@@ -166,8 +180,6 @@ void set_IOExpander_BOT_Input(uint8_t ch, bool state)
     SERIAL_PORT.println("EE");
   }
 }
-
-
 
 bool getStatus_Ventil(uint8_t ch)
 {
