@@ -34,7 +34,6 @@ union InputADCValuesOLD
     // uint8_t lsoilmoistureU8[ADC_ChannelCount];
 } valueOld;
 
-
 float calculateSensorValueLinearFunction(uint8_t channel, float a, float b, bool Div)
 {
     return ((getAdcVoltage(channel, Div)) - b) / a;
@@ -81,13 +80,12 @@ void processInput_ADC(bool readyFlag)
                 SERIAL_PORT.print(": ");
 #endif
 
-                
                 // STEP 1: read Parameter DPT Format
                 switch (knx.paramByte(getParADC(ADC_CHSensorTypes, channel)))
                 {
-                case SensorType_voltage:                                                           // DPT9.020 (mV)
+                case SensorType_voltage: // DPT9.020 (mV)
                     // STEP 2: Get new Sensor value
-                    value.ladcValue = getAdcVoltage(channel,knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
+                    value.ladcValue = getAdcVoltage(channel, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
                     // STEP 2a: Get Abs value
                     lAbsolute = (knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel))) / 1000.0; // Value in mV
                     break;
@@ -317,13 +315,20 @@ void initInputADC()
         }
     }
 }
-/*
+
 float getSensorValue(uint8_t channel)
 {
     float value;
 
     switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
     {
+    case Channel_inaktiv:
+#ifdef InputADC_Output
+        SERIAL_PORT.print(" INAKTIV:  ");
+#endif
+        value = 0;
+        break;
+
     case ADC_Wert:
 #ifdef InputADC_Output
         SERIAL_PORT.print(" ADC-WERT: ");
@@ -348,8 +353,10 @@ float getSensorValue(uint8_t channel)
         break;
 
     default:
+#ifdef InputADC_Output
+        SERIAL_PORT.print(" ADC Wrong PAR: ");
+#endif
         break;
     }
     return value;
 }
-*/

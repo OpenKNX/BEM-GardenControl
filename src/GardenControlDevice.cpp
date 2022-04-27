@@ -326,8 +326,6 @@ void appLoop()
     }
 #ifdef ADC_enable_Output
     SERIAL_PORT.print("ADC CH1: ");
-    SERIAL_PORT.print(getAdcValue(0));
-    SERIAL_PORT.print(" | ");
     SERIAL_PORT.println(getSensorValue(0));
     SERIAL_PORT.print("ADC CH2: ");
     SERIAL_PORT.println(getSensorValue(1));

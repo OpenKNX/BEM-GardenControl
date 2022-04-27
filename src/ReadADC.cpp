@@ -14,6 +14,11 @@
 #define gain_4 4
 #define gain_8 8
 
+#define CH1 1
+#define CH2 2
+#define CH3 3
+#define CH4 4
+
 #define MaxInputChannel 4
 
 #define sampleRate_100SPS 10 // read each  10ms
@@ -362,11 +367,46 @@ bool processADConversation()
         {
             if (!get_5V_Error() && init_flag_PCP3428_Top)
             {
-                adc_Value[adc_CH - 1] = ReadAdcValue();
+                switch (adc_CH)
+                {
+                case CH1:
+                    adc_Value[2] = ReadAdcValue();
+                    break;
+                case CH2:
+                    adc_Value[1] = ReadAdcValue();
+                    break;
+                case CH3:
+                    adc_Value[0] = ReadAdcValue();
+                    break;
+                case CH4:
+                    adc_Value[3] = ReadAdcValue();
+                    break;
+                    
+                default:
+                    break;
+                }
+                
             }
             else
             {
-                adc_Value[adc_CH - 1] = 0;
+                switch (adc_CH)
+                {
+                case CH1:
+                    adc_Value[2] = 0;
+                    break;
+                case CH2:
+                    adc_Value[1] = 0;
+                    break;
+                case CH3:
+                    adc_Value[0] = 0;
+                    break;
+                case CH4:
+                    adc_Value[3] = 0;
+                    break;
+                    
+                default:
+                    break;
+                }
             }
 
             READ_Delay = millis();
