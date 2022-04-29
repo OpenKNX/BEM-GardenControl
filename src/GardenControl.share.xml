@@ -60,15 +60,6 @@
               </Union>
             </Parameters>
             <ParameterRefs>   
-              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-              <!-- Predefined parameters for hardware selection, influences logic module application -->
-              <!-- buzzer available (invisible, false) -->
-              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-1000035_R-100003502" RefId="M-00FA_A-0001-01-0000_UP-1000035" Value="0" Access="None" />
-              <!-- rgb led available (invisible, false) -->
-              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-1000036_R-100003602" RefId="M-00FA_A-0001-01-0000_UP-1000036" Value="0" Access="None" />
-              <!-- eeprom available (invisible, false) -->
-              <ParameterRef Id="M-00FA_A-0001-01-0000_UP-1000037_R-100003702" RefId="M-00FA_A-0001-01-0000_UP-1000037" Value="0" Access="None" />
-              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
               <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
               <!-- ParameterRef are used in the ETS UI -->    
               <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000000_R-%T%00000001" RefId="M-00FA_A-0001-01-0000_UP-%T%000000" /> <!-- externes 5V relais vorhanden -->   
