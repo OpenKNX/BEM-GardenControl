@@ -142,19 +142,19 @@
             <Channel Id="M-00FA_A-0001-01-0000_CH-1" Name="Standard" Number="1" Text="Magnetventile">
               <op:include href="GardenControl.templ.xml" xpath="//Dynamic/*" type="template" prefix="BEM" />
             </Channel>
-            <Channel Id="M-00FA_A-0001-01-0000_CH-2" Name="Standard" Number="2" Text="Relais">
+            <Channel Id="M-00FA_A-0001-01-0000_CH-2" Name="Standard" Number="2" Text="ext. Relais">
               <op:include href="GardenControlRelais.templ.xml" xpath="//Dynamic/*" type="template" prefix="BEM" />
             </Channel>
             <Channel Id="M-00FA_A-0001-01-0000_CH-3" Name="Standard" Number="3" Text="ADCs">
-              <op:include href="InputADC.templ.xml" xpath="//Dynamic/*" type="template" prefix="ADC" />
+              <op:include href="InputADC.templ.xml" xpath="//Dynamic/*" type="template" prefix="Analog Input:" />
             </Channel>
-            <Channel Id="M-00FA_A-0001-01-0000_CH-4" Name="Standard" Number="4" Text="4-20mA">
+            <Channel Id="M-00FA_A-0001-01-0000_CH-4" Name="Standard" Number="4" Text="Analog Input: 4-20mA">
               <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/*" type="template" prefix="CUR" />
             </Channel>
             <Channel Id="M-00FA_A-0001-01-0000_CH-5" Name="Standard" Number="5" Text="Binär | S0 | Impuls ">
               <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/*" type="template" prefix="BIN" />
             </Channel>
-            <Channel Id="M-00FA_A-0001-01-0000_CH-6" Name="Logik" Number="6" Text="Logikkanäle">
+            <Channel Id="M-00FA_A-0001-01-0000_CH-6" Name="Logik" Number="6" Text="Logikkanäle"> 
               <!-- Logic channel independent settings -->
               <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//Dynamic/Channel/*" prefix="LOG" />
               <!-- Logic channel settings -->

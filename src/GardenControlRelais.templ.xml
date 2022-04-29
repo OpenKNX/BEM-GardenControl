@@ -72,7 +72,7 @@
                     <choose ParamRefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%002_R-%T%%CCC%00201">
                         <when test="!=0">
                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%002_R-%T%%CCC%00201" /> <!-- KO: sperrobjekt -->
-                           <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text=" Wird der Zustand des Relais geändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und Ausgeführt, sobald das Sperrobjekt wieder deaktiviert wird." />
+                           <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="Wird der Zustand des Relais geändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und Ausgeführt, sobald das Sperrobjekt wieder deaktiviert wird." />
                         </when>
                     </choose>
                   </when>
