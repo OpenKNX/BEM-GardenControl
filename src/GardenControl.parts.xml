@@ -33,29 +33,6 @@
                 </choose>
                 <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-7" Text="" UIHint="HorizontalRuler" />
               </ParameterBlock>
-               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-               <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-              <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-2" Name="Hardware" Text="Logik: Hardware (vorbelegt)">
-                <!-- buzzer available (invisible, false) -->
-                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-1000035_R-100003502" />
-                <!-- rgb led available (invisible, false) -->
-                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-1000036_R-100003602" />
-                <!-- eeprom available (invisible, false) -->
-                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-1000037_R-100003702" />
-                <!-- move locally set values to global parameters -->
-                <!-- this is used for decoupling specific applications from global behaviour -->
-                <Assign TargetParamRefRef="M-00FA_A-0001-01-0000_UP-1000035_R-100003501" SourceParamRefRef="M-00FA_A-0001-01-0000_UP-1000035_R-100003502" />
-                <Assign TargetParamRefRef="M-00FA_A-0001-01-0000_UP-1000036_R-100003601" SourceParamRefRef="M-00FA_A-0001-01-0000_UP-1000036_R-100003602" />
-                <Assign TargetParamRefRef="M-00FA_A-0001-01-0000_UP-1000037_R-100003701" SourceParamRefRef="M-00FA_A-0001-01-0000_UP-1000037_R-100003702" />
-                <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-              <!-- NICHT LÖSCHEN für Logik !!!!!!!!!!!!!!!  -->
-              </ParameterBlock>
             </ChannelIndependentBlock>
           </Dynamic>
         </ApplicationProgram>

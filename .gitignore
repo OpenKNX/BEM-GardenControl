@@ -3,5 +3,6 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
-src/GardenControl.debug.xml
-src/GardenControl.knxprod
+**/*.knxprod
+**/*.debug.xml
+release/*
