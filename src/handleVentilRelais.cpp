@@ -76,7 +76,7 @@ void processRelais()
 
 void control_Ventil(uint8_t ch, bool state)
 {
-  if (ch <= BEM_ChannelCount && ch > 0)
+  if (ch <= BEM_ChannelCount && ch >= 0)
   {
     set_IOExpander_BOT_Input(ch, state);
   }

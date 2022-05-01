@@ -367,6 +367,8 @@ bool processADConversation()
         {
             if (!get_5V_Error() && init_flag_PCP3428_Top)
             {
+                adc_Value[adc_CH-1] = ReadAdcValue();
+                /*
                 switch (adc_CH)
                 {
                 case CH1:
@@ -385,10 +387,12 @@ bool processADConversation()
                 default:
                     break;
                 }
-                
+                */
             }
             else
             {
+                adc_Value[adc_CH-1] = 0;
+                /*
                 switch (adc_CH)
                 {
                 case CH1:
@@ -407,6 +411,7 @@ bool processADConversation()
                 default:
                     break;
                 }
+                */
             }
 
             READ_Delay = millis();

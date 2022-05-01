@@ -74,7 +74,7 @@ void processInput_ADC(bool readyFlag)
             case ADC_Wert:
 #ifdef InputADC_Output
                 SERIAL_PORT.print("ADC_");
-                SERIAL_PORT.print(channel);
+                SERIAL_PORT.print(channel+1);
                 SERIAL_PORT.print(": ");
                 SERIAL_PORT.print(lCycle);
                 SERIAL_PORT.print(": ");
@@ -177,7 +177,7 @@ void processInput_ADC(bool readyFlag)
             case SMT50_Bodenfeuchte:
 #ifdef InputADC_Output
                 SERIAL_PORT.print("ADC_");
-                SERIAL_PORT.print(channel);
+                SERIAL_PORT.print(channel+1);
                 SERIAL_PORT.print(" ");
 #endif
                 value.ladcValue = calculateSensorValueLinearFunction(channel, 0.06, 0, DIV_5V);
@@ -205,7 +205,7 @@ void processInput_ADC(bool readyFlag)
             case SMT50_BodenTemperatur:
 #ifdef InputADC_Output
                 SERIAL_PORT.print("ADC_");
-                SERIAL_PORT.print(channel);
+                SERIAL_PORT.print(channel+1);
                 SERIAL_PORT.print(" ");
 #endif
                 // value.ladcValue = calculateSensorValue(channel, 0, 450); // x1 = 0.  x2 = 450°C
@@ -239,7 +239,10 @@ void processInput_ADC(bool readyFlag)
 
             default:
 #ifdef InputADC_Output
-                SERIAL_PORT.println("Wrong ADC SensorTyp");
+                SERIAL_PORT.print("Wrong ADC SensorTyp_CH");
+                SERIAL_PORT.print(channel + 1);
+                SERIAL_PORT.print(" | PAR value: ");
+                SERIAL_PORT.println(knx.paramByte(getParADC(ADC_CHSensorType, channel)));
 #endif
                 break;
             }
@@ -280,6 +283,13 @@ void initInputADC()
 #endif
         switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
         {
+
+        case Channel_inaktiv:
+#ifdef InputADC_Output
+            SERIAL_PORT.println("INAKTVE");
+#endif
+            break;
+
         case ADC_Wert:
             set_ADC_CorrFactor(channel, 1); // inital all Factors to 1
             if (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)))
@@ -311,6 +321,10 @@ void initInputADC()
             break;
 
         default:
+#ifdef InputADC_Output
+            SERIAL_PORT.print("Wrong SensorTYP: ");
+            SERIAL_PORT.println(knx.paramByte(getParADC(ADC_CHSensorType, channel)));
+#endif
             break;
         }
     }

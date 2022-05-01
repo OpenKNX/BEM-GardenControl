@@ -19,7 +19,7 @@
               <!-- Relais Control -->
               <Union SizeInBit="8">
                 <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="0" BitOffset="0" />
-                <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%%CCC%001" Name="CH%C%Aktive" ParameterType="M-00FA_A-0001-01-0000_PT-ActiveInactive" Text="Relais Kanal:" Value="0" Offset="0" BitOffset="0" />
+                <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%%CCC%001" Name="CH%C%Aktive" ParameterType="M-00FA_A-0001-01-0000_PT-ActiveInactive" Text="Kanal:" Value="0" Offset="0" BitOffset="0" />
                 <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%%CCC%002" Name="CH%C%Sperr"  ParameterType="M-00FA_A-0001-01-0000_PT-YesNo"          Text="Sperrobjekt:"  Value="0" Offset="0" BitOffset="1" />
               </Union>
               
@@ -63,18 +63,23 @@
                 <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%%CCC%000_R-%T%%CCC%00001" />
                 <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-2" Text="" UIHint="HorizontalRuler" />
                 <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%001_R-%T%%CCC%00101" />  <!-- Channel aktive / inaktive-->
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-3" Text="" UIHint="HorizontalRuler" />
                 <choose ParamRefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%001_R-%T%%CCC%00101">
+                  <when test="=0">
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-3" Text="Magnetventil-Ausgang inaktiv: Das an den Kanal angebundene Magnetventil kann NICHT angesteuert werden "  />
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="" UIHint="HorizontalRuler" />
+                  </when>
                   <when test="!=0">
                     <!-- KOs for Channel -->
                     <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%000_R-%T%%CCC%00001" /> <!-- KO: schalten -->
                     <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%001_R-%T%%CCC%00101" /> <!-- KO: status   -->
                     <!-- weitere Parameter -->
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-3" Text="Magnetventil-Ausgang aktiv: Das an den Kanal angebundene Magnetventil kann jetzt angesteuert werden "  />
+                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="" UIHint="HorizontalRuler" />
                     <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Sperrobjakt JA/NEIN-->
                     <choose ParamRefId="M-00FA_A-0001-01-0000_UP-%T%%CCC%002_R-%T%%CCC%00201">
                         <when test="!=0">
                            <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%%CCC%002_R-%T%%CCC%00201" /> <!-- KO: sperrobjekt -->
-                           <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="Wird der Zustand des Ventils geändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und Ausgeführt, sobald das Sperrobjekt wieder deaktiviert wird."  />
+                           <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="Wird der Zustand des Ventils geändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und ausgeführt, sobald das Sperrobjekt wieder deaktiviert wird."  />
                         </when>
                     </choose>
                   </when>
