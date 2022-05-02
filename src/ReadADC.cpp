@@ -302,7 +302,8 @@ float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
             break;
         default:
 #ifdef InputADC_Output
-            SERIAL_PORT.println("wrong RES 0-24V");
+            SERIAL_PORT.print("wrong RES 0-24V: Value: ");
+            SERIAL_PORT.println(resolution_BOT);
 #endif
             return 0;
             break;
