@@ -58,6 +58,9 @@
                 <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%000001" Name="ext5VRelaisStateBegin" ParameterType="M-00FA_A-0001-01-0000_PT-OnOFF" Text="Zustand Start"              Value="1" Offset="0" BitOffset="1" />
                 <Parameter Id="M-00FA_A-0001-01-0000_UP-%T%000002" Name="ext5VRelaisStartState" ParameterType="M-00FA_A-0001-01-0000_PT-OnOFF" Text="Status senden nach Startup" Value="0" Offset="0" BitOffset="2" />
               </Union>
+              <Parameter Id="M-00FA_A-0001-01-0000_P-%T%000003" Name="Diag_KO_PWT_enable" ParameterType="M-00FA_A-0001-01-0000_PT-OnOFF"   Text="Diagnose KO aktivieren:" Value="0">
+                <Memory CodeSegment="M-00FA_A-0001-01-0000_RS-04-00000" Offset="51" BitOffset="0" />
+              </Parameter>
             </Parameters>
             <ParameterRefs>   
               <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
@@ -65,14 +68,17 @@
               <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000000_R-%T%00000001" RefId="M-00FA_A-0001-01-0000_UP-%T%000000" /> <!-- externes 5V relais vorhanden -->   
               <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000001_R-%T%00000101" RefId="M-00FA_A-0001-01-0000_UP-%T%000001" /> <!-- externes 5V relais Zustand Start -->   
               <ParameterRef Id="M-00FA_A-0001-01-0000_UP-%T%000002_R-%T%00000201" RefId="M-00FA_A-0001-01-0000_UP-%T%000002" /> <!-- externes 5V relais senden Zustand nach Start -->   
+              <ParameterRef Id="M-00FA_A-0001-01-0000_P-%T%000003_R-%T%00000301"  RefId="M-00FA_A-0001-01-0000_P-%T%000003" /> <!-- Diag KO PWR Rail enable -->   
             </ParameterRefs>
             <ComObjectTable>
-              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%000000" Name="_Set_5V_relais"    Text="ext +5V Relais" FunctionText="Schalten"    Number="21" ObjectSize="1 Bit" ReadFlag="Disabled" WriteFlag="Enabled"  CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-1"  />
-              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%000001" Name="_Status_5V_relais" Text="ext +5V Relais" FunctionText="Status"      Number="22" ObjectSize="1 Bit" ReadFlag="Enabled"  WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-11" />
+              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%000000" Name="_Set_5V_relais"    Text="ext +5V Relais" FunctionText="Schalten"    Number="21" ObjectSize="1 Bit"  ReadFlag="Disabled" WriteFlag="Enabled"  CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-1"  />
+              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%000001" Name="_Status_5V_relais" Text="ext +5V Relais" FunctionText="Status"      Number="22" ObjectSize="1 Bit"  ReadFlag="Enabled"  WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-1 DPST-1-11" />
+              <ComObject Id="M-00FA_A-0001-01-0000_O-%T%000002" Name="_Diagnose_KO_PWR"  Text="Power Rails"    FunctionText="Diagnose"    Number="23" ObjectSize="1 Byte" ReadFlag="Enabled"  WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPT-5 DPST-5-10" />
             </ComObjectTable>
             <ComObjectRefs>
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%000000_R-%T%00000001" RefId="M-00FA_A-0001-01-0000_O-%T%000000" />
               <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%000001_R-%T%00000101" RefId="M-00FA_A-0001-01-0000_O-%T%000001" />
+              <ComObjectRef Id="M-00FA_A-0001-01-0000_O-%T%000002_R-%T%00000201" RefId="M-00FA_A-0001-01-0000_O-%T%000002" />
             </ComObjectRefs>
             <AddressTable MaxEntries="65535" />
             <AssociationTable MaxEntries="65535" />

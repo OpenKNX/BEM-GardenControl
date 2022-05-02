@@ -163,14 +163,18 @@
 #define BEM_ext5VRelaisStartState     50      // 1 Bit, Bit 5
 #define     BEM_ext5VRelaisStartStateMask 0x20
 #define     BEM_ext5VRelaisStartStateShift 5
+#define BEM_Diag_KO_PWT_enable        51      // 1 Bit, Bit 7
+#define     BEM_Diag_KO_PWT_enableMask 0x80
+#define     BEM_Diag_KO_PWT_enableShift 7
 
 #define BEM_Ko_Set_5V_relais 21
 #define BEM_Ko_Status_5V_relais 22
+#define BEM_Ko_Diagnose_KO_PWR 23
 
 #define LOG_ChannelCount 10
 
 // Parameter per channel
-#define LOG_ParamBlockOffset 51
+#define LOG_ParamBlockOffset 52
 #define LOG_ParamBlockSize 86
 #define LOG_fChannelDelayBase          0      // 2 Bits, Bit 7-6
 #define     LOG_fChannelDelayBaseMask 0xC0
@@ -837,7 +841,7 @@
 #define BEM_ChannelCount 12
 
 // Parameter per channel
-#define BEM_ParamBlockOffset 911
+#define BEM_ParamBlockOffset 912
 #define BEM_ParamBlockSize 1
 #define BEM_CHAktive                   0      // 1 Bit, Bit 7
 #define     BEM_CHAktiveMask 0x80
@@ -856,7 +860,7 @@
 #define REL_ChannelCount 3
 
 // Parameter per channel
-#define REL_ParamBlockOffset 923
+#define REL_ParamBlockOffset 924
 #define REL_ParamBlockSize 1
 #define REL_CHaktive                   0      // 0 Bits, Bit 7
 #define     REL_CHaktiveMask 0x00
@@ -875,7 +879,7 @@
 #define ADC_ChannelCount 3
 
 // Parameter per channel
-#define ADC_ParamBlockOffset 926
+#define ADC_ParamBlockOffset 927
 #define ADC_ParamBlockSize 15
 #define ADC_CHSensorType               0      // 8 Bits, Bit 7-0
 #define ADC_CHSendcycletime            1      // int16_t
@@ -898,7 +902,7 @@
 #define CUR_ChannelCount 2
 
 // Parameter per channel
-#define CUR_ParamBlockOffset 971
+#define CUR_ParamBlockOffset 972
 #define CUR_ParamBlockSize 15
 #define CUR_CHSensorType2              0      // 8 Bits, Bit 7-0
 #define CUR_CHSendcycletime2           1      // int16_t
@@ -917,7 +921,7 @@
 #define BIN_ChannelCount 4
 
 // Parameter per channel
-#define BIN_ParamBlockOffset 1001
+#define BIN_ParamBlockOffset 1002
 #define BIN_ParamBlockSize 34
 #define BIN_CHSendenStart3             0      // 1 Bit, Bit 7
 #define     BIN_CHSendenStart3Mask 0x80

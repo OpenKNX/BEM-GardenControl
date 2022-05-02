@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <Wire.h>
-//#include <knx.h>
+#include <knx.h>
+#include "KnxHelper.h"
+#include "GardenControl.h"
 #include "BEM_hardware.h"
 #include "HelperFunc.h"
 #include "ErrorHandling.h"
@@ -19,14 +21,23 @@
 #define ERROR_5V_output 3
 
 #define DelayTime 1000
+#define DelayTime_DiagKO 1000
 
 bool startDelay = false;
 uint32_t delayTimer = 0;
+uint32_t delayTimer_DiagKO = 0;
 
 uint8_t error = 0;
+uint8_t error_old = 0;
 
 uint8_t processErrorHandling()
 {
+    if (startDelay && delayCheck(delayTimer, DelayTime))
+    {
+        startDelay = false;
+        error &= ~(1 << ERROR_5V);
+    }
+
 #ifdef ADC_enable
     // Check 24V
     float value = (float)getAdcVoltage_24V();
@@ -67,12 +78,7 @@ uint8_t processErrorHandling()
         // error &= ~(1 << ERROR_5V);
     }
     
-    if (startDelay && delayCheck(delayTimer, DelayTime))
-    {
-        startDelay = false;
-        error &= ~(1 << ERROR_5V);
-    }
-
+   
     // read +5V Sensor fault
     if (!get_IOExpander_Input(get_5V_fault_PIN()))
     {
@@ -82,6 +88,14 @@ uint8_t processErrorHandling()
     {
         error &= ~(1 << ERROR_5V_output);
     }
+
+    if(error_old != error && delayCheck(delayTimer_DiagKO, DelayTime_DiagKO)) 
+    {
+      knx.getGroupObject(BEM_Ko_Diagnose_KO_PWR).value(error, getDPT(VAL_DPT_5));
+      error_old = error;
+      delayTimer_DiagKO = millis();
+    }
+    
 
     return error;
 }
