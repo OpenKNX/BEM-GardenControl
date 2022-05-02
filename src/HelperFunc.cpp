@@ -3,10 +3,10 @@
 #include "GardenControl.h"
 
 
-bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
-{
-    return millis() - iOldTimer >= iDuration;
-}
+// bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
+// {
+//     return millis() - iOldTimer >= iDuration;
+// }
 
 uint16_t getParBEM(uint16_t PAR, uint8_t CH)
 {

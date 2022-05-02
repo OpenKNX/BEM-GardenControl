@@ -19,13 +19,9 @@
 #include "Input_S0.h"
 #include "SystemFailureHandling.h"
 
-//#include "Logic.h"
+#include "Logic.h"
 
-// Logic gLogic;
-
-const uint8_t cFirmwareMajor = 1;    // 0-31
-const uint8_t cFirmwareMinor = 0;    // 0-31
-const uint8_t cFirmwareRevision = 0; // 0-63
+Logic gLogic;
 
 // uint32_t heartbeatDelay = 0;
 // uint32_t startupDelay = 0;
@@ -63,7 +59,7 @@ void ProcessReadRequests()
     // we go through all IO devices defined as outputs and check for initial read requests
     sCalledProcessReadRequests = true;
   }
-  // gLogic.processReadRequests();    // ******************************************************************************  ändern !!!!!!!!!!!!!
+  gLogic.processReadRequests();    // ******************************************************************************  ändern !!!!!!!!!!!!!
 }
 
 void waitStartupLoop()
@@ -83,7 +79,6 @@ void waitStartupLoop()
   }
 }
 
-/*
 bool processDiagnoseCommand()
 {
   char *lBuffer = gLogic.getDiagnoseBuffer();
@@ -92,7 +87,7 @@ bool processDiagnoseCommand()
   {
     // Command v: retrun fimware version, do not forward this to logic,
     // because it means firmware version of the outermost module
-    sprintf(lBuffer, "VER [%d] %d.%d", cFirmwareMajor, cFirmwareMinor, cFirmwareRevision);
+    sprintf(lBuffer, "VER [%d] %d.%d", 0, MAIN_ApplicationVersion / 16, MAIN_ApplicationVersion % 16);
     lOutput = true;
   }
   else
@@ -121,14 +116,13 @@ void ProcessDiagnoseCommand(GroupObject &iKo)
     sIsCalled = false;
   }
 };
-*/
 
 void ProcessKoCallback(GroupObject &iKo)
 {
   // check if we evaluate own KO
   if (iKo.asap() == LOG_KoDiagnose)
   {
-    // ProcessDiagnoseCommand(iKo);       // ******************************************************************************  ändern !!!!!!!!!!!!!
+    ProcessDiagnoseCommand(iKo);       // ******************************************************************************  ändern !!!!!!!!!!!!!
   }
   else if (iKo.asap() == BEM_Ko_Set_5V_relais)
   {
@@ -164,7 +158,7 @@ void ProcessKoCallback(GroupObject &iKo)
     }
 
     // for handling external inputs, logik always to be called
-    // gLogic.processInputKo(iKo);          // ******************************************************************************  ändern !!!!!!!!!!!!!
+    gLogic.processInputKo(iKo);          // ******************************************************************************  ändern !!!!!!!!!!!!!
   }
 }
 
@@ -176,7 +170,7 @@ void appSetup()
       GroupObject::classCallback(ProcessKoCallback);
     // Setup Logik
     // Logic::addLoopCallback(EnOcean::taskCallback, &enOcean);        // ************************************************************
-    // gLogic.setup(false);                                            // ************************************************************
+    gLogic.setup(false);                                            // ************************************************************
   }
 
   SERIAL_PORT.println("Start init HW TOP");
@@ -382,4 +376,5 @@ void appLoop()
   }
 
   ProcessReadRequests();
+  gLogic.loop();
 }
