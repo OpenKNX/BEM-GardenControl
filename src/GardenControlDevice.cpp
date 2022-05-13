@@ -263,6 +263,11 @@ void appLoop()
   if (startupDelayfunc())
     return;
 
+  if(get_5V_Error())  
+  {
+    initADCFlag = false;
+  }
+
   processErrorHandling(); // PRIO 1
   processSysFailure();    // PRIO 1
 

@@ -6,6 +6,7 @@
 #include "BEM_hardware.h"
 #include "HelperFunc.h"
 #include "Input_Impulse.h"
+#include "ErrorHandling.h"
 
 #define BIN_Input_Impuls 3
 
@@ -46,7 +47,6 @@ void interrupt_Impluse4()
 #define OptoIN_2 11
 #define OptoIN_3 10
 #define OptoIN_4 9
-
 
 void InitImpulseInputs()
 {
@@ -90,7 +90,7 @@ void InitImpulseInputs()
                 break;
 
             default:
-            #ifdef InputImpuls_Output
+#ifdef InputImpuls_Output
                 SERIAL_PORT.println(": WRONG PAR");
 #endif
                 break;
@@ -131,83 +131,87 @@ void processInputImpulse()
     float lAbsolute;
     uint32_t lCycle;
 
-    if (knx.paramByte(getParBIN(BIN_CHInputTypes3, channel_Impl)) == BIN_Input_Impuls)
+    if (!get_5V_Error())
     {
 
-        lCycle = knx.paramWord(getParBIN(BIN_CHSendcycletime3, channel_Impl)) * 1000;
-
-        // we waited enough, let's send the value
-        if (lCycle && delayCheck(sendDelay_Impl[channel_Impl], lCycle))
+        if (knx.paramByte(getParBIN(BIN_CHInputTypes3, channel_Impl)) == BIN_Input_Impuls)
         {
-            lSend = true;
-        }
 
-        if (delayCheck(processDelay_Impl[channel_Impl], 500))
-        {
-#ifdef InputImpuls_Output2
-            SERIAL_PORT.print("Impl_");
-            SERIAL_PORT.print(channel_Impl);
-            SERIAL_PORT.print(": ");
-            SERIAL_PORT.print(counterOLD[channel_Impl]);
-            SERIAL_PORT.print(" | ");
+            lCycle = knx.paramWord(getParBIN(BIN_CHSendcycletime3, channel_Impl)) * 1000;
 
-            
-#endif
-            // STEP 1: Get new Sensor value
-            lValue = getFlowValue(channel_Impl);
-
-            // STEP 2a: Get Abs value
-            lAbsolute = (knx.paramWord(getParBIN(BIN_CHSendenAbsolut3, channel_Impl)));
-            // STEP 2b: Check if Change detected
-            if (lAbsolute > 0 && (abs(lValue - lValueOLD[channel_Impl])) >= lAbsolute)
+            // we waited enough, let's send the value
+            if (lCycle && delayCheck(sendDelay_Impl[channel_Impl], lCycle))
             {
                 lSend = true;
-#ifdef InputImpuls_Output2
-                SERIAL_PORT.print(" Abs ");
-#endif
+                sendDelay_Impl[channel_Impl] = millis();
             }
-            // STEP 4: Check value Change "Releative"
-            lAbsolute = (knx.paramByte(getParBIN(BIN_CHSendenRelativ3, channel_Impl)));
-            // STEP 4a: Check if Change detected
-            if (lAbsolute > 0 && lValue > 0.2 && (abs(lValue - lValueOLD[channel_Impl])) >= lValue / 100 * lAbsolute)
+
+            if (delayCheck(processDelay_Impl[channel_Impl], 500))
             {
-                lSend = true;
 #ifdef InputImpuls_Output2
-                SERIAL_PORT.print(" Rel ");
+                SERIAL_PORT.print("Impl_");
+                SERIAL_PORT.print(channel_Impl);
+                SERIAL_PORT.print(": ");
+                SERIAL_PORT.print(counterOLD[channel_Impl]);
+                SERIAL_PORT.print(" | ");
+
 #endif
+                // STEP 1: Get new Sensor value
+                lValue = getFlowValue(channel_Impl);
+
+                // STEP 2a: Get Abs value
+                lAbsolute = (knx.paramWord(getParBIN(BIN_CHSendenAbsolut3, channel_Impl)));
+                // STEP 2b: Check if Change detected
+                if (lAbsolute > 0 && (abs(lValue - lValueOLD[channel_Impl])) >= lAbsolute)
+                {
+                    lSend = true;
+#ifdef InputImpuls_Output2
+                    SERIAL_PORT.print(" Abs ");
+#endif
+                }
+                // STEP 4: Check value Change "Releative"
+                lAbsolute = (knx.paramByte(getParBIN(BIN_CHSendenRelativ3, channel_Impl)));
+                // STEP 4a: Check if Change detected
+                if (lAbsolute > 0 && lValue > 0.2 && (abs(lValue - lValueOLD[channel_Impl])) >= lValue / 100 * lAbsolute)
+                {
+                    lSend = true;
+#ifdef InputImpuls_Output2
+                    SERIAL_PORT.print(" Rel ");
+#endif
+                }
+
+#ifdef InputImpuls_Output2
+                SERIAL_PORT.println(lValue);
+#endif
+                // STEP 5: Preset KO
+                // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                knx.getGroupObject(getComBIN(BIN_KoBIN_BASE__1, channel_Impl)).valueNoSend(lValue * 60.0, getDPT(VAL_DPT_9)); // from l/min to l/h
+
+                processDelay_Impl[channel_Impl] = millis();
             }
 
+            if (lSend)
+            {
 #ifdef InputImpuls_Output2
-            SERIAL_PORT.println(lValue);
+                SERIAL_PORT.print("KNX_Impl");
+                SERIAL_PORT.print(channel_Impl);
+                SERIAL_PORT.print(": senden: ");
+                SERIAL_PORT.println(lValue);
 #endif
-            // STEP 5: Preset KO
-            // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-            knx.getGroupObject(getComBIN(BIN_KoBIN_BASE__1, channel_Impl)).valueNoSend(lValue*60.0, getDPT(VAL_DPT_9)); // from l/min to l/h 
+                knx.getGroupObject(getComBIN(BIN_KoBIN_BASE__1, channel_Impl)).objectWritten();
+                lValueOLD[channel_Impl] = lValue;
+                sendDelay_Impl[channel_Impl] = millis();
+                lSend = false;
+            }
 
-            processDelay_Impl[channel_Impl] = millis();
-        }
+        } // ENDE IF is Impulseingang
 
-        if (lSend)
+        channel_Impl++;
+        if (channel_Impl >= BIN_ChannelCount)
         {
-#ifdef InputImpuls_Output2
-            SERIAL_PORT.print("KNX_Impl");
-            SERIAL_PORT.print(channel_Impl);
-            SERIAL_PORT.print(": senden: ");
-            SERIAL_PORT.println(lValue);
-#endif
-            knx.getGroupObject(getComBIN(BIN_KoBIN_BASE__1, channel_Impl)).objectWritten();
-            lValueOLD[channel_Impl] = lValue;
-            sendDelay_Impl[channel_Impl] = millis();
-            lSend = false;
+            channel_Impl = 0;
         }
-
-    } // ENDE IF is Impulseingang
-
-    channel_Impl++;
-    if (channel_Impl >= BIN_ChannelCount)
-    {
-        channel_Impl = 0;
-    }
+    } //ENDE 5V Fehler
 }
 
 float getFlowValue(uint8_t ch)
