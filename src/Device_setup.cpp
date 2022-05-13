@@ -239,9 +239,7 @@ void initHW_Bot()
   switch (hw_ID_Bot)
   {
   case HW_BOT_1_0:
-
     init_IOExpander_GPIOs_BOT();
-
 #ifdef ADC_enable
     initADC_BOT(Resolution16Bit);
 #endif

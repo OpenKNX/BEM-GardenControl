@@ -19,19 +19,15 @@
 //Debug Outputs
 #define Input_BIN_Output
 #define InputADC_Output
-#define ADC_enable_Output
-//#define Input_4_20mA_Output
+//#define ADC_enable_Output
+#define Input_4_20mA_Output
 //#define InputImpuls_Output2
 //#define InputImpuls_Output
 //#define IOExp_enable_Output
-//#define Opto_IN_Output
-
-
-
+//#define Opto_IN_Output   
 //#define ImplInput_Output
-
-
 //#define Input_S0_Output
+
 //#define Serial_Debug_S0_Int
 
 

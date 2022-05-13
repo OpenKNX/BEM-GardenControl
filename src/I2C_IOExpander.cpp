@@ -68,13 +68,15 @@ void init_IOExpander_GPIOs_BOT()
     {
       SERIAL_PORT.println("OK");
       pca9555.begin();
-
-      for (uint8_t i = 0; i < 15; i++)
+      
+      for (uint8_t i = 0; i < 16; i++)
       {
         pca9555.pinMode(i, OUTPUT);
         pca9555.digitalWrite(i, LOW);
+        //SERIAL_PORT.println(pca9555.getConfigReg());
+        delay(1);
       }
-
+      
       init_flag_PCA9555 = true;
     }
     else

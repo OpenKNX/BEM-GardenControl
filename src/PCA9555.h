@@ -30,12 +30,15 @@ class PCA9555 {
 public:
     PCA9555(uint8_t address, TwoWire *wire);     // optional interrupt pin in second argument
     void pinMode(uint8_t pin, uint8_t IOMode );          // pinMode
+    void pinModeAllOutputs();                            // pinMode
     uint8_t digitalRead(uint8_t pin);                    // digitalRead
     void digitalWrite(uint8_t pin, uint8_t value );      // digitalWrite
+    void digitalWriteAllToLow();                         // digitalWrite
     uint8_t stateOfPin(uint8_t pin);                     // Actual ISR
     void setClock(uint32_t clockFrequency);              // Clock speed
     bool begin();                                        // Checks if PCA is responsive
     bool isConnected();
+    uint16_t getConfigReg();
 
 private:
     TwoWire *_wire;

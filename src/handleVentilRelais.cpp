@@ -5,13 +5,14 @@
 #include "KnxHelper.h"
 #include "BEM_hardware.h"
 #include "Device_setup.h"
+#include "ErrorHandling.h"
 
 bool ventil_State[BEM_ChannelCount] = {0};
-bool ventil_State_old[BEM_ChannelCount] = {true};
+bool ventil_State_old[BEM_ChannelCount] = {0};
 bool ventil_Sperrobjekt[BEM_ChannelCount] = {0};
 
 bool relais_State[REL_ChannelCount] = {0};
-bool relais_State_old[REL_ChannelCount] = {true};
+bool relais_State_old[REL_ChannelCount] = {0};
 bool relais_Sperrobjekt[REL_ChannelCount] = {0};
 
 bool relais_5V_State = false;
@@ -23,18 +24,30 @@ bool relais_5V_startup_flag = true;
  ****************************************************************************/
 void processVentil()
 {
-  // check of state chnage and Send new Status
-  for (int ch = 0; ch < BEM_ChannelCount; ch++)
+  if (!get_5V_Error())
   {
-    if (ventil_State_old[ch] != ventil_State[ch] && ventil_Sperrobjekt[ch] == false)
+    // check of state chnage and Send new Status
+    for (int ch = 0; ch < BEM_ChannelCount; ch++)
     {
-      control_Ventil(ch, ventil_State[ch]);
-      SERIAL_PORT.print("Ventil_");
-      SERIAL_PORT.print(ch+1);
-      SERIAL_PORT.print(": ");
-      SERIAL_PORT.println(ventil_State[ch]);
-      knx.getGroupObject(BEM_KoOffset + (ch * BEM_KoBlockSize + BEM_Ko_Status_ventil)).value(ventil_State[ch], getDPT(VAL_DPT_1));
-      ventil_State_old[ch] = ventil_State[ch];
+      if (ventil_State_old[ch] != ventil_State[ch] && ventil_Sperrobjekt[ch] == false)
+      {
+        control_Ventil(ch, ventil_State[ch]);
+        SERIAL_PORT.print("Ventil_");
+        SERIAL_PORT.print(ch + 1);
+        SERIAL_PORT.print(": ");
+        SERIAL_PORT.println(ventil_State[ch]);
+        knx.getGroupObject(BEM_KoOffset + (ch * BEM_KoBlockSize + BEM_Ko_Status_ventil)).value(ventil_State[ch], getDPT(VAL_DPT_1));
+        ventil_State_old[ch] = ventil_State[ch];
+      }
+    }
+  }
+  else
+  {
+    // check of state chnage and Send new Status
+    for (int ch = 0; ch < BEM_ChannelCount; ch++)
+    {
+      ventil_State_old[ch] = 0;
+      ventil_State[ch] = 0;
     }
   }
 }
@@ -58,18 +71,30 @@ void set_Ventil_Sperrobjekt(uint8_t ch, bool state)
  ****************************************************************************/
 void processRelais()
 {
-  // check of state chnage and Send new Status
-  for (int ch = 0; ch < REL_ChannelCount; ch++)
+  if (!get_5V_Error())
   {
-    if (relais_State_old[ch] != relais_State[ch] && relais_Sperrobjekt[ch] == false)
+    // check of state chnage and Send new Status
+    for (int ch = 0; ch < REL_ChannelCount; ch++)
     {
-      control_Relais(ch, relais_State[ch]);
-      SERIAL_PORT.print("Relais_");
-      SERIAL_PORT.print(ch+1);
-      SERIAL_PORT.print(": ");
-      SERIAL_PORT.println(relais_State[ch]);
-      knx.getGroupObject(REL_KoOffset + (ch * REL_KoBlockSize + REL_Ko_Status_relais)).value(relais_State[ch], getDPT(VAL_DPT_1));
-      relais_State_old[ch] = relais_State[ch];
+      if (relais_State_old[ch] != relais_State[ch] && relais_Sperrobjekt[ch] == false)
+      {
+        control_Relais(ch, relais_State[ch]);
+        SERIAL_PORT.print("Relais_");
+        SERIAL_PORT.print(ch + 1);
+        SERIAL_PORT.print(": ");
+        SERIAL_PORT.println(relais_State[ch]);
+        knx.getGroupObject(REL_KoOffset + (ch * REL_KoBlockSize + REL_Ko_Status_relais)).value(relais_State[ch], getDPT(VAL_DPT_1));
+        relais_State_old[ch] = relais_State[ch];
+      }
+    }
+  }
+  else
+  {
+    // check of state chnage and Send new Status
+    for (int ch = 0; ch < REL_ChannelCount; ch++)
+    {
+      relais_State_old[ch] = 0;
+      relais_State[ch] = 0;
     }
   }
 }
@@ -142,8 +167,6 @@ void process_5V_Relais()
     relais_5V_State_old = relais_5V_State;
   }
 }
-
-
 
 void set_5V_Relais_State(bool state)
 {
