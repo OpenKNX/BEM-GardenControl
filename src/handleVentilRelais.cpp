@@ -57,6 +57,11 @@ void set_Ventil_State(uint8_t ch, bool state)
   ventil_State[ch] = state;
 }
 
+bool get_Ventil_StateOld(uint8_t ch)
+{
+  return ventil_State_old[ch];
+}
+
 void set_Ventil_Sperrobjekt(uint8_t ch, bool state)
 {
   SERIAL_PORT.print("Sperrobjekt Ventil CH");
@@ -128,6 +133,11 @@ void control_Relais(uint8_t nr, bool state)
 void set_Relais_State(uint8_t ch, bool state)
 {
   relais_State[ch] = state;
+}
+
+bool get_Relais_StateOld(uint8_t ch)
+{
+  return relais_State_old[ch];
 }
 
 void set_Relais_Sperrobjekt(uint8_t ch, bool state)

@@ -76,7 +76,7 @@ void ProcessReadRequests()
     // we go through all IO devices defined as outputs and check for initial read requests
     sCalledProcessReadRequests = true;
   }
-  gLogic.processReadRequests();    // ******************************************************************************  ändern !!!!!!!!!!!!!
+  gLogic.processReadRequests(); // ******************************************************************************  ändern !!!!!!!!!!!!!
 }
 
 void waitStartupLoop()
@@ -126,7 +126,7 @@ void ProcessDiagnoseCommand(GroupObject &iKo)
   if (!sIsCalled)
   {
     sIsCalled = true;
-    //diagnose is interactive and reacts on commands
+    // diagnose is interactive and reacts on commands
     gLogic.initDiagnose(iKo);
     if (processDiagnoseCommand())
       gLogic.outputDiagnose(iKo);
@@ -136,10 +136,13 @@ void ProcessDiagnoseCommand(GroupObject &iKo)
 
 void ProcessKoCallback(GroupObject &iKo)
 {
+#ifdef KNXcallback
+  SERIAL_PORT.println(iKo.asap());
+#endif
   // check if we evaluate own KO
   if (iKo.asap() == LOG_KoDiagnose)
   {
-    ProcessDiagnoseCommand(iKo);       // ******************************************************************************  ändern !!!!!!!!!!!!!
+    ProcessDiagnoseCommand(iKo); // ******************************************************************************  ändern !!!!!!!!!!!!!
   }
   else if (iKo.asap() == BEM_Ko_Set_5V_relais)
   {
@@ -148,11 +151,17 @@ void ProcessKoCallback(GroupObject &iKo)
   else
   {
     bool callLogic = true;
-    for (int koIndex = 0; koIndex < BEM_ChannelCount + REL_ChannelCount; koIndex++)
+    for (int koIndex = 0; koIndex < BEM_ChannelCount; koIndex++)
     {
       if (iKo.asap() == BEM_KoOffset + (BEM_Ko_Set_ventil + (koIndex * BEM_KoBlockSize))) // KO Abfrage für Ventile
       {
         uint8_t ventil_Nr = ((iKo.asap() - BEM_KoOffset) / BEM_KoBlockSize);
+#ifdef KNXcallback
+        SERIAL_PORT.print("KO_Ventil_");
+        SERIAL_PORT.print(ventil_Nr + 1);
+        SERIAL_PORT.print(": ");
+        SERIAL_PORT.println((bool)iKo.value(getDPT(VAL_DPT_1)));
+#endif
         set_Ventil_State(ventil_Nr, iKo.value(getDPT(VAL_DPT_1)));
         callLogic = false;
       }
@@ -160,10 +169,20 @@ void ProcessKoCallback(GroupObject &iKo)
       {
         uint8_t ventil_Nr = ((iKo.asap() - BEM_KoOffset) / BEM_KoBlockSize);
         set_Ventil_Sperrobjekt(ventil_Nr, iKo.value(getDPT(VAL_DPT_1)));
+        callLogic = false;
       }
-      else if (iKo.asap() == REL_KoOffset + (REL_Ko_Set_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Relais
+    }
+    for (int koIndex = 0; koIndex < REL_ChannelCount; koIndex++)
+    {
+      if (iKo.asap() == REL_KoOffset + (REL_Ko_Set_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Relais
       {
         uint8_t relais_Nr = ((iKo.asap() - REL_KoOffset) / REL_KoBlockSize);
+#ifdef KNXcallback
+        SERIAL_PORT.print("KO_Relais_");
+        SERIAL_PORT.print(relais_Nr + 1);
+        SERIAL_PORT.print(": ");
+        SERIAL_PORT.println((bool)iKo.value(getDPT(VAL_DPT_1)));
+#endif
         set_Relais_State(relais_Nr, iKo.value(getDPT(VAL_DPT_1)));
         callLogic = false;
       }
@@ -171,11 +190,12 @@ void ProcessKoCallback(GroupObject &iKo)
       {
         uint8_t relais_Nr = ((iKo.asap() - REL_KoOffset) / REL_KoBlockSize);
         set_Relais_Sperrobjekt(relais_Nr, iKo.value(getDPT(VAL_DPT_1)));
+        callLogic = false;
       }
     }
 
     // for handling external inputs, logik always to be called
-    gLogic.processInputKo(iKo);          // ******************************************************************************  ändern !!!!!!!!!!!!!
+    gLogic.processInputKo(iKo); // ******************************************************************************  ändern !!!!!!!!!!!!!
   }
 }
 
@@ -187,7 +207,7 @@ void appSetup()
       GroupObject::classCallback(ProcessKoCallback);
     // Setup Logik
     // Logic::addLoopCallback(EnOcean::taskCallback, &enOcean);        // ************************************************************
-    gLogic.setup(false);                                            // ************************************************************
+    gLogic.setup(false); // ************************************************************
   }
 
   SERIAL_PORT.println("Start init HW TOP");
@@ -216,7 +236,7 @@ void appSetup()
   SERIAL_PORT.println("wait");
   // wait
   delay(1000);
-  
+
   // start the framework
   knx.start();
 
@@ -263,7 +283,7 @@ void appLoop()
   if (startupDelayfunc())
     return;
 
-  if(get_5V_Error())  
+  if (get_5V_Error())
   {
     initADCFlag = false;
   }
@@ -291,19 +311,19 @@ void appLoop()
       initADCFlag = true;
     }
 #endif
-    processInput_ADC(initADCFlag);
+    // processInput_ADC(initADCFlag);
     StateM = Pos2;
     break;
   case Pos2:
-    processInput_4_20mA(initADCFlag);
+    // processInput_4_20mA(initADCFlag);
     StateM = Pos3;
     break;
   case Pos3:
-    processInput_BIN();
+    // processInput_BIN();
     StateM = Pos4;
     break;
   case Pos4:
-    processInputImpulse();
+    // processInputImpulse();
     StateM = Pos5;
     break;
   case Pos5:
@@ -335,10 +355,19 @@ void appLoop()
   */
   if (delayCheck(Output_Delay, 1000))
   {
+    /*
+    SERIAL_PORT.print("Ventil1: ");
+    SERIAL_PORT.println(get_Ventil_StateOld(0));
+    SERIAL_PORT.print("Relais1: ");
+    SERIAL_PORT.println(get_Relais_StateOld(0));
+*/
     if (getError())
     {
+
 #ifdef SerialError
       SERIAL_PORT.println(getError());
+      SERIAL_PORT.print("Ventil1: ");
+      SERIAL_PORT.println(get_Ventil_StateOld(0));
       SERIAL_PORT.println(get_5V_Error());
       SERIAL_PORT.println(get_12V_Error());
       SERIAL_PORT.println(get_24V_Error());
