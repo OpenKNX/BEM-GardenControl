@@ -311,19 +311,19 @@ void appLoop()
       initADCFlag = true;
     }
 #endif
-    // processInput_ADC(initADCFlag);
+    processInput_ADC(initADCFlag);
     StateM = Pos2;
     break;
   case Pos2:
-    // processInput_4_20mA(initADCFlag);
+    processInput_4_20mA(initADCFlag);
     StateM = Pos3;
     break;
   case Pos3:
-    // processInput_BIN();
+    processInput_BIN();
     StateM = Pos4;
     break;
   case Pos4:
-    // processInputImpulse();
+    processInputImpulse();
     StateM = Pos5;
     break;
   case Pos5:
