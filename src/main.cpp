@@ -22,6 +22,12 @@ void setup()
   SERIAL_DEBUG.println("Start Appication");
   ArduinoPlatform::SerialDebug = &SERIAL_DEBUG;
 
+   SERIAL_PORT.println("Start init HW TOP");
+  read_HW_ID_TOP();
+  print_HW_ID_TOP(get_HW_ID_TOP());
+  initHW();
+  SERIAL_PORT.println("Done");
+
 #ifdef ARDUINO_ARCH_RP2040
   Serial1.setRX(17); // UART0 KNX
   Serial1.setTX(16); // UART0
@@ -44,11 +50,11 @@ void setup()
   // is the led active on HIGH or low? Default is LOW
   knx.ledPinActiveOn(PROG_LED_PIN_ACTIVE_ON);
   // pin or GPIO programming button is connected to. Default is 0
-  knx.buttonPin(PROG_BUTTON_PIN);
+  knx.buttonPin(get_PROG_BUTTON_PIN());
   // Is the interrup created in RISING or FALLING signal? Default is RISING
   knx.buttonPinInterruptOn(PROG_BUTTON_PIN_INTERRUPT_ON);
 
-  // print values of parameters if device is already configured
+   // print values of parameters if device is already configured
   if (knx.configured())
     appSetup();
 

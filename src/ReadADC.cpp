@@ -83,7 +83,7 @@ void initADC_TOP(uint8_t res_top)
             failureCounter_ADC_TOP++;
             if (failureCounter_ADC_TOP > 10)
             {
-                rebootExternalPWR();
+                //rebootExternalPWR();                     // *******************************************************************************************
                 failureCounter_ADC_TOP = 0;
             }
         }

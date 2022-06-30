@@ -210,11 +210,6 @@ void appSetup()
     gLogic.setup(false); // ************************************************************
   }
 
-  SERIAL_PORT.println("Start init HW TOP");
-  read_HW_ID_TOP();
-  print_HW_ID_TOP(get_HW_ID_TOP());
-  initHW();
-  SERIAL_PORT.println("Done");
   // enable Main Relay
   SERIAL_PORT.print("enable Main Relay: ");
   SERIAL_PORT.println((knx.paramByte(BEM_ext5VRelaisStateBegin) >> BEM_ext5VRelaisStateBeginShift) & 1);
