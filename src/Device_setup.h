@@ -25,6 +25,7 @@ void initHW_Top();
 void initHW_Bot();
 void print_HW_ID_TOP(uint8_t id);
 void print_HW_ID_BOT(uint8_t id);
+uint8_t get_HW_ID();
 uint8_t get_PROG_LED_PIN();
 uint8_t get_PROG_BUTTON_PIN();
 uint8_t get_SAVE_INTERRUPT_PIN();

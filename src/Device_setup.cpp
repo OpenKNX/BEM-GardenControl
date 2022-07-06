@@ -15,6 +15,11 @@ void init_GPIOs()
 {
 }
 
+uint8_t get_HW_ID()
+{
+  return hw_ID;
+}
+
 uint8_t get_PROG_LED_PIN()
 {
   switch (hw_ID)

@@ -6,6 +6,7 @@
 #include "ErrorHandling.h"
 #include "GardenControl.h"
 #include "SystemFailureHandling.h"
+#include "Device_setup.h"
 
 PCA9554 pca9554(i2cAddr_IO, &Wire1);     // Create an object at this address
 PCA9555 pca9555(i2cAddr_IO_Bot, &Wire1); // Create an object at this address
@@ -26,14 +27,38 @@ void init_IOExpander_GPIOs_TOP()
     {
       pca9554.begin();
 
-      pca9554.pinMode(0, OUTPUT);
-      pca9554.pinMode(1, INPUT);
-      pca9554.pinMode(2, INPUT);
-      pca9554.pinMode(3, INPUT);
-      pca9554.pinMode(4, INPUT);
-      pca9554.pinMode(5, OUTPUT);
-      pca9554.pinMode(6, OUTPUT);
-      pca9554.pinMode(7, OUTPUT);
+      switch (get_HW_ID())
+      {
+      case HW_1_0:
+
+        pca9554.digitalWrite(5, HIGH); // Set Volt div 1 = HIGH
+        pca9554.digitalWrite(6, HIGH); // Set Volt div 2 = HIGH
+        pca9554.digitalWrite(7, HIGH); // Set Volt div 3 = HIGH
+
+        pca9554.pinMode(0, OUTPUT);  // ADC VCC 5V Output Enable  
+        pca9554.pinMode(1, INPUT);  // HW_ID 1
+        pca9554.pinMode(2, INPUT);  // HW_ID 2
+        pca9554.pinMode(3, INPUT);  // HW_ID 3
+        pca9554.pinMode(4, INPUT);  // ADC VCC +5V Output Fault
+        pca9554.pinMode(5, OUTPUT); // Volt div 1
+        pca9554.pinMode(6, OUTPUT); // Volt div 2
+        pca9554.pinMode(7, OUTPUT); // Volt div 3
+        break;
+      case HW_2_0:
+        pca9554.pinMode(0, OUTPUT); // ADC VCC 5V Output Enable 
+        pca9554.pinMode(1, INPUT);  // HW_ID 1
+        pca9554.pinMode(2, INPUT);  // HW_ID 2
+        pca9554.pinMode(3, INPUT);  // HW_ID 3
+        pca9554.pinMode(4, INPUT);  // ADC VCC +5V Output Fault
+        pca9554.pinMode(5, INPUT);  // ADC VCC +12V Output Fault
+        pca9554.pinMode(6, OUTPUT); // HSS_SEL
+        pca9554.pinMode(7, OUTPUT); // +24V SW Enable
+        break;
+
+      default:
+      SERIAL_PORT.println(" wrong HW_ID Io Exp Init");
+        break;
+      }
 
       SERIAL_PORT.print(pca9554.readRegister(Reg_input_Ports), BIN);
 

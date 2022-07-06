@@ -296,33 +296,31 @@ void initInputADC()
             break;
 
         case ADC_Wert:
-            set_ADC_CorrFactor(channel, 1); // inital all Factors to 1
-            if (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)))
-            {
-                set_ADC_CorrFactor(channel, knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel)) / 100.0);
+            set_ADC_CorrFactor(channel, knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel)) / 100.0);
 #ifdef InputADC_Output
-                SERIAL_PORT.println("ADC-Wert: (0-12V)");
-                SERIAL_PORT.print("Kor: ");
-                SERIAL_PORT.println(knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel)) / 100.0);
+            SERIAL_PORT.println("ADC-Wert: (0-12V)");
+            SERIAL_PORT.print("Kor: ");
+            SERIAL_PORT.println(knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel)) / 100.0);
 #endif
-            }
-            else
-#ifdef InputADC_Output
-                SERIAL_PORT.println("ADC-Wert: (0-5V)");
-#endif
-            set_ADC_DIV(channel, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
+            // set_ADC_DIV(channel, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel))); //old only for HW_ID1
             break;
         case SMT50_Bodenfeuchte:
+            set_ADC_CorrFactor(channel, knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel)) / 100.0);
 #ifdef InputADC_Output
-            SERIAL_PORT.println("SMT50-BF");
+            SERIAL_PORT.print("SMT50-BF");
+            SERIAL_PORT.print("Kor: ");
+            SERIAL_PORT.println(knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel)) / 100.0);
 #endif
-            set_ADC_DIV(channel, DIV_5V);
+            // set_ADC_DIV(channel, DIV_5V);   //old only for HW_ID1
             break;
         case SMT50_BodenTemperatur:
+            set_ADC_CorrFactor(channel, knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel)) / 100.0);
 #ifdef InputADC_Output
-            SERIAL_PORT.println("SMT50-BT");
+            SERIAL_PORT.print("SMT50-BT");
+            SERIAL_PORT.print("Kor: ");
+            SERIAL_PORT.println(knx.paramWord(getParADC(ADC_CHVoltageCorrection, channel)) / 100.0);
 #endif
-            set_ADC_DIV(channel, DIV_5V);
+            // set_ADC_DIV(channel, DIV_5V);   //old only for HW_ID1
             break;
 
         default:

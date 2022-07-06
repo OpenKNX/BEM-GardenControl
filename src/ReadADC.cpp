@@ -83,7 +83,7 @@ void initADC_TOP(uint8_t res_top)
             failureCounter_ADC_TOP++;
             if (failureCounter_ADC_TOP > 10)
             {
-                //rebootExternalPWR();                     // *******************************************************************************************
+                // rebootExternalPWR();                     // *******************************************************************************************
                 failureCounter_ADC_TOP = 0;
             }
         }
@@ -109,7 +109,7 @@ void initADC_BOT(uint8_t res_bot)
         else
         {
             init_flag_PCP3428_Bot = false;
-               SERIAL_PORT.println("NOK");
+            SERIAL_PORT.println("NOK");
             failureCounter_ADC_BOT++;
             if (failureCounter_ADC_BOT > 10)
             {
@@ -215,7 +215,27 @@ float checkZero(float value)
 
 float getAdcVoltage(uint8_t ch, bool div)
 {
-
+    switch (resolution_TOP)
+    {
+    case Resolution12Bit:
+        return checkZero((adc_Value[ch] * 0.006) / corr_Factor[ch]); // 2.047 / 2047.0 * 6.0;
+        break;
+    case Resolution14Bit:
+        return checkZero((adc_Value[ch] * 0.0015) / corr_Factor[ch]); // 2.047 / 8191.0 * 6.0;
+        break;
+    case Resolution16Bit:
+        return checkZero((adc_Value[ch] * 0.000375) / corr_Factor[ch]); // 2.047 / 32767.0 * 6.0;
+        break;
+    default:
+#ifdef InputADC_Output
+        SERIAL_PORT.println("wrong RES 0-12V");
+        SERIAL_PORT.println(resolution_TOP);
+#endif
+        return 0;
+        break;
+    }
+    // ALTE UMSETZUNG HW1.x
+    /*
     if (div) // 0-12V
     {
         switch (resolution_TOP)
@@ -262,6 +282,7 @@ float getAdcVoltage(uint8_t ch, bool div)
             break;
         }
     }
+    */
 }
 
 float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
@@ -368,7 +389,7 @@ bool processADConversation()
         {
             if (!get_5V_Error() && init_flag_PCP3428_Top)
             {
-                adc_Value[adc_CH-1] = ReadAdcValue();
+                adc_Value[adc_CH - 1] = ReadAdcValue();
                 /*
                 switch (adc_CH)
                 {
@@ -384,7 +405,7 @@ bool processADConversation()
                 case CH4:
                     adc_Value[3] = ReadAdcValue();
                     break;
-                    
+
                 default:
                     break;
                 }
@@ -392,7 +413,7 @@ bool processADConversation()
             }
             else
             {
-                adc_Value[adc_CH-1] = 0;
+                adc_Value[adc_CH - 1] = 0;
                 /*
                 switch (adc_CH)
                 {
@@ -408,7 +429,7 @@ bool processADConversation()
                 case CH4:
                     adc_Value[3] = 0;
                     break;
-                    
+
                 default:
                     break;
                 }
