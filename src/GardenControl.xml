@@ -1,21 +1,22 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<KNX xmlns:op="http://github.com/OpenKNX/OpenKNXproducer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="KNX MT" ToolVersion="5.1.255.16695" xmlns="http://knx.org/xml/project/14">
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
       <Catalog>
         <CatalogSection Id="M-00FA_CS-OpenKNX" Name="OpenKNX" Number="OpenKNX" DefaultLanguage="de">
-          <CatalogItem Id="M-00FA_H-%SerialNumberEncoded%-%HardwareVersionEncoded%_HP-0001-01-0000_CI-%OrderNumberEncoded%-1" Name="OpenKNX: GardenControl" Number="1" ProductRefId="M-00FA_H-%SerialNumberEncoded%-%HardwareVersionEncoded%_P-%OrderNumberEncoded%" Hardware2ProgramRefId="M-00FA_H-%SerialNumberEncoded%-%HardwareVersionEncoded%_HP-0001-01-0000" DefaultLanguage="de" />
+          <CatalogItem Id="%CatalogItemId%" Name="OpenKNX: GardenControl" Number="1" ProductRefId="%ProductId%" Hardware2ProgramRefId="%Hardware2ProgramId%" DefaultLanguage="de" />
         </CatalogSection>
       </Catalog>
       <ApplicationPrograms>
-        <!-- Each increase of AppliationVersion FORCES the Enduser to update according firmware, too -->
+        <!-- Each incre20e of AppliationVersion FORCES the Enduser to update according firmware, too -->
         <!-- If you just want to have a BUGFIX-Update of the ETS-Appliation (without firmware), increase ApplicationVersion AND ApplicationRevision simultaneously -->
         <!-- To sync ETS-Application and firmware again, increase ApplicationVersion AND set ApplicationRevision to 0 -->
         <op:version OpenKnxId="0xA2" ApplicationNumber="16" ApplicationVersion="1" ReplacesVersions="0" ApplicationRevision="0" />
-        <ApplicationProgram Id="M-00FA_A-0001-01-0000" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="KNX-GardenControl" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0" ApplicationNumber="0" ApplicationVersion="0" ReplacesVersions="0">
+        <ApplicationProgram Id="%AID%" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="KNX-GardenControl" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0" ApplicationNumber="0" ApplicationVersion="0" ReplacesVersions="0">
           <Static>
             <Code>
-              <RelativeSegment Id="M-00FA_A-0001-01-0000_RS-04-00000" Name="Parameters" Offset="0" Size="%MemorySize%" LoadStateMachine="4" />
+              <RelativeSegment Id="%AID%_RS-04-00000" Name="Parameters" Offset="0" Size="%MemorySize%" LoadStateMachine="4" />
             </Code>
             <op:define prefix="LOG" header="GardenControl.h" NumChannels="10" KoOffset="420" ModuleType="1" />  <!-- LOG muss immer ModuleType 1 sein --> 
             <op:define prefix="BEM" header="GardenControl.h" NumChannels="12" KoOffset="30"  ModuleType="2" />  <!-- KoOffset = 30 -> 20 default from Logik + 10 for default of Gardencontrol -->
@@ -99,13 +100,10 @@
             </ComObjectRefs>
             <AddressTable MaxEntries="2047" />
             <AssociationTable MaxEntries="2047" />
-            <Messages>
-              <Message Id="M-00FA_A-0001-01-0000_M-1" Name="VersionMismatch" Text="Diese Applikaiton benötigt die Firmware-Version %VersionMessage%, siehe Geräteinfo." />
-            </Messages>
             <LoadProcedures>
               <LoadProcedure MergeId="1">
                 <LdCtrlCompareProp InlineData="%VersionCheck%" ObjIdx="0" PropId="78">
-                  <OnError Cause="CompareMismatch" MessageRef="M-00FA_A-0001-01-0000_M-1" />
+                  <OnError Cause="CompareMismatch" MessageRef="%AID%_M-1" />
                 </LdCtrlCompareProp>
               </LoadProcedure>
               <LoadProcedure MergeId="2">
@@ -122,56 +120,59 @@
                 <LdCtrlLoadImageProp ObjIdx="4" PropId="27" />
               </LoadProcedure>
             </LoadProcedures>
+            <Messages>
+              <Message Id="%AID%_M-1" Name="VersionMismatch" Text="Diese Applikaiton benötigt die Firmware-Version %VersionMessage%, siehe Geräteinfo." />
+            </Messages>
             <Options />
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
             <ChannelIndependentBlock>
               <!-- ChannelIndependentBlock is a composition of different parts of different modules -->
-              <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-1" Name="Doku" Text="Dokumenation">
+              <ParameterBlock Id="%AID%_PB-1" Name="Doku" Text="Dokumenation">
                 <op:include href="GardenControl.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='Docu']/*" prefix="BEM" />
               </ParameterBlock>
-              <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-2" Name="General" Text="Allgemeine Parameter">
+              <ParameterBlock Id="%AID%_PB-2" Name="General" Text="Allgemeine Parameter">
                 <op:include href="../../OAM-LogicModule/src/Logikmodul.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='General']/*" prefix="LOG" />
                 <op:include href="GardenControl.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='General']/*" prefix="BEM" />
                 <op:include href="../../OAM-LogicModule/src/Logikmodul.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='Diagnose']/*" prefix="LOG" />
               </ParameterBlock>
             </ChannelIndependentBlock>
             <!-- Erster Enocean Kanal -->
-            <Channel Id="M-00FA_A-0001-01-0000_CH-1" Name="Standard" Number="1" Text="Magnetventile">
-              <op:include href="GardenControl.templ.xml" xpath="//Dynamic/*" type="template" prefix="BEM" />
+            <Channel Id="%AID%_CH-1" Name="Standard" Number="1" Text="Magnetventile">
+              <op:include href="GardenControl.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="BEM" />
             </Channel>
-            <Channel Id="M-00FA_A-0001-01-0000_CH-2" Name="Standard" Number="2" Text="ext. Relais">
-              <op:include href="GardenControlRelais.templ.xml" xpath="//Dynamic/*" type="template" prefix="BEM" />
+            <Channel Id="%AID%_CH-2" Name="Standard" Number="2" Text="ext. Relais">
+              <op:include href="GardenControlRelais.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="BEM" />
             </Channel>
-            <Channel Id="M-00FA_A-0001-01-0000_CH-3" Name="Standard" Number="3" Text="Analog Input:  0-5V/12V">
-              <op:include href="InputADC.templ.xml" xpath="//Dynamic/*" type="template" prefix="Analog Input:" />
+            <Channel Id="%AID%_CH-3" Name="Standard" Number="3" Text="Analog Input:  0-5V/12V">
+              <op:include href="InputADC.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="ADC" />
             </Channel>
-            <Channel Id="M-00FA_A-0001-01-0000_CH-4" Name="Standard" Number="4" Text="Analog Input:  4-20mA">
-              <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/*" type="template" prefix="CUR" />
+            <Channel Id="%AID%_CH-4" Name="Standard" Number="4" Text="Analog Input:  4-20mA">
+              <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="CUR" />
             </Channel>
-            <Channel Id="M-00FA_A-0001-01-0000_CH-5" Name="Standard" Number="5" Text="Binär | S0 | Impuls ">
-              <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/*" type="template" prefix="BIN" />
+            <Channel Id="%AID%_CH-5" Name="Standard" Number="5" Text="Binär | S0 | Impuls ">
+              <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="BIN" />
             </Channel>
-            <Channel Id="M-00FA_A-0001-01-0000_CH-6" Name="Logik" Number="6" Text="Logikkanäle"> 
+            <Channel Id="%AID%_CH-6" Name="Logik" Number="6" Text="Logikkanäle"> 
               <!-- Logic channel independent settings -->
               <op:include href="../../OAM-LogicModule/src/Logikmodul.share.xml" xpath="//Dynamic/Channel/*" prefix="LOG" />
               <!-- Logic channel settings -->
-              <op:include href="../../OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//Dynamic/*" type="template" prefix="LOG" />
+              <op:include href="../../OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="LOG" />
             </Channel>
           </Dynamic>
         </ApplicationProgram>
       </ApplicationPrograms>
       <Hardware>
-        <Hardware Id="M-00FA_H-%SerialNumberEncoded%-%HardwareVersionEncoded%" Name="GardenControl" SerialNumber="GardenControlV1" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true">
+        <Hardware Id="%HardwareId%" Name="GardenControl" SerialNumber="GardenControlV1" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true">
           <Products>
-            <Product Id="M-00FA_H-%SerialNumberEncoded%-%HardwareVersionEncoded%_P-%OrderNumberEncoded%" Text="GardenControl" OrderNumber="MFKnxBem" IsRailMounted="false" DefaultLanguage="de">
+            <Product Id="%ProductId%" Text="GardenControl" OrderNumber="MFKnxBem" IsRailMounted="false" DefaultLanguage="de">
               <RegistrationInfo RegistrationStatus="Registered" />
             </Product>
           </Products>
           <Hardware2Programs>
-            <Hardware2Program Id="M-00FA_H-%SerialNumberEncoded%-%HardwareVersionEncoded%_HP-0001-01-0000" MediumTypes="MT-0">
-              <ApplicationProgramRef RefId="M-00FA_A-0001-01-0000" />
+            <Hardware2Program Id="%Hardware2ProgramId%" MediumTypes="MT-0">
+              <ApplicationProgramRef RefId="%AID%" />
               <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="0001/11" />
             </Hardware2Program>
           </Hardware2Programs>

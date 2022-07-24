@@ -1,49 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<KNX xmlns:mc="http://github.com/mumpf/multiply-channels" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knx.org/xml/project/14 ../../../knx.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="KNX MT" ToolVersion="5.1.255.16695" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://knx.org/xml/project/14">
+<?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
       <ApplicationPrograms>
-        <ApplicationProgram Id="M-00FA_A-0001-01-0000" ApplicationNumber="203" ApplicationVersion="10" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="WP-Logic" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
+        <ApplicationProgram Id="%AID%" ApplicationNumber="203" ApplicationVersion="10" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="WP-Logic" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
+          <Static></Static>
           <Dynamic>
              <ChannelIndependentBlock>
               <!-- A parameter block represents a tab on the left side, showing a page full of parameters -->
-              <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-1" Name="Docu" Text="Dokumentation">
+              <ParameterBlock Id="%AID%_PB-1" Name="Docu" Text="Dokumentation">
                 <!-- In this example the first Tab shows some documentation -->
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-1" Text="Kurze Einführung" UIHint="Headline" />
+                <ParameterSeparator Id="%AID%_PS-1" Text="Kurze Einführung" UIHint="Headline" />
                 <!-- A parameter seperator shows just some text -->
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-2" Text="Das Gerät kann ein 'In Betrieb'-Telegramm in einstellbarer Zeit senden." />
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-3" Text="Die Zeit, bis das Gerät nach einem Neustart erstmals meldet, ist einstellbar." />
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-4" Text="" />
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-5" Text="" />
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-6" Text="" />
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-7" Text="" />
+                <ParameterSeparator Id="%AID%_PS-2" Text="Das Gerät kann ein 'In Betrieb'-Telegramm in einstellbarer Zeit senden." />
+                <ParameterSeparator Id="%AID%_PS-3" Text="Die Zeit, bis das Gerät nach einem Neustart erstmals meldet, ist einstellbar." />
+                <ParameterSeparator Id="%AID%_PS-4" Text="" />
+                <ParameterSeparator Id="%AID%_PS-5" Text="" />
+                <ParameterSeparator Id="%AID%_PS-6" Text="" />
+                <ParameterSeparator Id="%AID%_PS-7" Text="" />
               </ParameterBlock>
               <!-- A tab page with general settings -->
-              <ParameterBlock Id="M-00FA_A-0001-01-0000_PB-2" Name="General" Text="Allgemeine Parameter">
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-1" Text="" UIHint="HorizontalRuler" />
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-nnn" Text="GardenControl-Optionen" UIHint="Headline" />
-                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000000_R-%T%00000001" />  <!-- +5V Relais vorhanden -->
-                <choose ParamRefId="M-00FA_A-0001-01-0000_UP-%T%000000_R-%T%00000001">
+              <ParameterBlock Id="%AID%_PB-2" Name="General" Text="Allgemeine Parameter">
+                <ParameterSeparator Id="%AID%_PS-1" Text="" UIHint="HorizontalRuler" />
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="GardenControl-Optionen" UIHint="Headline" />
+                <ParameterRefRef RefId="%AID%_UP-%T%000000_R-%T%00000001" />  <!-- +5V Relais vorhanden -->
+                <choose ParamRefId="%AID%_UP-%T%000000_R-%T%00000001">
                   <when test="!=0">
-                    <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%000000_R-%T%00000001" /> <!-- KO: ext +5V Relais -->
-                    <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%000001_R-%T%00000101" /> <!-- KO: ext +5V Relais Status -->
-                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000001_R-%T%00000101" />  <!-- +5V Relais Zustand Start -->
-                    <ParameterRefRef RefId="M-00FA_A-0001-01-0000_UP-%T%000002_R-%T%00000201" />  <!-- +5V Relais Status senden nach Start -->
+                    <ComObjectRefRef RefId="%AID%_O-%T%000000_R-%T%00000001" /> <!-- KO: ext +5V Relais -->
+                    <ComObjectRefRef RefId="%AID%_O-%T%000001_R-%T%00000101" /> <!-- KO: ext +5V Relais Status -->
+                    <ParameterRefRef RefId="%AID%_UP-%T%000001_R-%T%00000101" />  <!-- +5V Relais Zustand Start -->
+                    <ParameterRefRef RefId="%AID%_UP-%T%000002_R-%T%00000201" />  <!-- +5V Relais Status senden nach Start -->
                   </when>
                 </choose>
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-7" Text="" UIHint="HorizontalRuler" />
-                <ParameterRefRef RefId="M-00FA_A-0001-01-0000_P-%T%000003_R-%T%00000301" />  <!-- Diag KO PWR Rail enable -->
-                <choose ParamRefId="M-00FA_A-0001-01-0000_P-%T%000003_R-%T%00000301">
+                <ParameterSeparator Id="%AID%_PS-7" Text="" UIHint="HorizontalRuler" />
+                <ParameterRefRef RefId="%AID%_P-%T%000003_R-%T%00000301" />  <!-- Diag KO PWR Rail enable -->
+                <choose ParamRefId="%AID%_P-%T%000003_R-%T%00000301">
                   <when test="!=0">
-                    <ComObjectRefRef RefId="M-00FA_A-0001-01-0000_O-%T%000002_R-%T%00000201" /> <!-- KO: Diag KO PWR Rail enable -->
-                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-8"  Text="Info: Bit0 = LSB"  />
-                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-9"  Text="Bit0 = Error 24V"  />
-                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-10" Text="Bit1 = Error 12V"  />
-                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-11" Text="Bit2 = Error 5V"  />
-                    <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-12" Text="Bit3 = Error Sensor 5V"  />
+                    <ComObjectRefRef RefId="%AID%_O-%T%000002_R-%T%00000201" /> <!-- KO: Diag KO PWR Rail enable -->
+                    <ParameterSeparator Id="%AID%_PS-8"  Text="Info: Bit0 = LSB"  />
+                    <ParameterSeparator Id="%AID%_PS-9"  Text="Bit0 = Error 24V"  />
+                    <ParameterSeparator Id="%AID%_PS-10" Text="Bit1 = Error 12V"  />
+                    <ParameterSeparator Id="%AID%_PS-11" Text="Bit2 = Error 5V"  />
+                    <ParameterSeparator Id="%AID%_PS-12" Text="Bit3 = Error Sensor 5V"  />
                   </when>
                 </choose>
-                <ParameterSeparator Id="M-00FA_A-0001-01-0000_PS-7" Text="" UIHint="HorizontalRuler" />
+                <ParameterSeparator Id="%AID%_PS-7" Text="" UIHint="HorizontalRuler" />
               </ParameterBlock>
             </ChannelIndependentBlock>
           </Dynamic>

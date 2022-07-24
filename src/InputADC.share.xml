@@ -1,120 +1,83 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="KNX MT" ToolVersion="5.1.255.16695" xmlns="http://knx.org/xml/project/14">
+<?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
-      <Catalog>
-        <CatalogSection Id="M-00FA_CS-1" Name="Geräte" Number="1" DefaultLanguage="de">
-          <CatalogItem Id="M-00FA_H-202-1_HP-0000-00-0000_CI-202-1" Name="OpenKNX" Number="1" ProductRefId="M-00FA_H-202-1_P-202" Hardware2ProgramRefId="M-00FA_H-202-1_HP-0000-00-0000" DefaultLanguage="de" />
-        </CatalogSection>
-      </Catalog>
       <ApplicationPrograms>
-        <ApplicationProgram Id="M-00FA_A-0001-01-0000" ApplicationNumber="203" ApplicationVersion="1" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="OpenKNX" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
+        <ApplicationProgram Id="%AID%" ApplicationNumber="203" ApplicationVersion="1" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="OpenKNX" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
           <Static>
-            <Code>
-              <RelativeSegment Id="M-00FA_A-0001-01-0000_RS-04-00000" Name="Parameters" Offset="0" Size="4" LoadStateMachine="4" />
-            </Code>
             <ParameterTypes>
-              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCYesNo" Name="ADCYesNo">
+              <ParameterType Id="%AID%_PT-ADCYesNo" Name="ADCYesNo">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="Nein" Value="0" Id="M-00FA_A-0001-01-0000_PT-ADCYesNo_EN-0" />
-                  <Enumeration Text="Ja" Value="1" Id="M-00FA_A-0001-01-0000_PT-ADCYesNo_EN-1" />
+                  <Enumeration Text="Nein" Value="0" Id="%AID%_PT-ADCYesNo_EN-0" />
+                  <Enumeration Text="Ja" Value="1" Id="%AID%_PT-ADCYesNo_EN-1" />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCActiveInactive" Name="ADCActiveInactive">
+              <ParameterType Id="%AID%_PT-ADCActiveInactive" Name="ADCActiveInactive">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="inaktiv" Value="0" Id="M-00FA_A-0001-01-0000_PT-ADCActiveInactive_EN-0" />
-                  <Enumeration Text="aktiv" Value="1" Id="M-00FA_A-0001-01-0000_PT-ADCActiveInactive_EN-1" />
+                  <Enumeration Text="inaktiv" Value="0" Id="%AID%_PT-ADCActiveInactive_EN-0" />
+                  <Enumeration Text="aktiv" Value="1" Id="%AID%_PT-ADCActiveInactive_EN-1" />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCValueWORD" Name="ADCValueWORD">
+              <ParameterType Id="%AID%_PT-ADCValueWORD" Name="ADCValueWORD">
                 <TypeNumber SizeInBit="16" Type="signedInt" minInclusive="0" maxInclusive="30000" />
               </ParameterType>
-              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCValueI16" Name="ADCValueI16">
+              <ParameterType Id="%AID%_PT-ADCValueI16" Name="ADCValueI16">
                 <TypeNumber SizeInBit="16" Type="signedInt" minInclusive="-30000" maxInclusive="30000" />
               </ParameterType>
-              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCPercentage" Name="ADCPercentage">
+              <ParameterType Id="%AID%_PT-ADCPercentage" Name="ADCPercentage">
                 <TypeNumber SizeInBit="8" Type="signedInt" minInclusive="0" maxInclusive="100" />
               </ParameterType>
-              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCSensorCalc" Name="ADCSensorCalc">
+              <ParameterType Id="%AID%_PT-ADCSensorCalc" Name="ADCSensorCalc">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="wähle"         Value="0" Id="M-00FA_A-0001-01-0000_PT-ADCSensorCalc_EN-0" />
-                  <Enumeration Text="ADC-Wert (mV)"  Value="1" Id="M-00FA_A-0001-01-0000_PT-ADCSensorCalc_EN-1" />
-                  <Enumeration Text="SMT50-Feuchte" Value="2" Id="M-00FA_A-0001-01-0000_PT-ADCSensorCalc_EN-2" />
-                  <Enumeration Text="SMT50-Temp"    Value="3" Id="M-00FA_A-0001-01-0000_PT-ADCSensorCalc_EN-3" />
+                  <Enumeration Text="wähle"         Value="0" Id="%AID%_PT-ADCSensorCalc_EN-0" />
+                  <Enumeration Text="ADC-Wert (mV)"  Value="1" Id="%AID%_PT-ADCSensorCalc_EN-1" />
+                  <Enumeration Text="SMT50-Feuchte" Value="2" Id="%AID%_PT-ADCSensorCalc_EN-2" />
+                  <Enumeration Text="SMT50-Temp"    Value="3" Id="%AID%_PT-ADCSensorCalc_EN-3" />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCInputdividor" Name="ADCInputdividor">
+              <ParameterType Id="%AID%_PT-ADCInputdividor" Name="ADCInputdividor">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="0-5V"   Value="0" Id="M-00FA_A-0001-01-0000_PT-ADCInputdividor_EN-0" />
-                  <Enumeration Text="0-12V"  Value="1" Id="M-00FA_A-0001-01-0000_PT-ADCInputdividor_EN-1" />
+                  <Enumeration Text="0-5V"   Value="0" Id="%AID%_PT-ADCInputdividor_EN-0" />
+                  <Enumeration Text="0-12V"  Value="1" Id="%AID%_PT-ADCInputdividor_EN-1" />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCResolution" Name="ADCResolution">
+              <ParameterType Id="%AID%_PT-ADCResolution" Name="ADCResolution">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="12Bit"  Value="0" Id="M-00FA_A-0001-01-0000_PT-ADCResolution_EN-0" />
-                  <Enumeration Text="14Bit"  Value="1" Id="M-00FA_A-0001-01-0000_PT-ADCResolution_EN-1" />
-                  <Enumeration Text="16Bit"  Value="2" Id="M-00FA_A-0001-01-0000_PT-ADCResolution_EN-2" />
+                  <Enumeration Text="12Bit"  Value="0" Id="%AID%_PT-ADCResolution_EN-0" />
+                  <Enumeration Text="14Bit"  Value="1" Id="%AID%_PT-ADCResolution_EN-1" />
+                  <Enumeration Text="16Bit"  Value="2" Id="%AID%_PT-ADCResolution_EN-2" />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="M-00FA_A-0001-01-0000_PT-ADCSensorType" Name="ADCSensorType">
+              <ParameterType Id="%AID%_PT-ADCSensorType" Name="ADCSensorType">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Spannung (mV)"             Value="0" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-0" />
-                  <Enumeration Text="Temperatur (°C)"           Value="1" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-1" />
-                  <Enumeration Text="Feuchte (%)"               Value="2" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-2" />
-                  <Enumeration Text="CO2 (ppm)"                 Value="3" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-3" />
-                  <Enumeration Text="LUX (Lux)"                 Value="4" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-4" />
-                  <Enumeration Text="Druck (Pa)"                Value="5" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-5" />
-                  <Enumeration Text="Strömung (l/h)"            Value="6" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-6" />
-                  <Enumeration Text="Regenmenge (l/m²)"         Value="7" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-7" />
-                  <Enumeration Text="Windgeschwindigkeit (m/s)" Value="8" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-8" />
-                  <Enumeration Text="Prozent (%)"               Value="9" Id="M-00FA_A-0001-01-0000_PT-ADCSensorType_EN-9" />
+                  <Enumeration Text="Spannung (mV)"             Value="0" Id="%AID%_PT-ADCSensorType_EN-0" />
+                  <Enumeration Text="Temperatur (°C)"           Value="1" Id="%AID%_PT-ADCSensorType_EN-1" />
+                  <Enumeration Text="Feuchte (%)"               Value="2" Id="%AID%_PT-ADCSensorType_EN-2" />
+                  <Enumeration Text="CO2 (ppm)"                 Value="3" Id="%AID%_PT-ADCSensorType_EN-3" />
+                  <Enumeration Text="LUX (Lux)"                 Value="4" Id="%AID%_PT-ADCSensorType_EN-4" />
+                  <Enumeration Text="Druck (Pa)"                Value="5" Id="%AID%_PT-ADCSensorType_EN-5" />
+                  <Enumeration Text="Strömung (l/h)"            Value="6" Id="%AID%_PT-ADCSensorType_EN-6" />
+                  <Enumeration Text="Regenmenge (l/m²)"         Value="7" Id="%AID%_PT-ADCSensorType_EN-7" />
+                  <Enumeration Text="Windgeschwindigkeit (m/s)" Value="8" Id="%AID%_PT-ADCSensorType_EN-8" />
+                  <Enumeration Text="Prozent (%)"               Value="9" Id="%AID%_PT-ADCSensorType_EN-9" />
                 </TypeRestriction>
               </ParameterType>
-
             </ParameterTypes>
             <Parameters>
-    
             </Parameters>
             <ParameterRefs>
-             
-              
             </ParameterRefs>
             <ComObjectTable>
             </ComObjectTable>
             <ComObjectRefs>
             </ComObjectRefs>
-            <AddressTable MaxEntries="65535" />
-            <AssociationTable MaxEntries="65535" />
-            <LoadProcedures>
-              <LoadProcedure MergeId="2">
-                <LdCtrlRelSegment LsmIdx="4" Size="4" Mode="0" Fill="0" AppliesTo="full" />
-              </LoadProcedure>
-              <LoadProcedure MergeId="4">
-                <LdCtrlWriteRelMem ObjIdx="4" Offset="0" Size="4" Verify="true" />
-              </LoadProcedure>
-            </LoadProcedures>
-            <Options />
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
           </Dynamic>
         </ApplicationProgram>
       </ApplicationPrograms>
-      <Hardware>
-        <Hardware Id="M-00FA_H-202-1" Name="OpenKNX" SerialNumber="202" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true">
-          <Products>
-            <Product Id="M-00FA_H-202-1_P-202" Text="OpenKNX" OrderNumber="MF-Knx" IsRailMounted="false" DefaultLanguage="de">
-              <RegistrationInfo RegistrationStatus="Registered" />
-            </Product>
-          </Products>
-          <Hardware2Programs>
-            <Hardware2Program Id="M-00FA_H-202-1_HP-0000-00-0000" MediumTypes="MT-0">
-              <ApplicationProgramRef RefId="M-00FA_A-0001-01-0000" />
-              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="0001/11" />
-            </Hardware2Program>
-          </Hardware2Programs>
-        </Hardware>
-      </Hardware>
     </Manufacturer>
   </ManufacturerData>
 </KNX>

@@ -1,7 +1,6 @@
 #pragma once
-#include <knx.h>
 
-// Parameter with single occurance
+// Parameter with single occurrence
 
 #define LOG_NumChannels                0      // uint8_t
 #define LOG_StartupDelayBase           1      // 2 Bits, Bit 7-6
@@ -90,9 +89,9 @@
 #define LOG_Pfingstmontag              8      // 1 Bit, Bit 1
 #define     LOG_PfingstmontagMask 0x02
 #define     LOG_PfingstmontagShift 1
-#define LOG_Frohleichnam               8      // 1 Bit, Bit 0
-#define     LOG_FrohleichnamMask 0x01
-#define     LOG_FrohleichnamShift 0
+#define LOG_Fronleichnam               8      // 1 Bit, Bit 0
+#define     LOG_FronleichnamMask 0x01
+#define     LOG_FronleichnamShift 0
 #define LOG_Friedensfest               9      // 1 Bit, Bit 7
 #define     LOG_FriedensfestMask 0x80
 #define     LOG_FriedensfestShift 7
@@ -825,13 +824,13 @@
 #define LOG_fE1UseOtherKO             82      // 1 Bit, Bit 7
 #define     LOG_fE1UseOtherKOMask 0x80
 #define     LOG_fE1UseOtherKOShift 7
-#define LOG_fE1OtherKO                82      // uint12_t
+#define LOG_fE1OtherKO                82      // uint15_t
 #define LOG_fE2UseOtherKO             84      // 1 Bit, Bit 7
 #define     LOG_fE2UseOtherKOMask 0x80
 #define     LOG_fE2UseOtherKOShift 7
-#define LOG_fE2OtherKO                84      // uint12_t
+#define LOG_fE2OtherKO                84      // uint15_t
 
-// Communication objects per channel (multiple occurance)
+// Communication objects per channel (multiple occurrence)
 #define LOG_KoOffset 420
 #define LOG_KoBlockSize 3
 #define LOG_KoKOfE1 0
@@ -850,7 +849,7 @@
 #define     BEM_CHSperrMask 0x40
 #define     BEM_CHSperrShift 6
 
-// Communication objects per channel (multiple occurance)
+// Communication objects per channel (multiple occurrence)
 #define BEM_KoOffset 30
 #define BEM_KoBlockSize 3
 #define BEM_Ko_Set_ventil 0
@@ -862,14 +861,14 @@
 // Parameter per channel
 #define REL_ParamBlockOffset 924
 #define REL_ParamBlockSize 1
-#define REL_CHaktive                   0      // 0 Bits, Bit 7
-#define     REL_CHaktiveMask 0x00
-#define     REL_CHaktiveShift 8
-#define REL_CHsperr                    0      // 0 Bits, Bit 6
-#define     REL_CHsperrMask 0x00
-#define     REL_CHsperrShift 7
+#define REL_CHaktive                   0      // 1 Bit, Bit 7
+#define     REL_CHaktiveMask 0x80
+#define     REL_CHaktiveShift 7
+#define REL_CHsperr                    0      // 1 Bit, Bit 6
+#define     REL_CHsperrMask 0x40
+#define     REL_CHsperrShift 6
 
-// Communication objects per channel (multiple occurance)
+// Communication objects per channel (multiple occurrence)
 #define REL_KoOffset 66
 #define REL_KoBlockSize 3
 #define REL_Ko_Set_relais 0
@@ -894,7 +893,7 @@
 #define ADC_CHGeradeM                 11      // int16_t
 #define ADC_CHGeradeB                 13      // int16_t
 
-// Communication objects per channel (multiple occurance)
+// Communication objects per channel (multiple occurrence)
 #define ADC_KoOffset 75
 #define ADC_KoBlockSize 1
 #define ADC_KoGO_BASE__1 0
@@ -913,7 +912,7 @@
 #define CUR_CHPoint4mA                11      // int16_t
 #define CUR_CHPoint20mA               13      // int16_t
 
-// Communication objects per channel (multiple occurance)
+// Communication objects per channel (multiple occurrence)
 #define CUR_KoOffset 81
 #define CUR_KoBlockSize 1
 #define CUR_KoCUR_BASE__1 0
@@ -955,7 +954,7 @@
 #define BIN_CHDefineUnitS0            31      // 8 Bits, Bit 7-0
 #define BIN_CHDefineMinValueS0        32      // uint16_t
 
-// Communication objects per channel (multiple occurance)
+// Communication objects per channel (multiple occurrence)
 #define BIN_KoOffset 90
 #define BIN_KoBlockSize 8
 #define BIN_Ko_Status_BinarInput 0
@@ -970,3 +969,4 @@
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16
 #define MAIN_ApplicationVersion 1
+#define MAIN_OrderNumber "MFKnxBem"
