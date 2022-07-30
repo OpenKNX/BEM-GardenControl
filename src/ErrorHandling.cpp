@@ -51,14 +51,25 @@ uint8_t processErrorHandling()
     }
 
     // Check 12V
-    value = (float)getAdcVoltage_12V();
-    if (value > Threshold_12V_max || value < Threshold_12V_min)
+    switch (get_HW_ID())
     {
-        error |= 1 << ERROR_12V;
-    }
-    else
-    {
+    case HW_1_0:
+        value = (float)getAdcVoltage_12V();
+        if (value > Threshold_12V_max || value < Threshold_12V_min)
+        {
+            error |= 1 << ERROR_12V;
+        }
+        else
+        {
+            error &= ~(1 << ERROR_12V);
+        }
+        break;
+    case HW_2_0:
         error &= ~(1 << ERROR_12V);
+        break;
+    default:
+        SERIAL_PORT.println("ErrorHandling 12V HW ID not defined");
+        break;
     }
 #endif
     // Check 5V
@@ -77,8 +88,7 @@ uint8_t processErrorHandling()
         }
         // error &= ~(1 << ERROR_5V);
     }
-    
-   
+
     // read +5V Sensor fault
     if (!get_IOExpander_Input(get_5V_fault_PIN()))
     {
@@ -89,13 +99,12 @@ uint8_t processErrorHandling()
         error &= ~(1 << ERROR_5V_output);
     }
 
-    if(error_old != error && delayCheck(delayTimer_DiagKO, DelayTime_DiagKO)) 
+    if (error_old != error && delayCheck(delayTimer_DiagKO, DelayTime_DiagKO))
     {
-      knx.getGroupObject(BEM_Ko_Diagnose_KO_PWR).value(error, getDPT(VAL_DPT_5));
-      error_old = error;
-      delayTimer_DiagKO = millis();
+        knx.getGroupObject(BEM_Ko_Diagnose_KO_PWR).value(error, getDPT(VAL_DPT_5));
+        error_old = error;
+        delayTimer_DiagKO = millis();
     }
-    
 
     return error;
 }

@@ -377,7 +377,15 @@ void appLoop()
     SERIAL_PORT.print("ADC CH3: ");
     SERIAL_PORT.println(getSensorValue(2));
     SERIAL_PORT.print("VCC_12V: ");
+    switch (get_HW_ID())
+    {
+    case HW_1_0:
     SERIAL_PORT.println(getAdcVoltage_12V());
+    break;
+    case HW_2_0:
+    SERIAL_PORT.println("NA");
+    break;
+    }
     SERIAL_PORT.print("VCC_24V: ");
     SERIAL_PORT.println(getAdcVoltage_24V());
     /*
