@@ -46,13 +46,13 @@
             </ParameterTypes>
             <Parameters>
               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="50" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
                 <Parameter Id="%AID%_UP-%T%000000" Name="ext5VRelais" ParameterType="%AID%_PT-YesNo" Text="externes +5V Relais vorhanden?"       Value="1" Offset="0" BitOffset="0" />
                 <Parameter Id="%AID%_UP-%T%000001" Name="ext5VRelaisStateBegin" ParameterType="%AID%_PT-OnOFF" Text="Zustand Start"              Value="1" Offset="0" BitOffset="1" />
                 <Parameter Id="%AID%_UP-%T%000002" Name="ext5VRelaisStartState" ParameterType="%AID%_PT-OnOFF" Text="Status senden nach Startup" Value="0" Offset="0" BitOffset="2" />
               </Union>
               <Parameter Id="%AID%_P-%T%000003" Name="Diag_KO_PWT_enable" ParameterType="%AID%_PT-OnOFF"   Text="Diagnose KO aktivieren:" Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="51" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="1" BitOffset="0" />
               </Parameter>
             </Parameters>
             <ParameterRefs>   
