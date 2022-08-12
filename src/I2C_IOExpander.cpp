@@ -35,7 +35,7 @@ void init_IOExpander_GPIOs_TOP()
         pca9554.digitalWrite(6, HIGH); // Set Volt div 2 = HIGH
         pca9554.digitalWrite(7, HIGH); // Set Volt div 3 = HIGH
 
-        pca9554.pinMode(0, OUTPUT);  // ADC VCC 5V Output Enable  
+        pca9554.pinMode(0, OUTPUT); // ADC VCC 5V Output Enable  
         pca9554.pinMode(1, INPUT);  // HW_ID 1
         pca9554.pinMode(2, INPUT);  // HW_ID 2
         pca9554.pinMode(3, INPUT);  // HW_ID 3
