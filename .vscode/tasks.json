@@ -10,7 +10,7 @@
             "args": [
                 "run",
                 "-e",
-                "build"
+                "build_RP2040"
             ],
             "group": "build",
             "problemMatcher": []
@@ -22,7 +22,7 @@
             "args": [
                 "run",
                 "-e",
-                "uploadJLINK",
+                "upload_JLINK_RP2040",
                 "--target",
                 "upload"
             ],
@@ -36,7 +36,7 @@
             "args": [
                 "run",
                 "-e",
-                "uploadATMEL",
+                "upload_ATMEL_RP2040",
                 "--target",
                 "upload"
             ],
@@ -50,7 +50,7 @@
             "args": [
                 "run",
                 "-e",
-                "uploadUSB",
+                "upload_USB_RP2040",
                 "--target",
                 "upload"
             ],
@@ -71,7 +71,14 @@
             ],
             "problemMatcher": [],
             "group": "test"
+        },
+        {
+            "label": "Build-Release",
+            "type": "shell",
+            "command": "scripts/Build-Release.ps1",
+            "args": [],
+            "problemMatcher": [],
+            "group": "test"
         }
-        
     ]
 }
