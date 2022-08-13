@@ -99,12 +99,7 @@
                         <when test="1">  <!-- Sensor: ADC Wert --> 
                             <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_P-%T%%CCC%006_R-%T%%CCC%00601" />  <!-- Eingangspannungsbereich -->
-                            <choose ParamRefId="%AID%_P-%T%%CCC%006_R-%T%%CCC%00601">
-                              <when test="1">  <!-- 0-12V --> 
-                                <ParameterSeparator Id="%AID%_PS-3" Text="" UIHint="HorizontalRuler" />
-                                <ParameterRefRef RefId="%AID%_P-%T%%CCC%007_R-%T%%CCC%00701" />  <!-- Korrekturfaktor -->
-                              </when>
-                            </choose>  
+                            <ParameterRefRef RefId="%AID%_P-%T%%CCC%007_R-%T%%CCC%00701" />  <!-- Korrekturfaktor -->
                             <ParameterSeparator Id="%AID%_PS-4" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_P-%T%%CCC%008_R-%T%%CCC%00801" />  <!-- Meßwert (mV, °C, Pa, m/s, ..) -->
                             <choose ParamRefId="%AID%_P-%T%%CCC%008_R-%T%%CCC%00801">
