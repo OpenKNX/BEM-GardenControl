@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include "ReadADC.h"
 #include "HelperFunc.h"
-#include "BEM_hardware.h"
+
 #include "MCP3428.h"
 #include "GardenControl.h"
 #include "SystemFailureHandling.h"

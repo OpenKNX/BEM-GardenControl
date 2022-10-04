@@ -2,7 +2,7 @@
 #include <Wire.h>
 #include "HelperFunc.h"
 //#include <knx.h>
-#include "BEM_hardware.h"
+
 #include "GardenControl.h"
 #include "KnxHelper.h"
 #include "ReadBinary.h"

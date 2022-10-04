@@ -3,7 +3,7 @@
 #include "GardenControl.h"
 #include "I2C_IOExpander.h"
 #include "KnxHelper.h"
-#include "BEM_hardware.h"
+
 #include "Device_setup.h"
 #include "ErrorHandling.h"
 

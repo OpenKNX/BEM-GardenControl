@@ -2,7 +2,7 @@
 #include "InputADC.h"
 #include "GardenControl.h"
 #include "KnxHelper.h"
-#include "BEM_hardware.h"
+
 #include "HelperFunc.h"
 #include "ReadADC.h"
 #include "ErrorHandling.h"

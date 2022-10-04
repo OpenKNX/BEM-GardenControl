@@ -3,7 +3,7 @@
 #include "Input_4_20mA.h"
 #include "GardenControl.h"
 #include "KnxHelper.h"
-#include "BEM_hardware.h"
+
 #include "HelperFunc.h"
 #include "ReadADC.h"
 #include "ErrorHandling.h"

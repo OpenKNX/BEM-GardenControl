@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "Input_S0.h"
-#include "BEM_hardware.h"
+
 #include "KnxHelper.h"
 #include "Helper.h"
 #include "HelperFunc.h"

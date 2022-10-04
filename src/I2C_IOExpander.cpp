@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#include "BEM_hardware.h"
+
 #include "PCA9554.h"
 #include "PCA9555.h"
 #include "ErrorHandling.h"

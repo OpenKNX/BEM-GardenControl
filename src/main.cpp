@@ -3,7 +3,7 @@
 //#include <Logikmodul.h>
 #include "GardenControl.h"
 #include "Device_setup.h"
-#include "BEM_hardware.h"
+
 #include "I2C_IOExpander.h"
 #include "GardenControlDevice.h"
 

@@ -101,6 +101,9 @@
 #define LOG_DeutscheEinheit            9      // 1 Bit, Bit 5
 #define     LOG_DeutscheEinheitMask 0x20
 #define     LOG_DeutscheEinheitShift 5
+#define LOG_Nationalfeiertag          10      // 1 Bit, Bit 1
+#define     LOG_NationalfeiertagMask 0x02
+#define     LOG_NationalfeiertagShift 1
 #define LOG_Reformationstag            9      // 1 Bit, Bit 4
 #define     LOG_ReformationstagMask 0x10
 #define     LOG_ReformationstagShift 4
@@ -110,6 +113,9 @@
 #define LOG_BussBettag                 9      // 1 Bit, Bit 2
 #define     LOG_BussBettagMask 0x04
 #define     LOG_BussBettagShift 2
+#define LOG_MariaEmpfaengnis          10      // 1 Bit, Bit 0
+#define     LOG_MariaEmpfaengnisMask 0x01
+#define     LOG_MariaEmpfaengnisShift 0
 #define LOG_Advent1                    9      // 1 Bit, Bit 1
 #define     LOG_Advent1Mask 0x02
 #define     LOG_Advent1Shift 1
@@ -192,6 +198,12 @@
 #define LOG_fTGate                     3      // 1 Bit, Bit 4
 #define     LOG_fTGateMask 0x10
 #define     LOG_fTGateShift 4
+#define LOG_fOInternalOn               3      // 1 Bit, Bit 5
+#define     LOG_fOInternalOnMask 0x20
+#define     LOG_fOInternalOnShift 5
+#define LOG_fOInternalOff              3      // 1 Bit, Bit 6
+#define     LOG_fOInternalOffMask 0x40
+#define     LOG_fOInternalOffShift 6
 #define LOG_fTrigger                   4      // 8 Bits, Bit 7-0
 #define LOG_fTriggerE1                 4      // 1 Bit, Bit 0
 #define     LOG_fTriggerE1Mask 0x01

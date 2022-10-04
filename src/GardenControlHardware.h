@@ -1,8 +1,5 @@
 #pragma once
 
-#include <stdint.h>
-#include <Arduino.h>
-
 //Variant handling
 //#define V1
 //#define V2

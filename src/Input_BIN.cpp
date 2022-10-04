@@ -3,7 +3,7 @@
 #include "KnxHelper.h"
 #include "GardenControl.h"
 #include "HelperFunc.h"
-#include "BEM_hardware.h"
+
 #include "ReadBinary.h"
 #include "ErrorHandling.h"
 
