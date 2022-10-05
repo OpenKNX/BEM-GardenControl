@@ -29,9 +29,6 @@ $sourceName="GardenControl"
 
 # Release indication, set according names for Release or Beta
 $releaseIndication = $args[0]
-# set product names
-$targetName="GardenControl"
-$sourceName="GardenControl"
 if ($releaseIndication) {
     $releaseName="$sourceName-$releaseIndication"
     $appRelease=$releaseIndication
@@ -40,7 +37,7 @@ if ($releaseIndication) {
     $appRelease="Release"
 }
 
-# check for working dir
+# check and cleanup working dir
 if (Test-Path -Path release) {
     # clean working dir
     Remove-Item -Recurse release\*
@@ -66,8 +63,6 @@ Move-Item "src/$releaseName.debug.xml" "release/data/$targetName.xml"
 # Example call, the following 2 lines might be there multiple times for each firmware which should be built
 ../OGM-Common/setup-scripts/reusable/Build-Step.ps1 release_RP2040 firmware uf2
 if (!$?) { exit 1 }
-
-
 
 # add necessary scripts
 Copy-Item ../OGM-Common/setup-scripts/reusable/Readme-Release.txt release/
