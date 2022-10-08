@@ -76,6 +76,11 @@
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
+            <Channel Name="Logik" Text="Logikfunktionen" Number="3" Id="%AID%_CH-3">
+              <ParameterBlock Id="%AID%_PB-nnn" Name="SettingsVentil" Text="Einstellungen">
+                
+              </ParameterBlock>
+            </Channel>
           </Dynamic>
         </ApplicationProgram>
       </ApplicationPrograms>

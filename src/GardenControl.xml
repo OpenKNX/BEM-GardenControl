@@ -140,6 +140,7 @@
             </ChannelIndependentBlock>
             <!-- Erster Enocean Kanal -->
             <Channel Id="%AID%_CH-1" Name="Standard" Number="1" Text="Magnetventile">
+              <op:include href="GardenControl.share.xml" xpath="//Dynamic/Channel/*" type="template" prefix="BEM" />
               <op:include href="GardenControl.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="BEM" />
             </Channel>
             <Channel Id="%AID%_CH-2" Name="Standard" Number="2" Text="ext. Relais">
