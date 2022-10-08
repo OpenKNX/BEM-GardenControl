@@ -25,6 +25,8 @@
 #define SensorType_rain 7
 #define SensorType_windspeed 8
 #define SensorType_percent 9
+#define SensorType_litre 10
+#define SensorType_volume 11
 
 uint32_t processDelay2[CUR_ChannelCount] = {0};
 uint32_t sendDelay2[CUR_ChannelCount] = {0};
@@ -203,6 +205,22 @@ void processInput_4_20mA(bool readyFlag)
                     // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
                     knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue * 2.55, getDPT(VAL_DPT_5));
                     break;
+
+                case SensorType_litre:
+#ifdef Input_4_20mA_Output
+                    SERIAL_PORT.println(value2.ladcValue);
+#endif
+                    // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                    knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue, getDPT(VAL_DPT_12));
+                    break; 
+
+                case SensorType_volume:
+#ifdef Input_4_20mA_Output
+                    SERIAL_PORT.println(value2.ladcValue);
+#endif
+                    // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                    knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue, getDPT(VAL_DPT_12));
+                    break;      
 
                 default:
 #ifdef Input_4_20mA_Output

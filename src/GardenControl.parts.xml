@@ -11,14 +11,8 @@
               <!-- A parameter block represents a tab on the left side, showing a page full of parameters -->
               <ParameterBlock Id="%AID%_PB-1" Name="Docu" Text="Dokumentation">
                 <!-- In this example the first Tab shows some documentation -->
-                <ParameterSeparator Id="%AID%_PS-1" Text="Kurze Einführung" UIHint="Headline" />
-                <!-- A parameter seperator shows just some text -->
-                <ParameterSeparator Id="%AID%_PS-2" Text="Das Gerät kann ein 'In Betrieb'-Telegramm in einstellbarer Zeit senden." />
-                <ParameterSeparator Id="%AID%_PS-3" Text="Die Zeit, bis das Gerät nach einem Neustart erstmals meldet, ist einstellbar." />
-                <ParameterSeparator Id="%AID%_PS-4" Text="" />
-                <ParameterSeparator Id="%AID%_PS-5" Text="" />
-                <ParameterSeparator Id="%AID%_PS-6" Text="" />
-                <ParameterSeparator Id="%AID%_PS-7" Text="" />
+                <ParameterSeparator Id="%AID%_PS-1" Text="Kurze Einführung: GardenControl" UIHint="Headline" />
+                <ParameterSeparator Id="%AID%_PS-2" Text="Gartenbewässerungsautomat mit 12x Ventilaktoren, 3x exteren Relaisaktoren, 3x ADC Inputs, 2x 4-20mA Inputs, 4x Multifunktionale GPIO-Inputs(Bin-input, S0-Schnittstelle oder Impulszähler)" />
               </ParameterBlock>
               <!-- A tab page with general settings -->
               <ParameterBlock Id="%AID%_PB-2" Name="General" Text="Allgemeine Parameter">

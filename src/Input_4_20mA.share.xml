@@ -47,6 +47,8 @@
                   <Enumeration Text="Regenmenge (l/m²)"         Value="7" Id="%AID%_PT-CURSensorType_EN-7" />
                   <Enumeration Text="Windgeschwindigkeit (m/s)" Value="8" Id="%AID%_PT-CURSensorType_EN-8" />
                   <Enumeration Text="Prozent (%)"               Value="9" Id="%AID%_PT-CURSensorType_EN-9" />
+                  <Enumeration Text="Liter (l)"                 Value="10" Id="%AID%_PT-CURSensorType_EN-10" />
+                  <Enumeration Text="Volumen (m³)"              Value="11" Id="%AID%_PT-CURSensorType_EN-11" />
                 </TypeRestriction>
               </ParameterType>  
             </ParameterTypes>

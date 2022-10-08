@@ -98,7 +98,10 @@
                     <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">
                         <when test="1">  <!-- Sensor: ADC Wert --> 
                             <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
-                            <ParameterRefRef RefId="%AID%_P-%T%%CCC%006_R-%T%%CCC%00601" />  <!-- Eingangspannungsbereich -->
+                            <ParameterSeparator Id="%AID%_PS-3" Text="Mit hilfe des Korrekturfaktors können, wenn benötigt, die Toleranzen des Messsystems ausgeglichen werden." />
+                            <ParameterSeparator Id="%AID%_PS-31" Text="Um die 'vom Device gemessene Spannung' zu bestimmen, muss die Meßwerteinheit auf 'Spannung (mV)' gestellt werden. Dazu ein passendes KO belegt werden, welches den Wert ausgibt." />
+                            <ParameterSeparator Id="%AID%_PS-32" Text="Danach kann der Korrekturfaktor bestimmt und eingetragen werden und die Meßwerteinheit auf die gewünschte Einheit gestellt werden." />
+                            <ParameterSeparator Id="%AID%_PS-33" Text="Korrekturfaktor = gemessene Spannung(mV) am Device-Pin / vom Device ausgegebene Spannung(mV)" />
                             <ParameterRefRef RefId="%AID%_P-%T%%CCC%007_R-%T%%CCC%00701" />  <!-- Korrekturfaktor -->
                             <ParameterSeparator Id="%AID%_PS-4" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_P-%T%%CCC%008_R-%T%%CCC%00801" />  <!-- Meßwert (mV, °C, Pa, m/s, ..) -->
@@ -201,18 +204,30 @@
                         </when>
                         <when test="2">  <!-- Sensor: SMT50-Feuchte --> 
                             <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-3" Text="Mit hilfe des Korrekturfaktors können, wenn benötigt, die Toleranzen des Messsystems ausgeglichen werden." />
+                            <ParameterSeparator Id="%AID%_PS-4" Text="Um die 'vom Device gemessene Spannung' zu bestimmen, muss zuvor der Sensortyp auf 'ADC-Wert(mV)' und die Meßwerteinheit auf 'Spannung (mV)' gestellt werden. Dazu ein passendes KO belegt werden, welches den Wert ausgibt." />
+                            <ParameterSeparator Id="%AID%_PS-5" Text="Danach kann der Korrekturfaktor bestimmt und eingetragen werden und der Sensortyp und die Meßwerteinheit auf die gewünschte Einheit gestellt werden." />
+                            <ParameterSeparator Id="%AID%_PS-6" Text="Korrekturfaktor = gemessene Spannung(mV) am Device-Pin / vom Device ausgegebene Spannung(mV)" />
+                            <ParameterRefRef RefId="%AID%_P-%T%%CCC%007_R-%T%%CCC%00701" />  <!-- Korrekturfaktor -->
+                            <ParameterSeparator Id="%AID%_PS-10" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00303" />  <!-- Zyklisch Senden Absolut (%)-->
-                            <ParameterSeparator Id="%AID%_PS-3" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-11" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_P-%T%%CCC%005_R-%T%%CCC%00501" />  <!-- Wert gläten --> 
                             <ComObjectRefRef RefId="%AID%_O-%T%%CCC%000_R-%T%%CCC%00012" />  <!-- KO: Bodenfeuchte -->
                         </when>
                         <when test="3">  <!-- Sensor: SMT50-Temp --> 
                             <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-3" Text="Mit hilfe des Korrekturfaktors können, wenn benötigt, die Toleranzen des Messsystems ausgeglichen werden." />
+                            <ParameterSeparator Id="%AID%_PS-4" Text="Um die 'vom Device gemessene Spannung' zu bestimmen, muss zuvor der Sensortyp auf 'ADC-Wert(mV)' und die Meßwerteinheit auf 'Spannung (mV)' gestellt werden. Dazu ein passendes KO belegt werden, welches den Wert ausgibt." />
+                            <ParameterSeparator Id="%AID%_PS-5" Text="Danach kann der Korrekturfaktor bestimmt und eingetragen werden und der Sensortyp und die Meßwerteinheit auf die gewünschte Einheit gestellt werden." />
+                            <ParameterSeparator Id="%AID%_PS-6" Text="Korrekturfaktor = gemessene Spannung(mV) am Device-Pin / vom Device ausgegebene Spannung(mV)" />
+                            <ParameterRefRef RefId="%AID%_P-%T%%CCC%007_R-%T%%CCC%00701" />  <!-- Korrekturfaktor -->
+                            <ParameterSeparator Id="%AID%_PS-10" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Zyklisch Senden -->
                             <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00302" />  <!-- Zyklisch Senden Absolut (*0.1°C)-->
                             <ParameterRefRef RefId="%AID%_P-%T%%CCC%004_R-%T%%CCC%00401" />  <!-- Zyklisch Senden Relativ -->
-                            <ParameterSeparator Id="%AID%_PS-3" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-11" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_P-%T%%CCC%005_R-%T%%CCC%00501" />  <!-- Wert gläten --> 
                             <ComObjectRefRef RefId="%AID%_O-%T%%CCC%000_R-%T%%CCC%00011" />  <!-- KO: Temp -->
                         </when>
