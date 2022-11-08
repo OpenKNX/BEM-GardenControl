@@ -18,6 +18,7 @@
 #include "Input_BIN.h"
 #include "Input_S0.h"
 #include "SystemFailureHandling.h"
+#include "LED_Statusanzeige.h"
 
 #include "Logic.h"
 
@@ -220,20 +221,31 @@ void appSetup()
   delay(1000);
   // disable internal 5V to clear Errors
   SERIAL_PORT.println("stop 5V");
-  digitalWrite(get_5V_EN_PIN(), LOW);
+  digitalWrite(get_5V_EN_PIN(), HIGH);
   // wait until internal 5V voltage go to 0V
   SERIAL_PORT.println("wait");
   delay(1000);
   // restart 5V
   SERIAL_PORT.println("restart 5V");
-  digitalWrite(get_5V_EN_PIN(), HIGH);
+  digitalWrite(get_5V_EN_PIN(), LOW);
   // wait until internal 5V powered up
   SERIAL_PORT.println("wait");
   // wait
-  delay(1000);
+  delay(500);
 
   // start the framework
   knx.start();
+
+  // I2C Init
+  Wire.setSDA(20);
+  Wire.setSCL(21);
+  
+  Wire.begin();
+
+  initI2cStatusLeds();
+  setLED_ON_ALL();
+  delay(500);
+  setLED_OFF_ALL();
 
   while (digitalRead(get_5V_status_PIN())) // ******************************************************************************  ändern !!!!!!!!!!!!!
   {
@@ -277,6 +289,8 @@ void appLoop()
 
   if (startupDelayfunc())
     return;
+
+  // LED Anzeige
 
   if (get_5V_Error())
   {
@@ -350,6 +364,14 @@ void appLoop()
   */
   if (delayCheck(Output_Delay, 1000))
   {
+    if(get_5V_Error())
+    {
+     setLED_24VAC(true);
+    }
+    else
+    {
+      setLED_24VAC(false);
+    }
     /*
     SERIAL_PORT.print("Ventil1: ");
     SERIAL_PORT.println(get_Ventil_StateOld(0));
@@ -380,11 +402,11 @@ void appLoop()
     switch (get_HW_ID())
     {
     case HW_1_0:
-    SERIAL_PORT.println(getAdcVoltage_12V());
-    break;
+      SERIAL_PORT.println(getAdcVoltage_12V());
+      break;
     case HW_2_0:
-    SERIAL_PORT.println("NA");
-    break;
+      SERIAL_PORT.println("NA");
+      break;
     }
     SERIAL_PORT.print("VCC_24V: ");
     SERIAL_PORT.println(getAdcVoltage_24V());

@@ -113,7 +113,7 @@ void initADC_BOT(uint8_t res_bot)
             failureCounter_ADC_BOT++;
             if (failureCounter_ADC_BOT > 10)
             {
-                rebootExternalPWR();
+                //rebootExternalPWR();  //************************************************************************************************
                 failureCounter_ADC_BOT = 0;
             }
         }

@@ -73,7 +73,7 @@
 #define PROG_BUTTON_PIN 13
 #define PROG_BUTTON_PIN_INTERRUPT_ON FALLING
 #define SAVE_INTERRUPT_PIN 38 
-#define LED_YELLOW_PIN 27  //nicht 22 weil es in V1 für GPIO_5V_EN verwendet wird, 27 frei gewählt weil in HW nicht belegt!
+#define LED_YELLOW_PIN 22  //nicht 22 weil es in V1 für GPIO_5V_EN verwendet wird, 27 frei gewählt weil in HW nicht belegt!
 // Set i2c address
 #define  i2cAddr_IO           0x27
 #define  i2cAddr_IO_Bot       0x20
@@ -87,7 +87,7 @@
 #define GPIO_5V_status 8
 
 // enable 5V
-#define GPIO_5V_EN 22
+#define GPIO_5V_EN 7
 
 // Inputs Optocoupler
 #define OptoIN_1 12
