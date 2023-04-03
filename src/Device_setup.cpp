@@ -8,7 +8,6 @@
 #include "ReadADC.h"
 #include "GardenControlDevice.h"
 
-
 uint8_t hw_ID = 0;
 uint8_t hw_ID_Bot = 0;
 
@@ -25,16 +24,16 @@ uint8_t get_Status_PIN()
 {
   switch (hw_ID)
   {
-    case HW_1_0: // V1.x
-    case HW_2_0: // V2.0
-    case HW_2_1: // V2.1
-      return 22;
-      break;
-      
-    default:
-      SERIAL_PORT.println("Wrong ID: Status LED");
-      return 255;
-      break;
+  case HW_1_0: // V1.x
+    return 22;
+    break;
+  case HW_2_0: // V2.x
+    return 22;
+    break;
+  default:
+    SERIAL_PORT.println("Wrong ID: Status LED");
+    return 255;
+    break;
   }
 }
 
@@ -42,16 +41,15 @@ uint8_t get_PROG_LED_PIN()
 {
   switch (hw_ID)
   {
-    case HW_1_0: // V1.x
-    case HW_2_0: // V2.0
-    case HW_2_1: // V2.1
-      return 24;
-      break;
-      
-    default:
-      SERIAL_PORT.println("Wrong ID: PROG LED");
-      return 255;
-      break;
+  case HW_1_0: // V1.x
+  case HW_2_0: // V2.x
+  case HW_2_1: // V2.x
+    return 24;
+    break;
+  default:
+    SERIAL_PORT.println("Wrong ID: PROG LED");
+    return 255;
+    break;
   }
 }
 
@@ -59,19 +57,19 @@ uint8_t get_PROG_BUTTON_PIN()
 {
   switch (hw_ID)
   {
-    case HW_1_0: // V1.x
-      return 13;
-      break;
+  case HW_1_0: // V1.x
+    return 13;
+    break;
 
-    case HW_2_0: // V2.0
-    case HW_2_1: // V2.1
-      return 25;
-      break;
+  case HW_2_0: // V2.x
+  case HW_2_1: // V2.x
+    return 25;
+    break;
 
-    default:
-      SERIAL_PORT.println("Wrong ID: PROG BUT");
-      return 250;
-      break;
+  default:
+    SERIAL_PORT.println("Wrong ID: PROG BUT");
+    return 250;
+    break;
   }
 }
 
@@ -79,16 +77,16 @@ uint8_t get_SAVE_INTERRUPT_PIN()
 {
   switch (hw_ID)
   {
-    case HW_1_0: // V1.x
-    case HW_2_0: // V2.0
-    case HW_2_1: // V2.1
-      return 23;
-      break;
+  case HW_1_0: // V1.x
+  case HW_2_0: // V2.x
+  case HW_2_1: // V2.x
+    return 23;
+    break;
 
-    default:
-      SERIAL_PORT.println("Wrong ID: Save PIN");
-      return 252;
-      break;
+  default:
+    SERIAL_PORT.println("Wrong ID: Save PIN");
+    return 252;
+    break;
   }
 }
 
@@ -96,16 +94,15 @@ uint8_t get_SSR_EN_PIN()
 {
   switch (hw_ID)
   {
-    case HW_1_0: // V1.x
-    case HW_2_0: // V2.0
-    case HW_2_1: // V2.1
-      return GPIO_SSR_EN;
-      break;
-      
-    default:
-      SERIAL_PORT.println("Wrong ID: SSR EN");
-      return 255;
-      break;
+  case HW_1_0: // V1.x
+  case HW_2_0: // V2.x
+  case HW_2_1: // V2.x
+    return GPIO_SSR_EN;
+    break;
+  default:
+    SERIAL_PORT.println("Wrong ID: SSR EN");
+    return 255;
+    break;
   }
 }
 
@@ -113,16 +110,15 @@ uint8_t get_5V_EN_PIN()
 {
   switch (hw_ID)
   {
-    case HW_1_0: // V1.x
-    case HW_2_0: // V2.0
-    case HW_2_1: // V2.1
-      return GPIO_5V_EN;
-      break;
-
-    default:
-      SERIAL_PORT.println("Wrong ID: 5V_EN");
-      return 255;
-      break;
+  case HW_1_0: // V1.x
+  case HW_2_0: // V2.x
+  case HW_2_1: // V2.x
+    return GPIO_5V_EN;
+    break;
+  default:
+    SERIAL_PORT.println("Wrong ID: 5V_EN");
+    return 255;
+    break;
   }
 }
 
@@ -130,16 +126,15 @@ uint8_t get_5V_status_PIN()
 {
   switch (hw_ID)
   {
-    case HW_1_0: // V1.x
-    case HW_2_0: // V2.0
-    case HW_2_1: // V2.1
-      return GPIO_5V_status;
-      break;
-
-    default:
-      SERIAL_PORT.println("Wrong ID: 5V Status");
-      return 255;
-      break;
+  case HW_1_0: // V1.x
+  case HW_2_0: // V2.x
+  case HW_2_1: // V2.x
+    return GPIO_5V_status;
+    break;
+  default:
+    SERIAL_PORT.println("Wrong ID: 5V Status");
+    return 255;
+    break;
   }
 }
 
@@ -147,16 +142,15 @@ uint8_t get_5V_fault_PIN()
 {
   switch (hw_ID)
   {
-    case HW_1_0: // V1.x
-    case HW_2_0: // V2.0
-    case HW_2_1: // V2.1
-      return IO_5V_fault;
-      break;
-
-    default:
-      SERIAL_PORT.println("Wrong ID: 5V Fault");
-      return 255;
-      break;
+  case HW_1_0: // V1.x
+  case HW_2_0: // V2.x
+  case HW_2_1: // V2.x
+    return IO_5V_fault;
+    break;
+  default:
+    SERIAL_PORT.println("Wrong ID: 5V Fault");
+    return 255;
+    break;
   }
 }
 
@@ -165,21 +159,22 @@ void print_HW_ID_TOP(uint8_t id)
   SERIAL_PORT.print("  HW-ID-TOP: ");
   switch (id)
   {
-    case HW_1_0:
-      SERIAL_PORT.println("V1.x");
-      break;
+  case HW_1_0:
+    SERIAL_PORT.println("V1.x");
+    break;
 
-    case HW_2_0:
-      SERIAL_PORT.println("V2.0 MCP3824");
-      break;
+  case HW_2_0:
+    SERIAL_PORT.println("V2.0");
+    break;
 
-    case HW_2_1:
-      SERIAL_PORT.println("V2.1 ADS1015");
-      break;
+   case HW_2_1:
+    SERIAL_PORT.println("V2.1");
+    break;  
 
-    default:
-      SERIAL_PORT.println("Not Defined");
-      break;
+  default:
+    SERIAL_PORT.println("Not Defined");
+    break;
+    break;
   }
 }
 
@@ -188,18 +183,22 @@ void print_HW_ID_BOT(uint8_t id)
   SERIAL_PORT.print("  HW-ID-BOT: ");
   switch (id)
   {
-    case HW_BOT_1_0:
-      SERIAL_PORT.println("V1.x");
-      break;
+  case HW_BOT_1_0:
+    SERIAL_PORT.println("V1.x");
+    break;
 
-    case HW_BOT_2_0:
-      SERIAL_PORT.println("V2.0");
-      break;
+  case HW_BOT_2_0:
+    SERIAL_PORT.println("V2.0");
+    break;
 
-    default:
-      SERIAL_PORT.print("Not Defined: ");
-      SERIAL_PORT.println(id, BIN);
-      break;
+  case HW_BOT_2_1:
+    SERIAL_PORT.println("V2.1");
+    break;
+
+  default:
+    SERIAL_PORT.print("Not Defined: ");
+    SERIAL_PORT.println(id, BIN);
+    break;
   }
 }
 
@@ -237,33 +236,33 @@ void initHW()
 {
   switch (hw_ID)
   {
-    case HW_1_0:
-    case HW_2_0:
-    case HW_2_1:
-      // RP2040 GPIO Init
-      pinMode(get_PROG_LED_PIN(), OUTPUT);
-      pinMode(get_SSR_EN_PIN(), OUTPUT);
-      pinMode(get_5V_EN_PIN(), OUTPUT);
-      pinMode(get_5V_status_PIN(), INPUT);
-      pinMode(get_Status_PIN(), OUTPUT); 
-    
-      pinMode(OptoIN_1, INPUT);
-      pinMode(OptoIN_2, INPUT);
-      pinMode(OptoIN_3, INPUT);
-      pinMode(OptoIN_4, INPUT);
+  case HW_1_0:
+  case HW_2_0:
+  case HW_2_1:
+    // RP2040 GPIO Init
+    pinMode(get_PROG_LED_PIN(), OUTPUT);
+    pinMode(get_SSR_EN_PIN(), OUTPUT);
+    pinMode(get_5V_EN_PIN(), OUTPUT);
+    pinMode(get_5V_status_PIN(), INPUT);
+    pinMode(get_Status_PIN(), OUTPUT);
+    pinMode(OptoIN_1, INPUT);
+    pinMode(OptoIN_2, INPUT);
+    pinMode(OptoIN_3, INPUT);
+    pinMode(OptoIN_4, INPUT);
 
-      digitalWrite(get_PROG_LED_PIN(), LOW);
-      digitalWrite(get_SSR_EN_PIN(), LOW);
-      digitalWrite(get_5V_EN_PIN(), LOW);
-      digitalWrite(get_Status_PIN(), LOW);
-      break;
+    digitalWrite(get_PROG_LED_PIN(), LOW);
+    digitalWrite(get_SSR_EN_PIN(), LOW);
+    digitalWrite(get_5V_EN_PIN(), LOW);
+    digitalWrite(get_Status_PIN(), LOW);
+    break;
 
-    default:
-      SERIAL_PORT.println("Wrong HW-ID  = STOPP");
-      while (true)
-      {
-      };
-      break;
+  default:
+    SERIAL_PORT.println("Wrong HW-ID  = STOPP");
+    SERIAL_PORT.println(hw_ID,BIN);
+    while (true)
+    {
+    };
+    break;
   }
 }
 
@@ -271,27 +270,27 @@ void initHW_Top()
 {
   switch (hw_ID)
   {
-    case HW_1_0:
-    case HW_2_0:
-    case HW_2_1:
-      SERIAL_PORT.println("  I2C.begin");
-    
-      // I2C Init
-      Wire1.setSDA(14);
-      Wire1.setSCL(15);
-    
-      Wire1.begin();
+  case HW_1_0:
+  case HW_2_0:
+  case HW_2_1:
+    SERIAL_PORT.println("  I2C.begin");
+    // I2C Init
+    Wire1.setSDA(14);
+    Wire1.setSCL(15);
 
-      init_IOExpander_GPIOs_TOP();
-      initADC_TOP(Resolution16Bit);
-      break;
+    Wire1.begin();
 
-    default:
-      SERIAL_PORT.println("Wrong HW-ID  = STOPP");
-      while (true)
-      {
-      };
-      break;
+    init_IOExpander_GPIOs_TOP();
+    initADC_TOP(Resolution16Bit);
+    break;
+
+  default:
+    SERIAL_PORT.println("Wrong HW-ID  = STOPP");
+    SERIAL_PORT.println(hw_ID,BIN);
+    while (true)
+    {
+    };
+    break;
   }
 }
 
@@ -299,15 +298,21 @@ void initHW_Bot()
 {
   switch (hw_ID_Bot)
   {
-    case HW_BOT_1_0:
-    case HW_BOT_2_0:
-      init_IOExpander_GPIOs_BOT();
-      #ifdef ADC_enable
-          initADC_BOT(Resolution16Bit);
-      #endif
-      break;
+  case HW_BOT_1_0:
+    init_IOExpander_GPIOs_BOT();
+#ifdef ADC_enable
+    initADC_BOT(Resolution16Bit);
+#endif
+    break;
 
-    default:
-      break;
+  case HW_BOT_2_0:
+    init_IOExpander_GPIOs_BOT();
+#ifdef ADC_enable
+    initADC_BOT(Resolution16Bit);
+#endif
+    break;
+
+  default:
+    break;
   }
 }

@@ -8,6 +8,7 @@
 #include "SystemFailureHandling.h"
 #include "I2C_IOExpander.h"
 #include "ErrorHandling.h"
+#include "Device_setup.h"
 
 #define gain_1 1
 #define gain_2 2
@@ -70,27 +71,55 @@ void initADC_TOP(uint8_t res_top)
 
     if (!get_5V_Error())
     {
-        SERIAL_PORT.print("  MCP3428_TOP:");
-        if (MCP3428_adc.testConnection())
+        switch (get_HW_ID_TOP())
         {
-            SERIAL_PORT.println("OK");
-            init_flag_PCP3428_Top = true;
-        }
-        else
-        {
-            init_flag_PCP3428_Top = false;
-            SERIAL_PORT.println("NOK");
-            failureCounter_ADC_TOP++;
-            if (failureCounter_ADC_TOP > 10)
+        case HW_1_0:
+        case HW_2_0:
+            SERIAL_PORT.print("  MCP3428_TOP:");
+            if (MCP3428_adc.testConnection())
             {
-                // rebootExternalPWR();                     // *******************************************************************************************
-                failureCounter_ADC_TOP = 0;
+                SERIAL_PORT.println("OK");
+                init_flag_PCP3428_Top = true;
             }
+            else
+            {
+                init_flag_PCP3428_Top = false;
+                SERIAL_PORT.println("NOK");
+                failureCounter_ADC_TOP++;
+                if (failureCounter_ADC_TOP > 10)
+                {
+                    // rebootExternalPWR();                     // *******************************************************************************************
+                    failureCounter_ADC_TOP = 0;
+                }
+            }
+            break;
+        case HW_2_1:
+            SERIAL_PORT.print("  ADS1015_TOP:");
+            /*if (MCP3428_adc.testConnection())
+            {
+                SERIAL_PORT.println("OK");
+                init_flag_PCP3428_Top = true;
+            }
+            else
+            {
+                init_flag_PCP3428_Top = false;
+                SERIAL_PORT.println("NOK");
+                failureCounter_ADC_TOP++;
+                if (failureCounter_ADC_TOP > 10)
+                {
+                    // rebootExternalPWR();                     // *******************************************************************************************
+                    failureCounter_ADC_TOP = 0;
+                }
+            }*/
+            break;
+        default:
+            SERIAL_PORT.println("Wrong ID: ADC TOP Init");
+            break;
         }
     }
     else
     {
-        SERIAL_PORT.print("  MCP3428_TOP ERROR: no +5V_Iso");
+        SERIAL_PORT.print("  ADC_TOP ERROR: no +5V_Iso");
     }
 }
 
@@ -100,27 +129,55 @@ void initADC_BOT(uint8_t res_bot)
 
     if (!get_5V_Error())
     {
-        SERIAL_PORT.print("  MCP3428_BOT:");
-        if (MCP3428_adc_BOT.testConnection())
+        switch (get_HW_ID_BOT())
         {
-            SERIAL_PORT.println("OK");
-            init_flag_PCP3428_Bot = true;
-        }
-        else
-        {
-            init_flag_PCP3428_Bot = false;
-            SERIAL_PORT.println("NOK");
-            failureCounter_ADC_BOT++;
-            if (failureCounter_ADC_BOT > 10)
+        case HW_BOT_1_0:
+        case HW_BOT_2_0:
+            SERIAL_PORT.print("  MCP3428_BOT:");
+            if (MCP3428_adc_BOT.testConnection())
             {
-                //rebootExternalPWR();  //************************************************************************************************
-                failureCounter_ADC_BOT = 0;
+                SERIAL_PORT.println("OK");
+                init_flag_PCP3428_Bot = true;
             }
+            else
+            {
+                init_flag_PCP3428_Bot = false;
+                SERIAL_PORT.println("NOK");
+                failureCounter_ADC_BOT++;
+                if (failureCounter_ADC_BOT > 10)
+                {
+                    // rebootExternalPWR();  //************************************************************************************************
+                    failureCounter_ADC_BOT = 0;
+                }
+            }
+            break;
+        case HW_BOT_2_1:
+            SERIAL_PORT.print("  ADS1015_TOP:");
+            /*if (MCP3428_adc.testConnection())
+            {
+                SERIAL_PORT.println("OK");
+                init_flag_PCP3428_Top = true;
+            }
+            else
+            {
+                init_flag_PCP3428_Top = false;
+                SERIAL_PORT.println("NOK");
+                failureCounter_ADC_TOP++;
+                if (failureCounter_ADC_TOP > 10)
+                {
+                    // rebootExternalPWR();                     // *******************************************************************************************
+                    failureCounter_ADC_TOP = 0;
+                }
+            }*/
+            break;
+        default:
+            SERIAL_PORT.println("Wrong ID: ADC BOT Init");
+            break;
         }
     }
     else
     {
-        SERIAL_PORT.print("  MCP3428_BOT ERROR: no +5V_Iso");
+        SERIAL_PORT.print("  ADC_BOT ERROR: no +5V_Iso");
     }
 }
 
@@ -173,7 +230,19 @@ void StartAdcConversation(uint8_t ch)
 {
     if (!get_5V_Error() && init_flag_PCP3428_Top)
     {
-        MCP3428_adc.SetConfiguration(ch, resolution_TOP, 1, gain_1);
+        switch (get_HW_ID_TOP())
+        {
+        case HW_1_0:
+        case HW_2_0:
+            MCP3428_adc_BOT.SetConfiguration(ch, resolution_TOP, 1, gain_1);
+            break;
+        case HW_2_1:
+            // ADS1015
+            break;
+        default:
+            SERIAL_PORT.println("Wrong ID: ADC TOP Start ADC Con");
+            break;
+        }
     }
 }
 
@@ -181,18 +250,58 @@ void StartAdcConversation_BOT(uint8_t ch)
 {
     if (!get_5V_Error() && init_flag_PCP3428_Bot)
     {
-        MCP3428_adc_BOT.SetConfiguration(ch, resolution_BOT, 1, gain_1);
+        switch (get_HW_ID_BOT())
+        {
+        case HW_BOT_1_0:
+        case HW_BOT_2_0:
+            MCP3428_adc_BOT.SetConfiguration(ch, resolution_BOT, 1, gain_1);
+            break;
+        case HW_BOT_2_1:
+            // ADS1015
+            break;
+        default:
+            SERIAL_PORT.println("Wrong ID: ADC BOT Start ADC Con");
+            break;
+        }
     }
 }
 
 long ReadAdcValue()
 {
-    return MCP3428_adc.readADC();
+    switch (get_HW_ID_TOP())
+    {
+    case HW_1_0:
+    case HW_2_0:
+        return MCP3428_adc.readADC();
+        break;
+    case HW_2_1:
+        // ADS1015
+        return 0;
+        break;
+    default:
+        SERIAL_PORT.println("Wrong ID: ADC TOP Read ADC");
+        return 0;
+        break;
+    }
 }
 
 long ReadAdcValue_BOT()
 {
-    return MCP3428_adc_BOT.readADC();
+    switch (get_HW_ID_BOT())
+    {
+    case HW_BOT_1_0:
+    case HW_BOT_2_0:
+        return MCP3428_adc_BOT.readADC();
+        break;
+    case HW_BOT_2_1:
+        // ADS1015
+        return 0;
+        break;
+    default:
+        SERIAL_PORT.println("Wrong ID: ADC BOT Read ADC");
+        return 0;
+        break;
+    }
 }
 
 uint16_t getAdcValue(uint8_t ch)
@@ -332,10 +441,10 @@ float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
     }
 }
 
-bool isADCready()
+/*bool isADCready()
 {
     return MCP3428_adc.CheckConversion();
-}
+}*/
 
 float getAdcVoltage(uint8_t ch)
 {

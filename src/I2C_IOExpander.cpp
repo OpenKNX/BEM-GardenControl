@@ -55,6 +55,17 @@ void init_IOExpander_GPIOs_TOP()
         pca9554.pinMode(7, OUTPUT); // +24V SW Enable
         break;
 
+      case HW_2_1:
+        pca9554.pinMode(0, OUTPUT); // ADC VCC 5V Output Enable 
+        pca9554.pinMode(1, INPUT);  // HW_ID 1
+        pca9554.pinMode(2, INPUT);  // HW_ID 2
+        pca9554.pinMode(3, INPUT);  // HW_ID 3
+        pca9554.pinMode(4, INPUT);  // ADC VCC +5V Output Fault
+        pca9554.pinMode(5, INPUT);  // ADC VCC +12V Output Fault
+        pca9554.pinMode(6, OUTPUT); // HSS_SEL
+        pca9554.pinMode(7, OUTPUT); // +24V SW Enable
+        break;  
+
       default:
       SERIAL_PORT.println(" wrong HW_ID Io Exp Init");
         break;
