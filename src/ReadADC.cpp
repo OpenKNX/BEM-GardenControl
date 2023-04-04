@@ -4,6 +4,7 @@
 #include "HelperFunc.h"
 
 #include "MCP3428.h"
+#include "ADS1015.h"
 #include "GardenControl.h"
 #include "SystemFailureHandling.h"
 #include "I2C_IOExpander.h"
@@ -27,8 +28,11 @@
 #define sampleRate_10SPS 100 // read each 100ms
 #define sampleRate_5SPS 200  // read each 200ms
 
-MCP3428 MCP3428_adc(i2cADC, &Wire1);
-MCP3428 MCP3428_adc_BOT(i2cADC_BOT, &Wire1);
+MCP3428 MCP3428_adc(i2cADC_MCP3428, &Wire1);
+MCP3428 MCP3428_adc_BOT(i2cADC_MCP3428_BOT, &Wire1);
+
+ADS1115 ADS1015_adc(i2cADC_ADS1015, &Wire1);
+ADS1115 ADS1015_adc_BOT(i2cADC_ADS1015_BOT, &Wire1);
 
 uint8_t failureCounter_ADC_TOP = 0;
 uint8_t failureCounter_ADC_BOT = 0;
@@ -85,35 +89,24 @@ void initADC_TOP(uint8_t res_top)
             {
                 init_flag_ADC_Top = false;
                 SERIAL_PORT.println("NOK");
-                failureCounter_ADC_TOP++;
-                if (failureCounter_ADC_TOP > 10)
-                {
-                    // rebootExternalPWR();                     // *******************************************************************************************
-                    failureCounter_ADC_TOP = 0;
-                }
             }
             break;
         case HW_2_1:
             SERIAL_PORT.print("  ADS1015_TOP:");
-            //only test
-            init_flag_ADC_Top = true;
-            SERIAL_PORT.println("NOK");
-            /*if (MCP3428_adc.testConnection())
+            if (ADS1015_adc.testConnection())
             {
                 SERIAL_PORT.println("OK");
+                ADS1015_adc.setGain(1);     // 4.096 volt
+                ADS1015_adc.setDataRate(4); // 0 = slow   4 = medium   7 = fast
+                //ADS1015_adc.setMode(0);     // continuous mode
+                //ADS1015_adc.readADC(0);     // first read to trigger
                 init_flag_ADC_Top = true;
             }
             else
             {
                 init_flag_ADC_Top = false;
                 SERIAL_PORT.println("NOK");
-                failureCounter_ADC_TOP++;
-                if (failureCounter_ADC_TOP > 10)
-                {
-                    // rebootExternalPWR();                     // *******************************************************************************************
-                    failureCounter_ADC_TOP = 0;
-                }
-            }*/
+            }
             break;
         default:
             SERIAL_PORT.println("Wrong ID: ADC TOP Init");
@@ -146,34 +139,24 @@ void initADC_BOT(uint8_t res_bot)
             {
                 init_flag_ADC_Bot = false;
                 SERIAL_PORT.println("NOK");
-                failureCounter_ADC_BOT++;
-                if (failureCounter_ADC_BOT > 10)
-                {
-                    // rebootExternalPWR();  //************************************************************************************************
-                    failureCounter_ADC_BOT = 0;
-                }
             }
             break;
         case HW_BOT_2_1:
-            SERIAL_PORT.print("  ADS1015_TOP:");
-            init_flag_ADC_Bot = true;
-            SERIAL_PORT.println("NOK");
-            /*if (MCP3428_adc.testConnection())
+            SERIAL_PORT.print("  ADS1015_BOT:");
+            if (ADS1015_adc_BOT.testConnection())
             {
                 SERIAL_PORT.println("OK");
-                init_flag_ADC_Top = true;
+                ADS1015_adc_BOT.setGain(1);     // 4.096 volt
+                ADS1015_adc_BOT.setDataRate(4); // 0 = slow   4 = medium   7 = fast
+                //ADS1015_adc_BOT.setMode(0);     // continuous mode
+                //ADS1015_adc_BOT.readADC(0);     // first read to trigger
+                init_flag_ADC_Bot = true;
             }
             else
             {
-                init_flag_ADC_Top = false;
+                init_flag_ADC_Bot = false;
                 SERIAL_PORT.println("NOK");
-                failureCounter_ADC_TOP++;
-                if (failureCounter_ADC_TOP > 10)
-                {
-                    // rebootExternalPWR();                     // *******************************************************************************************
-                    failureCounter_ADC_TOP = 0;
-                }
-            }*/
+            }
             break;
         default:
             SERIAL_PORT.println("Wrong ID: ADC BOT Init");
@@ -249,10 +232,10 @@ void StartAdcConversation(uint8_t ch)
         {
         case HW_1_0:
         case HW_2_0:
-            MCP3428_adc_BOT.SetConfiguration(ch, resolution_TOP, 1, gain_1);
+            MCP3428_adc.SetConfiguration(ch, resolution_TOP, 1, gain_1);
             break;
         case HW_2_1:
-            // ADS1015
+            ADS1015_adc.requestADC(ch);
             break;
         default:
             SERIAL_PORT.println("Wrong ID: ADC TOP Start ADC Con");
@@ -272,7 +255,7 @@ void StartAdcConversation_BOT(uint8_t ch)
             MCP3428_adc_BOT.SetConfiguration(ch, resolution_BOT, 1, gain_1);
             break;
         case HW_BOT_2_1:
-            // ADS1015
+             ADS1015_adc_BOT.requestADC(ch);
             break;
         default:
             SERIAL_PORT.println("Wrong ID: ADC BOT Start ADC Con");
@@ -291,7 +274,7 @@ long ReadAdcValue()
         break;
     case HW_2_1:
         // ADS1015
-        return 0;
+        return ADS1015_adc.readADC();
         break;
     default:
         SERIAL_PORT.println("Wrong ID: ADC TOP Read ADC");
@@ -310,7 +293,7 @@ long ReadAdcValue_BOT()
         break;
     case HW_BOT_2_1:
         // ADS1015
-        return 0;
+        return ADS1015_adc.readADC();
         break;
     default:
         SERIAL_PORT.println("Wrong ID: ADC BOT Read ADC");
@@ -483,6 +466,7 @@ float get4_20mA(uint8_t ch)
 
 bool processADConversation()
 {
+
     switch (ADC_State)
     {
     case wait_Init:
@@ -492,6 +476,8 @@ bool processADConversation()
             {
                 initADC_TOP(Resolution16Bit);
                 initADC_BOT(Resolution16Bit);
+                SERIAL_PORT.println(init_flag_ADC_Top);
+                SERIAL_PORT.println(init_flag_ADC_Bot);
             }
             ADC_State = Set;
         }
@@ -514,50 +500,10 @@ bool processADConversation()
             if (!get_5V_Error() && init_flag_ADC_Top)
             {
                 adc_Value[adc_CH - 1] = ReadAdcValue();
-                /*
-                switch (adc_CH)
-                {
-                case CH1:
-                    adc_Value[2] = ReadAdcValue();
-                    break;
-                case CH2:
-                    adc_Value[1] = ReadAdcValue();
-                    break;
-                case CH3:
-                    adc_Value[0] = ReadAdcValue();
-                    break;
-                case CH4:
-                    adc_Value[3] = ReadAdcValue();
-                    break;
-
-                default:
-                    break;
-                }
-                */
             }
             else
             {
                 adc_Value[adc_CH - 1] = 0;
-                /*
-                switch (adc_CH)
-                {
-                case CH1:
-                    adc_Value[2] = 0;
-                    break;
-                case CH2:
-                    adc_Value[1] = 0;
-                    break;
-                case CH3:
-                    adc_Value[0] = 0;
-                    break;
-                case CH4:
-                    adc_Value[3] = 0;
-                    break;
-
-                default:
-                    break;
-                }
-                */
             }
 
             READ_Delay = millis();
