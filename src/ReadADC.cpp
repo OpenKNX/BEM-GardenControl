@@ -255,7 +255,7 @@ void StartAdcConversation_BOT(uint8_t ch)
             MCP3428_adc_BOT.SetConfiguration(ch, resolution_BOT, 1, gain_1);
             break;
         case HW_BOT_2_1:
-             ADS1015_adc_BOT.requestADC(ch);
+            ADS1015_adc_BOT.requestADC(ch);
             break;
         default:
             SERIAL_PORT.println("Wrong ID: ADC BOT Start ADC Con");
@@ -293,7 +293,7 @@ long ReadAdcValue_BOT()
         break;
     case HW_BOT_2_1:
         // ADS1015
-        return ADS1015_adc.readADC();
+        return ADS1015_adc_BOT.readADC();
         break;
     default:
         SERIAL_PORT.println("Wrong ID: ADC BOT Read ADC");
