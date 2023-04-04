@@ -96,7 +96,7 @@ void initADC_TOP(uint8_t res_top)
         case HW_2_1:
             SERIAL_PORT.print("  ADS1015_TOP:");
             //only test
-            init_flag_ADC_Top = false;
+            init_flag_ADC_Top = true;
             SERIAL_PORT.println("NOK");
             /*if (MCP3428_adc.testConnection())
             {
@@ -156,7 +156,7 @@ void initADC_BOT(uint8_t res_bot)
             break;
         case HW_BOT_2_1:
             SERIAL_PORT.print("  ADS1015_TOP:");
-            init_flag_ADC_Bot = false;
+            init_flag_ADC_Bot = true;
             SERIAL_PORT.println("NOK");
             /*if (MCP3428_adc.testConnection())
             {

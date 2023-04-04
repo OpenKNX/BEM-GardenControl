@@ -22,6 +22,8 @@
 
 #include "Logic.h"
 
+#define KNXcallback
+
 Logic gLogic;
 
 uint32_t READ_ADC_Delay = 0;
@@ -239,7 +241,7 @@ void appSetup()
   // I2C Init
   Wire.setSDA(20);
   Wire.setSCL(21);
-  
+
   Wire.begin();
 
   initI2cStatusLeds();
@@ -364,9 +366,9 @@ void appLoop()
   */
   if (delayCheck(Output_Delay, 1000))
   {
-    if(get_5V_Error())
+    if (get_5V_Error())
     {
-     setLED_24VAC(true);
+      setLED_24VAC(true);
     }
     else
     {
@@ -405,6 +407,7 @@ void appLoop()
       SERIAL_PORT.println(getAdcVoltage_12V());
       break;
     case HW_2_0:
+    case HW_2_1:
       SERIAL_PORT.println("NA");
       break;
     }
