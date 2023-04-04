@@ -96,7 +96,7 @@ void initADC_TOP(uint8_t res_top)
             if (ADS1015_adc.testConnection())
             {
                 SERIAL_PORT.println("OK");
-                ADS1015_adc.setGain(1);     // 4.096 volt
+                ADS1015_adc.setGain(2);     // 2.048 volt
                 ADS1015_adc.setDataRate(4); // 0 = slow   4 = medium   7 = fast
                 //ADS1015_adc.setMode(0);     // continuous mode
                 //ADS1015_adc.readADC(0);     // first read to trigger
@@ -146,7 +146,7 @@ void initADC_BOT(uint8_t res_bot)
             if (ADS1015_adc_BOT.testConnection())
             {
                 SERIAL_PORT.println("OK");
-                ADS1015_adc_BOT.setGain(1);     // 4.096 volt
+                ADS1015_adc_BOT.setGain(2);     // 2.048 volt
                 ADS1015_adc_BOT.setDataRate(4); // 0 = slow   4 = medium   7 = fast
                 //ADS1015_adc_BOT.setMode(0);     // continuous mode
                 //ADS1015_adc_BOT.readADC(0);     // first read to trigger
