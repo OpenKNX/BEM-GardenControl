@@ -33,8 +33,8 @@ MCP3428 MCP3428_adc_BOT(i2cADC_BOT, &Wire1);
 uint8_t failureCounter_ADC_TOP = 0;
 uint8_t failureCounter_ADC_BOT = 0;
 
-bool init_flag_PCP3428_Top = false;
-bool init_flag_PCP3428_Bot = false;
+bool init_flag_ADC_Top = false;
+bool init_flag_ADC_Bot = false;
 
 uint32_t READ_Delay = 0;
 uint8_t adc_CH = 1;
@@ -79,11 +79,11 @@ void initADC_TOP(uint8_t res_top)
             if (MCP3428_adc.testConnection())
             {
                 SERIAL_PORT.println("OK");
-                init_flag_PCP3428_Top = true;
+                init_flag_ADC_Top = true;
             }
             else
             {
-                init_flag_PCP3428_Top = false;
+                init_flag_ADC_Top = false;
                 SERIAL_PORT.println("NOK");
                 failureCounter_ADC_TOP++;
                 if (failureCounter_ADC_TOP > 10)
@@ -95,14 +95,17 @@ void initADC_TOP(uint8_t res_top)
             break;
         case HW_2_1:
             SERIAL_PORT.print("  ADS1015_TOP:");
+            //only test
+            init_flag_ADC_Top = true;
+            SERIAL_PORT.println("NOK");
             /*if (MCP3428_adc.testConnection())
             {
                 SERIAL_PORT.println("OK");
-                init_flag_PCP3428_Top = true;
+                init_flag_ADC_Top = true;
             }
             else
             {
-                init_flag_PCP3428_Top = false;
+                init_flag_ADC_Top = false;
                 SERIAL_PORT.println("NOK");
                 failureCounter_ADC_TOP++;
                 if (failureCounter_ADC_TOP > 10)
@@ -137,11 +140,11 @@ void initADC_BOT(uint8_t res_bot)
             if (MCP3428_adc_BOT.testConnection())
             {
                 SERIAL_PORT.println("OK");
-                init_flag_PCP3428_Bot = true;
+                init_flag_ADC_Bot = true;
             }
             else
             {
-                init_flag_PCP3428_Bot = false;
+                init_flag_ADC_Bot = false;
                 SERIAL_PORT.println("NOK");
                 failureCounter_ADC_BOT++;
                 if (failureCounter_ADC_BOT > 10)
@@ -153,14 +156,16 @@ void initADC_BOT(uint8_t res_bot)
             break;
         case HW_BOT_2_1:
             SERIAL_PORT.print("  ADS1015_TOP:");
+            init_flag_ADC_Bot = true;
+            SERIAL_PORT.println("NOK");
             /*if (MCP3428_adc.testConnection())
             {
                 SERIAL_PORT.println("OK");
-                init_flag_PCP3428_Top = true;
+                init_flag_ADC_Top = true;
             }
             else
             {
-                init_flag_PCP3428_Top = false;
+                init_flag_ADC_Top = false;
                 SERIAL_PORT.println("NOK");
                 failureCounter_ADC_TOP++;
                 if (failureCounter_ADC_TOP > 10)
@@ -183,8 +188,8 @@ void initADC_BOT(uint8_t res_bot)
 
 void clearInitFlags_ADC()
 {
-    init_flag_PCP3428_Top = false;
-    init_flag_PCP3428_Bot = false;
+    init_flag_ADC_Top = false;
+    init_flag_ADC_Bot = false;
 
     // clear ADC values
     for (int i = 0; i < MaxInputChannel; i++)
@@ -192,6 +197,16 @@ void clearInitFlags_ADC()
         adc_Value[i] = 0;
         adc_Value_BOT[i] = 0;
     }
+}
+
+bool getInitFlag_ADC_Top()
+{
+    return init_flag_ADC_Top;
+}
+
+bool getInitFlag_ADC_Bot()
+{
+    return init_flag_ADC_Bot;
 }
 
 void set_ADC_DIV(uint8_t ch, bool div)
@@ -228,7 +243,7 @@ void set_ADC_CorrFactor(uint8_t ch, float corrFactor)
 
 void StartAdcConversation(uint8_t ch)
 {
-    if (!get_5V_Error() && init_flag_PCP3428_Top)
+    if (!get_5V_Error() && init_flag_ADC_Top)
     {
         switch (get_HW_ID_TOP())
         {
@@ -248,7 +263,7 @@ void StartAdcConversation(uint8_t ch)
 
 void StartAdcConversation_BOT(uint8_t ch)
 {
-    if (!get_5V_Error() && init_flag_PCP3428_Bot)
+    if (!get_5V_Error() && init_flag_ADC_Bot)
     {
         switch (get_HW_ID_BOT())
         {
@@ -473,7 +488,7 @@ bool processADConversation()
     case wait_Init:
         if (!get_5V_Error())
         {
-            if (!init_flag_PCP3428_Top || !init_flag_PCP3428_Bot)
+            if (!init_flag_ADC_Top || !init_flag_ADC_Bot)
             {
                 initADC_TOP(Resolution16Bit);
                 initADC_BOT(Resolution16Bit);
@@ -496,7 +511,7 @@ bool processADConversation()
     case Read:
         if (delayCheck(READ_Delay, sampleRate_10SPS))
         {
-            if (!get_5V_Error() && init_flag_PCP3428_Top)
+            if (!get_5V_Error() && init_flag_ADC_Top)
             {
                 adc_Value[adc_CH - 1] = ReadAdcValue();
                 /*
@@ -551,7 +566,7 @@ bool processADConversation()
         return false;
         break;
     case Read_BOT:
-        if (!get_5V_Error() && init_flag_PCP3428_Bot)
+        if (!get_5V_Error() && init_flag_ADC_Bot)
         {
             adc_Value_BOT[adc_CH - 1] = ReadAdcValue_BOT();
         }
@@ -566,7 +581,7 @@ bool processADConversation()
 
         READ_Delay = millis();
 
-        if (!init_flag_PCP3428_Top || !init_flag_PCP3428_Bot)
+        if (!init_flag_ADC_Top || !init_flag_ADC_Bot)
         {
             ADC_State = wait_Init;
         }

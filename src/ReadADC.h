@@ -34,6 +34,8 @@ bool get_CH2_DIV();
 bool get_CH3_DIV();
 
 void clearInitFlags_ADC();
+bool getInitFlag_ADC_Top();
+bool getInitFlag_ADC_Bot();
 
 void StartAdcConversation(uint8_t ch);
 void StartAdcConversation_BOT(uint8_t ch);
