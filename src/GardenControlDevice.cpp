@@ -24,6 +24,10 @@
 
 #define KNXcallback
 
+#ifndef DEBUG
+#define DEBUG 0
+#endif
+
 Logic gLogic;
 
 uint32_t READ_ADC_Delay = 0;
@@ -452,7 +456,7 @@ void appLoop()
     Output_Delay = millis();
   }
 
-  if (delayCheck(LED_Delay, 200))
+  if (DEBUG && delayCheck(LED_Delay, 200))
   {
     TestLEDstate = !TestLEDstate;
     digitalWrite(get_PROG_LED_PIN(), TestLEDstate);
