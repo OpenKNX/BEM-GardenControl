@@ -326,7 +326,7 @@ int16_t ADS1X15::readADC_Differential_0_1()
 
 
 void ADS1X15::requestADC(uint8_t pin)
-{
+{        
   if (pin >= _maxPorts) return;
   uint16_t mode = ((4 + pin) << 12);   //  pin to mask
   _requestADC(mode);
