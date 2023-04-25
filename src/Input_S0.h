@@ -11,10 +11,7 @@
 #define unit_l  0
 #define unit_m3 1
 
-void InitS0Input1();
-void InitS0Input2();
-void InitS0Input3();
-void InitS0Input4();
+void InitS0Input(uint8_t id);
 
 void processReadS0Input();
 

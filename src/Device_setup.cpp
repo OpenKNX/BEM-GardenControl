@@ -270,27 +270,27 @@ void initHW_Top()
 {
   switch (hw_ID)
   {
-  case HW_1_0:
-  case HW_2_0:
-  case HW_2_1:
-    SERIAL_PORT.println("  I2C.begin");
-    // I2C Init
-    Wire1.setSDA(14);
-    Wire1.setSCL(15);
+    case HW_1_0:
+    case HW_2_0:
+    case HW_2_1:
+      SERIAL_PORT.println("  I2C.begin");
+      // I2C Init
+      Wire1.setSDA(14);
+      Wire1.setSCL(15);
 
-    Wire1.begin();
+      Wire1.begin();
 
-    init_IOExpander_GPIOs_TOP();
-    initADC_TOP(Resolution16Bit);
-    break;
+      init_IOExpander_GPIOs_TOP();
+      initADC_TOP(Resolution16Bit);
+      break;
 
-  default:
-    SERIAL_PORT.println("Wrong HW-ID  = STOPP");
-    SERIAL_PORT.println(hw_ID,BIN);
-    while (true)
-    {
-    };
-    break;
+    default:
+      SERIAL_PORT.println("Wrong HW-ID  = STOPP");
+      SERIAL_PORT.println(hw_ID,BIN);
+      while (true)
+      {
+      };
+      break;
   }
 }
 
@@ -298,21 +298,16 @@ void initHW_Bot()
 {
   switch (hw_ID_Bot)
   {
-  case HW_BOT_1_0:
-    init_IOExpander_GPIOs_BOT();
-#ifdef ADC_enable
-    initADC_BOT(Resolution16Bit);
-#endif
-    break;
+    case HW_BOT_1_0:
+    case HW_BOT_2_0:
+    case HW_BOT_2_1:
+      init_IOExpander_GPIOs_BOT();
+  #ifdef ADC_enable
+      initADC_BOT(Resolution12Bit);
+  #endif
+      break;
 
-  case HW_BOT_2_0:
-    init_IOExpander_GPIOs_BOT();
-#ifdef ADC_enable
-    initADC_BOT(Resolution16Bit);
-#endif
-    break;
-
-  default:
+    default:
     break;
   }
 }

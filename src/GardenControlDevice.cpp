@@ -34,13 +34,11 @@ uint32_t READ_ADC_Delay = 0;
 uint32_t Output_Delay = 0;
 uint32_t READ_PRINT = 0;
 uint32_t TestDelay = 0;
-uint32_t LED_Delay2 = 0;
-uint32_t LED_Delay = 0;
+uint32_t LED_Delay[] = {0,0};
 
 bool initADCFlag = false;
 bool TestState = false;
-bool TestLEDstate = false;
-bool TestLEDstate2 = false;
+bool TestLEDstate[] = {false, false};
 
 enum StateMaschine
 {
@@ -94,11 +92,11 @@ void waitStartupLoop()
   processRelais();     // PRIO 3
   process_5V_Relais(); // PRIO 3
 
-  if (delayCheck(LED_Delay2, 700))
+  if (delayCheck(LED_Delay[1], 700))
   {
-    TestLEDstate2 = !TestLEDstate2;
-    digitalWrite(get_PROG_LED_PIN(), TestLEDstate2);
-    LED_Delay2 = millis();
+    TestLEDstate[1] = !TestLEDstate[1];
+    digitalWrite(get_PROG_LED_PIN(), TestLEDstate[1]);
+    LED_Delay[1] = millis();
     SERIAL_PORT.println("Wait for 5V");
   }
 }
@@ -268,16 +266,17 @@ void appSetup()
 
     // load ETS parameters
     SERIAL_PORT.println("Load Parameters");
+    
     // init Inputs: Binäereingänge
-    InitBinInput1(OptoIN_1); // Input 1
-    InitBinInput2(OptoIN_2); // Input 2
-    InitBinInput3(OptoIN_3); // Input 3
-    InitBinInput4(OptoIN_4); // Input 4
+    for(uint8_t i=0;i<4;i++)
+    {
+      InitBinInput(i);
+    }
 
-    InitS0Input1();
-    InitS0Input2();
-    InitS0Input3();
-    InitS0Input4();
+    for(uint8_t i=0;i<4;i++)
+    {
+      InitS0Input(i);
+    }
 
     initInputADC();
 
@@ -290,9 +289,6 @@ void appSetup()
 
 void appLoop()
 {
-  if (!knx.configured())
-    return;
-
   if (startupDelayfunc())
     return;
 
@@ -456,11 +452,11 @@ void appLoop()
     Output_Delay = millis();
   }
 
-  if (DEBUG && delayCheck(LED_Delay, 200))
+  if (DEBUG && delayCheck(LED_Delay[0], 200))
   {
-    TestLEDstate = !TestLEDstate;
-    digitalWrite(get_PROG_LED_PIN(), TestLEDstate);
-    LED_Delay = millis();
+    TestLEDstate[0] = !TestLEDstate[0];
+    digitalWrite(get_PROG_LED_PIN(), TestLEDstate[0]);
+    LED_Delay[0] = millis();
   }
 
   ProcessHeartbeat();

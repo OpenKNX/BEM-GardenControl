@@ -9,126 +9,47 @@
 
 #define BIN_Input 1
 
-bool flagBINinput1 = false;
-bool flagBINinput2 = false;
-bool flagBINinput3 = false;
-bool flagBINinput4 = false;
+bool flagBINinput[] = {false,false,false,false};
 
 bool inputState[BIN_ChannelCount] = {0};
 
-void interrupt_BIN_1()
+uint8_t interruptBinInputId = 0;
+
+uint8_t optoIN_BinInput[] = {OptoIN_1,OptoIN_2,OptoIN_3,OptoIN_4};
+
+void interrupt_BIN()
 {
-    flagBINinput1 = true;
+    flagBINinput[interruptBinInputId] = true;
 }
 
-void interrupt_BIN_2()
+void readBinInput(uint8_t id)
 {
-    flagBINinput2 = true;
+    inputState[id] = digitalRead(optoIN_BinInput[id]);
 }
 
-void interrupt_BIN_3()
+void InitBinInput(uint8_t id)
 {
-    flagBINinput3 = true;
-}
-
-void interrupt_BIN_4()
-{
-    flagBINinput4 = true;
-}
-
-void readBinInput1()
-{
-    inputState[0] = digitalRead(OptoIN_1);
-}
-
-void readBinInput2()
-{
-    inputState[1] = digitalRead(OptoIN_2);
-}
-
-void readBinInput3()
-{
-    inputState[2] = digitalRead(OptoIN_3);
-}
-
-void readBinInput4()
-{
-    inputState[3] = digitalRead(OptoIN_4);
-}
-
-void InitBinInput1(uint8_t GPIO)
-{
-    if (knx.paramByte(getParBIN(BIN_CHInputTypes3, 0)) == BIN_Input)
+    if (knx.paramByte(getParBIN(BIN_CHInputTypes3, id)) == BIN_Input)
     {
-        pinMode(GPIO, INPUT_PULLUP);
-        attachInterrupt(digitalPinToInterrupt(GPIO), interrupt_BIN_1, CHANGE);
-        readBinInput1();
+        pinMode(optoIN_BinInput[id], INPUT_PULLUP);
+        interruptBinInputId = id;
+        attachInterrupt(digitalPinToInterrupt(optoIN_BinInput[id]), interrupt_BIN, CHANGE);
+        readBinInput(id);
 #ifdef Input_BIN_Output
         SERIAL_PORT.println("  init BIN_0: TRUE");
 #endif
     }
 }
 
-void InitBinInput2(uint8_t GPIO)
-{
-    if (knx.paramByte(getParBIN(BIN_CHInputTypes3, 1)) == BIN_Input)
-    {
-        pinMode(GPIO, INPUT_PULLUP);
-        attachInterrupt(digitalPinToInterrupt(GPIO), interrupt_BIN_2, CHANGE);
-        readBinInput2();
-#ifdef Input_BIN_Output
-        SERIAL_PORT.println("  init BIN_1: TRUE");
-#endif
-    }
-}
-
-void InitBinInput3(uint8_t GPIO)
-{
-    if (knx.paramByte(getParBIN(BIN_CHInputTypes3, 2)) == BIN_Input)
-    {
-        pinMode(GPIO, INPUT_PULLUP);
-        attachInterrupt(digitalPinToInterrupt(GPIO), interrupt_BIN_3, CHANGE);
-        readBinInput3();
-#ifdef Input_BIN_Output
-        SERIAL_PORT.println("   init BIN_2: TRUE");
-#endif
-    }
-}
-
-void InitBinInput4(uint8_t GPIO)
-{
-    if (knx.paramByte(getParBIN(BIN_CHInputTypes3, 3)) == BIN_Input)
-    {
-        pinMode(GPIO, INPUT_PULLUP);
-        attachInterrupt(digitalPinToInterrupt(GPIO), interrupt_BIN_4, CHANGE);
-        readBinInput4();
-#ifdef Input_BIN_Output
-        SERIAL_PORT.println("  init BIN_3: TRUE");
-#endif
-    }
-}
-
 void processReadInputs()
 {
-    if (flagBINinput1 == true)
+    for(uint8_t i=0;i<=sizeof(flagBINinput);i++)
     {
-        flagBINinput1 = false;
-        readBinInput1();
-    }
-    else if (flagBINinput2 == true)
-    {
-        flagBINinput2 = false;
-        readBinInput2();
-    }
-    else if (flagBINinput3 == true)
-    {
-        flagBINinput3 = false;
-        readBinInput3();
-    }
-    else if (flagBINinput4 == true)
-    {
-        flagBINinput4 = false;
-        readBinInput4();
+        if (flagBINinput[i] == true)
+        {
+            flagBINinput[i] = false;
+            readBinInput(i);
+        }
     }
 }
 

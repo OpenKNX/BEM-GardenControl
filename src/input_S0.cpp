@@ -46,94 +46,37 @@ unsigned long time_S0_stopp[BIN_ChannelCount] = {0};
 uint16_t zaehler_Impulse[BIN_ChannelCount] = {5, 5};
 uint32_t abs_S0[BIN_ChannelCount] = {0};
 
+uint8_t interruptS0Id = 0;
+
+uint8_t optoIN_S0[] = {OptoIN_1,OptoIN_2,OptoIN_3,OptoIN_4};
+
 // bool S01_impuls = false;
 // bool S02_impuls = false;
 
-void interrupt_S0_1()
+void interrupt_S0()
 {
-    time_S0_stopp[0] = millis();
-    impuls_S0[0] = true;
+    time_S0_stopp[interruptS0Id] = millis();
+    impuls_S0[interruptS0Id] = true;
 
 #ifdef Input_S0_Output_Int
-    SERIAL_PORT.print("S0_1: ");
-    SERIAL_PORT.println(S0_impuls[0]);
+    SERIAL_PORT.print("S0_ ");
+    SERIAL_PORT.print(interruptS0Id + 1);
+    SERIAL_PORT.print(": ");
+    SERIAL_PORT.println(S0_impuls[interruptS0Id]);
 #endif
 }
 
-void interrupt_S0_2()
+void InitS0Input(uint8_t id)
 {
-    time_S0_stopp[1] = millis();
-    impuls_S0[1] = true;
-#ifdef Input_S0_Output_Int
-    SERIAL_PORT.print("S0_2: ");
-    SERIAL_PORT.println(S0_impuls[1]);
-#endif
-}
-
-void interrupt_S0_3()
-{
-    time_S0_stopp[2] = millis();
-    impuls_S0[2] = true;
-#ifdef Input_S0_Output_Int
-    SERIAL_PORT.print("S0_3: ");
-    SERIAL_PORT.println(S0_impuls[2]);
-#endif
-}
-
-void interrupt_S0_4()
-{
-    time_S0_stopp[3] = millis();
-    impuls_S0[3] = true;
-#ifdef Input_S0_Output_Int
-    SERIAL_PORT.print("S0_4: ");
-    SERIAL_PORT.println(S0_impuls[3]);
-#endif
-}
-
-void InitS0Input1()
-{
-    if (knx.paramByte(getParBIN(BIN_CHInputTypes3, 0)) == BIN_Input_S0)
+    if (knx.paramByte(getParBIN(BIN_CHInputTypes3, id)) == BIN_Input_S0)
     {
-        pinMode(OptoIN_1, INPUT_PULLUP);
-        attachInterrupt(digitalPinToInterrupt(OptoIN_1), interrupt_S0_1, FALLING);
+        pinMode(optoIN_S0[id], INPUT_PULLUP);
+        interruptS0Id = id;
+        attachInterrupt(digitalPinToInterrupt(optoIN_S0[id]), interrupt_S0, FALLING);
 #ifdef Input_S0_Output
-        SERIAL_PORT.println("   init S0_0: TRUE");
-#endif
-    }
-}
-
-void InitS0Input2()
-{
-    if (knx.paramByte(getParBIN(BIN_CHInputTypes3, 1)) == BIN_Input_S0)
-    {
-        pinMode(OptoIN_2, INPUT_PULLUP);
-        attachInterrupt(digitalPinToInterrupt(OptoIN_2), interrupt_S0_2, FALLING);
-#ifdef Input_S0_Output
-        SERIAL_PORT.println("   init S0_1: TRUE");
-#endif
-    }
-}
-
-void InitS0Input3()
-{
-    if (knx.paramByte(getParBIN(BIN_CHInputTypes3, 2)) == BIN_Input_S0)
-    {
-        pinMode(OptoIN_3, INPUT_PULLUP);
-        attachInterrupt(digitalPinToInterrupt(OptoIN_3), interrupt_S0_3, FALLING);
-#ifdef Input_S0_Output
-        SERIAL_PORT.println("   init S0_2: TRUE");
-#endif
-    }
-}
-
-void InitS0Input4()
-{
-    if (knx.paramByte(getParBIN(BIN_CHInputTypes3, 3)) == BIN_Input_S0)
-    {
-        pinMode(OptoIN_4, INPUT_PULLUP);
-        attachInterrupt(digitalPinToInterrupt(OptoIN_4), interrupt_S0_4, FALLING);
-#ifdef Input_S0_Output
-        SERIAL_PORT.println("   init S0_3: TRUE");
+        SERIAL_PORT.print("   init S0_");
+        SERIAL_PORT.print(id);
+        SERIAL_PORT.println(": TRUE");
 #endif
     }
 }

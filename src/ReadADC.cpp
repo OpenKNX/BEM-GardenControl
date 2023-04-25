@@ -32,7 +32,7 @@ MCP3428 MCP3428_adc(i2cADC_MCP3428, &Wire1);
 MCP3428 MCP3428_adc_BOT(i2cADC_MCP3428_BOT, &Wire1);
 
 ADS1115 ADS1015_adc(i2cADC_ADS1015, &Wire1);
-ADS1115 ADS1015_adc_BOT(i2cADC_ADS1015_BOT, &Wire1);
+ADS1013 ADS1013_adc_BOT(i2cADC_ADS1013_BOT, &Wire1);
 
 uint8_t failureCounter_ADC_TOP = 0;
 uint8_t failureCounter_ADC_BOT = 0;
@@ -142,14 +142,14 @@ void initADC_BOT(uint8_t res_bot)
             }
             break;
         case HW_BOT_2_1:
-            SERIAL_PORT.print("  ADS1015_BOT:");
-            if (ADS1015_adc_BOT.testConnection())
+            SERIAL_PORT.print("  ADS1013_BOT:");
+            if (ADS1013_adc_BOT.testConnection())
             {
                 SERIAL_PORT.println("OK");
-                ADS1015_adc_BOT.setGain(2);     // 2.048 volt
-                ADS1015_adc_BOT.setDataRate(4); // 0 = slow   4 = medium   7 = fast
-                //ADS1015_adc_BOT.setMode(0);     // continuous mode
-                //ADS1015_adc_BOT.readADC(0);     // first read to trigger
+                ADS1013_adc_BOT.setGain(2);     // 2.048 volt
+                ADS1013_adc_BOT.setDataRate(4); // 0 = slow   4 = medium   7 = fast
+                //ADS1013_adc_BOT.setMode(0);     // continuous mode
+                //ADS1013_adc_BOT.readADC(0);     // first read to trigger
                 init_flag_ADC_Bot = true;
             }
             else
@@ -255,7 +255,7 @@ void StartAdcConversation_BOT(uint8_t ch)
             MCP3428_adc_BOT.SetConfiguration(ch, resolution_BOT, 1, gain_1);
             break;
         case HW_BOT_2_1:
-            ADS1015_adc_BOT.requestADC(ch - 1);
+            ADS1013_adc_BOT.requestADC(ch - 1);
             break;
         default:
             SERIAL_PORT.println("Wrong ID: ADC BOT Start ADC Con");
@@ -293,7 +293,7 @@ long ReadAdcValue_BOT()
         break;
     case HW_BOT_2_1:
         // ADS1015
-        return ADS1015_adc_BOT.getValue();
+        return ADS1013_adc_BOT.getValue();
         break;
     default:
         SERIAL_PORT.println("Wrong ID: ADC BOT Read ADC");
@@ -475,7 +475,7 @@ bool processADConversation()
             if (!init_flag_ADC_Top || !init_flag_ADC_Bot)
             {
                 initADC_TOP(Resolution16Bit);
-                initADC_BOT(Resolution16Bit);
+                initADC_BOT(Resolution12Bit);
                 SERIAL_PORT.println(init_flag_ADC_Top);
                 SERIAL_PORT.println(init_flag_ADC_Bot);
             }

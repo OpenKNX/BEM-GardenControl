@@ -127,8 +127,6 @@ void processInput_4_20mA(bool readyFlag)
                 switch (knx.paramByte(getParCUR(CUR_CHSensorTypes2, channel2)))
                 {
                 case SensorType_current:
-                    value2.ladcValue = get4_20mA(channel2);
-                    break;
                 case SensorType_percent:
                     value2.ladcValue = get4_20mA(channel2);
                     break;
