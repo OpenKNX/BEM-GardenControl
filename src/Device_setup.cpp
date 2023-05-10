@@ -281,7 +281,7 @@ void initHW_Top()
       Wire1.begin();
 
       init_IOExpander_GPIOs_TOP();
-      initADC_TOP(Resolution16Bit);
+      initADC_TOP(Resolution12Bit);
       break;
 
     default:

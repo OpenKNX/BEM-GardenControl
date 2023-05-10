@@ -10,8 +10,8 @@
 #define ADC_Ch3    2
 #define ADC_12V_CH 3
 // ADC BOT
-#define ADC_4_20mA_Ch1 0
-#define ADC_4_20mA_Ch2 1
+#define ADC_4_20mA_Ch1 1
+#define ADC_4_20mA_Ch2 0
 #define ADC_24V_CH     2
 
 #define DIV_12V  1

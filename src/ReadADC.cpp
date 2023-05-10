@@ -32,7 +32,7 @@ MCP3428 MCP3428_adc(i2cADC_MCP3428, &Wire1);
 MCP3428 MCP3428_adc_BOT(i2cADC_MCP3428_BOT, &Wire1);
 
 ADS1115 ADS1015_adc(i2cADC_ADS1015, &Wire1);
-ADS1013 ADS1013_adc_BOT(i2cADC_ADS1013_BOT, &Wire1);
+ADS1015 ADS1015_adc_BOT(i2cADC_ADS1015_BOT, &Wire1);
 
 uint8_t failureCounter_ADC_TOP = 0;
 uint8_t failureCounter_ADC_BOT = 0;
@@ -41,7 +41,7 @@ bool init_flag_ADC_Top = false;
 bool init_flag_ADC_Bot = false;
 
 uint32_t READ_Delay = 0;
-uint8_t adc_CH = 1;
+uint8_t adc_CH = 0;
 uint8_t adc_CH_BOT = 0;
 
 long adc_Value[MaxInputChannel] = {1};
@@ -142,14 +142,14 @@ void initADC_BOT(uint8_t res_bot)
             }
             break;
         case HW_BOT_2_1:
-            SERIAL_PORT.print("  ADS1013_BOT:");
-            if (ADS1013_adc_BOT.testConnection())
+            SERIAL_PORT.print("  ADS1015_BOT:");
+            if (ADS1015_adc_BOT.testConnection())
             {
                 SERIAL_PORT.println("OK");
-                ADS1013_adc_BOT.setGain(2);     // 2.048 volt
-                ADS1013_adc_BOT.setDataRate(4); // 0 = slow   4 = medium   7 = fast
-                //ADS1013_adc_BOT.setMode(0);     // continuous mode
-                //ADS1013_adc_BOT.readADC(0);     // first read to trigger
+                ADS1015_adc_BOT.setGain(2);     // 2.048 volt
+                ADS1015_adc_BOT.setDataRate(4); // 0 = slow   4 = medium   7 = fast
+                //ADS1015_adc_BOT.setMode(0);     // continuous mode
+                //ADS1015_adc_BOT.readADC(0);     // first read to trigger
                 init_flag_ADC_Bot = true;
             }
             else
@@ -232,10 +232,10 @@ void StartAdcConversation(uint8_t ch)
         {
         case HW_1_0:
         case HW_2_0:
-            MCP3428_adc.SetConfiguration(ch, resolution_TOP, 1, gain_1);
+            MCP3428_adc.SetConfiguration(ch + 1, resolution_TOP, 1, gain_1);
             break;
         case HW_2_1:
-            ADS1015_adc.requestADC(ch - 1);
+            ADS1015_adc.requestADC(ch);
             break;
         default:
             SERIAL_PORT.println("Wrong ID: ADC TOP Start ADC Con");
@@ -252,10 +252,23 @@ void StartAdcConversation_BOT(uint8_t ch)
         {
         case HW_BOT_1_0:
         case HW_BOT_2_0:
-            MCP3428_adc_BOT.SetConfiguration(ch, resolution_BOT, 1, gain_1);
+            MCP3428_adc_BOT.SetConfiguration(ch + 1, resolution_BOT, 1, gain_1);
             break;
         case HW_BOT_2_1:
-            ADS1013_adc_BOT.requestADC(ch - 1);
+            //Channel 1 and channel 2 are swapped
+            switch(ch)
+            {
+                case 0:
+                    ch = 1;
+                    break;
+                case 1:
+                    ch = 0;
+                    break;
+                default:
+                    break;
+            }
+
+            ADS1015_adc_BOT.requestADC(ch);
             break;
         default:
             SERIAL_PORT.println("Wrong ID: ADC BOT Start ADC Con");
@@ -293,7 +306,7 @@ long ReadAdcValue_BOT()
         break;
     case HW_BOT_2_1:
         // ADS1015
-        return ADS1013_adc_BOT.getValue();
+        return ADS1015_adc_BOT.getValue();
         break;
     default:
         SERIAL_PORT.println("Wrong ID: ADC BOT Read ADC");
@@ -475,7 +488,7 @@ bool processADConversation()
             if (!init_flag_ADC_Top || !init_flag_ADC_Bot)
             {
                 initADC_TOP(Resolution16Bit);
-                initADC_BOT(Resolution12Bit);
+                initADC_BOT(Resolution16Bit);
                 SERIAL_PORT.println(init_flag_ADC_Top);
                 SERIAL_PORT.println(init_flag_ADC_Bot);
             }
@@ -499,11 +512,11 @@ bool processADConversation()
         {
             if (!get_5V_Error() && init_flag_ADC_Top)
             {
-                adc_Value[adc_CH - 1] = ReadAdcValue();
+                adc_Value[adc_CH] = ReadAdcValue();
             }
             else
             {
-                adc_Value[adc_CH - 1] = 0;
+                adc_Value[adc_CH] = 0;
             }
 
             READ_Delay = millis();
@@ -512,18 +525,11 @@ bool processADConversation()
         return false;
         break;
     case Read_BOT:
-        if (!get_5V_Error() && init_flag_ADC_Bot)
-        {
-            adc_Value_BOT[adc_CH - 1] = ReadAdcValue_BOT();
-        }
-        else
-        {
-            adc_Value_BOT[adc_CH - 1] = 0;
-        }
+        adc_Value_BOT[adc_CH] = ((!get_5V_Error() && init_flag_ADC_Bot) ? ReadAdcValue_BOT() : 0);
 
         adc_CH++;
-        if (adc_CH > MaxInputChannel)
-            adc_CH = 1;
+        if (adc_CH >= MaxInputChannel)
+            adc_CH = 0;
 
         READ_Delay = millis();
 

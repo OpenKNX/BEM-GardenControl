@@ -80,7 +80,7 @@
 #define  i2cADC_MCP3428       0x68
 #define  i2cADC_MCP3428_BOT   0x6E
 #define  i2cADC_ADS1015       0x48
-#define  i2cADC_ADS1013_BOT   0x49
+#define  i2cADC_ADS1015_BOT   0x49
 
 // SSR Reilais
 #define GPIO_SSR_EN 2
