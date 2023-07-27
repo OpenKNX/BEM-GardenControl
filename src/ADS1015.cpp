@@ -304,6 +304,21 @@ uint8_t ADS1X15::getDataRate(void)
   return (_datarate >> 5) & 0x07;  //  convert mask back to 0..7
 }
 
+uint8_t  ADS1X15::getMUX()
+{
+  int16_t raw = _readRegister(_address, ADS1X15_REG_CONFIG);
+  _pinMux = (raw>>12) & 0x07;
+  switch (_pinMux)
+  {
+    case 4: return 0;
+    case 5: return 1;
+    case 6: return 2;
+    case 7: return 3;
+  }
+  _err = ADS1X15_INVALID_MUX;
+  return _err;
+}
+
 
 int16_t ADS1X15::readADC(uint8_t pin)
 {
@@ -335,8 +350,7 @@ void ADS1X15::requestADC(uint8_t pin)
 
 int16_t ADS1X15::getValue()
 {
-  int16_t raw = _readRegister(_address, ADS1X15_REG_CONVERT);
-  if (_bitShift) raw >>= _bitShift;  //  Shift 12-bit results
+  int16_t raw = (_readRegister(_address, ADS1X15_REG_CONVERT) >> 4); //  Shift 12-bit results   
   return raw;
 }
 

@@ -3,6 +3,7 @@
 #include <knx.h>
 #include "GardenControl.h"
 #include "HelperFunc.h"
+#include "GardenControlHardware.h"
 
 #include "KnxHelper.h"
 #include "GardenControlDevice.h"
@@ -34,7 +35,9 @@ uint32_t READ_ADC_Delay = 0;
 uint32_t Output_Delay = 0;
 uint32_t READ_PRINT = 0;
 uint32_t TestDelay = 0;
-uint32_t LED_Delay[] = {0,0};
+uint32_t LED_Delay[] = {0, 0};
+
+uint8_t adcInitCount = 0;
 
 bool initADCFlag = false;
 bool TestState = false;
@@ -266,14 +269,14 @@ void appSetup()
 
     // load ETS parameters
     SERIAL_PORT.println("Load Parameters");
-    
+
     // init Inputs: Binäereingänge
-    for(uint8_t i=0;i<4;i++)
+    for (uint8_t i = 0; i < 4; i++)
     {
       InitBinInput(i);
     }
 
-    for(uint8_t i=0;i<4;i++)
+    for (uint8_t i = 0; i < 4; i++)
     {
       InitS0Input(i);
     }
@@ -319,10 +322,18 @@ void appLoop()
     if (processADConversation() && initADCFlag == false)
     {
       SERIAL_PORT.println("--> ADC ready <--"); // PRIO 3
+      // wait eight steps to Process and to send on KNX-Bus
+      if(adcInitCount == 8)
+      {
       initADCFlag = true;
+      }
+      else
+      {
+        adcInitCount++;
+      }
     }
 #endif
-    processInput_ADC(initADCFlag);
+    processInput_ADC(initADCFlag); //*****************************************************
     StateM = Pos2;
     break;
   case Pos2:
@@ -379,10 +390,9 @@ void appLoop()
     SERIAL_PORT.println(get_Ventil_StateOld(0));
     SERIAL_PORT.print("Relais1: ");
     SERIAL_PORT.println(get_Relais_StateOld(0));
-*/
+    */
     if (getError())
     {
-
 #ifdef SerialError
       SERIAL_PORT.println(getError());
       SERIAL_PORT.print("Ventil1: ");
@@ -393,9 +403,11 @@ void appLoop()
       SERIAL_PORT.println(get_5V_out_Error());
 #endif
     }
+
 #ifdef ADC_enable_Output
+
     SERIAL_PORT.print("ADC CH1: ");
-    SERIAL_PORT.println(getSensorValue(0));
+    SERIAL_PORT.println(getAdcVoltage_TOP(0,0));
     SERIAL_PORT.print("ADC CH2: ");
     SERIAL_PORT.println(getSensorValue(1));
     SERIAL_PORT.print("ADC CH3: ");
@@ -455,7 +467,7 @@ void appLoop()
   if (DEBUG && delayCheck(LED_Delay[0], 200))
   {
     TestLEDstate[0] = !TestLEDstate[0];
-    digitalWrite(get_PROG_LED_PIN(), TestLEDstate[0]);
+    // digitalWrite(get_PROG_LED_PIN(), TestLEDstate[0]);
     LED_Delay[0] = millis();
   }
 

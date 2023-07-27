@@ -40,16 +40,20 @@ bool getInitFlag_ADC_Bot();
 void StartAdcConversation(uint8_t ch);
 void StartAdcConversation_BOT(uint8_t ch);
 
-long ReadAdcValue();
+long ReadAdcValue_TOP();
 long ReadAdcValue_BOT();
 
 uint16_t getAdcValue(uint8_t ch);
 uint16_t getAdcValue_BOT(uint8_t ch);
 
-float getAdcVoltage(uint8_t ch, bool div);
+float getAdcVoltage_TOP(uint8_t ch, bool div);
 float getAdcVoltage_BOT(uint8_t ch, bool isCurrent);
 
-bool isADCready();
+bool isAdcReady();
+void requestADC(uint8_t ch);
+uint8_t getAdcGainTOP();
+uint8_t getAdcMuxTOP();
+
 
 
 float getAdcVoltage_CH1();

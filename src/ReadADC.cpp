@@ -6,6 +6,7 @@
 #include "MCP3428.h"
 #include "ADS1015.h"
 #include "GardenControl.h"
+#include "GardenControlHardware.h"
 #include "SystemFailureHandling.h"
 #include "I2C_IOExpander.h"
 #include "ErrorHandling.h"
@@ -192,6 +193,52 @@ bool getInitFlag_ADC_Bot()
     return init_flag_ADC_Bot;
 }
 
+void requestADC(uint8_t ch)
+{
+    ADS1015_adc.requestADC(ch);
+}
+
+bool isAdcReady()
+{
+    return ADS1015_adc.isReady();
+}
+
+uint8_t getAdcGainTOP()
+{
+    switch (get_HW_ID_TOP())
+    {
+    case HW_1_0:
+        break;
+    case HW_2_0:
+        break;
+    case HW_2_1:
+        return ADS1015_adc.getGain();
+        break;
+    default:
+        SERIAL_PORT.println("Wrong ID: ADC TOP GAIN");
+        break;
+    }
+    return 0xFF;
+}
+
+uint8_t getAdcMuxTOP()
+{
+    switch (get_HW_ID_TOP())
+    {
+    case HW_1_0:
+        break;
+    case HW_2_0:
+        break;
+    case HW_2_1:
+        return ADS1015_adc.getMUX();
+        break;
+    default:
+        SERIAL_PORT.println("Wrong ID: ADC TOP MUX");
+        break;
+    }
+    return 0xFF;
+}
+
 void set_ADC_DIV(uint8_t ch, bool div)
 {
     ADC_div[ch] = div;
@@ -235,6 +282,19 @@ void StartAdcConversation(uint8_t ch)
             MCP3428_adc.SetConfiguration(ch + 1, resolution_TOP, 1, gain_1);
             break;
         case HW_2_1:
+            // Channel 1 2 3 are swapped
+            switch (ch)
+            {
+            case 0:
+                ch = 2;
+                break;
+            case 2:
+                ch = 0;
+                break;
+            default:
+                break;
+            }
+
             ADS1015_adc.requestADC(ch);
             break;
         default:
@@ -255,17 +315,17 @@ void StartAdcConversation_BOT(uint8_t ch)
             MCP3428_adc_BOT.SetConfiguration(ch + 1, resolution_BOT, 1, gain_1);
             break;
         case HW_BOT_2_1:
-            //Channel 1 and channel 2 are swapped
-            switch(ch)
+            // Channel 1 and channel 2 are swapped
+            switch (ch)
             {
-                case 0:
-                    ch = 1;
-                    break;
-                case 1:
-                    ch = 0;
-                    break;
-                default:
-                    break;
+            case 0:
+                ch = 1;
+                break;
+            case 1:
+                ch = 0;
+                break;
+            default:
+                break;
             }
 
             ADS1015_adc_BOT.requestADC(ch);
@@ -277,7 +337,7 @@ void StartAdcConversation_BOT(uint8_t ch)
     }
 }
 
-long ReadAdcValue()
+long ReadAdcValue_TOP()
 {
     switch (get_HW_ID_TOP())
     {
@@ -327,13 +387,13 @@ uint16_t getAdcValue_BOT(uint8_t ch)
 
 float checkZero(float value)
 {
-    if (value > 0.05)
+    if (value > 0.07)
         return value;
     else
         return 0;
 }
 
-float getAdcVoltage(uint8_t ch, bool div)
+float getAdcVoltage_TOP(uint8_t ch, bool div)
 {
     switch (resolution_TOP)
     {
@@ -354,55 +414,6 @@ float getAdcVoltage(uint8_t ch, bool div)
         return 0;
         break;
     }
-    // ALTE UMSETZUNG HW1.x
-    /*
-    if (div) // 0-12V
-    {
-        switch (resolution_TOP)
-        {
-        case Resolution12Bit:
-            return checkZero((adc_Value[ch] * 0.006) / corr_Factor[ch]); // 2.047 / 2047.0 * 6.0;
-            break;
-        case Resolution14Bit:
-            return checkZero((adc_Value[ch] * 0.0015) / corr_Factor[ch]); // 2.047 / 8191.0 * 6.0;
-            break;
-        case Resolution16Bit:
-            return checkZero((adc_Value[ch] * 0.000375) / corr_Factor[ch]); // 2.047 / 32767.0 * 6.0;
-            break;
-        default:
-#ifdef InputADC_Output
-            SERIAL_PORT.println("wrong RES 0-12V");
-            SERIAL_PORT.println(resolution_TOP);
-#endif
-            return 0;
-            break;
-        }
-    }
-    else // 0-5V
-    {
-#ifdef InputADC_Output
-        SERIAL_PORT.print("5V ");
-#endif
-        switch (resolution_TOP)
-        {
-        case Resolution12Bit:
-            return checkZero(adc_Value[ch] * 0.003); // 2.047 / 2047.0 * 3.0;
-            break;
-        case Resolution14Bit:
-            return checkZero(adc_Value[ch] * 0.00075); // 2.047 / 8191.0 * 3.0;
-            break;
-        case Resolution16Bit:
-            return checkZero(adc_Value[ch] * 0.0001875); // 2.047 / 32767.0 * 3.0;
-            break;
-        default:
-#ifdef InputADC_Output
-            SERIAL_PORT.println("wrong RES 0-5V");
-#endif
-            return 0;
-            break;
-        }
-    }
-    */
 }
 
 float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
@@ -457,14 +468,14 @@ float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
     return MCP3428_adc.CheckConversion();
 }*/
 
-float getAdcVoltage(uint8_t ch)
+float getAdcVoltage_TOP(uint8_t ch)
 {
-    return getAdcVoltage(ch, ADC_div[ch]);
+    return getAdcVoltage_TOP(ch, ADC_div[ch]);
 }
 
 float getAdcVoltage_12V()
 {
-    return getAdcVoltage(ADC_12V_CH, DIV_12V);
+    return getAdcVoltage_TOP(ADC_12V_CH, DIV_12V);
 }
 
 float getAdcVoltage_24V()
@@ -487,8 +498,8 @@ bool processADConversation()
         {
             if (!init_flag_ADC_Top || !init_flag_ADC_Bot)
             {
-                initADC_TOP(Resolution16Bit);
-                initADC_BOT(Resolution16Bit);
+                initADC_TOP(Resolution12Bit);
+                initADC_BOT(Resolution12Bit);
                 SERIAL_PORT.println(init_flag_ADC_Top);
                 SERIAL_PORT.println(init_flag_ADC_Bot);
             }
@@ -508,21 +519,16 @@ bool processADConversation()
         break;
 
     case Read:
-        if (delayCheck(READ_Delay, sampleRate_10SPS))
+        if (delayCheck(READ_Delay, sampleRate_5SPS))
         {
-            if (!get_5V_Error() && init_flag_ADC_Top)
-            {
-                adc_Value[adc_CH] = ReadAdcValue();
-            }
-            else
-            {
-                adc_Value[adc_CH] = 0;
-            }
-
+            adc_Value[adc_CH] = ((!get_5V_Error() && init_flag_ADC_Top) ? ReadAdcValue_TOP() : 0);
+            
             READ_Delay = millis();
             ADC_State = Read_BOT;
         }
         return false;
+        break;
+
         break;
     case Read_BOT:
         adc_Value_BOT[adc_CH] = ((!get_5V_Error() && init_flag_ADC_Bot) ? ReadAdcValue_BOT() : 0);

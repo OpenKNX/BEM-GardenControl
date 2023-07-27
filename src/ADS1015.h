@@ -29,6 +29,7 @@
 #define ADS1X15_INVALID_VOLTAGE           -100
 #define ADS1X15_INVALID_GAIN              0xFF
 #define ADS1X15_INVALID_MODE              0xFE
+#define ADS1X15_INVALID_MUX               0xFD
 
 
 class ADS1X15
@@ -76,6 +77,7 @@ public:
   void     setDataRate(uint8_t dataRate = 4); // invalid values are mapped on 4 (default)
   uint8_t  getDataRate();                     // actual speed depends on device
 
+  uint8_t  getMUX();
 
   int16_t  readADC(uint8_t pin = 0);
   int16_t  readADC_Differential_0_1();
@@ -153,6 +155,7 @@ protected:
   uint16_t _gain;
   uint16_t _mode;
   uint16_t _datarate;
+  uint8_t  _pinMux;
 
   //  COMPARATOR variables
   //  TODO merge these into one COMPARATOR MASK?  (low priority)
