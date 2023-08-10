@@ -99,8 +99,8 @@ void initADC_TOP(uint8_t res_top)
                 SERIAL_PORT.println("OK");
                 ADS1015_adc.setGain(2);     // 2.048 volt
                 ADS1015_adc.setDataRate(4); // 0 = slow   4 = medium   7 = fast
-                //ADS1015_adc.setMode(0);     // continuous mode
-                //ADS1015_adc.readADC(0);     // first read to trigger
+                // ADS1015_adc.setMode(0);     // continuous mode
+                // ADS1015_adc.readADC(0);     // first read to trigger
                 init_flag_ADC_Top = true;
             }
             else
@@ -149,8 +149,8 @@ void initADC_BOT(uint8_t res_bot)
                 SERIAL_PORT.println("OK");
                 ADS1015_adc_BOT.setGain(2);     // 2.048 volt
                 ADS1015_adc_BOT.setDataRate(4); // 0 = slow   4 = medium   7 = fast
-                //ADS1015_adc_BOT.setMode(0);     // continuous mode
-                //ADS1015_adc_BOT.readADC(0);     // first read to trigger
+                 ADS1015_adc_BOT.setMode(1);     // continuous mode
+                 ADS1015_adc_BOT.readADC(0);     // first read to trigger
                 init_flag_ADC_Bot = true;
             }
             else
@@ -294,7 +294,8 @@ void StartAdcConversation(uint8_t ch)
             default:
                 break;
             }
-
+            // SERIAL_PORT.print("TOP_CH ");
+            // SERIAL_PORT.println(ch);
             ADS1015_adc.requestADC(ch);
             break;
         default:
@@ -327,7 +328,7 @@ void StartAdcConversation_BOT(uint8_t ch)
             default:
                 break;
             }
-
+            
             ADS1015_adc_BOT.requestADC(ch);
             break;
         default:
@@ -519,10 +520,10 @@ bool processADConversation()
         break;
 
     case Read:
-        if (delayCheck(READ_Delay, sampleRate_5SPS))
+        if (delayCheck(READ_Delay, 500))
         {
             adc_Value[adc_CH] = ((!get_5V_Error() && init_flag_ADC_Top) ? ReadAdcValue_TOP() : 0);
-            
+
             READ_Delay = millis();
             ADC_State = Read_BOT;
         }
@@ -537,7 +538,7 @@ bool processADConversation()
         if (adc_CH >= MaxInputChannel)
             adc_CH = 0;
 
-        READ_Delay = millis();
+        //READ_Delay = millis();
 
         if (!init_flag_ADC_Top || !init_flag_ADC_Bot)
         {

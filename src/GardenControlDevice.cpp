@@ -425,12 +425,12 @@ void appLoop()
     }
     SERIAL_PORT.print("VCC_24V: ");
     SERIAL_PORT.println(getAdcVoltage_24V());
-    /*
-    SERIAL_PORT.print("ADC CH5: ");
-    SERIAL_PORT.println(get4_20mA_CH1());
-    SERIAL_PORT.print("ADC CH6: ");
-    SERIAL_PORT.println(get4_20mA_CH2());
-    */
+    
+    SERIAL_PORT.print("4..20 CH1: ");
+    SERIAL_PORT.println(getAdcValue_BOT(0));
+    SERIAL_PORT.print("4..20 CH2: ");
+    SERIAL_PORT.println(getAdcValue_BOT(1));
+    
     SERIAL_PORT.println(" ");
 #endif
 

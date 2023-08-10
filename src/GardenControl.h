@@ -2260,5 +2260,5 @@
 
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16
-#define MAIN_ApplicationVersion 3
+#define MAIN_ApplicationVersion 4
 #define MAIN_OrderNumber "MFKnxBem"
