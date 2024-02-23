@@ -4,66 +4,102 @@
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
       <ApplicationPrograms>
-        <ApplicationProgram Id="%AID%" ApplicationNumber="0" ApplicationVersion="0" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="EnoceanGateway" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
+        <ApplicationProgram Id="%AID%" ApplicationNumber="0" ApplicationVersion="0"
+          ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="EnoceanGateway"
+          LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de"
+          DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
           <Static>
             <Parameters>
-               <!-- only description no offset -->
-              <Parameter Id="%AID%_P-%T%%CCC%000" Name="CH%C%Name" ParameterType="%AID%_PT-Text40Byte" Text="Beschreibung des Kanals" Value="" />
+              <!-- only description no offset -->
+              <Parameter Id="%AID%_P-%TT%%CC%000" Name="CH%C%Name"
+                ParameterType="%AID%_PT-Text40Byte" Text="Beschreibung des Kanals" Value="" />
               <!-- Relais Control -->
               <Union SizeInBit="8">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
-                <Parameter Id="%AID%_UP-%T%%CCC%001" Name="CH%C%Aktive" ParameterType="%AID%_PT-ActiveInactive" Text="Kanal:" Value="0" Offset="0" BitOffset="0" />
-                <Parameter Id="%AID%_UP-%T%%CCC%002" Name="CH%C%Sperr"  ParameterType="%AID%_PT-YesNo"          Text="Sperrobjekt:"  Value="0" Offset="0" BitOffset="1" />
+                <Parameter Id="%AID%_UP-%TT%%CC%001" Name="CH%C%Aktive"
+                  ParameterType="%AID%_PT-ActiveInactive" Text="Kanal:" Value="0" Offset="0"
+                  BitOffset="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%002" Name="CH%C%Sperr"
+                  ParameterType="%AID%_PT-YesNo" Text="Sperrobjekt:" Value="0" Offset="0"
+                  BitOffset="1" />
               </Union>
-              
+
             </Parameters>
             <ParameterRefs>
-              <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
+              <!-- ParameterRef have to be defined for each parameter, pay attention, that the
+              ID-part (number) after R- is unique! -->
               <!-- ParameterRef are used in the ETS UI -->
-              <ParameterRef Id="%AID%_P-%T%%CCC%000_R-%T%%CCC%00001" RefId="%AID%_P-%T%%CCC%000" />
-              <ParameterRef Id="%AID%_UP-%T%%CCC%001_R-%T%%CCC%00101" RefId="%AID%_UP-%T%%CCC%001" />
-              <ParameterRef Id="%AID%_UP-%T%%CCC%002_R-%T%%CCC%00201" RefId="%AID%_UP-%T%%CCC%002" />
-             
+              <ParameterRef Id="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" RefId="%AID%_P-%TT%%CC%000" />
+              <ParameterRef Id="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" RefId="%AID%_UP-%TT%%CC%001" />
+              <ParameterRef Id="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" RefId="%AID%_UP-%TT%%CC%002" />
+
             </ParameterRefs>
             <ComObjectTable>
-              <ComObject Id="%AID%_O-%T%%CCC%000" Name="_Set_ventil%C%"    Text="Magnetventil %C%:" FunctionText="Schalten"    Number="%K0%" ObjectSize="1 Bit" ReadFlag="Disabled" WriteFlag="Enabled"  CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-1-1"  />
-              <ComObject Id="%AID%_O-%T%%CCC%001" Name="_Status_ventil%C%" Text="Magnetventil %C%:" FunctionText="Status"      Number="%K1%" ObjectSize="1 Bit" ReadFlag="Enabled"  WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-1-11" />
-              <ComObject Id="%AID%_O-%T%%CCC%002" Name="_Sperr_ventil%C%"  Text="Magnetventil %C%:" FunctionText="Sperrobjekt" Number="%K2%" ObjectSize="1 Bit" ReadFlag="Disabled" WriteFlag="Enabled"  CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-1-1"  />
+              <ComObject Id="%AID%_O-%TT%%CC%000" Name="_Set_ventil%C%" Text="Magnetventil %C%:"
+                FunctionText="Schalten" Number="%K0%" ObjectSize="1 Bit" ReadFlag="Disabled"
+                WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled"
+                UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-1-1" />
+              <ComObject Id="%AID%_O-%TT%%CC%001" Name="_Status_ventil%C%" Text="Magnetventil %C%:"
+                FunctionText="Status" Number="%K1%" ObjectSize="1 Bit" ReadFlag="Enabled"
+                WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"
+                UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-1-11" />
+              <ComObject Id="%AID%_O-%TT%%CC%002" Name="_Sperr_ventil%C%" Text="Magnetventil %C%:"
+                FunctionText="Sperrobjekt" Number="%K2%" ObjectSize="1 Bit" ReadFlag="Disabled"
+                WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled"
+                UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-1-1" />
             </ComObjectTable>
             <ComObjectRefs>
-              <ComObjectRef Id="%AID%_O-%T%%CCC%000_R-%T%%CCC%00001" RefId="%AID%_O-%T%%CCC%000" Text="Magnetventil %C%: {{0:-}}" TextParameterRefId="%AID%_P-%T%%CCC%000_R-%T%%CCC%00001"/>
-              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00101" RefId="%AID%_O-%T%%CCC%001" Text="Magnetventil %C%: {{0:-}}"  TextParameterRefId="%AID%_P-%T%%CCC%000_R-%T%%CCC%00001"/>
-              <ComObjectRef Id="%AID%_O-%T%%CCC%002_R-%T%%CCC%00201" RefId="%AID%_O-%T%%CCC%002" Text="Magnetventil %C%: {{0:-}}"  TextParameterRefId="%AID%_P-%T%%CCC%000_R-%T%%CCC%00001"/>
+              <ComObjectRef Id="%AID%_O-%TT%%CC%000_R-%TT%%CC%00001" RefId="%AID%_O-%TT%%CC%000"
+                Text="Magnetventil %C%: {{0:-}}"
+                TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
+              <ComObjectRef Id="%AID%_O-%TT%%CC%001_R-%TT%%CC%00101" RefId="%AID%_O-%TT%%CC%001"
+                Text="Magnetventil %C%: {{0:-}}"
+                TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
+              <ComObjectRef Id="%AID%_O-%TT%%CC%002_R-%TT%%CC%00201" RefId="%AID%_O-%TT%%CC%002"
+                Text="Magnetventil %C%: {{0:-}}"
+                TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
             </ComObjectRefs>
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
             <!-- The following block is always there -->
             <ChannelIndependentBlock>
-              <ParameterBlock Id="%AID%_PB-3" Name="MagnetVentilKanal" Text="Ventil %C% {{0:---}}" TextParameterRefId="%AID%_P-%T%%CCC%000_R-%T%%CCC%00001">  
-                <Channel Id="%AID%_CH-ENO%C%" Number="ENO%C%" Name="MagnetventilKanal%C%" Text="Ventil %C% {{0:---}}" TextParameterRefId="%AID%_P-%T%%CCC%000_R-%T%%CCC%00001"> 
+              <ParameterBlock Id="%AID%_PB-3" Name="MagnetVentilKanal" Text="Ventil %C% {{0:---}}"
+                TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
+                <Channel Id="%AID%_CH-ENO%C%" Number="ENO%C%" Name="MagnetventilKanal%C%"
+                  Text="Ventil %C% {{0:---}}"
+                  TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
                   <ParameterBlock Id="%AID%_PB-ENO%C%Wrapper" Inline="true">
-                    <ParameterSeparator Id="%AID%_PS-1" Text="Settings Magnetventil %C%" UIHint="Headline" />
-                    <ParameterRefRef RefId="%AID%_P-%T%%CCC%000_R-%T%%CCC%00001" />
+                    <ParameterSeparator Id="%AID%_PS-1" Text="Settings Magnetventil %C%"
+                      UIHint="Headline" />
+                    <ParameterRefRef RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
                     <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
-                    <ParameterRefRef RefId="%AID%_UP-%T%%CCC%001_R-%T%%CCC%00101" />  <!-- Channel aktive / inaktive-->
-                    <choose ParamRefId="%AID%_UP-%T%%CCC%001_R-%T%%CCC%00101">
+                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" />  <!-- Channel
+                    aktive / inaktive-->
+                    <choose ParamRefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101">
                       <when test="=0">
-                        <ParameterSeparator Id="%AID%_PS-3" Text="Magnetventil-Ausgang inaktiv: Das an den Kanal angebundene Magnetventil kann NICHT angesteuert werden "  />
+                        <ParameterSeparator Id="%AID%_PS-3"
+                          Text="Magnetventil-Ausgang inaktiv: Das an den Kanal angebundene Magnetventil kann NICHT angesteuert werden " />
                         <ParameterSeparator Id="%AID%_PS-4" Text="" UIHint="HorizontalRuler" />
                       </when>
                       <when test="!=0">
                         <!-- KOs for Channel -->
-                        <ComObjectRefRef RefId="%AID%_O-%T%%CCC%000_R-%T%%CCC%00001" /> <!-- KO: schalten -->
-                        <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00101" /> <!-- KO: status   -->
+                        <ComObjectRefRef RefId="%AID%_O-%TT%%CC%000_R-%TT%%CC%00001" /> <!-- KO:
+                        schalten -->
+                        <ComObjectRefRef RefId="%AID%_O-%TT%%CC%001_R-%TT%%CC%00101" /> <!-- KO:
+                        status   -->
                         <!-- weitere Parameter -->
-                        <ParameterSeparator Id="%AID%_PS-3" Text="Magnetventil-Ausgang aktiv: Das an den Kanal angebundene Magnetventil kann jetzt angesteuert werden "  />
+                        <ParameterSeparator Id="%AID%_PS-3"
+                          Text="Magnetventil-Ausgang aktiv: Das an den Kanal angebundene Magnetventil kann jetzt angesteuert werden " />
                         <ParameterSeparator Id="%AID%_PS-4" Text="" UIHint="HorizontalRuler" />
-                        <ParameterRefRef RefId="%AID%_UP-%T%%CCC%002_R-%T%%CCC%00201" />  <!-- Sperrobjakt JA/NEIN-->
-                        <choose ParamRefId="%AID%_UP-%T%%CCC%002_R-%T%%CCC%00201">
+                        <ParameterRefRef RefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" />  <!--
+                        Sperrobjakt JA/NEIN-->
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
                           <when test="!=0">
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00201" /> <!-- KO: sperrobjekt -->
-                            <ParameterSeparator Id="%AID%_PS-5" Text="Wird der Zustand des Ventils geändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und ausgeführt, sobald das Sperrobjekt wieder deaktiviert wird."  />
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%002_R-%TT%%CC%00201" /> <!-- KO:
+                            sperrobjekt -->
+                            <ParameterSeparator Id="%AID%_PS-5"
+                              Text="Wird der Zustand des Ventils geändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und ausgeführt, sobald das Sperrobjekt wieder deaktiviert wird." />
                           </when>
                         </choose>
                       </when>

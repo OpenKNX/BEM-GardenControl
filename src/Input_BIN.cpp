@@ -1,11 +1,11 @@
 #include "Input_BIN.h"
-#include <knx.h>
 #include "KnxHelper.h"
-#include "GardenControl.h"
+#include "OpenKNX.h"
+
 #include "HelperFunc.h"
 
-#include "ReadBinary.h"
 #include "ErrorHandling.h"
+#include "ReadBinary.h"
 
 #define BIN_Input 1
 
@@ -49,20 +49,20 @@ void processInput_BIN()
             // NOTE HW-Implementation: TRUE = BIN-Input OPEN
             switch ((knx.paramByte(getParBIN(BIN_CHValueOpen3, channel_BIN)) >> BIN_CHValueOpen3Shift) & 1)
             {
-            case BIN_ValueOPEN_TRUE:
-                ladcValue = getStateInput(channel_BIN);
-                break;
+                case BIN_ValueOPEN_TRUE:
+                    ladcValue = getStateInput(channel_BIN);
+                    break;
 
-            case BIN_ValueOPEN_FALSE:
-                ladcValue = !getStateInput(channel_BIN);
-                break;
+                case BIN_ValueOPEN_FALSE:
+                    ladcValue = !getStateInput(channel_BIN);
+                    break;
 
-            default:
+                default:
 #ifdef Input_BIN_Output
-                SERIAL_PORT.println("Wrong Par: ValueOpen");
+                    SERIAL_PORT.println("Wrong Par: ValueOpen");
 #endif
-                return;
-                break;
+                    return;
+                    break;
             }
             // STEP 2: check if send Buswiederkehr
             if (linitFlag[channel_BIN] == false)

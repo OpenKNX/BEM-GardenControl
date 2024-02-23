@@ -1,6 +1,5 @@
-#include <knx.h>
+#include "OpenKNX.h"
 #include "InputADC.h"
-#include "GardenControl.h"
 #include "KnxHelper.h"
 
 #include "HelperFunc.h"

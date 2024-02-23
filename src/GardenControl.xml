@@ -1,184 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
-  <ManufacturerData>
-    <Manufacturer RefId="M-00FA">
-      <Catalog>
-        <CatalogSection Id="M-00FA_CS-OpenKNX" Name="OpenKNX" Number="OpenKNX" DefaultLanguage="de">
-          <CatalogItem Id="%CatalogItemId%" Name="OpenKNX: GardenControl" Number="1" ProductRefId="%ProductId%" Hardware2ProgramRefId="%Hardware2ProgramId%" DefaultLanguage="de" />
-        </CatalogSection>
-      </Catalog>
-      <ApplicationPrograms>
-        <!-- Each incre20e of AppliationVersion FORCES the Enduser to update according firmware, too -->
-        <!-- If you just want to have a BUGFIX-Update of the ETS-Appliation (without firmware), increase ApplicationVersion AND ApplicationRevision simultaneously -->
-        <!-- To sync ETS-Application and firmware again, increase ApplicationVersion AND set ApplicationRevision to 0 -->
-        <op:version OpenKnxId="0xA2" ApplicationNumber="16" ApplicationVersion="3" ReplacesVersions="1 2" ApplicationRevision="0" />
-        <ApplicationProgram Id="%AID%" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="KNX-GardenControl" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0" ApplicationNumber="0" ApplicationVersion="0" ReplacesVersions="0">
-          <Static>
-            <Code>
-              <RelativeSegment Id="%AID%_RS-04-00000" Name="Parameters" Offset="0" Size="%MemorySize%" LoadStateMachine="4" />
-            </Code>
-            <op:define prefix="LOG" header="GardenControl.h" NumChannels="10" KoOffset="420" ModuleType="1" />  <!-- LOG muss immer ModuleType 1 sein --> 
-            <op:define prefix="BEM" header="GardenControl.h" NumChannels="12" KoOffset="30"  ModuleType="2" />  <!-- KoOffset = 30 -> 20 default from Logik + 10 for default of Gardencontrol -->
-            <op:define prefix="REL" header="GardenControl.h" NumChannels="3"  KoOffset="66"  ModuleType="3" />  <!-- KoOffset = 66 -> 30 + BEM (12ch*3kO) 36 --> 
-            <op:define prefix="ADC" header="GardenControl.h" NumChannels="3"  KoOffset="75"  ModuleType="4" />  <!-- KoOffset = 75 -> 66 + REL (3ch*3kO) 9 --> 
-            <op:define prefix="CUR" header="GardenControl.h" NumChannels="2"  KoOffset="81"  ModuleType="5" />  <!-- KoOffset = 81 -> 75 + ADC (3ch*1kO) 6 --> 
-            <op:define prefix="BIN" header="GardenControl.h" NumChannels="4"  KoOffset="90"  ModuleType="6" />  <!-- KoOffset = 90 -> 81 + CUR (3ch*3kO) 9 --> 
-            <ParameterTypes>
-              <!-- Parameter Offset Table 
-              000 - 049  Reserve LOG
-              050 - 069  BEM Share (20 Bytes)
-              070 - 089  REL Share (20 Bytes)
-              090 - 109  ADC Share (20 Bytes)   
-              110 - 129  CUR Share (20 Bytes) 
-              130 - 169  BIN Share (40 Bytes) 
-               
-              templ Werte beginnen mit 0 und werden automatisch erzeugt             
-              -->
-              <op:include href="../lib/OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ParameterTypes/ParameterType" prefix="LOG" />
-              <op:include href="GardenControl.share.xml" xpath="//ParameterTypes/ParameterType" prefix="BEM" />
-              <op:include href="GardenControlRelais.share.xml" xpath="//ParameterTypes/ParameterType" prefix="REL" />
-              <op:include href="InputADC.share.xml" xpath="//ParameterTypes/ParameterType" prefix="ADC" />
-              <op:include href="Input_4_20mA.share.xml" xpath="//ParameterTypes/ParameterType" prefix="CUR" />
-              <op:include href="Input_BIN_S0.share.xml" xpath="//ParameterTypes/ParameterType" prefix="BIN" />
-            </ParameterTypes>
-            <Parameters>
-              <op:include href="../lib/OAM-LogicModule/src/Logikmodul.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="LOG" />
-              <op:include href="GardenControl.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="BEM" />
-              <op:include href="GardenControlRelais.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="REL" />
-              <op:include href="InputADC.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="ADC" />
-              <op:include href="Input_4_20mA.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="CUR" />
-              <op:include href="Input_BIN_S0.share.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="parameter" prefix="BIN" />
-              <op:include href="../lib/OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="LOG" />
-              <op:include href="GardenControl.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="BEM" />
-              <op:include href="GardenControlRelais.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="REL" />
-              <op:include href="InputADC.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="ADC" />
-              <op:include href="Input_4_20mA.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="CUR" />
-              <op:include href="Input_BIN_S0.templ.xml" xpath="//Parameters/Parameter|//Parameters/Union" type="template" prefix="BIN" />
-            </Parameters>
-            <ParameterRefs>
-              <op:include href="../lib/OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="LOG" />
-              <op:include href="GardenControl.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="BEM" />
-              <op:include href="GardenControlRelais.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="REL" />
-              <op:include href="InputADC.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="ADC" />
-              <op:include href="Input_4_20mA.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="CUR" />
-              <op:include href="Input_BIN_S0.share.xml" xpath="//ParameterRefs/ParameterRef" prefix="BIN" />
-              <op:include href="../lib/OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="LOG" />
-              <op:include href="GardenControl.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="BEM" />
-              <op:include href="GardenControlRelais.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="REL" />
-              <op:include href="InputADC.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="ADC" />
-              <op:include href="Input_4_20mA.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="CUR" />
-              <op:include href="Input_BIN_S0.templ.xml" xpath="//ParameterRefs/ParameterRef" type="template" prefix="BIN" />
-            </ParameterRefs>
-            <ComObjectTable>
-              <op:include href="../lib/OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ComObjectTable/ComObject" prefix="LOG" />
-              <op:include href="GardenControl.share.xml" xpath="//ComObjectTable/ComObject" prefix="BEM" />
-              <op:include href="GardenControlRelais.share.xml" xpath="//ComObjectTable/ComObject" prefix="REL" />
-              <op:include href="InputADC.share.xml" xpath="//ComObjectTable/ComObject" prefix="ADC" />
-              <op:include href="Input_4_20mA.share.xml" xpath="//ComObjectTable/ComObject" prefix="CUR" />
-              <op:include href="Input_BIN_S0.share.xml" xpath="//ComObjectTable/ComObject" prefix="BIN" />
-              <op:include href="../lib/OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="LOG" />
-              <op:include href="GardenControl.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="BEM" />
-              <op:include href="GardenControlRelais.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="REL" />
-              <op:include href="InputADC.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="ADC" />
-              <op:include href="Input_4_20mA.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="CUR" />
-              <op:include href="Input_BIN_S0.templ.xml" xpath="//ComObjectTable/ComObject" type="template" prefix="BIN" />
-            </ComObjectTable>
-            <ComObjectRefs>
-              <op:include href="../lib/OAM-LogicModule/src/Logikmodul.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="LOG" />
-              <op:include href="GardenControl.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="BEM" />
-              <op:include href="GardenControlRelais.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="REL" />
-              <op:include href="InputADC.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="ADC" />
-              <op:include href="Input_4_20mA.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="CUR" />
-              <op:include href="Input_BIN_S0.share.xml" xpath="//ComObjectRefs/ComObjectRef" prefix="BIN" />
-              <op:include href="../lib/OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="LOG" />
-              <op:include href="GardenControl.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="BEM" />
-              <op:include href="GardenControlRelais.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="REL" />
-              <op:include href="InputADC.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="ADC" />
-              <op:include href="Input_4_20mA.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="CUR" />
-              <op:include href="Input_BIN_S0.templ.xml" xpath="//ComObjectRefs/ComObjectRef" type="template" prefix="BIN" />
-            </ComObjectRefs>
-            <AddressTable MaxEntries="2047" />
-            <AssociationTable MaxEntries="2047" />
-            <LoadProcedures>
-              <LoadProcedure MergeId="1">
-                <LdCtrlCompareProp InlineData="%VersionCheck%" ObjIdx="0" PropId="78">
-                  <OnError Cause="CompareMismatch" MessageRef="%AID%_M-1" />
-                </LdCtrlCompareProp>
-              </LoadProcedure>
-              <LoadProcedure MergeId="2">
-                <LdCtrlRelSegment LsmIdx="4" Size="%MemorySize%" Mode="1" Fill="0" AppliesTo="full" />
-                <LdCtrlRelSegment LsmIdx="4" Size="%MemorySize%" Mode="0" Fill="0" AppliesTo="par" />
-              </LoadProcedure>
-              <LoadProcedure MergeId="4">
-                <LdCtrlWriteRelMem ObjIdx="4" Offset="0" Size="%MemorySize%" Verify="true" AppliesTo="full,par" />
-              </LoadProcedure>
-              <LoadProcedure MergeId="7">
-                <LdCtrlLoadImageProp ObjIdx="1" PropId="27" />
-                <LdCtrlLoadImageProp ObjIdx="2" PropId="27" />
-                <LdCtrlLoadImageProp ObjIdx="3" PropId="27" />
-                <LdCtrlLoadImageProp ObjIdx="4" PropId="27" />
-              </LoadProcedure>
-            </LoadProcedures>
-            <Messages>
-              <Message Id="%AID%_M-1" Name="VersionMismatch" Text="Diese Applikaiton benötigt die Firmware-Version %VersionMessage%, siehe Geräteinfo." />
-            </Messages>
-            <Options />
-          </Static>
-          <!-- Here statrs the UI definition -->
-          <Dynamic>
-            <ChannelIndependentBlock>
-              <!-- ChannelIndependentBlock is a composition of different parts of different modules -->
-              <ParameterBlock Id="%AID%_PB-1" Name="Doku" Text="Dokumenation">
-                <op:include href="GardenControl.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='Docu']/*" prefix="BEM" />
-              </ParameterBlock>
-              <ParameterBlock Id="%AID%_PB-2" Name="General" Text="Allgemeine Parameter">
-                <op:include href="../lib/OAM-LogicModule/src/Logikmodul.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='General']/*" prefix="LOG" />
-                <op:include href="GardenControl.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='General']/*" prefix="BEM" />
-                <op:include href="../lib/OAM-LogicModule/src/Logikmodul.parts.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='Diagnose']/*" prefix="LOG" />
-              </ParameterBlock>
-            </ChannelIndependentBlock>
-            <!-- Erster Enocean Kanal -->
-            <Channel Id="%AID%_CH-1" Name="Standard" Number="1" Text="Magnetventile">
-              <op:include href="GardenControl.share.xml" xpath="//Dynamic/Channel/*" type="template" prefix="BEM" />
-              <op:include href="GardenControl.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="BEM" />
-            </Channel>
-            <Channel Id="%AID%_CH-2" Name="Standard" Number="2" Text="ext. Relais">
-              <op:include href="GardenControlRelais.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="BEM" />
-            </Channel>
-            <Channel Id="%AID%_CH-3" Name="Standard" Number="3" Text="Analog Input:  0-12V">
-              <op:include href="InputADC.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="ADC" />
-            </Channel>
-            <Channel Id="%AID%_CH-4" Name="Standard" Number="4" Text="Analog Input:  4-20mA">
-              <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="CUR" />
-            </Channel>
-            <Channel Id="%AID%_CH-5" Name="Standard" Number="5" Text="Binär | S0 | Impuls ">
-              <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="BIN" />
-            </Channel>
-            <Channel Id="%AID%_CH-6" Name="Logik" Number="6" Text="Logikkanäle"> 
-              <!-- Logic channel independent settings -->
-              <op:include href="../lib/OAM-LogicModule/src/Logikmodul.share.xml" xpath="//Dynamic/Channel/*" prefix="LOG" />
-              <!-- Logic channel settings -->
-              <op:include href="../lib/OAM-LogicModule/src/Logikmodul.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="LOG" />
-            </Channel>
-          </Dynamic>
-        </ApplicationProgram>
-      </ApplicationPrograms>
-      <Hardware>
-        <Hardware Id="%HardwareId%" Name="GardenControl" SerialNumber="GardenControlV1" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true">
-          <Products>
-            <Product Id="%ProductId%" Text="GardenControl" OrderNumber="MFKnxBem" IsRailMounted="false" DefaultLanguage="de">
-              <RegistrationInfo RegistrationStatus="Registered" />
-            </Product>
-          </Products>
-          <Hardware2Programs>
-            <Hardware2Program Id="%Hardware2ProgramId%" MediumTypes="MT-0">
-              <ApplicationProgramRef RefId="%AID%" />
-              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="0001/11" />
-            </Hardware2Program>
-          </Hardware2Programs>
-        </Hardware>
-      </Hardware>
-    </Manufacturer>
-  </ManufacturerData>
+  <op:ETS OpenKnxId="0xA2"
+    ApplicationNumber="0x10"
+    ApplicationVersion="0.4"
+    ReplacesVersions="0.3 0.2 0.1"
+    ApplicationRevision="0"
+    ProductName="GardenControl"
+    ApplicationName="GardenControl"
+    BusCurrent="10"
+    SerialNumber="GardenControlV1"
+    OrderNumber="MFKnxBem"
+  />
+  <op:define prefix="BASE"
+    share="../lib/OGM-Common/src/Common.share.xml"
+    ModuleType="10"> <!-- BASE muss immer ModuleType 10 sein -->
+    <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.1" />
+  </op:define>
+  <op:define prefix="BEM" NumChannels="12" KoOffset="30"
+    share="GardenControl.share.xml"
+    template="GardenControl.templ.xml"
+    ModuleType="20" />  <!-- KoOffset = 30 -> 20 default from Logik + 10 for default of Gardencontrol -->
+  <op:define prefix="REL" NumChannels="3" KoOffset="66"
+    share="GardenControlRelais.share.xml"
+    template="GardenControlRelais.templ.xml"
+    ModuleType="30" />  <!-- KoOffset = 66 -> 30 + BEM (12ch*3kO) 36 -->
+  <op:define prefix="ADC" NumChannels="3" KoOffset="75"
+    share="InputADC.share.xml"
+    template="InputADC.templ.xml"
+    ModuleType="40" />  <!-- KoOffset = 75 -> 66 + REL (3ch*3kO) 9 -->
+  <op:define prefix="CUR" NumChannels="2" KoOffset="81"
+    share="Input_4_20mA.share.xml"
+    template="Input_4_20mA.templ.xml"
+    ModuleType="50" />  <!-- KoOffset = 81 -> 75 + ADC (3ch*1kO) 6 -->
+  <op:define prefix="BIN" NumChannels="4" KoOffset="90"
+    share="Input_BIN_S0.share.xml"
+    template="Input_BIN_S0.templ.xml"
+    ModuleType="60" />  <!-- KoOffset = 90 -> 81 + CUR (3ch*3kO) 9 -->
+  <op:define prefix="LOG" NumChannels="10" KoOffset="420"
+    share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
+    template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
+    ModuleType="10">
+    <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.1" />
+  </op:define>
+  <!-- LOG muss immer ModuleType 10 sein -->
+
+  <generate />
+
+
 </KNX>

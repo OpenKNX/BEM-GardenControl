@@ -61,8 +61,6 @@
 
 #define RelaisOffset 11
 
-#define SERIAL_PORT Serial // Serial port for Arduino Zero
-
 // MUst be updated to the new Project HW !!!
 #define PROG_LED_PIN 24
 #define PROG_LED_PIN_ACTIVE_ON HIGH

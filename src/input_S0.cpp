@@ -1,16 +1,15 @@
-#include <Arduino.h>
 #include "Input_S0.h"
-
-#include "KnxHelper.h"
+#include <Arduino.h>
+#include "OpenKNX.h"
+#include "ErrorHandling.h"
 #include "Helper.h"
 #include "HelperFunc.h"
-#include "GardenControl.h"
-#include "ErrorHandling.h"
+#include "KnxHelper.h"
 
 #define BIN_Input_S0 2
 
 //-------- Test only --------------------
-//#define Input_S0_Output_Int
+// #define Input_S0_Output_Int
 unsigned long time_S0_LED_Blink[BIN_ChannelCount] = {0};
 typedef enum
 {
@@ -236,62 +235,62 @@ void processReadS0Input()
                     ;
                     switch (knx.paramByte(getParBIN(BIN_CHDefineS0zaehler, channel_S0)))
                     {
-                    case zaehlerElek:
-                        // calculation mom Verbrauch (W)
-                        mom_S0[channel_S0] = 3600.0 / ((time_S0_stopp[channel_S0] - time_S0_start[channel_S0]) / (zaehler_Impulse[channel_S0] * 1.0));
-
-#ifdef Input_S0_Output
-                        SERIAL_PORT.print(" Mom (W): ");
-#endif
-                        break;
-
-                    case zaehlerWasser:
-
-                        switch (knx.paramByte(getParBIN(BIN_CHDefineUnitS0, channel_S0)))
-                        {
-                        case unit_l:
-                            // calculation mom Verbrauch (l/h)
+                        case zaehlerElek:
+                            // calculation mom Verbrauch (W)
                             mom_S0[channel_S0] = 3600.0 / ((time_S0_stopp[channel_S0] - time_S0_start[channel_S0]) / (zaehler_Impulse[channel_S0] * 1.0));
+
 #ifdef Input_S0_Output
-                            SERIAL_PORT.print(" Mom W (l/h): ");
+                            SERIAL_PORT.print(" Mom (W): ");
 #endif
                             break;
-                        case unit_m3:
-                            // calculation mom Verbrauch (m3/s)
-                            mom_S0[channel_S0] = 1 / ((time_S0_stopp[channel_S0] - time_S0_start[channel_S0]) / (zaehler_Impulse[channel_S0] * 1000.0));
+
+                        case zaehlerWasser:
+
+                            switch (knx.paramByte(getParBIN(BIN_CHDefineUnitS0, channel_S0)))
+                            {
+                                case unit_l:
+                                    // calculation mom Verbrauch (l/h)
+                                    mom_S0[channel_S0] = 3600.0 / ((time_S0_stopp[channel_S0] - time_S0_start[channel_S0]) / (zaehler_Impulse[channel_S0] * 1.0));
 #ifdef Input_S0_Output
-                            SERIAL_PORT.print(" Mom W (m3/s): ");
+                                    SERIAL_PORT.print(" Mom W (l/h): ");
 #endif
+                                    break;
+                                case unit_m3:
+                                    // calculation mom Verbrauch (m3/s)
+                                    mom_S0[channel_S0] = 1 / ((time_S0_stopp[channel_S0] - time_S0_start[channel_S0]) / (zaehler_Impulse[channel_S0] * 1000.0));
+#ifdef Input_S0_Output
+                                    SERIAL_PORT.print(" Mom W (m3/s): ");
+#endif
+                                    break;
+                                default:
+                                    break;
+                            }
                             break;
+
+                        case zaehlerGas:
+                            switch (knx.paramByte(getParBIN(BIN_CHDefineUnitS0, channel_S0)))
+                            {
+                                case unit_l:
+                                    // calculation mom Verbrauch (l/h)
+                                    mom_S0[channel_S0] = 3600.0 / ((time_S0_stopp[channel_S0] - time_S0_start[channel_S0]) / (zaehler_Impulse[channel_S0] * 1.0));
+#ifdef Input_S0_Output
+                                    SERIAL_PORT.print(" Mom Gas (l/h): ");
+#endif
+                                    break;
+                                case unit_m3:
+                                    // calculation mom Verbrauch (m3/s)
+                                    mom_S0[channel_S0] = 1 / ((time_S0_stopp[channel_S0] - time_S0_start[channel_S0]) / (zaehler_Impulse[channel_S0] * 1000.0));
+#ifdef Input_S0_Output
+                                    SERIAL_PORT.print(" Mom Gas (m3/s): ");
+#endif
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+
                         default:
                             break;
-                        }
-                        break;
-
-                    case zaehlerGas:
-                        switch (knx.paramByte(getParBIN(BIN_CHDefineUnitS0, channel_S0)))
-                        {
-                        case unit_l:
-                            // calculation mom Verbrauch (l/h)
-                            mom_S0[channel_S0] = 3600.0 / ((time_S0_stopp[channel_S0] - time_S0_start[channel_S0]) / (zaehler_Impulse[channel_S0] * 1.0));
-#ifdef Input_S0_Output
-                            SERIAL_PORT.print(" Mom Gas (l/h): ");
-#endif
-                            break;
-                        case unit_m3:
-                            // calculation mom Verbrauch (m3/s)
-                            mom_S0[channel_S0] = 1 / ((time_S0_stopp[channel_S0] - time_S0_start[channel_S0]) / (zaehler_Impulse[channel_S0] * 1000.0));
-#ifdef Input_S0_Output
-                            SERIAL_PORT.print(" Mom Gas (m3/s): ");
-#endif
-                            break;
-                        default:
-                            break;
-                        }
-                        break;
-
-                    default:
-                        break;
                     }
                 } // ENDE IF (processCalc)
                 else
@@ -328,57 +327,57 @@ void processReadS0Input()
 
                 switch (knx.paramByte(getParBIN(BIN_CHDefineS0zaehler, channel_S0)))
                 {
-                case zaehlerElek:
-                    // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                    case zaehlerElek:
+                        // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
 
-                    knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], Dpt(14, 1));        // getDPT(VAL_DPT_14)); // MOD_KoS01_ZaehlerWert+channel_S0 da KO nur 1 Byte auseinander liegen
-                    mom_S0[channel_S0] = mom_S0[channel_S0] / 1000.0;                                                                      // Umrechnung in KW
-                    knx.getGroupObject(getComBIN(BIN_KoS0_Akt2_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], getDPT(VAL_DPT_9)); // MOD_KoS01_ZaehlerWert+channel_S0 da KO nur 1 Byte auseinander liegen
-                    break;
-                case zaehlerWasser:
-                    switch (knx.paramByte(getParBIN(BIN_CHDefineUnitS0, channel_S0)))
-                    {
-                    case unit_l:
-                        // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                        knx.getGroupObject(getComBIN(BIN_KoS0_Akt2_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], getDPT(VAL_DPT_9)); // l/h
-                        mom_S0[channel_S0] = mom_S0[channel_S0] / 60000.0;                                                                     // umrechnung in m3/s
-                        knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], Dpt(14, 1));        // getDPT(VAL_DPT_14)); // m3/s
+                        knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], Dpt(14, 1));        // getDPT(VAL_DPT_14)); // MOD_KoS01_ZaehlerWert+channel_S0 da KO nur 1 Byte auseinander liegen
+                        mom_S0[channel_S0] = mom_S0[channel_S0] / 1000.0;                                                                      // Umrechnung in KW
+                        knx.getGroupObject(getComBIN(BIN_KoS0_Akt2_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], getDPT(VAL_DPT_9)); // MOD_KoS01_ZaehlerWert+channel_S0 da KO nur 1 Byte auseinander liegen
                         break;
-                    case unit_m3:
-                        // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                        knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], Dpt(14, 1));        // getDPT(VAL_DPT_14)); // m3/s
-                        mom_S0[channel_S0] = mom_S0[channel_S0] * 60000.0;                                                                     // umrechnung in l/h
-                        knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], getDPT(VAL_DPT_9)); // l/h
+                    case zaehlerWasser:
+                        switch (knx.paramByte(getParBIN(BIN_CHDefineUnitS0, channel_S0)))
+                        {
+                            case unit_l:
+                                // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                                knx.getGroupObject(getComBIN(BIN_KoS0_Akt2_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], getDPT(VAL_DPT_9)); // l/h
+                                mom_S0[channel_S0] = mom_S0[channel_S0] / 60000.0;                                                                     // umrechnung in m3/s
+                                knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], Dpt(14, 1));        // getDPT(VAL_DPT_14)); // m3/s
+                                break;
+                            case unit_m3:
+                                // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                                knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], Dpt(14, 1));        // getDPT(VAL_DPT_14)); // m3/s
+                                mom_S0[channel_S0] = mom_S0[channel_S0] * 60000.0;                                                                     // umrechnung in l/h
+                                knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], getDPT(VAL_DPT_9)); // l/h
+                                break;
+                                break;
+                            default:
+                                break;
+                        }
                         break;
+
+                    case zaehlerGas:
+                        switch (knx.paramByte(getParBIN(BIN_CHDefineUnitS0, channel_S0)))
+                        {
+                            case unit_l:
+                                // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                                knx.getGroupObject(getComBIN(BIN_KoS0_Akt2_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], getDPT(VAL_DPT_9)); // l/h
+                                mom_S0[channel_S0] = mom_S0[channel_S0] / 60000.0;                                                                     // umrechnung in m3/s
+                                knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], Dpt(14, 1));        // getDPT(VAL_DPT_14)); // m3/s
+                                break;
+                            case unit_m3:
+                                // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                                knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], Dpt(14, 1));        // getDPT(VAL_DPT_14)); // m3/s
+                                mom_S0[channel_S0] = mom_S0[channel_S0] * 60000.0;                                                                     // umrechnung in l/h
+                                knx.getGroupObject(getComBIN(BIN_KoS0_Akt2_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], getDPT(VAL_DPT_9)); // l/h
+                                break;
+                                break;
+                            default:
+                                break;
+                        }
                         break;
+
                     default:
                         break;
-                    }
-                    break;
-
-                case zaehlerGas:
-                    switch (knx.paramByte(getParBIN(BIN_CHDefineUnitS0, channel_S0)))
-                    {
-                    case unit_l:
-                        // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                        knx.getGroupObject(getComBIN(BIN_KoS0_Akt2_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], getDPT(VAL_DPT_9)); // l/h
-                        mom_S0[channel_S0] = mom_S0[channel_S0] / 60000.0;                                                                     // umrechnung in m3/s
-                        knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], Dpt(14, 1));        // getDPT(VAL_DPT_14)); // m3/s
-                        break;
-                    case unit_m3:
-                        // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                        knx.getGroupObject(getComBIN(BIN_KoS0_Akt1_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], Dpt(14, 1));        // getDPT(VAL_DPT_14)); // m3/s
-                        mom_S0[channel_S0] = mom_S0[channel_S0] * 60000.0;                                                                     // umrechnung in l/h
-                        knx.getGroupObject(getComBIN(BIN_KoS0_Akt2_Verbrauch, channel_S0)).valueNoSend(mom_S0[channel_S0], getDPT(VAL_DPT_9)); // l/h
-                        break;
-                        break;
-                    default:
-                        break;
-                    }
-                    break;
-
-                default:
-                    break;
                 }
 
                 //-------------------------------------- Mom Verbrauch ENDE -----------------------------------------------

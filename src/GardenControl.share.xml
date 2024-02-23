@@ -1,10 +1,13 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
       <ApplicationPrograms>
-        <ApplicationProgram Id="%AID%" ApplicationNumber="203" ApplicationVersion="1" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="GardenControl" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
+        <ApplicationProgram Id="%AID%" ApplicationNumber="203" ApplicationVersion="1"
+          ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="GardenControl"
+          LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de"
+          DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
           <Static>
             <ParameterTypes>
               <!-- Parameter type for 1 bit parameter, presented as radio button -->
@@ -39,47 +42,68 @@
               <!-- Parameter type for an 8 bit enumeration -->
               <ParameterType Id="%AID%_PT-DptSelect" Name="DptSelect">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="DPT 5.001 (1 Byte, Prozentwert)" Value="5" Id="%AID%_PT-DptSelect_EN-0" />
-                  <Enumeration Text="DPT 9.007 (2 Byte, Fließkommawert)" Value="9" Id="%AID%_PT-DptSelect_EN-1" />
+                  <Enumeration Text="DPT 5.001 (1 Byte, Prozentwert)" Value="5"
+                    Id="%AID%_PT-DptSelect_EN-0" />
+                  <Enumeration Text="DPT 9.007 (2 Byte, Fließkommawert)" Value="9"
+                    Id="%AID%_PT-DptSelect_EN-1" />
                 </TypeRestriction>
               </ParameterType>
             </ParameterTypes>
             <Parameters>
               <Union SizeInBit="8">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
-                <Parameter Id="%AID%_UP-%T%000000" Name="ext5VRelais" ParameterType="%AID%_PT-YesNo" Text="externes +5V Relais vorhanden?"       Value="1" Offset="0" BitOffset="0" />
-                <Parameter Id="%AID%_UP-%T%000001" Name="ext5VRelaisStateBegin" ParameterType="%AID%_PT-OnOFF" Text="Zustand Start"              Value="1" Offset="0" BitOffset="1" />
-                <Parameter Id="%AID%_UP-%T%000002" Name="ext5VRelaisStartState" ParameterType="%AID%_PT-OnOFF" Text="Status senden nach Startup" Value="0" Offset="0" BitOffset="2" />
+                <Parameter Id="%AID%_UP-%TT%00000" Name="ext5VRelais" ParameterType="%AID%_PT-YesNo"
+                  Text="externes +5V Relais vorhanden?" Value="1" Offset="0" BitOffset="0" />
+                <Parameter Id="%AID%_UP-%TT%00001" Name="ext5VRelaisStateBegin"
+                  ParameterType="%AID%_PT-OnOFF" Text="Zustand Start" Value="1" Offset="0"
+                  BitOffset="1" />
+                <Parameter Id="%AID%_UP-%TT%00002" Name="ext5VRelaisStartState"
+                  ParameterType="%AID%_PT-OnOFF" Text="Status senden nach Startup" Value="0"
+                  Offset="0" BitOffset="2" />
               </Union>
-              <Parameter Id="%AID%_P-%T%000003" Name="Diag_KO_PWT_enable" ParameterType="%AID%_PT-OnOFF"   Text="Diagnose KO aktivieren:" Value="0">
+              <Parameter Id="%AID%_P-%TT%00003" Name="Diag_KO_PWT_enable"
+                ParameterType="%AID%_PT-OnOFF" Text="Diagnose KO aktivieren:" Value="0">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="1" BitOffset="0" />
               </Parameter>
             </Parameters>
-            <ParameterRefs>   
-              <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
-              <!-- ParameterRef are used in the ETS UI -->    
-              <ParameterRef Id="%AID%_UP-%T%000000_R-%T%00000001" RefId="%AID%_UP-%T%000000" /> <!-- externes 5V relais vorhanden -->   
-              <ParameterRef Id="%AID%_UP-%T%000001_R-%T%00000101" RefId="%AID%_UP-%T%000001" /> <!-- externes 5V relais Zustand Start -->   
-              <ParameterRef Id="%AID%_UP-%T%000002_R-%T%00000201" RefId="%AID%_UP-%T%000002" /> <!-- externes 5V relais senden Zustand nach Start -->   
-              <ParameterRef Id="%AID%_P-%T%000003_R-%T%00000301"  RefId="%AID%_P-%T%000003" /> <!-- Diag KO PWR Rail enable -->   
+            <ParameterRefs>
+              <!-- ParameterRef have to be defined for each parameter, pay attention, that the
+              ID-part (number) after R- is unique! -->
+              <!-- ParameterRef are used in the ETS UI -->
+              <ParameterRef Id="%AID%_UP-%TT%00000_R-%TT%0000001" RefId="%AID%_UP-%TT%00000" /> <!--
+              externes 5V relais vorhanden -->
+              <ParameterRef Id="%AID%_UP-%TT%00001_R-%TT%0000101" RefId="%AID%_UP-%TT%00001" /> <!--
+              externes 5V relais Zustand Start -->
+              <ParameterRef Id="%AID%_UP-%TT%00002_R-%TT%0000201" RefId="%AID%_UP-%TT%00002" /> <!--
+              externes 5V relais senden Zustand nach Start -->
+              <ParameterRef Id="%AID%_P-%TT%00003_R-%TT%0000301" RefId="%AID%_P-%TT%00003" /> <!--
+              Diag KO PWR Rail enable -->
             </ParameterRefs>
             <ComObjectTable>
-              <ComObject Id="%AID%_O-%T%000000" Name="_Set_5V_relais"    Text="ext +5V Relais" FunctionText="Schalten"    Number="21" ObjectSize="1 Bit"  ReadFlag="Disabled" WriteFlag="Enabled"  CommunicationFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-1-1"  />
-              <ComObject Id="%AID%_O-%T%000001" Name="_Status_5V_relais" Text="ext +5V Relais" FunctionText="Status"      Number="22" ObjectSize="1 Bit"  ReadFlag="Enabled"  WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-1-11" />
-              <ComObject Id="%AID%_O-%T%000002" Name="_Diagnose_KO_PWR"  Text="Power Rails"    FunctionText="Diagnose"    Number="23" ObjectSize="1 Byte" ReadFlag="Enabled"  WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-5-10" />
+              <ComObject Id="%AID%_O-%TT%00000" Name="_Set_5V_relais" Text="ext +5V Relais"
+                FunctionText="Schalten" Number="21" ObjectSize="1 Bit" ReadFlag="Disabled"
+                WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled"
+                UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-1-1" />
+              <ComObject Id="%AID%_O-%TT%00001" Name="_Status_5V_relais" Text="ext +5V Relais"
+                FunctionText="Status" Number="22" ObjectSize="1 Bit" ReadFlag="Enabled"
+                WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"
+                UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-1-11" />
+              <ComObject Id="%AID%_O-%TT%00002" Name="_Diagnose_KO_PWR" Text="Power Rails"
+                FunctionText="Diagnose" Number="23" ObjectSize="1 Byte" ReadFlag="Enabled"
+                WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"
+                UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-5-10" />
             </ComObjectTable>
             <ComObjectRefs>
-              <ComObjectRef Id="%AID%_O-%T%000000_R-%T%00000001" RefId="%AID%_O-%T%000000" />
-              <ComObjectRef Id="%AID%_O-%T%000001_R-%T%00000101" RefId="%AID%_O-%T%000001" />
-              <ComObjectRef Id="%AID%_O-%T%000002_R-%T%00000201" RefId="%AID%_O-%T%000002" />
+              <ComObjectRef Id="%AID%_O-%TT%00000_R-%TT%0000001" RefId="%AID%_O-%TT%00000" />
+              <ComObjectRef Id="%AID%_O-%TT%00001_R-%TT%0000101" RefId="%AID%_O-%TT%00001" />
+              <ComObjectRef Id="%AID%_O-%TT%00002_R-%TT%0000201" RefId="%AID%_O-%TT%00002" />
             </ComObjectRefs>
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
-            <Channel Name="Logik" Text="Logikfunktionen" Number="3" Id="%AID%_CH-3">
-              <ParameterBlock Id="%AID%_PB-nnn" Name="SettingsVentil" Text="Einstellungen">
-                
-              </ParameterBlock>
+            <Channel Id="%AID%_CH-1" Name="Standard" Number="1" Text="Magnetventile">
+              <op:include href="GardenControl.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
+                type="template" prefix="BEM" IsInner="true" />
             </Channel>
           </Dynamic>
         </ApplicationProgram>

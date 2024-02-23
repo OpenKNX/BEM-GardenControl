@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include <Wire.h>
-//#include <knx.h>
+// #include <knx.h>
 #include "KnxHelper.h"
-#include "GardenControl.h"
+#include "OpenKNX.h"
 
+#include "ErrorHandling.h"
 #include "HelperFunc.h"
 #include "Input_Impulse.h"
-#include "ErrorHandling.h"
 
 #define BIN_Input_Impuls 3
 
@@ -60,40 +60,40 @@ void InitImpulseInputs()
 #endif
             switch (ch)
             {
-            case 0:
-                pinMode(OptoIN_1, INPUT_PULLUP);
-                attachInterrupt(digitalPinToInterrupt(OptoIN_1), interrupt_Impluse1, FALLING);
+                case 0:
+                    pinMode(OptoIN_1, INPUT_PULLUP);
+                    attachInterrupt(digitalPinToInterrupt(OptoIN_1), interrupt_Impluse1, FALLING);
 #ifdef InputImpuls_Output
-                SERIAL_PORT.println(": TRUE");
+                    SERIAL_PORT.println(": TRUE");
 #endif
-                break;
-            case 1:
-                pinMode(OptoIN_2, INPUT_PULLUP);
-                attachInterrupt(digitalPinToInterrupt(OptoIN_2), interrupt_Impluse2, FALLING);
+                    break;
+                case 1:
+                    pinMode(OptoIN_2, INPUT_PULLUP);
+                    attachInterrupt(digitalPinToInterrupt(OptoIN_2), interrupt_Impluse2, FALLING);
 #ifdef InputImpuls_Output
-                SERIAL_PORT.println(": TRUE");
+                    SERIAL_PORT.println(": TRUE");
 #endif
-                break;
-            case 2:
-                pinMode(OptoIN_3, INPUT_PULLUP);
-                attachInterrupt(digitalPinToInterrupt(OptoIN_3), interrupt_Impluse3, FALLING);
+                    break;
+                case 2:
+                    pinMode(OptoIN_3, INPUT_PULLUP);
+                    attachInterrupt(digitalPinToInterrupt(OptoIN_3), interrupt_Impluse3, FALLING);
 #ifdef InputImpuls_Output
-                SERIAL_PORT.println(": TRUE");
+                    SERIAL_PORT.println(": TRUE");
 #endif
-                break;
-            case 3:
-                pinMode(OptoIN_4, INPUT_PULLUP);
-                attachInterrupt(digitalPinToInterrupt(OptoIN_4), interrupt_Impluse4, FALLING);
+                    break;
+                case 3:
+                    pinMode(OptoIN_4, INPUT_PULLUP);
+                    attachInterrupt(digitalPinToInterrupt(OptoIN_4), interrupt_Impluse4, FALLING);
 #ifdef InputImpuls_Output
-                SERIAL_PORT.println(": TRUE");
+                    SERIAL_PORT.println(": TRUE");
 #endif
-                break;
+                    break;
 
-            default:
+                default:
 #ifdef InputImpuls_Output
-                SERIAL_PORT.println(": WRONG PAR");
+                    SERIAL_PORT.println(": WRONG PAR");
 #endif
-                break;
+                    break;
             }
         }
     }
@@ -211,7 +211,7 @@ void processInputImpulse()
         {
             channel_Impl = 0;
         }
-    } //ENDE 5V Fehler
+    } // ENDE 5V Fehler
 }
 
 float getFlowValue(uint8_t ch)

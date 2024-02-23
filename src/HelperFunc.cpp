@@ -1,7 +1,6 @@
 #include "HelperFunc.h"
+#include "OpenKNX.h"
 #include <Arduino.h>
-#include "GardenControl.h"
-
 
 // bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
 // {
@@ -10,50 +9,50 @@
 
 uint16_t getParBEM(uint16_t PAR, uint8_t CH)
 {
-    return  BEM_ParamBlockOffset + (CH * BEM_ParamBlockSize) + PAR;
+    return BEM_ParamBlockOffset + (CH * BEM_ParamBlockSize) + PAR;
 }
 
 uint16_t getComBEM(uint16_t COM, uint8_t CH)
 {
-    return  BEM_KoOffset + (CH * BEM_KoBlockSize) + COM;
+    return BEM_KoOffset + (CH * BEM_KoBlockSize) + COM;
 }
 
 uint16_t getParREL(uint16_t PAR, uint8_t CH)
 {
-    return  REL_ParamBlockOffset + (CH * REL_ParamBlockSize) + PAR;
+    return REL_ParamBlockOffset + (CH * REL_ParamBlockSize) + PAR;
 }
 
 uint16_t getComREL(uint16_t COM, uint8_t CH)
 {
-    return  REL_KoOffset + (CH * REL_KoBlockSize) + COM;
+    return REL_KoOffset + (CH * REL_KoBlockSize) + COM;
 }
 
 uint16_t getParADC(uint16_t PAR, uint8_t CH)
 {
-    return  ADC_ParamBlockOffset + (CH * ADC_ParamBlockSize) + PAR;
+    return ADC_ParamBlockOffset + (CH * ADC_ParamBlockSize) + PAR;
 }
 
 uint16_t getComADC(uint16_t COM, uint8_t CH)
 {
-    return  ADC_KoOffset + (CH * ADC_KoBlockSize) + COM;
+    return ADC_KoOffset + (CH * ADC_KoBlockSize) + COM;
 }
 
 uint16_t getParCUR(uint16_t PAR, uint8_t CH)
 {
-    return  CUR_ParamBlockOffset + (CH * CUR_ParamBlockSize) + PAR;
+    return CUR_ParamBlockOffset + (CH * CUR_ParamBlockSize) + PAR;
 }
 
 uint16_t getComCUR(uint16_t COM, uint8_t CH)
 {
-    return  CUR_KoOffset + (CH * CUR_KoBlockSize) + COM;
+    return CUR_KoOffset + (CH * CUR_KoBlockSize) + COM;
 }
 
 uint16_t getParBIN(uint16_t PAR, uint8_t CH)
 {
-    return  BIN_ParamBlockOffset + (CH * BIN_ParamBlockSize) + PAR;
+    return BIN_ParamBlockOffset + (CH * BIN_ParamBlockSize) + PAR;
 }
 
 uint16_t getComBIN(uint16_t COM, uint8_t CH)
 {
-    return  BIN_KoOffset + (CH * BIN_KoBlockSize) + COM;
+    return BIN_KoOffset + (CH * BIN_KoBlockSize) + COM;
 }

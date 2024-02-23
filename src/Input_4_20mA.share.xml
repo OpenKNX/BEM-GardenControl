@@ -1,10 +1,13 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
       <ApplicationPrograms>
-        <ApplicationProgram Id="%AID%" ApplicationNumber="203" ApplicationVersion="1" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="OpenKNX" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
+        <ApplicationProgram Id="%AID%" ApplicationNumber="203" ApplicationVersion="1"
+          ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="OpenKNX"
+          LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de"
+          DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
           <Static>
             <ParameterTypes>
               <ParameterType Id="%AID%_PT-CURYesNo" Name="CURYesNo">
@@ -23,34 +26,36 @@
                 <TypeNumber SizeInBit="16" Type="signedInt" minInclusive="0" maxInclusive="30000" />
               </ParameterType>
               <ParameterType Id="%AID%_PT-CURValueI16" Name="CURValueI16">
-                <TypeNumber SizeInBit="16" Type="signedInt" minInclusive="-30000" maxInclusive="30000" />
+                <TypeNumber SizeInBit="16" Type="signedInt" minInclusive="-30000"
+                  maxInclusive="30000" />
               </ParameterType>
               <ParameterType Id="%AID%_PT-CURPercentage" Name="CURPercentage">
                 <TypeNumber SizeInBit="8" Type="signedInt" minInclusive="0" maxInclusive="100" />
-              </ParameterType>          
+              </ParameterType>
               <ParameterType Id="%AID%_PT-CURSensorCalc" Name="CURSensorCalc">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="wähle"         Value="0" Id="%AID%_PT-CURSensorCalc_EN-0" />
+                  <Enumeration Text="wähle" Value="0" Id="%AID%_PT-CURSensorCalc_EN-0" />
                   <Enumeration Text="input: 4-20mA" Value="1" Id="%AID%_PT-CURSensorCalc_EN-1" />
                   <Enumeration Text="input: 0-20mA" Value="2" Id="%AID%_PT-CURSensorCalc_EN-2" />
                 </TypeRestriction>
-              </ParameterType>  
+              </ParameterType>
               <ParameterType Id="%AID%_PT-CURSensorType" Name="CURSensorType">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Strom (mA)"                Value="0" Id="%AID%_PT-CURSensorType_EN-0" />
-                  <Enumeration Text="Temperatur (°C)"           Value="1" Id="%AID%_PT-CURSensorType_EN-1" />
-                  <Enumeration Text="Feuchte (%)"               Value="2" Id="%AID%_PT-CURSensorType_EN-2" />
-                  <Enumeration Text="CO2 (ppm)"                 Value="3" Id="%AID%_PT-CURSensorType_EN-3" />
-                  <Enumeration Text="LUX (Lux)"                 Value="4" Id="%AID%_PT-CURSensorType_EN-4" />
-                  <Enumeration Text="Druck (Pa)"                Value="5" Id="%AID%_PT-CURSensorType_EN-5" />
-                  <Enumeration Text="Strömung (l/h)"            Value="6" Id="%AID%_PT-CURSensorType_EN-6" />
-                  <Enumeration Text="Regenmenge (l/m²)"         Value="7" Id="%AID%_PT-CURSensorType_EN-7" />
-                  <Enumeration Text="Windgeschwindigkeit (m/s)" Value="8" Id="%AID%_PT-CURSensorType_EN-8" />
-                  <Enumeration Text="Prozent (%)"               Value="9" Id="%AID%_PT-CURSensorType_EN-9" />
-                  <Enumeration Text="Liter (l)"                 Value="10" Id="%AID%_PT-CURSensorType_EN-10" />
-                  <Enumeration Text="Volumen (m³)"              Value="11" Id="%AID%_PT-CURSensorType_EN-11" />
+                  <Enumeration Text="Strom (mA)" Value="0" Id="%AID%_PT-CURSensorType_EN-0" />
+                  <Enumeration Text="Temperatur (°C)" Value="1" Id="%AID%_PT-CURSensorType_EN-1" />
+                  <Enumeration Text="Feuchte (%)" Value="2" Id="%AID%_PT-CURSensorType_EN-2" />
+                  <Enumeration Text="CO2 (ppm)" Value="3" Id="%AID%_PT-CURSensorType_EN-3" />
+                  <Enumeration Text="LUX (Lux)" Value="4" Id="%AID%_PT-CURSensorType_EN-4" />
+                  <Enumeration Text="Druck (Pa)" Value="5" Id="%AID%_PT-CURSensorType_EN-5" />
+                  <Enumeration Text="Strömung (l/h)" Value="6" Id="%AID%_PT-CURSensorType_EN-6" />
+                  <Enumeration Text="Regenmenge (l/m²)" Value="7" Id="%AID%_PT-CURSensorType_EN-7" />
+                  <Enumeration Text="Windgeschwindigkeit (m/s)" Value="8"
+                    Id="%AID%_PT-CURSensorType_EN-8" />
+                  <Enumeration Text="Prozent (%)" Value="9" Id="%AID%_PT-CURSensorType_EN-9" />
+                  <Enumeration Text="Liter (l)" Value="10" Id="%AID%_PT-CURSensorType_EN-10" />
+                  <Enumeration Text="Volumen (m³)" Value="11" Id="%AID%_PT-CURSensorType_EN-11" />
                 </TypeRestriction>
-              </ParameterType>  
+              </ParameterType>
             </ParameterTypes>
             <Parameters>
             </Parameters>
@@ -63,6 +68,10 @@
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
+            <Channel Id="%AID%_CH-4" Name="Standard" Number="4" Text="Analog Input:  4-20mA">
+              <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
+                type="template" prefix="CUR" IsInner="true" />
+            </Channel>
           </Dynamic>
         </ApplicationProgram>
       </ApplicationPrograms>

@@ -1,14 +1,14 @@
+#include "KnxHelper.h"
+#include "knxprod.h"
 #include <Arduino.h>
 #include <Wire.h>
 #include <knx.h>
-#include "KnxHelper.h"
-#include "GardenControl.h"
 
-#include "HelperFunc.h"
-#include "ErrorHandling.h"
-#include "ReadADC.h"
-#include "I2C_IOExpander.h"
 #include "Device_setup.h"
+#include "ErrorHandling.h"
+#include "HelperFunc.h"
+#include "I2C_IOExpander.h"
+#include "ReadADC.h"
 
 #define Threshold_24V_min 22
 #define Threshold_24V_max 26
@@ -53,23 +53,23 @@ uint8_t processErrorHandling()
     // Check 12V
     switch (get_HW_ID())
     {
-    case HW_1_0:
-        value = (float)getAdcVoltage_12V();
-        if (value > Threshold_12V_max || value < Threshold_12V_min)
-        {
-            error |= 1 << ERROR_12V;
-        }
-        else
-        {
+        case HW_1_0:
+            value = (float)getAdcVoltage_12V();
+            if (value > Threshold_12V_max || value < Threshold_12V_min)
+            {
+                error |= 1 << ERROR_12V;
+            }
+            else
+            {
+                error &= ~(1 << ERROR_12V);
+            }
+            break;
+        case HW_2_0:
             error &= ~(1 << ERROR_12V);
-        }
-        break;
-    case HW_2_0:
-        error &= ~(1 << ERROR_12V);
-        break;
-    default:
-        SERIAL_PORT.println("ErrorHandling 12V HW ID not defined");
-        break;
+            break;
+        default:
+            SERIAL_PORT.println("ErrorHandling 12V HW ID not defined");
+            break;
     }
 #endif
     // Check 5V

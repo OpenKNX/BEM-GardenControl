@@ -4,7 +4,10 @@
 			"path": "."
 		},
 		{
-			"path": "..\\OAM-LogicModule"
+			"path": "..\\OFM-LogicModule"
+		},
+		{
+			"path": "..\\OFM-FileTransferModule"
 		},
 		{
 			"path": "..\\OGM-Common"
@@ -36,7 +39,9 @@
 			"stop_token": "cpp",
 			"streambuf": "cpp",
 			"thread": "cpp",
-			"valarray": "cpp"
+			"valarray": "cpp",
+			"typeindex": "cpp",
+			"typeinfo": "cpp"
 		}
 	}
 }
