@@ -1,6 +1,10 @@
+#include "GardenControlDevice.h"
+
+#include "OpenKNX.h"
+
+#include "Device_setup.h"
 #include "FileTransferModule.h"
 #include "Logic.h"
-#include "OpenKNX.h"
 
 #ifdef ARDUINO_ARCH_RP2040
     #pragma message "Pico Core Version: " ARDUINO_PICO_VERSION_STR

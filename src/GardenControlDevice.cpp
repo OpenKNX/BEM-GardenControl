@@ -1,8 +1,8 @@
-#include "HelperFunc.h"
-#include "knxprod.h"
 #include <Arduino.h>
+
+#include "HelperFunc.h"
+#include "OpenKNX.h"
 #include <Wire.h>
-// #include <knx.h>
 
 #include "Device_setup.h"
 #include "ErrorHandling.h"
@@ -63,10 +63,11 @@ GardenControlDevice::~GardenControlDevice()
 {
 }
 
+// TODO *****************************************************************************************************************************
 void GardenControlDevice::waitStartupLoop()
 {
-    knx.loop();
-    ProcessReadRequests();
+    //  knx.loop();
+    //  ProcessReadRequests();
     processVentil();     // PRIO 3
     processRelais();     // PRIO 3
     process_5V_Relais(); // PRIO 3

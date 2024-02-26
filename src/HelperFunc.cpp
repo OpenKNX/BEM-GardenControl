@@ -1,6 +1,7 @@
+#include <Arduino.h>
+
 #include "HelperFunc.h"
 #include "OpenKNX.h"
-#include <Arduino.h>
 
 // bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
 // {

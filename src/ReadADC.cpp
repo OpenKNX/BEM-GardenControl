@@ -1,13 +1,12 @@
-
 #include <stdint.h>
-#include "ReadADC.h"
-#include "HelperFunc.h"
 
-#include "MCP3428.h"
-#include "GardenControl.h"
-#include "SystemFailureHandling.h"
-#include "I2C_IOExpander.h"
 #include "ErrorHandling.h"
+#include "HelperFunc.h"
+#include "I2C_IOExpander.h"
+#include "MCP3428.h"
+#include "OpenKNX.h"
+#include "ReadADC.h"
+#include "SystemFailureHandling.h"
 
 #define gain_1 1
 #define gain_2 2
@@ -113,7 +112,7 @@ void initADC_BOT(uint8_t res_bot)
             failureCounter_ADC_BOT++;
             if (failureCounter_ADC_BOT > 10)
             {
-                //rebootExternalPWR();  //************************************************************************************************
+                // rebootExternalPWR();  //************************************************************************************************
                 failureCounter_ADC_BOT = 0;
             }
         }
@@ -143,24 +142,24 @@ void set_ADC_DIV(uint8_t ch, bool div)
 
     switch (ch)
     {
-    case 0:
-        set_IOExpander_Input(IO_Set_DIV_1, div);
-        SERIAL_PORT.print("Ch1 set ADC Div: ");
-        SERIAL_PORT.println(div);
-        break;
-    case 1:
-        set_IOExpander_Input(IO_Set_DIV_2, div);
-        SERIAL_PORT.print("Ch2 set ADC Div: ");
-        SERIAL_PORT.println(div);
-        break;
-    case 2:
-        set_IOExpander_Input(IO_Set_DIV_3, div);
-        SERIAL_PORT.print("Ch3 set ADC Div: ");
-        SERIAL_PORT.println(div);
-        break;
+        case 0:
+            set_IOExpander_Input(IO_Set_DIV_1, div);
+            SERIAL_PORT.print("Ch1 set ADC Div: ");
+            SERIAL_PORT.println(div);
+            break;
+        case 1:
+            set_IOExpander_Input(IO_Set_DIV_2, div);
+            SERIAL_PORT.print("Ch2 set ADC Div: ");
+            SERIAL_PORT.println(div);
+            break;
+        case 2:
+            set_IOExpander_Input(IO_Set_DIV_3, div);
+            SERIAL_PORT.print("Ch3 set ADC Div: ");
+            SERIAL_PORT.println(div);
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -217,22 +216,22 @@ float getAdcVoltage(uint8_t ch, bool div)
 {
     switch (resolution_TOP)
     {
-    case Resolution12Bit:
-        return checkZero((adc_Value[ch] * 0.006) / corr_Factor[ch]); // 2.047 / 2047.0 * 6.0;
-        break;
-    case Resolution14Bit:
-        return checkZero((adc_Value[ch] * 0.0015) / corr_Factor[ch]); // 2.047 / 8191.0 * 6.0;
-        break;
-    case Resolution16Bit:
-        return checkZero((adc_Value[ch] * 0.000375) / corr_Factor[ch]); // 2.047 / 32767.0 * 6.0;
-        break;
-    default:
+        case Resolution12Bit:
+            return checkZero((adc_Value[ch] * 0.006) / corr_Factor[ch]); // 2.047 / 2047.0 * 6.0;
+            break;
+        case Resolution14Bit:
+            return checkZero((adc_Value[ch] * 0.0015) / corr_Factor[ch]); // 2.047 / 8191.0 * 6.0;
+            break;
+        case Resolution16Bit:
+            return checkZero((adc_Value[ch] * 0.000375) / corr_Factor[ch]); // 2.047 / 32767.0 * 6.0;
+            break;
+        default:
 #ifdef InputADC_Output
-        SERIAL_PORT.println("wrong RES 0-12V");
-        SERIAL_PORT.println(resolution_TOP);
+            SERIAL_PORT.println("wrong RES 0-12V");
+            SERIAL_PORT.println(resolution_TOP);
 #endif
-        return 0;
-        break;
+            return 0;
+            break;
     }
     // ALTE UMSETZUNG HW1.x
     /*
@@ -291,43 +290,43 @@ float getAdcVoltage_BOT(uint8_t ch, bool isCurrent)
     {
         switch (resolution_BOT)
         {
-        case Resolution12Bit:
-            return checkZero(adc_Value_BOT[ch] * 0.01); // 2.047 / 2047.0 / 100;
-            break;
-        case Resolution14Bit:
-            return checkZero(adc_Value_BOT[ch] * 0.0025); // 2.047 / 8191.0 / 100;
-            break;
-        case Resolution16Bit:
-            return checkZero(adc_Value_BOT[ch] * 0.000625); // 2.047 / 32767.0 / 100;
-            break;
-        default:
+            case Resolution12Bit:
+                return checkZero(adc_Value_BOT[ch] * 0.01); // 2.047 / 2047.0 / 100;
+                break;
+            case Resolution14Bit:
+                return checkZero(adc_Value_BOT[ch] * 0.0025); // 2.047 / 8191.0 / 100;
+                break;
+            case Resolution16Bit:
+                return checkZero(adc_Value_BOT[ch] * 0.000625); // 2.047 / 32767.0 / 100;
+                break;
+            default:
 #ifdef Input_4_20mA_Output
-            SERIAL_PORT.println("wrong RES 4-20mA");
+                SERIAL_PORT.println("wrong RES 4-20mA");
 #endif
-            return 0;
-            break;
+                return 0;
+                break;
         }
     }
     else // 0-24V
     {
         switch (resolution_BOT)
         {
-        case Resolution12Bit:
-            return checkZero(adc_Value_BOT[ch] * 0.016); // 2.047 / 2047.0 * 6.0;
-            break;
-        case Resolution14Bit:
-            return checkZero(adc_Value_BOT[ch] * 0.004); // 2.047 / 8191.0 * 6.0;
-            break;
-        case Resolution16Bit:
-            return checkZero(adc_Value_BOT[ch] * 0.001); // 2.047 / 32767.0 * 16;
-            break;
-        default:
+            case Resolution12Bit:
+                return checkZero(adc_Value_BOT[ch] * 0.016); // 2.047 / 2047.0 * 6.0;
+                break;
+            case Resolution14Bit:
+                return checkZero(adc_Value_BOT[ch] * 0.004); // 2.047 / 8191.0 * 6.0;
+                break;
+            case Resolution16Bit:
+                return checkZero(adc_Value_BOT[ch] * 0.001); // 2.047 / 32767.0 * 16;
+                break;
+            default:
 #ifdef InputADC_Output
-            SERIAL_PORT.print("wrong RES 0-24V: Value: ");
-            SERIAL_PORT.println(resolution_BOT);
+                SERIAL_PORT.print("wrong RES 0-24V: Value: ");
+                SERIAL_PORT.println(resolution_BOT);
 #endif
-            return 0;
-            break;
+                return 0;
+                break;
         }
     }
 }
@@ -361,116 +360,116 @@ bool processADConversation()
 {
     switch (ADC_State)
     {
-    case wait_Init:
-        if (!get_5V_Error())
-        {
-            if (!init_flag_PCP3428_Top || !init_flag_PCP3428_Bot)
+        case wait_Init:
+            if (!get_5V_Error())
             {
-                initADC_TOP(Resolution16Bit);
-                initADC_BOT(Resolution16Bit);
-            }
-            ADC_State = Set;
-        }
-        return false;
-        break;
-    case Set:
-        StartAdcConversation(adc_CH);
-        ADC_State = Set_BOT;
-        return false;
-        break;
-    case Set_BOT:
-        StartAdcConversation_BOT(adc_CH);
-        ADC_State = Read;
-        return false;
-        break;
-
-    case Read:
-        if (delayCheck(READ_Delay, sampleRate_10SPS))
-        {
-            if (!get_5V_Error() && init_flag_PCP3428_Top)
-            {
-                adc_Value[adc_CH - 1] = ReadAdcValue();
-                /*
-                switch (adc_CH)
+                if (!init_flag_PCP3428_Top || !init_flag_PCP3428_Bot)
                 {
-                case CH1:
-                    adc_Value[2] = ReadAdcValue();
-                    break;
-                case CH2:
-                    adc_Value[1] = ReadAdcValue();
-                    break;
-                case CH3:
-                    adc_Value[0] = ReadAdcValue();
-                    break;
-                case CH4:
-                    adc_Value[3] = ReadAdcValue();
-                    break;
-
-                default:
-                    break;
+                    initADC_TOP(Resolution16Bit);
+                    initADC_BOT(Resolution16Bit);
                 }
-                */
+                ADC_State = Set;
+            }
+            return false;
+            break;
+        case Set:
+            StartAdcConversation(adc_CH);
+            ADC_State = Set_BOT;
+            return false;
+            break;
+        case Set_BOT:
+            StartAdcConversation_BOT(adc_CH);
+            ADC_State = Read;
+            return false;
+            break;
+
+        case Read:
+            if (delayCheck(READ_Delay, sampleRate_10SPS))
+            {
+                if (!get_5V_Error() && init_flag_PCP3428_Top)
+                {
+                    adc_Value[adc_CH - 1] = ReadAdcValue();
+                    /*
+                    switch (adc_CH)
+                    {
+                    case CH1:
+                        adc_Value[2] = ReadAdcValue();
+                        break;
+                    case CH2:
+                        adc_Value[1] = ReadAdcValue();
+                        break;
+                    case CH3:
+                        adc_Value[0] = ReadAdcValue();
+                        break;
+                    case CH4:
+                        adc_Value[3] = ReadAdcValue();
+                        break;
+
+                    default:
+                        break;
+                    }
+                    */
+                }
+                else
+                {
+                    adc_Value[adc_CH - 1] = 0;
+                    /*
+                    switch (adc_CH)
+                    {
+                    case CH1:
+                        adc_Value[2] = 0;
+                        break;
+                    case CH2:
+                        adc_Value[1] = 0;
+                        break;
+                    case CH3:
+                        adc_Value[0] = 0;
+                        break;
+                    case CH4:
+                        adc_Value[3] = 0;
+                        break;
+
+                    default:
+                        break;
+                    }
+                    */
+                }
+
+                READ_Delay = millis();
+                ADC_State = Read_BOT;
+            }
+            return false;
+            break;
+        case Read_BOT:
+            if (!get_5V_Error() && init_flag_PCP3428_Bot)
+            {
+                adc_Value_BOT[adc_CH - 1] = ReadAdcValue_BOT();
             }
             else
             {
-                adc_Value[adc_CH - 1] = 0;
-                /*
-                switch (adc_CH)
-                {
-                case CH1:
-                    adc_Value[2] = 0;
-                    break;
-                case CH2:
-                    adc_Value[1] = 0;
-                    break;
-                case CH3:
-                    adc_Value[0] = 0;
-                    break;
-                case CH4:
-                    adc_Value[3] = 0;
-                    break;
-
-                default:
-                    break;
-                }
-                */
+                adc_Value_BOT[adc_CH - 1] = 0;
             }
 
+            adc_CH++;
+            if (adc_CH > MaxInputChannel)
+                adc_CH = 1;
+
             READ_Delay = millis();
-            ADC_State = Read_BOT;
-        }
-        return false;
-        break;
-    case Read_BOT:
-        if (!get_5V_Error() && init_flag_PCP3428_Bot)
-        {
-            adc_Value_BOT[adc_CH - 1] = ReadAdcValue_BOT();
-        }
-        else
-        {
-            adc_Value_BOT[adc_CH - 1] = 0;
-        }
 
-        adc_CH++;
-        if (adc_CH > MaxInputChannel)
-            adc_CH = 1;
+            if (!init_flag_PCP3428_Top || !init_flag_PCP3428_Bot)
+            {
+                ADC_State = wait_Init;
+            }
+            else
+            {
+                ADC_State = Set;
+                return true;
+            }
+            return false;
+            break;
 
-        READ_Delay = millis();
-
-        if (!init_flag_PCP3428_Top || !init_flag_PCP3428_Bot)
-        {
-            ADC_State = wait_Init;
-        }
-        else
-        {
-            ADC_State = Set;
-            return true;
-        }
-        return false;
-        break;
-
-    default:
-        return false;
-        break;
+        default:
+            return false;
+            break;
     }
 }

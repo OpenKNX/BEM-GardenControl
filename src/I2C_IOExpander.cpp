@@ -1,10 +1,11 @@
+#include <stdint.h>
+
 #include "Device_setup.h"
 #include "ErrorHandling.h"
 #include "OpenKNX.h"
 #include "PCA9554.h"
 #include "PCA9555.h"
 #include "SystemFailureHandling.h"
-#include <stdint.h>
 
 PCA9554 pca9554(i2cAddr_IO, &Wire1);     // Create an object at this address
 PCA9555 pca9555(i2cAddr_IO_Bot, &Wire1); // Create an object at this address

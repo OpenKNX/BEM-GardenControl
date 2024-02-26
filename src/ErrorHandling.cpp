@@ -1,8 +1,7 @@
 #include "KnxHelper.h"
-#include "knxprod.h"
+#include "OpenKNX.h"
 #include <Arduino.h>
 #include <Wire.h>
-#include <knx.h>
 
 #include "Device_setup.h"
 #include "ErrorHandling.h"

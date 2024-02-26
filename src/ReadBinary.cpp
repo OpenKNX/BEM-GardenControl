@@ -1,11 +1,10 @@
 #include <Arduino.h>
-#include <Wire.h>
-#include "HelperFunc.h"
-//#include <knx.h>
 
-#include "GardenControl.h"
+#include "HelperFunc.h"
 #include "KnxHelper.h"
+#include "OpenKNX.h"
 #include "ReadBinary.h"
+#include <Wire.h>
 
 #define BIN_Input 1
 

@@ -1,12 +1,11 @@
 #include <Arduino.h>
-#include <Wire.h>
-//#include <knx.h>
 
-//#include "KnxHelper.h"
 #include "SystemFailureHandling.h"
 #include "Device_setup.h"
-#include "handleVentilRelais.h"
 #include "HelperFunc.h"
+#include "OpenKNX.h"
+#include "handleVentilRelais.h"
+#include <Wire.h>
 
 bool flag_RebootExternalPWR = false;
 
@@ -38,52 +37,52 @@ void processSysFailure()
 {
     switch (State_M)
     {
-    case PosIDLE:
-        if (flag_RebootExternalPWR)
-        {
-            State_M = PosDisablePWR;
-            flag_RebootExternalPWR = false;
-        }
-        break;
+        case PosIDLE:
+            if (flag_RebootExternalPWR)
+            {
+                State_M = PosDisablePWR;
+                flag_RebootExternalPWR = false;
+            }
+            break;
 
-    case PosDisablePWR:
-        SERIAL_PORT.println("disable Main Relay & wait");
-        control_5V_Relais(false);
-        digitalWrite(get_5V_EN_PIN(), LOW);
-        waitDelay = millis();
-        State_M = PosWait;
-        break;
-
-    case PosWait:
-        if (delayCheck(waitDelay, 2000))
-        {
-            SERIAL_PORT.println("enable Main Relay & wait");
-            control_5V_Relais(true);
+        case PosDisablePWR:
+            SERIAL_PORT.println("disable Main Relay & wait");
+            control_5V_Relais(false);
+            digitalWrite(get_5V_EN_PIN(), LOW);
             waitDelay = millis();
-            State_M = PosEnablePWR;
-        }
-        break;
+            State_M = PosWait;
+            break;
 
-    case PosEnablePWR:
-        if (delayCheck(waitDelay, 1000))
-        {
-            SERIAL_PORT.println("enable +5V & Wait");
-            digitalWrite(get_5V_EN_PIN(), HIGH);
-            waitDelay = millis();
-            State_M = PosWait2;
-        }
-        break;
+        case PosWait:
+            if (delayCheck(waitDelay, 2000))
+            {
+                SERIAL_PORT.println("enable Main Relay & wait");
+                control_5V_Relais(true);
+                waitDelay = millis();
+                State_M = PosEnablePWR;
+            }
+            break;
 
-    case PosWait2:
-     if (delayCheck(waitDelay, 1000))
-        {
-            SERIAL_PORT.println("Done");
-            State_M = PosIDLE;
-        }
-        break;
+        case PosEnablePWR:
+            if (delayCheck(waitDelay, 1000))
+            {
+                SERIAL_PORT.println("enable +5V & Wait");
+                digitalWrite(get_5V_EN_PIN(), HIGH);
+                waitDelay = millis();
+                State_M = PosWait2;
+            }
+            break;
 
-    default:
-        break;
+        case PosWait2:
+            if (delayCheck(waitDelay, 1000))
+            {
+                SERIAL_PORT.println("Done");
+                State_M = PosIDLE;
+            }
+            break;
+
+        default:
+            break;
     }
 }
 
