@@ -161,9 +161,14 @@
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
-            <Channel Id="%AID%_CH-5" Name="Standard" Number="5" Text="Binär | S0 | Impuls ">
-              <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
-                type="template" prefix="BIN" IsInner="true" />
+            <Channel Id="%AID%_CH-5" Name="Standard" Number="5" Text="Binär | S0 | Impuls">
+              <ParameterBlock Id="%AID%_PB-nnn" Name="Binary" Text="Binär | S0 | Impuls" Icon="square-wave" HelpContext="Empty" ShowInComObjectTree="true">
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Digital Input Auswahl" UIHint="Headline" />
+                <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/Channel/ParameterBlock/*"
+                  type="template" prefix="BIN" IsInner="true" />
+                <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
+                  type="template" prefix="BIN" IsInner="true" />
+              </ParameterBlock>
             </Channel>
           </Dynamic>
         </ApplicationProgram>

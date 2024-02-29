@@ -23,9 +23,13 @@
           <!-- Here statrs the UI definition -->
           <Dynamic>
             <Channel Id="%AID%_CH-2" Name="Standard" Number="2" Text="ext. Relais">
-              <op:include href="GardenControlRelais.templ.xml"
-                xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="REL"
-                IsInner="true" />
+              <ParameterBlock Id="%AID%_PB-xxx" Name="Relais" Text="ext. Releais" Icon="electric-switch" HelpContext="Empty" ShowInComObjectTree="true">
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Relaisauswahl" UIHint="Headline" />
+                <op:include href="GardenControlRelais.templ.xml" xpath="//Dynamic/Channel/ParameterBlock/*"
+                  type="template" prefix="REL" IsInner="true" />
+                <op:include href="GardenControlRelais.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*" type="template" prefix="REL"
+                  IsInner="true" />
+              </ParameterBlock>
             </Channel>
           </Dynamic>
         </ApplicationProgram>

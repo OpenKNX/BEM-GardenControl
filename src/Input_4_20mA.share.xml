@@ -69,8 +69,13 @@
           <!-- Here statrs the UI definition -->
           <Dynamic>
             <Channel Id="%AID%_CH-4" Name="Standard" Number="4" Text="Analog Input:  4-20mA">
-              <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
-                type="template" prefix="CUR" IsInner="true" />
+              <ParameterBlock Id="%AID%_PB-nnn" Name="Analog" Text="Analog Input: 4-20mA" Icon="alpha-a-box-outline" HelpContext="Empty" ShowInComObjectTree="true">
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="4-20mA Input Auswahl" UIHint="Headline" />
+                <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/Channel/ParameterBlock/*"
+                  type="template" prefix="CUR" IsInner="true" />
+                <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
+                  type="template" prefix="CUR" IsInner="true" />
+              </ParameterBlock>
             </Channel>
           </Dynamic>
         </ApplicationProgram>

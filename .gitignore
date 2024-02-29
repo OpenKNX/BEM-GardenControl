@@ -7,3 +7,4 @@
 **/*.debug.xml
 release/*
 platformio.ini.full.txt
+**/*.baggages

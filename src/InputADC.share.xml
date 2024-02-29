@@ -80,9 +80,14 @@
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
-            <Channel Id="%AID%_CH-3" Name="Standard" Number="3" Text="Analog Input:  0-12V">
-              <op:include href="InputADC.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
-                type="template" prefix="ADC" IsInner="true" />
+            <Channel Id="%AID%_CH-3" Name="Standard" Number="3" Text="Analog Input: 0-12V">
+              <ParameterBlock Id="%AID%_PB-nnn" Name="ADC" Text="Analog Input: 0-12V" Icon="alpha-v-circle-outline" HelpContext="Empty" ShowInComObjectTree="true">
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="ADC Input Auswahl" UIHint="Headline" />
+                <op:include href="InputADC.templ.xml" xpath="//Dynamic/Channel/ParameterBlock/*"
+                  type="template" prefix="ADC" IsInner="true" />
+                <op:include href="InputADC.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
+                  type="template" prefix="ADC" IsInner="true" />
+              </ParameterBlock>
             </Channel>
           </Dynamic>
         </ApplicationProgram>

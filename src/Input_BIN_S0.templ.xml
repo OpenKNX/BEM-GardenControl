@@ -14,112 +14,80 @@
               <Parameter Id="%AID%_P-%TT%%CC%000" Name="CH%C%Name"
                 ParameterType="%AID%_PT-Text40Byte" Text="Beschreibung des Kanals" Value="" /> <!--
               Definition im Logikmodul -->
-              <!-- Relais Control -->
+              <Parameter Id="%AID%_P-%TT%%CC%029" Name="CH%C%Active"
+                ParameterType="%AID%_PT-OnOffYesNo" Text="Digital Input %C% aktiv" Value="0" />
+              <!-- Binary Input -->
               <Union SizeInBit="8">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
                 <Parameter Id="%AID%_UP-%TT%%CC%001" Name="CH%C%SendenStart3"
-                  ParameterType="%AID%_PT-BINYesNo" Text="Zustand senden bei Buswiederkehr:"
+                  ParameterType="%AID%_PT-BINYesNo" Text="Zustand senden bei Buswiederkehr"
                   Value="0" Offset="0" BitOffset="0" />
                 <Parameter Id="%AID%_UP-%TT%%CC%002" Name="CH%C%sperr3"
-                  ParameterType="%AID%_PT-BINYesNo" Text="Sperrobjekt:" Value="0" Offset="0"
+                  ParameterType="%AID%_PT-BINYesNo" Text="Sperrobjekt" Value="0" Offset="0"
                   BitOffset="1" />
                 <Parameter Id="%AID%_UP-%TT%%CC%003" Name="CH%C%ValueOpen3"
-                  ParameterType="%AID%_PT-BINNullEINS" Text="Zustand 'Open':" Value="0" Offset="0"
+                  ParameterType="%AID%_PT-BINNullEINS" Text="Zustand 'Open'" Value="0" Offset="0"
                   BitOffset="2" />
               </Union>
-              <Parameter Id="%AID%_P-%TT%%CC%009" Name="CH%C%InputTypes3"
-                ParameterType="%AID%_PT-BINInputType" Text="Kanal Auswahl:" Value="0">
+              <Union SizeInBit="72">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="1" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%010" Name="CH%C%Sendcycletime3"
-                ParameterType="%AID%_PT-BINValueWORD"
-                Text="zyklisch senden: (0 = nicht zyklisch senden)" Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="2" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%011" Name="CH%C%SendFlanken3"
-                ParameterType="%AID%_PT-BINSendFlanken" Text="Flanken senden:" Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="4" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%012" Name="CH%C%FrequenceEqu3"
-                ParameterType="%AID%_PT-BINValueWORD" Text="F = 'x' * Q " Value="10">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="5" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%013" Name="CH%C%SendenAbsolut3"
-                ParameterType="%AID%_PT-BINValueWORD"
-                Text="senden bei absoluter Abweichung: (0 = nicht senden)" Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="7" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%014" Name="CH%C%SendenRelativ3"
-                ParameterType="%AID%_PT-BINPercentage"
-                Text="senden bei relativer Abweichung: (0 = nicht senden)" Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="9" BitOffset="0" />
-              </Parameter>
+                <Parameter Id="%AID%_UP-%TT%%CC%009" Name="CH%C%InputTypes3"
+                  Offset="0" BitOffset="0" ParameterType="%AID%_PT-BINInputType" Text="Kanal Auswahl" Value="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%010" Name="CH%C%Sendcycletime3"
+                  Offset="1" BitOffset="0" ParameterType="%AID%_PT-BINValueWORD"
+                  Text="zyklisch senden&#10;(0 = nicht zyklisch senden)" Value="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%011" Name="CH%C%SendFlanken3"
+                  Offset="3" BitOffset="0" ParameterType="%AID%_PT-BINSendFlanken" Text="Flanken senden" Value="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%012" Name="CH%C%FrequenceEqu3"
+                  Offset="4" BitOffset="0" ParameterType="%AID%_PT-BINValueWORD" Text="F = 'x' * Q " Value="10" />
+                <Parameter Id="%AID%_UP-%TT%%CC%013" Name="CH%C%SendenAbsolut3"
+                  Offset="6" BitOffset="0" ParameterType="%AID%_PT-BINValueWORD"
+                  Text="senden bei absoluter Abweichung&#10;(0 = nicht senden)" Value="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%014" Name="CH%C%SendenRelativ3"
+                  Offset="8" BitOffset="0" ParameterType="%AID%_PT-BINPercentage"
+                  Text="senden bei relativer Abweichung&#10;(0 = nicht senden)" Value="0" />
+              </Union>
               <!-- *************  -->
               <!-- S0  -->
               <!-- *************  -->
-              <Parameter Id="%AID%_P-%TT%%CC%015" Name="CH%C%S0Impulse"
-                ParameterType="%AID%_PT-S0Impulse" Text="Anzahl Impulse" SuffixText="" Value="1000">
+              <Union SizeInBit="176">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="10" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%016" Name="CH%C%DefineS0zaehler"
-                ParameterType="%AID%_PT-DefineS0Zaehler" Text="wähle Zähler-Typ" SuffixText=""
-                Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="12" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%017" Name="CH%C%SendDelayS0"
-                ParameterType="%AID%_PT-ValueUint16" Text="zyklisch senden" SuffixText="" Value="60">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="13" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%018" Name="CH%C%defineStartCounterS0"
-                ParameterType="%AID%_PT-S0YesNo" Text="Zählerstand per KO anpassen" SuffixText=""
-                Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="15" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%019" Name="CH%C%S0CalDef"
-                ParameterType="%AID%_PT-DefineS0Calculation" Text="Berechungsverfahren Verbrauch:"
-                Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="16" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%020" Name="CH%C%S0SendModeCounter"
-                ParameterType="%AID%_PT-SendModeConsumption" Text="Sendemodus" Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="17" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%021" Name="CH%C%SendminValueDelayS0"
-                ParameterType="%AID%_PT-ValueUint16" Text="Mindestintervall" SuffixText=""
-                Value="10">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="18" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%022" Name="CH%C%SendminValuechangeS0"
-                ParameterType="%AID%_PT-ValueUint16" Text="Mindeständerung zum Senden" SuffixText=""
-                Value="10">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="20" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%023" Name="CH%C%SendDelayConS0"
-                ParameterType="%AID%_PT-ValueUint16" Text="zyklisch senden" SuffixText="" Value="60">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="22" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%024" Name="CH%C%SendminValuechangeConS0"
-                ParameterType="%AID%_PT-ValueUint16" Text="Mindeständerung zum Senden" SuffixText=""
-                Value="10">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="24" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%025" Name="CH%C%S0SendModeCon"
-                ParameterType="%AID%_PT-SendModeConsumption" Text="Sendemodus" Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="28" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%026" Name="CH%C%SendminValueDelayConS0"
-                ParameterType="%AID%_PT-ValueUint16" Text="Mindestintervall" SuffixText=""
-                Value="10">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="29" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%027" Name="CH%C%DefineUnitS0"
-                ParameterType="%AID%_PT-DefineUnit" Text="Einheit" SuffixText="" Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="31" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%TT%%CC%028" Name="CH%C%DefineMinValueS0"
-                ParameterType="%AID%_PT-ValueUint16" Text="" SuffixText="" Value="1">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="32" BitOffset="0" />
-              </Parameter>
+                <Parameter Id="%AID%_UP-%TT%%CC%015" Name="CH%C%S0Impulse"
+                  Offset="0" BitOffset="0" ParameterType="%AID%_PT-S0Impulse" Text="Anzahl Impulse" SuffixText="" Value="1000" />
+                <Parameter Id="%AID%_UP-%TT%%CC%016" Name="CH%C%DefineS0zaehler"
+                  Offset="2" BitOffset="0" ParameterType="%AID%_PT-DefineS0Zaehler" Text="wähle Zähler-Typ" SuffixText=""
+                  Value="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%017" Name="CH%C%SendDelayS0"
+                  Offset="3" BitOffset="0" ParameterType="%AID%_PT-ValueUint16" Text="zyklisch senden" SuffixText="" Value="60" />
+                <Parameter Id="%AID%_UP-%TT%%CC%018" Name="CH%C%defineStartCounterS0"
+                  Offset="5" BitOffset="0" ParameterType="%AID%_PT-S0YesNo" Text="Zählerstand per KO anpassen" SuffixText=""
+                  Value="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%019" Name="CH%C%S0CalDef"
+                  Offset="6" BitOffset="0" ParameterType="%AID%_PT-DefineS0Calculation" Text="Berechungsverfahren Verbrauch:"
+                  Value="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%020" Name="CH%C%S0SendModeCounter"
+                  Offset="7" BitOffset="0" ParameterType="%AID%_PT-SendModeConsumption" Text="Sendemodus" Value="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%021" Name="CH%C%SendminValueDelayS0"
+                  Offset="8" BitOffset="0" ParameterType="%AID%_PT-ValueUint16" Text="Mindestintervall" SuffixText=""
+                  Value="10" />
+                <Parameter Id="%AID%_UP-%TT%%CC%022" Name="CH%C%SendminValuechangeS0"
+                  Offset="10" BitOffset="0" ParameterType="%AID%_PT-ValueUint16" Text="Mindeständerung zum Senden" SuffixText=""
+                  Value="10" />
+                <Parameter Id="%AID%_UP-%TT%%CC%023" Name="CH%C%SendDelayConS0"
+                  Offset="12" BitOffset="0" ParameterType="%AID%_PT-ValueUint16" Text="zyklisch senden" SuffixText="" Value="60" />
+                <Parameter Id="%AID%_UP-%TT%%CC%024" Name="CH%C%SendminValuechangeConS0"
+                  Offset="14" BitOffset="0" ParameterType="%AID%_PT-ValueUint16" Text="Mindeständerung zum Senden" SuffixText=""
+                  Value="10" />
+                <Parameter Id="%AID%_UP-%TT%%CC%025" Name="CH%C%S0SendModeCon"
+                  Offset="16" BitOffset="0" ParameterType="%AID%_PT-SendModeConsumption" Text="Sendemodus" Value="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%026" Name="CH%C%SendminValueDelayConS0"
+                  Offset="17" BitOffset="0" ParameterType="%AID%_PT-ValueUint16" Text="Mindestintervall" SuffixText=""
+                  Value="10" />
+                <Parameter Id="%AID%_UP-%TT%%CC%027" Name="CH%C%DefineUnitS0"
+                  Offset="19" BitOffset="0" ParameterType="%AID%_PT-DefineUnit" Text="Einheit" SuffixText="" Value="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%028" Name="CH%C%DefineMinValueS0"
+                  Offset="20" BitOffset="0" ParameterType="%AID%_PT-ValueUint16" Text="" SuffixText="" Value="1" />
+              </Union>
             </Parameters>
             <ParameterRefs>
               <!-- ParameterRef have to be defined for each parameter, pay attention, that the
@@ -132,61 +100,62 @@
               Sperrobjekt -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%003_R-%TT%%CC%00301" RefId="%AID%_UP-%TT%%CC%003" /> <!--
               Zustand für OPEN -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%009_R-%TT%%CC%00901" RefId="%AID%_P-%TT%%CC%009" />  <!--
+              <ParameterRef Id="%AID%_UP-%TT%%CC%009_R-%TT%%CC%00901" RefId="%AID%_UP-%TT%%CC%009" />  <!--
               Auswahl Kanal (Bin oder S0) -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%010_R-%TT%%CC%01001" RefId="%AID%_P-%TT%%CC%010"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%010_R-%TT%%CC%01001" RefId="%AID%_UP-%TT%%CC%010"
                 SuffixText="Sek" />  <!-- Zyklisches Senden -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%011_R-%TT%%CC%01101" RefId="%AID%_P-%TT%%CC%011" />                       <!--
+              <ParameterRef Id="%AID%_UP-%TT%%CC%011_R-%TT%%CC%01101" RefId="%AID%_UP-%TT%%CC%011" />                       <!--
               Flanken senden -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%012_R-%TT%%CC%01201" RefId="%AID%_P-%TT%%CC%012"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%012_R-%TT%%CC%01201" RefId="%AID%_UP-%TT%%CC%012"
                 SuffixText="*0.1 (für l/min)" /> <!-- Formel Impulszähler -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%013_R-%TT%%CC%01301" RefId="%AID%_P-%TT%%CC%013"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%013_R-%TT%%CC%01301" RefId="%AID%_UP-%TT%%CC%013"
                 SuffixText="*0.1l/min" />   <!-- Senden Absolut -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%014_R-%TT%%CC%01401" RefId="%AID%_P-%TT%%CC%014"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%014_R-%TT%%CC%01401" RefId="%AID%_UP-%TT%%CC%014"
                 SuffixText="%" />         <!-- Senden Relativ -->
               <!-- S0 -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%015_R-%TT%%CC%01501" RefId="%AID%_P-%TT%%CC%015"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%015_R-%TT%%CC%01501" RefId="%AID%_UP-%TT%%CC%015"
                 SuffixText="puls/kWh" />  <!-- Anzahl Impulse -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%015_R-%TT%%CC%01502" RefId="%AID%_P-%TT%%CC%015"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%015_R-%TT%%CC%01502" RefId="%AID%_UP-%TT%%CC%015"
                 SuffixText="puls/m3" />   <!-- Anzahl Impulse -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%015_R-%TT%%CC%01503" RefId="%AID%_P-%TT%%CC%015"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%015_R-%TT%%CC%01503" RefId="%AID%_UP-%TT%%CC%015"
                 SuffixText="puls/l" />    <!-- Anzahl Impulse -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%015_R-%TT%%CC%01504" RefId="%AID%_P-%TT%%CC%015"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%015_R-%TT%%CC%01504" RefId="%AID%_UP-%TT%%CC%015"
                 SuffixText=" " />         <!-- Anzahl Impulse -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%016_R-%TT%%CC%01601" RefId="%AID%_P-%TT%%CC%016" />                       <!--
+              <ParameterRef Id="%AID%_UP-%TT%%CC%016_R-%TT%%CC%01601" RefId="%AID%_UP-%TT%%CC%016" />                       <!--
               wähle Zähler-Typ -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%017_R-%TT%%CC%01701" RefId="%AID%_P-%TT%%CC%017"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%017_R-%TT%%CC%01701" RefId="%AID%_UP-%TT%%CC%017"
                 SuffixText="Sek" />       <!-- Senden zyklisch -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%018_R-%TT%%CC%01801" RefId="%AID%_P-%TT%%CC%018" />                       <!--
+              <ParameterRef Id="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801" RefId="%AID%_UP-%TT%%CC%018" />                       <!--
               Zählerstand per KO anpassen -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%019_R-%TT%%CC%01901" RefId="%AID%_P-%TT%%CC%019" />                       <!--
+              <ParameterRef Id="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" RefId="%AID%_UP-%TT%%CC%019" />                       <!--
               Berechungsverfahren Verbrauch -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%020_R-%TT%%CC%02001" RefId="%AID%_P-%TT%%CC%020" />                       <!--
+              <ParameterRef Id="%AID%_UP-%TT%%CC%020_R-%TT%%CC%02001" RefId="%AID%_UP-%TT%%CC%020" />                       <!--
               Sendemodus -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%021_R-%TT%%CC%02101" RefId="%AID%_P-%TT%%CC%021"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%021_R-%TT%%CC%02101" RefId="%AID%_UP-%TT%%CC%021"
                 SuffixText="Sek" />       <!-- Mindestintervall -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%022_R-%TT%%CC%02201" RefId="%AID%_P-%TT%%CC%022"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%022_R-%TT%%CC%02201" RefId="%AID%_UP-%TT%%CC%022"
                 SuffixText="kWh" />        <!-- Mindeständerung zum Senden -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%022_R-%TT%%CC%02202" RefId="%AID%_P-%TT%%CC%022"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%022_R-%TT%%CC%02202" RefId="%AID%_UP-%TT%%CC%022"
                 SuffixText="m3" />        <!-- Mindeständerung zum Senden -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%022_R-%TT%%CC%02203" RefId="%AID%_P-%TT%%CC%022"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%022_R-%TT%%CC%02203" RefId="%AID%_UP-%TT%%CC%022"
                 SuffixText="l" />         <!-- Mindeständerung zum Senden -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%023_R-%TT%%CC%02301" RefId="%AID%_P-%TT%%CC%023"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%023_R-%TT%%CC%02301" RefId="%AID%_UP-%TT%%CC%023"
                 SuffixText="Sek" />       <!-- zyklisch senden Verbrauch-->
-              <ParameterRef Id="%AID%_P-%TT%%CC%024_R-%TT%%CC%02401" RefId="%AID%_P-%TT%%CC%024"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%024_R-%TT%%CC%02401" RefId="%AID%_UP-%TT%%CC%024"
                 SuffixText="W" />         <!-- Mindeständerung zum Senden Verbrauch -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%024_R-%TT%%CC%02402" RefId="%AID%_P-%TT%%CC%024"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%024_R-%TT%%CC%02402" RefId="%AID%_UP-%TT%%CC%024"
                 SuffixText="l" />         <!-- Mindeständerung zum Senden Verbrauch -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%025_R-%TT%%CC%02501" RefId="%AID%_P-%TT%%CC%025" />                       <!--
+              <ParameterRef Id="%AID%_UP-%TT%%CC%025_R-%TT%%CC%02501" RefId="%AID%_UP-%TT%%CC%025" />                       <!--
               Sendemodus Verbrauch -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%026_R-%TT%%CC%02601" RefId="%AID%_P-%TT%%CC%026"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%026_R-%TT%%CC%02601" RefId="%AID%_UP-%TT%%CC%026"
                 SuffixText="Sek" />       <!-- Mindestintervall Verbrauch -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%027_R-%TT%%CC%02701" RefId="%AID%_P-%TT%%CC%027" />                       <!--
+              <ParameterRef Id="%AID%_UP-%TT%%CC%027_R-%TT%%CC%02701" RefId="%AID%_UP-%TT%%CC%027" />                       <!--
               Einheit -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%028_R-%TT%%CC%02801" RefId="%AID%_P-%TT%%CC%028"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%028_R-%TT%%CC%02801" RefId="%AID%_UP-%TT%%CC%028"
                 SuffixText="W" />         <!-- MIN Value WATT-->
-              <ParameterRef Id="%AID%_P-%TT%%CC%028_R-%TT%%CC%02802" RefId="%AID%_P-%TT%%CC%028"
+              <ParameterRef Id="%AID%_UP-%TT%%CC%028_R-%TT%%CC%02802" RefId="%AID%_UP-%TT%%CC%028"
                 SuffixText="l" />         <!-- MIN Value Liter-->
+              <ParameterRef Id="%AID%_P-%TT%%CC%029_R-%TT%%CC%02901" RefId="%AID%_P-%TT%%CC%029" />
             </ParameterRefs>
             <ComObjectTable>
               <ComObject Id="%AID%_O-%TT%%CC%000" Name="_Status_BinarInput%C%" Text="BIN-Input %C%:"
@@ -316,239 +285,249 @@
           <Dynamic>
             <!-- The following block is always there -->
             <ChannelIndependentBlock>
-              <ParameterBlock Id="%AID%_PB-4" Name="BINKanal"
-                Text="Bin | S0 | Impuls CH%C% {{0:---}}"
-                TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
-                <Channel Id="%AID%_CH-BIN%C%" Number="BIN%C%" Name="RelaisKanal%C%"
-                  Text="Bin | S0 | Impuls CH%C% {{0:---}}"
-                  TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
-                  <ParameterBlock Id="%AID%_PB-BIN%C%Wrapper" Inline="true">
-                    <ParameterSeparator Id="%AID%_PS-1"
-                      Text="Settings Binäreingang | S0 | Impuls %C%" UIHint="Headline" />
-                    <ParameterRefRef RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
-                    <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
-                    <ParameterRefRef RefId="%AID%_P-%TT%%CC%009_R-%TT%%CC%00901" />  <!-- Channel
-                    aktive / inaktive-->
-                    <ParameterSeparator Id="%AID%_PS-3" Text="" UIHint="HorizontalRuler" />
-                    <choose ParamRefId="%AID%_P-%TT%%CC%009_R-%TT%%CC%00901">
-                      <!-- BINÄREINGANG -->
-                      <when test="1">
-                        <!-- KOs for Channel -->
-                        <ComObjectRefRef RefId="%AID%_O-%TT%%CC%000_R-%TT%%CC%00001" /> <!-- KO:
-                        status   -->
-                        <!-- weitere Parameter -->
-                        <ParameterRefRef RefId="%AID%_P-%TT%%CC%010_R-%TT%%CC%01001" />  <!-- Zyklisch
-                        Senden-->
-                        <ParameterRefRef RefId="%AID%_P-%TT%%CC%011_R-%TT%%CC%01101" />  <!-- Flanken
-                        Senden-->
-                        <ParameterRefRef RefId="%AID%_UP-%TT%%CC%003_R-%TT%%CC%00301" />  <!--
-                        Definiert Zustand für Open-->
-                        <ParameterSeparator Id="%AID%_PS-4" Text="" UIHint="HorizontalRuler" />
-                        <ParameterRefRef RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" />  <!-- Senden
-                        bei Buswiederkehr JA/NEIN-->
-                        <ParameterSeparator Id="%AID%_PS-5" Text="" UIHint="HorizontalRuler" />
-                        <ParameterRefRef RefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" />  <!--
-                        Sperrobjakt JA/NEIN-->
-                        <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
-                          <when test="!=0">
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%001_R-%TT%%CC%00101" /> <!-- KO:
-                            sperrobjekt -->
-                            <ParameterSeparator Id="%AID%_PS-6"
-                              Text=" Wird der Zustand des Relais geändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und Ausgeführt, sobald das Sperrobjekt wieder deaktiviert wird." />
+              <choose ParamRefId="%AID%_P-%TT%%CC%029_R-%TT%%CC%02901">
+                <when test="1">
+                  <ParameterBlock Id="%AID%_PB-4" Name="BINKanal"
+                    Icon="square-wave-flip" HelpContext="Empty"
+                    Text="Bin | S0 | Impuls CH%C%: {{0:...}}"
+                    TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
+                    <Channel Id="%AID%_CH-BIN%C%" Number="BIN%C%" Name="RelaisKanal%C%"
+                      Text="Bin | S0 | Impuls CH%C%: {{0:...}}"
+                      TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
+                      <ParameterBlock Id="%AID%_PB-BIN%C%Wrapper" Inline="true">
+                        <ParameterSeparator Id="%AID%_PS-1"
+                          Text="Einstellungen Binäreingang | S0 | Impuls %C%" UIHint="Headline" />
+                        <ParameterRefRef RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" IndentLevel="1" />
+                        <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
+                        <ParameterRefRef RefId="%AID%_UP-%TT%%CC%009_R-%TT%%CC%00901" IndentLevel="1" />  <!-- Channel
+                        aktive / inaktive-->
+                        <ParameterSeparator Id="%AID%_PS-3" Text="" UIHint="HorizontalRuler" />
+                        <choose ParamRefId="%AID%_UP-%TT%%CC%009_R-%TT%%CC%00901">
+                          <!-- BINÄREINGANG -->
+                          <when test="1">
+                            <!-- KOs for Channel -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%000_R-%TT%%CC%00001" /> <!-- KO:
+                            status   -->
+                            <!-- weitere Parameter -->
+                            <ParameterRefRef RefId="%AID%_UP-%TT%%CC%010_R-%TT%%CC%01001" IndentLevel="1" />  <!-- Zyklisch
+                            Senden-->
+                            <ParameterRefRef RefId="%AID%_UP-%TT%%CC%011_R-%TT%%CC%01101" IndentLevel="1" />  <!-- Flanken
+                            Senden-->
+                            <ParameterRefRef RefId="%AID%_UP-%TT%%CC%003_R-%TT%%CC%00301" IndentLevel="1" />  <!--
+                            Definiert Zustand für Open-->
+                            <ParameterSeparator Id="%AID%_PS-4" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" IndentLevel="1" />  <!-- Senden
+                            bei Buswiederkehr JA/NEIN-->
+                            <ParameterSeparator Id="%AID%_PS-5" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" IndentLevel="1" />  <!--
+                            Sperrobjakt JA/NEIN-->
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
+                              <when test="!=0">
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%001_R-%TT%%CC%00101" /> <!-- KO:
+                                sperrobjekt -->
+                                <ParameterSeparator Id="%AID%_PS-6"
+                                  Text=" Wird der Zustand des Relais geändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und Ausgeführt, sobald das Sperrobjekt wieder deaktiviert wird." />
+                              </when>
+                            </choose>
+                          </when>
+                          <!-- S0-Schnittstelle -->
+                          <when test="2">
+                            <ParameterRefRef RefId="%AID%_UP-%TT%%CC%016_R-%TT%%CC%01601" IndentLevel="1" />
+                            <choose ParamRefId="%AID%_UP-%TT%%CC%016_R-%TT%%CC%01601">
+                              <when test="1"> <!-- Elektischer Zähler -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00401" />
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%005_R-%TT%%CC%00501" />
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%006_R-%TT%%CC%00601" />
+                                <ParameterSeparator Id="%AID%_PS-20" Text="" UIHint="HorizontalRuler" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%015_R-%TT%%CC%01501" IndentLevel="1" /> <!--
+                                impl/kWh -->
+                                <ParameterSeparator Id="%AID%_PS-22" Text="" UIHint="HorizontalRuler" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801" IndentLevel="1" /> <!--
+                                Neuer Zählerstand -->
+                                <choose ParamRefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801">
+                                  <when test="1">
+                                    <ComObjectRefRef RefId="%AID%_O-%TT%%CC%003_R-%TT%%CC%00301" />
+                                  </when>
+                                </choose>
+                                <ParameterSeparator Id="%AID%_PS-100" Text="" UIHint="HorizontalRuler" />
+                                <ParameterSeparator Id="%AID%_PS-101" Text="Zählerstand"
+                                  UIHint="Headline" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%020_R-%TT%%CC%02001" IndentLevel="1" />
+                                <choose ParamRefId="%AID%_UP-%TT%%CC%020_R-%TT%%CC%02001">
+                                  <when test="1"> <!-- Bei Wertänderung -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%021_R-%TT%%CC%02101" IndentLevel="1" />
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%022_R-%TT%%CC%02201" IndentLevel="1" />
+                                  </when>
+                                  <when test="2"> <!-- Zyklisch -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%017_R-%TT%%CC%01701" IndentLevel="1" />
+                                  </when>
+                                  <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%017_R-%TT%%CC%01701" IndentLevel="1" />
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%021_R-%TT%%CC%02101" IndentLevel="1" />
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%022_R-%TT%%CC%02201" IndentLevel="1" />
+                                  </when>
+                                </choose>
+                                <ParameterSeparator Id="%AID%_PS-100" Text="Verbrauch" UIHint="Headline" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%025_R-%TT%%CC%02501" IndentLevel="1" />
+                                <choose ParamRefId="%AID%_UP-%TT%%CC%025_R-%TT%%CC%02501">
+                                  <when test="1"> <!-- Bei Wertänderung -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%026_R-%TT%%CC%02601" IndentLevel="1" />
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%024_R-%TT%%CC%02401" IndentLevel="1" />
+                                  </when>
+                                  <when test="2"> <!-- Zyklisch -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%023_R-%TT%%CC%02301" IndentLevel="1" />
+                                  </when>
+                                  <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%023_R-%TT%%CC%02301" IndentLevel="1" />
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%026_R-%TT%%CC%02601" IndentLevel="1" />
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%024_R-%TT%%CC%02401" IndentLevel="1" />
+                                  </when>
+                                </choose>
+                                <ParameterSeparator Id="%AID%_PS-24" Text="" UIHint="HorizontalRuler" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" IndentLevel="1" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%028_R-%TT%%CC%02801" IndentLevel="1" /> <!--
+                                Mindestleistung -->
+                                <ParameterSeparator Id="%AID%_PS-24"
+                                  Text="                                                          Mindestleistung, Werte unterhalb werden mit 0W gesendet" />
+                              </when>
+                              <when test="2 3">  <!-- Wasser & Gas Zähler -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%005_R-%TT%%CC%00502" />
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%006_R-%TT%%CC%00602" />
+                                <ParameterSeparator Id="%AID%_PS-20" Text="" UIHint="HorizontalRuler" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%027_R-%TT%%CC%02701" IndentLevel="1" /> <!-- Wahl
+                                zwischen l & m3 -->
+                                <choose ParamRefId="%AID%_UP-%TT%%CC%027_R-%TT%%CC%02701">
+                                  <when test="0"> <!-- Einheit Liter -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%015_R-%TT%%CC%01503" IndentLevel="1" /> <!--
+                                    impl/l -->
+                                    <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00403" />
+                                  </when>
+                                  <when test="1"> <!-- Einheit m3-->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%015_R-%TT%%CC%01502" IndentLevel="1" /> <!--
+                                    impl/m3 -->
+                                    <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00402" />
+                                  </when>
+                                </choose>
+                                <ParameterSeparator Id="%AID%_PS-22" Text="" UIHint="HorizontalRuler" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801" IndentLevel="1" /> <!--
+                                Neuer Zählerstand -->
+                                <choose ParamRefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801">
+                                  <when test="1">
+                                    <choose ParamRefId="%AID%_UP-%TT%%CC%027_R-%TT%%CC%02701">
+                                      <when test="0"> <!-- Einheit Liter -->
+                                        <ComObjectRefRef RefId="%AID%_O-%TT%%CC%003_R-%TT%%CC%00303" /> <!--
+                                        impl/l -->
+                                      </when>
+                                      <when test="1"> <!-- Einheit m3-->
+                                        <ComObjectRefRef RefId="%AID%_O-%TT%%CC%003_R-%TT%%CC%00302" />  <!--
+                                        impl/m3 -->
+                                      </when>
+                                    </choose>
+                                  </when>
+                                </choose>
+                                <ParameterSeparator Id="%AID%_PS-100" Text="" UIHint="HorizontalRuler" />
+                                <ParameterSeparator Id="%AID%_PS-101" Text="Zählerstand"
+                                  UIHint="Headline" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%020_R-%TT%%CC%02001" IndentLevel="1" />
+                                <choose ParamRefId="%AID%_UP-%TT%%CC%020_R-%TT%%CC%02001">
+                                  <when test="1"> <!-- Bei Wertänderung -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%021_R-%TT%%CC%02101" IndentLevel="1" />
+                                    <choose ParamRefId="%AID%_UP-%TT%%CC%027_R-%TT%%CC%02701">
+                                      <when test="0"> <!-- Einheit Liter -->
+                                        <ParameterRefRef RefId="%AID%_UP-%TT%%CC%022_R-%TT%%CC%02203" IndentLevel="1" /> <!--
+                                        impl/l -->
+                                      </when>
+                                      <when test="1"> <!-- Einheit m3-->
+                                        <ParameterRefRef RefId="%AID%_UP-%TT%%CC%022_R-%TT%%CC%02202" IndentLevel="1" /> <!--
+                                        impl/m3 -->
+                                      </when>
+                                    </choose>
+                                  </when>
+                                  <when test="2"> <!-- Zyklisch -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%017_R-%TT%%CC%01701" IndentLevel="1" />
+                                  </when>
+                                  <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%017_R-%TT%%CC%01701" IndentLevel="1" />
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%021_R-%TT%%CC%02101" IndentLevel="1" />
+                                    <choose ParamRefId="%AID%_UP-%TT%%CC%027_R-%TT%%CC%02701">
+                                      <when test="0"> <!-- Einheit Liter -->
+                                        <ParameterRefRef RefId="%AID%_UP-%TT%%CC%022_R-%TT%%CC%02203" IndentLevel="1" /> <!--
+                                        impl/l -->
+                                      </when>
+                                      <when test="1"> <!-- Einheit m3-->
+                                        <ParameterRefRef RefId="%AID%_UP-%TT%%CC%022_R-%TT%%CC%02202" IndentLevel="1" /> <!--
+                                        impl/m3 -->
+                                      </when>
+                                    </choose>
+                                  </when>
+                                </choose>
+                                <ParameterSeparator Id="%AID%_PS-100" Text="Verbrauch" UIHint="Headline" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%025_R-%TT%%CC%02501" IndentLevel="1" />
+                                <choose ParamRefId="%AID%_UP-%TT%%CC%025_R-%TT%%CC%02501">
+                                  <when test="1"> <!-- Bei Wertänderung -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%026_R-%TT%%CC%02601" IndentLevel="1" />
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%024_R-%TT%%CC%02402" IndentLevel="1" />
+                                  </when>
+                                  <when test="2"> <!-- Zyklisch -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%023_R-%TT%%CC%02301" IndentLevel="1" />
+                                  </when>
+                                  <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%023_R-%TT%%CC%02301" IndentLevel="1" />
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%026_R-%TT%%CC%02601" IndentLevel="1" />
+                                    <ParameterRefRef RefId="%AID%_UP-%TT%%CC%024_R-%TT%%CC%02402" IndentLevel="1" />
+                                  </when>
+                                </choose>
+                                <ParameterSeparator Id="%AID%_PS-24" Text="" UIHint="HorizontalRuler" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" IndentLevel="1" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%028_R-%TT%%CC%02802" IndentLevel="1" /> <!--
+                                Mindestdurchfluss-->
+                                <ParameterSeparator Id="%AID%_PS-24"
+                                  Text="                                                          Mindestdurchfluss, Werte unterhalb werden mit 0W gesendet" />
+                              </when>
+                              <when test="4"> <!-- sonstiges -->
+                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00404" />
+                                <ParameterSeparator Id="%AID%_PS-21" Text="" UIHint="HorizontalRuler" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%015_R-%TT%%CC%01504" IndentLevel="1" /> <!-- impl -->
+                                <ParameterSeparator Id="%AID%_PS-23" Text="" UIHint="HorizontalRuler" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801" IndentLevel="1" />
+                                <ParameterSeparator Id="%AID%_PS-24" Text="" UIHint="HorizontalRuler" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%017_R-%TT%%CC%01701" IndentLevel="1" />
+                                <ParameterSeparator Id="%AID%_PS-25" Text="" UIHint="HorizontalRuler" />
+                                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" IndentLevel="1" />
+                              </when>
+                            </choose>
+                          </when>
+                          <!-- Impulszähler -->
+                          <when test="3">
+                            <!-- KOs for Channel -->
+                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%002_R-%TT%%CC%00201" /> <!-- KO:
+                            Impulszähler L/h   -->
+                            <!-- weitere Parameter -->
+                            <ParameterRefRef RefId="%AID%_UP-%TT%%CC%012_R-%TT%%CC%01201" IndentLevel="1" />  <!-- Formel
+                            Wert -->
+                            <ParameterSeparator Id="%AID%_PS-4"
+                              Text="Hinweis: Der Wert wird mit L/min berechnet, aber mit L/h gesendet !" />
+                            <ParameterSeparator Id="%AID%_PS-5" Text="" UIHint="HorizontalRuler" />
+                            <ParameterRefRef RefId="%AID%_UP-%TT%%CC%010_R-%TT%%CC%01001" IndentLevel="1" />  <!-- Zyklisch
+                            Senden-->
+                            <ParameterRefRef RefId="%AID%_UP-%TT%%CC%013_R-%TT%%CC%01301" IndentLevel="1" />  <!-- Absolut
+                            Senden-->
+                            <ParameterRefRef RefId="%AID%_UP-%TT%%CC%014_R-%TT%%CC%01401" IndentLevel="1" />  <!-- Releativ
+                            Senden-->
+                            <ParameterSeparator Id="%AID%_PS-6" Text="" UIHint="HorizontalRuler" />
                           </when>
                         </choose>
-                      </when>
-                      <!-- S0-Schnittstelle -->
-                      <when test="2">
-                        <ParameterRefRef RefId="%AID%_P-%TT%%CC%016_R-%TT%%CC%01601" />
-                        <choose ParamRefId="%AID%_P-%TT%%CC%016_R-%TT%%CC%01601">
-                          <when test="1"> <!-- Elektischer Zähler -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00401" />
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%005_R-%TT%%CC%00501" />
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%006_R-%TT%%CC%00601" />
-                            <ParameterSeparator Id="%AID%_PS-20" Text="" UIHint="HorizontalRuler" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%015_R-%TT%%CC%01501" /> <!--
-                            impl/kWh -->
-                            <ParameterSeparator Id="%AID%_PS-22" Text="" UIHint="HorizontalRuler" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%018_R-%TT%%CC%01801" /> <!--
-                            Neuer Zählerstand -->
-                            <choose ParamRefId="%AID%_P-%TT%%CC%018_R-%TT%%CC%01801">
-                              <when test="1">
-                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%003_R-%TT%%CC%00301" />
-                              </when>
-                            </choose>
-                            <ParameterSeparator Id="%AID%_PS-100" Text="" UIHint="HorizontalRuler" />
-                            <ParameterSeparator Id="%AID%_PS-101" Text="Zählerstand"
-                              UIHint="Headline" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%020_R-%TT%%CC%02001" />
-                            <choose ParamRefId="%AID%_P-%TT%%CC%020_R-%TT%%CC%02001">
-                              <when test="1"> <!-- Bei Wertänderung -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%021_R-%TT%%CC%02101" />
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%022_R-%TT%%CC%02201" />
-                              </when>
-                              <when test="2"> <!-- Zyklisch -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%017_R-%TT%%CC%01701" />
-                              </when>
-                              <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%017_R-%TT%%CC%01701" />
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%021_R-%TT%%CC%02101" />
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%022_R-%TT%%CC%02201" />
-                              </when>
-                            </choose>
-                            <ParameterSeparator Id="%AID%_PS-100" Text="Verbrauch" UIHint="Headline" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%025_R-%TT%%CC%02501" />
-                            <choose ParamRefId="%AID%_P-%TT%%CC%025_R-%TT%%CC%02501">
-                              <when test="1"> <!-- Bei Wertänderung -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%026_R-%TT%%CC%02601" />
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%024_R-%TT%%CC%02401" />
-                              </when>
-                              <when test="2"> <!-- Zyklisch -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%023_R-%TT%%CC%02301" />
-                              </when>
-                              <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%023_R-%TT%%CC%02301" />
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%026_R-%TT%%CC%02601" />
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%024_R-%TT%%CC%02401" />
-                              </when>
-                            </choose>
-                            <ParameterSeparator Id="%AID%_PS-24" Text="" UIHint="HorizontalRuler" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%019_R-%TT%%CC%01901" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%028_R-%TT%%CC%02801" /> <!--
-                            Mindestleistung -->
-                            <ParameterSeparator Id="%AID%_PS-24"
-                              Text="                                                          Mindestleistung, Werte unterhalb werden mit 0W gesendet" />
-                          </when>
-                          <when test="2 3">  <!-- Wasser & Gas Zähler -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%005_R-%TT%%CC%00502" />
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%006_R-%TT%%CC%00602" />
-                            <ParameterSeparator Id="%AID%_PS-20" Text="" UIHint="HorizontalRuler" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%027_R-%TT%%CC%02701" /> <!-- Wahl
-                            zwischen l & m3 -->
-                            <choose ParamRefId="%AID%_P-%TT%%CC%027_R-%TT%%CC%02701">
-                              <when test="0"> <!-- Einheit Liter -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%015_R-%TT%%CC%01503" /> <!--
-                                impl/l -->
-                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00403" />
-                              </when>
-                              <when test="1"> <!-- Einheit m3-->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%015_R-%TT%%CC%01502" /> <!--
-                                impl/m3 -->
-                                <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00402" />
-                              </when>
-                            </choose>
-                            <ParameterSeparator Id="%AID%_PS-22" Text="" UIHint="HorizontalRuler" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%018_R-%TT%%CC%01801" /> <!--
-                            Neuer Zählerstand -->
-                            <choose ParamRefId="%AID%_P-%TT%%CC%018_R-%TT%%CC%01801">
-                              <when test="1">
-                                <choose ParamRefId="%AID%_P-%TT%%CC%027_R-%TT%%CC%02701">
-                                  <when test="0"> <!-- Einheit Liter -->
-                                    <ComObjectRefRef RefId="%AID%_O-%TT%%CC%003_R-%TT%%CC%00303" /> <!--
-                                    impl/l -->
-                                  </when>
-                                  <when test="1"> <!-- Einheit m3-->
-                                    <ComObjectRefRef RefId="%AID%_O-%TT%%CC%003_R-%TT%%CC%00302" />  <!--
-                                    impl/m3 -->
-                                  </when>
-                                </choose>
-                              </when>
-                            </choose>
-                            <ParameterSeparator Id="%AID%_PS-100" Text="" UIHint="HorizontalRuler" />
-                            <ParameterSeparator Id="%AID%_PS-101" Text="Zählerstand"
-                              UIHint="Headline" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%020_R-%TT%%CC%02001" />
-                            <choose ParamRefId="%AID%_P-%TT%%CC%020_R-%TT%%CC%02001">
-                              <when test="1"> <!-- Bei Wertänderung -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%021_R-%TT%%CC%02101" />
-                                <choose ParamRefId="%AID%_P-%TT%%CC%027_R-%TT%%CC%02701">
-                                  <when test="0"> <!-- Einheit Liter -->
-                                    <ParameterRefRef RefId="%AID%_P-%TT%%CC%022_R-%TT%%CC%02203" /> <!--
-                                    impl/l -->
-                                  </when>
-                                  <when test="1"> <!-- Einheit m3-->
-                                    <ParameterRefRef RefId="%AID%_P-%TT%%CC%022_R-%TT%%CC%02202" /> <!--
-                                    impl/m3 -->
-                                  </when>
-                                </choose>
-                              </when>
-                              <when test="2"> <!-- Zyklisch -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%017_R-%TT%%CC%01701" />
-                              </when>
-                              <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%017_R-%TT%%CC%01701" />
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%021_R-%TT%%CC%02101" />
-                                <choose ParamRefId="%AID%_P-%TT%%CC%027_R-%TT%%CC%02701">
-                                  <when test="0"> <!-- Einheit Liter -->
-                                    <ParameterRefRef RefId="%AID%_P-%TT%%CC%022_R-%TT%%CC%02203" /> <!--
-                                    impl/l -->
-                                  </when>
-                                  <when test="1"> <!-- Einheit m3-->
-                                    <ParameterRefRef RefId="%AID%_P-%TT%%CC%022_R-%TT%%CC%02202" /> <!--
-                                    impl/m3 -->
-                                  </when>
-                                </choose>
-                              </when>
-                            </choose>
-                            <ParameterSeparator Id="%AID%_PS-100" Text="Verbrauch" UIHint="Headline" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%025_R-%TT%%CC%02501" />
-                            <choose ParamRefId="%AID%_P-%TT%%CC%025_R-%TT%%CC%02501">
-                              <when test="1"> <!-- Bei Wertänderung -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%026_R-%TT%%CC%02601" />
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%024_R-%TT%%CC%02402" />
-                              </when>
-                              <when test="2"> <!-- Zyklisch -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%023_R-%TT%%CC%02301" />
-                              </when>
-                              <when test="3"> <!-- Bei Wertänderung & Zyklisch  -->
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%023_R-%TT%%CC%02301" />
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%026_R-%TT%%CC%02601" />
-                                <ParameterRefRef RefId="%AID%_P-%TT%%CC%024_R-%TT%%CC%02402" />
-                              </when>
-                            </choose>
-                            <ParameterSeparator Id="%AID%_PS-24" Text="" UIHint="HorizontalRuler" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%019_R-%TT%%CC%01901" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%028_R-%TT%%CC%02802" /> <!--
-                            Mindestdurchfluss-->
-                            <ParameterSeparator Id="%AID%_PS-24"
-                              Text="                                                          Mindestdurchfluss, Werte unterhalb werden mit 0W gesendet" />
-                          </when>
-                          <when test="4"> <!-- sonstiges -->
-                            <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00404" />
-                            <ParameterSeparator Id="%AID%_PS-21" Text="" UIHint="HorizontalRuler" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%015_R-%TT%%CC%01504" /> <!-- impl -->
-                            <ParameterSeparator Id="%AID%_PS-23" Text="" UIHint="HorizontalRuler" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%018_R-%TT%%CC%01801" />
-                            <ParameterSeparator Id="%AID%_PS-24" Text="" UIHint="HorizontalRuler" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%017_R-%TT%%CC%01701" />
-                            <ParameterSeparator Id="%AID%_PS-25" Text="" UIHint="HorizontalRuler" />
-                            <ParameterRefRef RefId="%AID%_P-%TT%%CC%019_R-%TT%%CC%01901" />
-                          </when>
-                        </choose>
-                      </when>
-                      <!-- Impulszähler -->
-                      <when test="3">
-                        <!-- KOs for Channel -->
-                        <ComObjectRefRef RefId="%AID%_O-%TT%%CC%002_R-%TT%%CC%00201" /> <!-- KO:
-                        Impulszähler L/h   -->
-                        <!-- weitere Parameter -->
-                        <ParameterRefRef RefId="%AID%_P-%TT%%CC%012_R-%TT%%CC%01201" />  <!-- Formel
-                        Wert -->
-                        <ParameterSeparator Id="%AID%_PS-4"
-                          Text="Hinweis: Der Wert wird mit L/min berechnet, aber mit L/h gesendet !" />
-                        <ParameterSeparator Id="%AID%_PS-5" Text="" UIHint="HorizontalRuler" />
-                        <ParameterRefRef RefId="%AID%_P-%TT%%CC%010_R-%TT%%CC%01001" />  <!-- Zyklisch
-                        Senden-->
-                        <ParameterRefRef RefId="%AID%_P-%TT%%CC%013_R-%TT%%CC%01301" />  <!-- Absolut
-                        Senden-->
-                        <ParameterRefRef RefId="%AID%_P-%TT%%CC%014_R-%TT%%CC%01401" />  <!-- Releativ
-                        Senden-->
-                        <ParameterSeparator Id="%AID%_PS-6" Text="" UIHint="HorizontalRuler" />
-                      </when>
-                    </choose>
+                      </ParameterBlock>
+                    </Channel>
                   </ParameterBlock>
-                </Channel>
-              </ParameterBlock>
+                </when>
+              </choose>
             </ChannelIndependentBlock>
+            <Channel Id="%AID%_CH-3" Number="1" Name="Hidden-BIN">
+              <ParameterBlock Id="%AID%_PB-nnn">
+                <ParameterRefRef RefId="%AID%_P-%TT%%CC%029_R-%TT%%CC%02901" IndentLevel="1" />
+              </ParameterBlock>
+            </Channel>
           </Dynamic>
         </ApplicationProgram>
       </ApplicationPrograms>

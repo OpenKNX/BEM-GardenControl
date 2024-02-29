@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
+  
+  <op:config name="%ApplicationVersion%" value="0.6" />
+  <op:config name="%ReplacesVersions%" value="0.5 0.4 0.3 0.2 0.1" />
+
   <op:ETS OpenKnxId="0xA2"
     ApplicationNumber="0x10"
-    ApplicationVersion="0.4"
-    ReplacesVersions="0.3 0.2 0.1"
+    ApplicationVersion="%ApplicationVersion%"
+    ReplacesVersions="%ReplacesVersions%"
     ApplicationRevision="0"
     ProductName="GardenControl"
     ApplicationName="GardenControl"
@@ -14,7 +18,7 @@
   />
   <op:define prefix="BASE"
     share="../lib/OGM-Common/src/Common.share.xml"
-    ModuleType="10"> <!-- BASE muss immer ModuleType 10 sein -->
+    ModuleType="10"> <!-- BASE muss immer der gleiche ModuleType wie LogicModule sein (am besten 10) -->
     <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.1" />
   </op:define>
   <op:define prefix="BEM" NumChannels="12" KoOffset="30"
@@ -43,9 +47,20 @@
     ModuleType="10">
     <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.1" />
   </op:define>
-  <!-- LOG muss immer ModuleType 10 sein -->
 
-  <generate />
+  <generate>
+    <Dynamic>
+      <op:include href="../lib/OGM-Common/src/Common.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BASE" />
+      <Channel Id="%AID%_CH-1" Name="GardenControl" Number="1" Text="Garden Control" Icon="grass" HelpContext="Empty">
+        <op:include href="GardenControl.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="BEM" />
+        <op:include href="GardenControlRelais.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="REL" />
+        <op:include href="InputADC.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="ADC" />
+        <op:include href="Input_4_20mA.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="CUR" />
+        <op:include href="Input_BIN_S0.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="BIN" />
+      </Channel>
+      <op:include href="../lib/OFM-LogicModule/src/Logikmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="LOG" />
+    </Dynamic>
+  </generate>
 
 
 </KNX>

@@ -1,0 +1,16 @@
+{
+    "name": "BEM-GardenControl",
+    "version": "0.4.0",
+    "description": "Intelligent watering system based on the KNX-Bus to control sprinklers, pumps and sensors",
+    "homepage": "https://www.smart-mf.de/",
+    "authors": {
+        "name": "Smart-MF",
+        "email": "info@smart-mf.de",
+        "url": "https://www.smart-mf.de/",
+        "maintainer": true
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/OpenKNX/BEM-GardenControl"
+    }
+}
