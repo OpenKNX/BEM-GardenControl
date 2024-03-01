@@ -12,10 +12,8 @@
             <Parameters>
               <!-- only description no offset -->
               <Parameter Id="%AID%_P-%TT%%CC%000" Name="CH%C%Name"
-                ParameterType="%AID%_PT-Text40Byte" Text="Beschreibung des Kanals" Value="" /> <!--
+                ParameterType="%AID%_PT-Text40Byte" Text="Beschreibung des Eingangs" Value="" /> <!--
               Definition in Common -->
-              <Parameter Id="%AID%_P-%TT%%CC%011" Name="CH%C%Active"
-                ParameterType="%AID%_PT-OnOffYesNo" Text="ADC Input %C% aktiv" Value="0" />
               <!-- ADC_Inputs -->
               <Union SizeInBit="120">
                 <Memory CodeSegment="%MID%" Offset="0" BitOffset="0" />
@@ -87,7 +85,6 @@
                 SuffixText="*0.01" /> <!-- Geadengleichung Wert M -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%010_R-%TT%%CC%01001" RefId="%AID%_UP-%TT%%CC%010"
                 SuffixText="*0.01" /> <!-- Geadengleichung Wert B -->
-              <ParameterRef Id="%AID%_P-%TT%%CC%011_R-%TT%%CC%01101" RefId="%AID%_P-%TT%%CC%011" />
             </ParameterRefs>
             <ComObjectTable>
               <ComObject Id="%AID%_O-%TT%%CC%000" Name="GO_BASE_%C%_1" Text="GO_BASE_%C%_1"
@@ -162,8 +159,8 @@
           <Dynamic>
             <!-- The following block is always there -->
             <ChannelIndependentBlock>
-              <choose ParamRefId="%AID%_P-%TT%%CC%011_R-%TT%%CC%01101">
-                <when test="1">
+              <choose ParamRefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101">
+                <when test="!=0">
                   <ParameterBlock Id="%AID%_PB-5" Name="ADCKanal" Text="ADC-Input %C%: {{0:...}}"
                     Icon="alpha-v-circle" HelpContext="Empty"
                     TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
@@ -175,10 +172,8 @@
                         UIHint="Headline" />
                       <ParameterRefRef RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
                       <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
-                      <ParameterRefRef RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" />  <!-- Wähle Sensor -->
                       <choose ParamRefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101">
                         <when test="1">  <!-- Sensor: ADC Wert -->
-                          <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
                           <ParameterSeparator Id="%AID%_PS-3"
                             Text="Mit hilfe des Korrekturfaktors können, wenn benötigt, die Toleranzen des Messsystems ausgeglichen werden." />
                           <ParameterSeparator Id="%AID%_PS-31"
@@ -353,7 +348,6 @@
                             gläten -->
                         </when>
                         <when test="2">  <!-- Sensor: SMT50-Feuchte -->
-                          <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
                           <ParameterSeparator Id="%AID%_PS-3"
                             Text="Mit hilfe des Korrekturfaktors können, wenn benötigt, die Toleranzen des Messsystems ausgeglichen werden." />
                           <ParameterSeparator Id="%AID%_PS-4"
@@ -376,7 +370,6 @@
                             Bodenfeuchte -->
                         </when>
                         <when test="3">  <!-- Sensor: SMT50-Temp -->
-                          <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
                           <ParameterSeparator Id="%AID%_PS-3"
                             Text="Mit hilfe des Korrekturfaktors können, wenn benötigt, die Toleranzen des Messsystems ausgeglichen werden." />
                           <ParameterSeparator Id="%AID%_PS-4"
@@ -406,9 +399,15 @@
                 </when>
               </choose>
             </ChannelIndependentBlock>
-            <Channel Id="%AID%_CH-3" Number="1" Name="Hidden-ADC">
-              <ParameterBlock Id="%AID%_PB-nnn">
-                <ParameterRefRef RefId="%AID%_P-%TT%%CC%011_R-%TT%%CC%01101" IndentLevel="1" />
+            <Channel Id="%AID%_CH-4" Number="4" Name="Hidden-Channel-List">
+              <ParameterBlock Id="%AID%_PB-nnn" Name="Channel-List">
+                <ParameterRefRef RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" Cell="%C%,1" />
+                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" Cell="%C%,2" />
+              </ParameterBlock>
+              <ParameterBlock Id="%AID%_PB-nnn" Name="Row-List" Inline="true" Layout="Grid">
+                <Rows>
+                  <Row Id="%AID%_PB-nnn_R-%C%" Text="Eingang %C%" />
+                </Rows>
               </ParameterBlock>
             </Channel>
           </Dynamic>

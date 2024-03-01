@@ -10,7 +10,7 @@
                                              
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16
-#define MAIN_ApplicationVersion 6
+#define MAIN_ApplicationVersion 9
 #define MAIN_ParameterSize 1132
 #define MAIN_MaxKoNumber 449
 #define MAIN_OrderNumber "MFKnxBem"
@@ -407,7 +407,7 @@
 #define ParamBIN_CHsperr3                            ((bool)(knx.paramByte(BIN_ParamCalcIndex(BIN_CHsperr3)) & BIN_CHsperr3Mask))
 // Zustand 'Open'
 #define ParamBIN_CHValueOpen3                        ((bool)(knx.paramByte(BIN_ParamCalcIndex(BIN_CHValueOpen3)) & BIN_CHValueOpen3Mask))
-// Kanal Auswahl
+// Eingangstyp
 #define ParamBIN_CHInputTypes3                       (knx.paramByte(BIN_ParamCalcIndex(BIN_CHInputTypes3)))
 // zyklisch senden(0 = nicht zyklisch senden)
 #define ParamBIN_CHSendcycletime3                    ((int16_t)knx.paramWord(BIN_ParamCalcIndex(BIN_CHSendcycletime3)))

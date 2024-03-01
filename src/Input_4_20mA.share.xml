@@ -12,14 +12,14 @@
             <ParameterTypes>
               <ParameterType Id="%AID%_PT-CURYesNo" Name="CURYesNo">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="Nein" Value="0" Id="%AID%_PT-CURYesNo_EN-0" />
-                  <Enumeration Text="Ja" Value="1" Id="%AID%_PT-CURYesNo_EN-1" />
+                  <Enumeration Text="Nein" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Ja" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-CURActiveInactive" Name="CURActiveInactive">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="inaktiv" Value="0" Id="%AID%_PT-CURActiveInactive_EN-0" />
-                  <Enumeration Text="aktiv" Value="1" Id="%AID%_PT-CURActiveInactive_EN-1" />
+                  <Enumeration Text="inaktiv" Value="0" Id="%ENID%" />
+                  <Enumeration Text="aktiv" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-CURValueWORD" Name="CURValueWORD">
@@ -34,26 +34,25 @@
               </ParameterType>
               <ParameterType Id="%AID%_PT-CURSensorCalc" Name="CURSensorCalc">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="wähle" Value="0" Id="%AID%_PT-CURSensorCalc_EN-0" />
-                  <Enumeration Text="input: 4-20mA" Value="1" Id="%AID%_PT-CURSensorCalc_EN-1" />
-                  <Enumeration Text="input: 0-20mA" Value="2" Id="%AID%_PT-CURSensorCalc_EN-2" />
+                  <Enumeration Text="inakiv" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Eingang 4-20mA" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Eingang 0-20mA" Value="2" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-CURSensorType" Name="CURSensorType">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Strom (mA)" Value="0" Id="%AID%_PT-CURSensorType_EN-0" />
-                  <Enumeration Text="Temperatur (°C)" Value="1" Id="%AID%_PT-CURSensorType_EN-1" />
-                  <Enumeration Text="Feuchte (%)" Value="2" Id="%AID%_PT-CURSensorType_EN-2" />
-                  <Enumeration Text="CO2 (ppm)" Value="3" Id="%AID%_PT-CURSensorType_EN-3" />
-                  <Enumeration Text="LUX (Lux)" Value="4" Id="%AID%_PT-CURSensorType_EN-4" />
-                  <Enumeration Text="Druck (Pa)" Value="5" Id="%AID%_PT-CURSensorType_EN-5" />
-                  <Enumeration Text="Strömung (l/h)" Value="6" Id="%AID%_PT-CURSensorType_EN-6" />
-                  <Enumeration Text="Regenmenge (l/m²)" Value="7" Id="%AID%_PT-CURSensorType_EN-7" />
-                  <Enumeration Text="Windgeschwindigkeit (m/s)" Value="8"
-                    Id="%AID%_PT-CURSensorType_EN-8" />
-                  <Enumeration Text="Prozent (%)" Value="9" Id="%AID%_PT-CURSensorType_EN-9" />
-                  <Enumeration Text="Liter (l)" Value="10" Id="%AID%_PT-CURSensorType_EN-10" />
-                  <Enumeration Text="Volumen (m³)" Value="11" Id="%AID%_PT-CURSensorType_EN-11" />
+                  <Enumeration Text="Strom (mA)" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Temperatur (°C)" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Feuchte (%)" Value="2" Id="%ENID%" />
+                  <Enumeration Text="CO2 (ppm)" Value="3" Id="%ENID%" />
+                  <Enumeration Text="LUX (Lux)" Value="4" Id="%ENID%" />
+                  <Enumeration Text="Druck (Pa)" Value="5" Id="%ENID%" />
+                  <Enumeration Text="Strömung (l/h)" Value="6" Id="%ENID%" />
+                  <Enumeration Text="Regenmenge (l/m²)" Value="7" Id="%ENID%" />
+                  <Enumeration Text="Windgeschwindigkeit (m/s)" Value="8" Id="%ENID%" />
+                  <Enumeration Text="Prozent (%)" Value="9" Id="%ENID%" />
+                  <Enumeration Text="Liter (l)" Value="10" Id="%ENID%" />
+                  <Enumeration Text="Volumen (m³)" Value="11" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
             </ParameterTypes>
@@ -68,11 +67,21 @@
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
-            <Channel Id="%AID%_CH-4" Name="Standard" Number="4" Text="Analog Input:  4-20mA">
-              <ParameterBlock Id="%AID%_PB-nnn" Name="Analog" Text="Analog Input: 4-20mA" Icon="alpha-a-box-outline" HelpContext="Empty" ShowInComObjectTree="true">
-                <ParameterSeparator Id="%AID%_PS-nnn" Text="4-20mA Input Auswahl" UIHint="Headline" />
-                <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/Channel/ParameterBlock/*"
-                  type="template" prefix="CUR" IsInner="true" />
+            <Channel Id="%AID%_CH-4" Name="Standard" Number="4" Text="Analogeingänge 4-20mA">
+              <ParameterBlock Id="%AID%_PB-nnn" Name="Analog" Text="Analogeingänge 4-20mA" Icon="alpha-a-box-outline" HelpContext="Empty" ShowInComObjectTree="true">
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Auswahl Analogeingänge 4-20mA" UIHint="Headline" />
+                <ParameterBlock Id="%AID%_PB-nnn" Inline="true" Layout="Table" Text="#">
+                  <Rows>
+                    <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/Channel/ParameterBlock[@Name='Row-List']/Rows/*"
+                      type="template" prefix="CUR" IsInner="true" />
+                  </Rows>
+                  <Columns>
+                    <Column Id="%AID%_PB-nnn_C-1" Width="60%" Text="Beschreibung des Eingangs" />
+                    <Column Id="%AID%_PB-nnn_C-2" Width="40%" Text="Funktion" />
+                  </Columns>
+                  <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/Channel/ParameterBlock[@Name='Channel-List']/*"
+                    type="template" prefix="CUR" IsInner="true" />
+                </ParameterBlock>
                 <op:include href="Input_4_20mA.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
                   type="template" prefix="CUR" IsInner="true" />
               </ParameterBlock>

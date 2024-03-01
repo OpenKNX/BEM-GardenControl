@@ -13,26 +13,26 @@
               <!-- Parameter type for 1 bit parameter, presented as radio button -->
               <ParameterType Id="%AID%_PT-YesNo" Name="YesNo">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="Nein" Value="0" Id="%AID%_PT-YesNo_EN-0" />
-                  <Enumeration Text="Ja" Value="1" Id="%AID%_PT-YesNo_EN-1" />
+                  <Enumeration Text="Nein" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Ja" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-OneZero" Name="OneZero">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="0" Value="0" Id="%AID%_PT-OneZero_EN-0" />
-                  <Enumeration Text="1" Value="1" Id="%AID%_PT-OneZero_EN-1" />
+                  <Enumeration Text="0" Value="0" Id="%ENID%" />
+                  <Enumeration Text="1" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-ActiveInactive" Name="ActiveInactive">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="inaktiv" Value="0" Id="%AID%_PT-ActiveInactive_EN-0" />
-                  <Enumeration Text="aktiv" Value="1" Id="%AID%_PT-ActiveInactive_EN-1" />
+                  <Enumeration Text="inaktiv" Value="0" Id="%ENID%" />
+                  <Enumeration Text="aktiv" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-OnOFF" Name="OnOFF">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="OFF" Value="0" Id="%AID%_PT-OnOFF_EN-0" />
-                  <Enumeration Text="ON" Value="1" Id="%AID%_PT-OnOFF_EN-1" />
+                  <Enumeration Text="OFF" Value="0" Id="%ENID%" />
+                  <Enumeration Text="ON" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <!-- Parameter type for an 8 bit percent parameter -->
@@ -136,8 +136,18 @@
               </ParameterBlock>
               <ParameterBlock Id="%AID%_PB-xxx" Name="Magnetventile" Text="Magnetventile" Icon="valve" HelpContext="Empty" ShowInComObjectTree="true">
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Ventilauswahl" UIHint="Headline" />
-                <op:include href="GardenControl.templ.xml" xpath="//Dynamic/Channel/ParameterBlock/*"
-                  type="template" prefix="BEM" IsInner="true" />
+                <ParameterBlock Id="%AID%_PB-nnn" Inline="true" Layout="Table" Text="#">
+                  <Rows>
+                    <op:include href="GardenControl.templ.xml" xpath="//Dynamic/Channel/ParameterBlock[@Name='Row-List']/Rows/*"
+                      type="template" prefix="BEM" IsInner="true" />
+                  </Rows>
+                  <Columns>
+                    <Column Id="%AID%_PB-nnn_C-1" Width="60%" Text="Beschreibung des Ventils" />
+                    <Column Id="%AID%_PB-nnn_C-2" Width="40%" Text="Funktion" />
+                  </Columns>
+                  <op:include href="GardenControl.templ.xml" xpath="//Dynamic/Channel/ParameterBlock[@Name='Channel-List']/*"
+                    type="template" prefix="BEM" IsInner="true" />
+                </ParameterBlock>
                 <op:include href="GardenControl.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
                   type="template" prefix="BEM" IsInner="true" />
               </ParameterBlock>

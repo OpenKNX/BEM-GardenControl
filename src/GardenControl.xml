@@ -2,8 +2,8 @@
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
   
-  <op:config name="%ApplicationVersion%" value="0.6" />
-  <op:config name="%ReplacesVersions%" value="0.5 0.4 0.3 0.2 0.1" />
+  <op:config name="%ApplicationVersion%" value="0.9" />
+  <op:config name="%ReplacesVersions%" value="0.4 0.3 0.2 0.1" />
 
   <op:ETS OpenKnxId="0xA2"
     ApplicationNumber="0x10"

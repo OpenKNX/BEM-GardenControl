@@ -12,8 +12,8 @@
             <Parameters>
               <!-- only description no offset -->
               <Parameter Id="%AID%_P-%TT%%CC%000" Name="CH%C%Name"
-                ParameterType="%AID%_PT-Text40Byte" Text="Beschreibung des Kanals" Value="" />
-              <!-- Relais Control -->
+                ParameterType="%AID%_PT-Text40Byte" Text="Beschreibung des Ventils" Value="" />
+              <!-- Ventil Control -->
               <Union SizeInBit="8">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
                 <Parameter Id="%AID%_UP-%TT%%CC%001" Name="CH%C%Aktive"
@@ -30,7 +30,7 @@
               ID-part (number) after R- is unique! -->
               <!-- ParameterRef are used in the ETS UI -->
               <ParameterRef Id="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" RefId="%AID%_P-%TT%%CC%000" />
-              <ParameterRef Id="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" RefId="%AID%_UP-%TT%%CC%001" Text="Ventil %C%: {{0:...}}" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
+              <ParameterRef Id="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" RefId="%AID%_UP-%TT%%CC%001" />
               <ParameterRef Id="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" RefId="%AID%_UP-%TT%%CC%002" />
 
             </ParameterRefs>
@@ -101,10 +101,15 @@
             </ChannelIndependentBlock>
             <Channel Id="%AID%_CH-4" Number="4" Name="Hidden-Channel-List">
               <ParameterBlock Id="%AID%_PB-nnn" Name="Channel-List">
-                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" IndentLevel="1" />
+                <ParameterRefRef RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" Cell="%C%,1" />
+                <ParameterRefRef RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" Cell="%C%,2" />
+              </ParameterBlock>
+              <ParameterBlock Id="%AID%_PB-nnn" Name="Row-List" Inline="true" Layout="Grid">
+                <Rows>
+                  <Row Id="%AID%_PB-nnn_R-%C%" Text="Ventil %C%" />
+                </Rows>
               </ParameterBlock>
             </Channel>
-
           </Dynamic>
         </ApplicationProgram>
       </ApplicationPrograms>

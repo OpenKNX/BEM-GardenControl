@@ -12,22 +12,22 @@
             <ParameterTypes>
               <ParameterType Id="%AID%_PT-BINYesNo" Name="BINYesNo">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="Nein" Value="0" Id="%AID%_PT-BINYesNo_EN-0" />
-                  <Enumeration Text="Ja" Value="1" Id="%AID%_PT-BINYesNo_EN-1" />
+                  <Enumeration Text="Nein" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Ja" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-BINNullEINS" Name="BINNullEINS">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="0" Value="0" Id="%AID%_PT-BINNullEINS_EN-0" />
-                  <Enumeration Text="1" Value="1" Id="%AID%_PT-BINNullEINS_EN-1" />
+                  <Enumeration Text="0" Value="0" Id="%ENID%" />
+                  <Enumeration Text="1" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-BINInputType" Name="BINInputType">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="inaktiv" Value="0" Id="%AID%_PT-BINInputType_EN-0" />
-                  <Enumeration Text="Binäreingang" Value="1" Id="%AID%_PT-BINInputType_EN-1" />
-                  <Enumeration Text="S0-Schnittstelle" Value="2" Id="%AID%_PT-BINInputType_EN-2" />
-                  <Enumeration Text="Impulszähler" Value="3" Id="%AID%_PT-BINInputType_EN-3" />
+                  <Enumeration Text="inaktiv" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Binäreingang" Value="1" Id="%ENID%" />
+                  <Enumeration Text="S0-Schnittstelle" Value="2" Id="%ENID%" />
+                  <Enumeration Text="Impulszähler" Value="3" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-BINValueWORD" Name="BINValueWORD">
@@ -51,8 +51,8 @@
               <!-- *************  -->
               <ParameterType Id="%AID%_PT-S0YesNo" Name="S0YesNo">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="Nein" Value="0" Id="%AID%_PT-S0YesNo_EN-0" />
-                  <Enumeration Text="Ja" Value="1" Id="%AID%_PT-S0YesNo_EN-1" />
+                  <Enumeration Text="Nein" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Ja" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-S0Impulse" Name="S0Impulse">
@@ -60,12 +60,10 @@
               </ParameterType>
               <ParameterType Id="%AID%_PT-SendModeConsumption" Name="SendModeConsumption">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="inaktiv" Value="0" Id="%AID%_PT-SendModeConsumption_EN-0" />
-                  <Enumeration Text="Bei Wertänderung" Value="1"
-                    Id="%AID%_PT-SendModeConsumption_EN-1" />
-                  <Enumeration Text="Zyklisch" Value="2" Id="%AID%_PT-SendModeConsumption_EN-2" />
-                  <Enumeration Text="Wertänderung + Zyklisch" Value="3"
-                    Id="%AID%_PT-SendModeConsumption_EN-3" />
+                  <Enumeration Text="inaktiv" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Bei Wertänderung" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Zyklisch" Value="2" Id="%ENID%" />
+                  <Enumeration Text="Wertänderung + Zyklisch" Value="3" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-ZaehlerSentValue" Name="ZaehlerSentValue">
@@ -76,9 +74,8 @@
               </ParameterType>
               <ParameterType Id="%AID%_PT-DefineStartCountervalue" Name="DefineStartCountervalue">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="inaktiv" Value="0" Id="%AID%_PT-DefineStartCountervalue_EN-0" />
-                  <Enumeration Text="Bei Wertänderung" Value="1"
-                    Id="%AID%_PT-DefineStartCountervalue_EN-1" />
+                  <Enumeration Text="inaktiv" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Bei Wertänderung" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-DelaySeconds" Name="DelaySeconds">
@@ -86,17 +83,17 @@
               </ParameterType>
               <ParameterType Id="%AID%_PT-DefineUnit" Name="DefineUnit">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="l" Value="0" Id="%AID%_PT-DefineUnit_EN-0" />
-                  <Enumeration Text="m3" Value="1" Id="%AID%_PT-DefineUnit_EN-1" />
+                  <Enumeration Text="l" Value="0" Id="%ENID%" />
+                  <Enumeration Text="m3" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-DefineS0Zaehler" Name="DefineS0Zaehler">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="wähle" Value="0" Id="%AID%_PT-DefineS0Zaehler_EN-0" />
-                  <Enumeration Text="Elektro-Zähler" Value="1" Id="%AID%_PT-DefineS0Zaehler_EN-1" />
-                  <Enumeration Text="Wasser-Zähler" Value="2" Id="%AID%_PT-DefineS0Zaehler_EN-2" />
-                  <Enumeration Text="Gas-Zähler" Value="3" Id="%AID%_PT-DefineS0Zaehler_EN-3" />
-                  <Enumeration Text="sonstige" Value="4" Id="%AID%_PT-DefineS0Zaehler_EN-4" />
+                  <Enumeration Text="wähle" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Elektro-Zähler" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Wasser-Zähler" Value="2" Id="%ENID%" />
+                  <Enumeration Text="Gas-Zähler" Value="3" Id="%ENID%" />
+                  <Enumeration Text="sonstige" Value="4" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-DefineS0Calculation" Name="DefineS0Calculation">
@@ -113,40 +110,26 @@
               </ParameterType>
               <ParameterType Id="%AID%_PT-DptSelectionS0Zaehler" Name="DptSelectionS0Zaehler">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="wähle" Value="0" Id="%AID%_PT-DptSelectionS0Zaehler_EN-0" />
-                  <Enumeration Text="DPT 12.1200 - Volumen Flüssigkeit (Liter)" Value="1"
-                    Id="%AID%_PT-DptSelectionS0Zaehler_EN-1" />
-                  <Enumeration Text="DPT 12.1201 - Volumen (Gas) (m3)" Value="2"
-                    Id="%AID%_PT-DptSelectionS0Zaehler_EN-2" />
-                  <Enumeration Text="DPT 13.013 - unsigned (U8) - 1 byte" Value="3"
-                    Id="%AID%_PT-DptSelectionS0Zaehler_EN-3" />
-                  <Enumeration Text="DPT 07 - unsigned (U16) - 2 bytes" Value="4"
-                    Id="%AID%_PT-DptSelectionS0Zaehler_EN-4" />
-                  <Enumeration Text="DPT 08 - signed (V16) - 2 bytes" Value="5"
-                    Id="%AID%_PT-DptSelectionS0Zaehler_EN-5" />
-                  <Enumeration Text="DPT 09 - float (F16) - 2 bytes" Value="6"
-                    Id="%AID%_PT-DptSelectionS0Zaehler_EN-6" />
-                  <Enumeration Text="DPT 14 - float (F32) - 4 bytes" Value="7"
-                    Id="%AID%_PT-DptSelectionS0Zaehler_EN-7" />
+                  <Enumeration Text="wähle" Value="0" Id="%ENID%" />
+                  <Enumeration Text="DPT 12.1200 - Volumen Flüssigkeit (Liter)" Value="1" Id="%ENID%" />
+                  <Enumeration Text="DPT 12.1201 - Volumen (Gas) (m3)" Value="2" Id="%ENID%" />
+                  <Enumeration Text="DPT 13.013 - unsigned (U8) - 1 byte" Value="3" Id="%ENID%" />
+                  <Enumeration Text="DPT 07 - unsigned (U16) - 2 bytes" Value="4" Id="%ENID%" />
+                  <Enumeration Text="DPT 08 - signed (V16) - 2 bytes" Value="5" Id="%ENID%" />
+                  <Enumeration Text="DPT 09 - float (F16) - 2 bytes" Value="6" Id="%ENID%" />
+                  <Enumeration Text="DPT 14 - float (F32) - 4 bytes" Value="7" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-DptSelectionS0Leistung" Name="DptSelectionS0Leistung">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="wähle" Value="0" Id="%AID%_PT-DptSelectionS0Leistung_EN-0" />
-                  <Enumeration Text="DPT 09.025 - Leistung (kWh)" Value="1"
-                    Id="%AID%_PT-DptSelectionS0Leistung_EN-1" />
-                  <Enumeration Text="DPT 09.024 - Durchflussmenge (I/h)" Value="2"
-                    Id="%AID%_PT-DptSelectionS0Leistung_EN-2" />
-                  <Enumeration Text="DPT 13.013 - unsigned (U8) - 1 byte" Value="3"
-                    Id="%AID%_PT-DptSelectionS0Leistung_EN-3" />
-                  <Enumeration Text="DPT 07 - unsigned (U16) - 2 bytes" Value="4"
-                    Id="%AID%_PT-DptSelectionS0Leistung_EN-4" />
-                  <Enumeration Text="DPT 08 - signed (V16) - 2 bytes" Value="5"
-                    Id="%AID%_PT-DptSelectionS0Leistung_EN-5" />
-                  <Enumeration Text="DPT 09 - float (F16) - 2 bytes" Value="6"
-                    Id="%AID%_PT-DptSelectionS0Leistung_EN-6" />
-                  <Enumeration Text="DPT 14 - float (F32) - 4 bytes" Value="7"
-                    Id="%AID%_PT-DptSelectionS0Leistung_EN-7" />
+                  <Enumeration Text="wähle" Value="0" Id="%ENID%" />
+                  <Enumeration Text="DPT 09.025 - Leistung (kWh)" Value="1" Id="%ENID%" />
+                  <Enumeration Text="DPT 09.024 - Durchflussmenge (I/h)" Value="2" Id="%ENID%" />
+                  <Enumeration Text="DPT 13.013 - unsigned (U8) - 1 byte" Value="3" Id="%ENID%" />
+                  <Enumeration Text="DPT 07 - unsigned (U16) - 2 bytes" Value="4" Id="%ENID%" />
+                  <Enumeration Text="DPT 08 - signed (V16) - 2 bytes" Value="5" Id="%ENID%" />
+                  <Enumeration Text="DPT 09 - float (F16) - 2 bytes" Value="6" Id="%ENID%" />
+                  <Enumeration Text="DPT 14 - float (F32) - 4 bytes" Value="7" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
             </ParameterTypes>
@@ -161,11 +144,21 @@
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
-            <Channel Id="%AID%_CH-5" Name="Standard" Number="5" Text="Binär | S0 | Impuls">
-              <ParameterBlock Id="%AID%_PB-nnn" Name="Binary" Text="Binär | S0 | Impuls" Icon="square-wave" HelpContext="Empty" ShowInComObjectTree="true">
-                <ParameterSeparator Id="%AID%_PS-nnn" Text="Digital Input Auswahl" UIHint="Headline" />
-                <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/Channel/ParameterBlock/*"
-                  type="template" prefix="BIN" IsInner="true" />
+            <Channel Id="%AID%_CH-5" Name="Standard" Number="5" Text="Digitaleingänge">
+              <ParameterBlock Id="%AID%_PB-nnn" Name="Binary" Text="Digitaleingänge" Icon="square-wave" HelpContext="Empty" ShowInComObjectTree="true">
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Auswahl Digitaleingänge" UIHint="Headline" />
+                <ParameterBlock Id="%AID%_PB-nnn" Inline="true" Layout="Table" Text="#">
+                  <Rows>
+                    <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/Channel/ParameterBlock[@Name='Row-List']/Rows/*"
+                      type="template" prefix="BIN" IsInner="true" />
+                  </Rows>
+                  <Columns>
+                    <Column Id="%AID%_PB-nnn_C-1" Width="60%" Text="Beschreibung des Eingangs" />
+                    <Column Id="%AID%_PB-nnn_C-2" Width="40%" Text="Funktion" />
+                  </Columns>
+                  <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/Channel/ParameterBlock[@Name='Channel-List']/*"
+                    type="template" prefix="BIN" IsInner="true" />
+                </ParameterBlock>
                 <op:include href="Input_BIN_S0.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
                   type="template" prefix="BIN" IsInner="true" />
               </ParameterBlock>
