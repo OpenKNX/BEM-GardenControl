@@ -64,9 +64,9 @@
 // MUst be updated to the new Project HW !!!
 #define PROG_LED_PIN 24
 #define PROG_LED_PIN_ACTIVE_ON HIGH
-#define PROG_BUTTON_PIN 13
+#define PROG_BUTTON_PIN 25
 #define PROG_BUTTON_PIN_INTERRUPT_ON FALLING
-#define SAVE_INTERRUPT_PIN 38
+#define SAVE_INTERRUPT_PIN 23
 #define LED_YELLOW_PIN 22 // nicht 22 weil es in V1 für GPIO_5V_EN verwendet wird, 27 frei gewählt weil in HW nicht belegt!
 // Set i2c address
 #define i2cAddr_IO 0x27

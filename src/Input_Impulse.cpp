@@ -127,7 +127,7 @@ void processReadImpulseInput()
 void processInputImpulse()
 {
     bool lSend = false;
-    float lValue;
+    float lValue = 0;
     float lAbsolute;
     uint32_t lCycle;
 
