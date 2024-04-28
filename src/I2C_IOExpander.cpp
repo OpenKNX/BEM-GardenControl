@@ -44,6 +44,7 @@ void init_IOExpander_GPIOs_TOP()
                     pca9554.pinMode(7, OUTPUT); // Volt div 3
                     break;
                 case HW_2_0:
+                case HW_2_1:
                     pca9554.pinMode(0, OUTPUT); // ADC VCC 5V Output Enable
                     pca9554.pinMode(1, INPUT);  // HW_ID 1
                     pca9554.pinMode(2, INPUT);  // HW_ID 2

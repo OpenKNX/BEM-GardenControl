@@ -223,10 +223,10 @@ void GardenControlDevice::loop()
     processReadInputs(); // PRIO 1
 #endif
 #ifdef S0Inputs
-    processReadS0Input();
+    // processReadS0Input();                   //******************************************anpassen
 #endif
 #ifdef ImplInput
-    processReadImpulseInput(); // PRIO 1
+    // processReadImpulseInput(); // PRIO 1    //******************************************anpassen
 #endif
 
     switch (StateM)
@@ -367,11 +367,12 @@ void GardenControlDevice::loop()
 
         Output_Delay = millis();
     }
-
+#ifdef ProgLedblinking1sek
     if (delayCheck(LED_Delay, 200))
     {
         TestLEDstate = !TestLEDstate;
         digitalWrite(get_PROG_LED_PIN(), TestLEDstate);
         LED_Delay = millis();
     }
+#endif
 }

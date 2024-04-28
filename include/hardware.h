@@ -4,26 +4,27 @@
 // #define V1
 // #define V2
 
-// necessary
-
-#define ADC_enable
+//*** necessary ***
+//#define ADC_enable
 #define IOExp_enable
 #define Opto_IN
 #define BinInputs
 #define ImplInput
 #define S0Inputs
 
-// Debug Outputs
+
+//*** Debug Outputs ********
+// #define ProgLedblinking1sek
 // #define KNXcallback_Output
-#define Input_BIN_Output
-#define InputADC_Output
-#define ADC_enable_Output
-#define Input_4_20mA_Output
+//#define Input_BIN_Output
+//#define InputADC_Output
+//#define ADC_enable_Output
+//#define Input_4_20mA_Output
 // #define InputImpuls_Output2
 // #define InputImpuls_Output
-// #define IOExp_enable_Output
+ #define IOExp_enable_Output
 // #define Opto_IN_Output
-// #define ImplInput_Output
+// #define ImplInput_Outputdr 25
 // #define Input_S0_Output
 
 // #define Serial_Debug_S0_Int

@@ -25,9 +25,8 @@ uint8_t get_Status_PIN()
     switch (hw_ID)
     {
         case HW_1_0: // V1.x
-            return 22;
-            break;
         case HW_2_0: // V2.x
+        case HW_2_1: // V2.x
             return 22;
             break;
         default:
@@ -42,9 +41,8 @@ uint8_t get_PROG_LED_PIN()
     switch (hw_ID)
     {
         case HW_1_0: // V1.x
-            return 24;
-            break;
         case HW_2_0: // V2.x
+        case HW_2_1: // V2.x
             return 24;
             break;
         default:

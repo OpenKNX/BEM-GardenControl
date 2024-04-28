@@ -64,6 +64,7 @@ uint8_t processErrorHandling()
             }
             break;
         case HW_2_0:
+        case HW_2_1:
             error &= ~(1 << ERROR_12V);
             break;
         default:
