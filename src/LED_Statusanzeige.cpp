@@ -6,18 +6,12 @@
 #define I2C_Expander_CH 15
 #define MAX_NUMBER_OF_I2C_Channels 16
 
-
-
-
 PCF8575 pcf8575_LED_CH1_16(i2cAddr_LED_CH1_16, &Wire);
 
 bool state_LED[MAX_NUMBER_OF_I2C_Channels];
 
 bool status_Led_ON = false;
 uint16_t state_LED_Out = 0xFFFF;
-
-
-
 
 void initI2cStatusLeds()
 {
@@ -41,12 +35,24 @@ void setLED_OFF_ALL()
     status_Led_ON = false;
 }
 
+void setLED_OFF_Ventil()
+{
+    state_LED_Out |= 0xFFF0;
+    pcf8575_LED_CH1_16.pcf8575_WriteALL(state_LED_Out);
+}
+
+void setLED_OFF_Relais()
+{
+    state_LED_Out |= 0x000E;
+    pcf8575_LED_CH1_16.pcf8575_WriteALL(state_LED_Out);
+}
+
 void set_State_LED(uint8_t ch, bool state)
 {
     // Set VCC I2C Inputs
     if (ch <= MAX_NUMBER_OF_I2C_Channels)
     {
-        //state_LED_Out ^= (-state_LED[I2C_Expander_CH - ch] ^ state_LED_Out) & (1 << ch);
+        // state_LED_Out ^= (-state_LED[I2C_Expander_CH - ch] ^ state_LED_Out) & (1 << ch);
         state_LED_Out ^= (-state ^ state_LED_Out) & (1 << ch);
         pcf8575_LED_CH1_16.pcf8575_WriteALL(state_LED_Out);
     }
@@ -64,5 +70,5 @@ void setLED_Relais(uint8_t ch, bool state)
 
 void setLED_Ventil(uint8_t ch, bool state)
 {
-    set_State_LED(15-ch, state);
+    set_State_LED(15 - ch, state);
 }

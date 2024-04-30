@@ -224,23 +224,23 @@ void GardenControlDevice::setup()
 
 void GardenControlDevice::loop()
 {
-    // 
+    // Afrage ob die HW schon komplett initialisiert wurde. Das ist nur möglich, wenn auch die 24VAC(5V) anliegen
     if (!HWinit_Done && !digitalRead(get_5V_status_PIN()))
     {
         initialHWinit();
         HWinit_Done = true;
         digitalWrite(get_PROG_LED_PIN(), false);
     }
+    // HW ist komplett initialisiert --> ab hier beginnt die eigentliche Loop()
     else if (HWinit_Done)
     {
+        processErrorHandling(); // PRIO 1
+        processSysFailure();    // PRIO 1
 
         if (get_5V_Error())
         {
             initADCFlag = false;
         }
-
-        processErrorHandling(); // PRIO 1
-        processSysFailure();    // PRIO 1
 
 #ifdef BinInputs
         processReadInputs(); // PRIO 1
@@ -398,6 +398,7 @@ void GardenControlDevice::loop()
             Output_Delay = millis();
         }
     } // END IF HW is init
+    // IN der ELSE-Schleife kann man Funktionen aufrufen, solange die HW noch nicht komplettt initialisiert wurde und noch keine 24VAC(5V) anliegen
     else
     {
 #ifdef ProgLedblinking1sek

@@ -10,7 +10,8 @@
 void initI2cStatusLeds();
 void setLED_ON_ALL();
 void setLED_OFF_ALL();
-void setLED_OFF_ALL();
+void setLED_OFF_Ventil();
+void setLED_OFF_Relais();
 void set_State_LED(uint8_t ch, bool state);
 void setLED_24VAC(bool state);
 void setLED_Relais(uint8_t ch, bool state);

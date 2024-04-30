@@ -7,7 +7,9 @@
 #include "ErrorHandling.h"
 #include "HelperFunc.h"
 #include "I2C_IOExpander.h"
+#ifdef ADC_enable
 #include "ReadADC.h"
+#endif
 
 #define Threshold_24V_min 22
 #define Threshold_24V_max 26
@@ -76,7 +78,9 @@ uint8_t processErrorHandling()
     if (digitalRead(get_5V_status_PIN()))
     {
         error |= 1 << ERROR_5V;
+#ifdef ADC_enable
         clearInitFlags_ADC();
+#endif
         clearInitFlags_IOExp();
     }
     else

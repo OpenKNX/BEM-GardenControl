@@ -16,4 +16,3 @@ bool get_5V_Relais_State(bool state);
 void control_5V_Relais(bool state);
 void control_Ventil(uint8_t ch, bool state);
 void control_Relais(uint8_t nr, bool state);
-

@@ -154,7 +154,6 @@ bool get_IOExpander_Input(uint8_t ch)
     }
     else
     {
-        SERIAL_PORT.println("5V ERROR");
         return 0;
     }
 }
@@ -194,10 +193,6 @@ void set_IOExpander_BOT_Input(uint8_t ch, bool state)
             init_IOExpander_GPIOs_BOT();
             pca9555.digitalWrite(ch, state);
         }
-    }
-    else
-    {
-        SERIAL_PORT.println("EE");
     }
 }
 

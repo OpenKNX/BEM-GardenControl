@@ -20,6 +20,9 @@ bool relais_5V_State = false;
 bool relais_5V_State_old = false;
 bool relais_5V_startup_flag = true;
 
+bool displayCleared_Ventil = false;
+bool displayCleared_Relais = false;
+
 /*****************************************************************************
  * Ventils
  ****************************************************************************/
@@ -41,14 +44,25 @@ void processVentil()
                 ventil_State_old[ch] = ventil_State[ch];
             }
         }
+        displayCleared_Ventil = false;
     }
     else
     {
         // check of state chnage and Send new Status
         for (int ch = 0; ch < BEM_ChannelCount; ch++)
         {
+            if (ventil_State[ch])
+            {
+                knx.getGroupObject(BEM_KoOffset + (ch * BEM_KoBlockSize + BEM_Ko_Status_ventil)).value(false, getDPT(VAL_DPT_1));
+            }
             ventil_State_old[ch] = 0;
             ventil_State[ch] = 0;
+        }
+        if (!displayCleared_Ventil)
+        {
+            setLED_OFF_Ventil();
+            displayCleared_Ventil = true;
+            SERIAL_PORT.println("Ventile: Display clear");
         }
     }
 }
@@ -93,14 +107,25 @@ void processRelais()
                 relais_State_old[ch] = relais_State[ch];
             }
         }
+        displayCleared_Relais = false;
     }
     else
     {
         // check of state chnage and Send new Status
         for (int ch = 0; ch < REL_ChannelCount; ch++)
         {
+            if (relais_State[ch])
+            {
+                knx.getGroupObject(REL_KoOffset + (ch * REL_KoBlockSize + REL_Ko_Status_relais)).value(false, getDPT(VAL_DPT_1));
+            }
             relais_State_old[ch] = 0;
             relais_State[ch] = 0;
+        }
+        if (!displayCleared_Relais)
+        {
+            setLED_OFF_Relais();
+            displayCleared_Relais = true;
+            SERIAL_PORT.println("Ventile: Display clear");
         }
     }
 }
