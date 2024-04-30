@@ -28,6 +28,8 @@
 #define SensorType_litre 10
 #define SensorType_volume 11
 
+#ifdef ADC_enable
+
 uint32_t processDelay2[CUR_ChannelCount] = {0};
 uint32_t sendDelay2[CUR_ChannelCount] = {0};
 
@@ -256,3 +258,5 @@ void processInput_4_20mA(bool readyFlag)
         }
     } // ENDE IF 5V Fehler
 }
+
+#endif

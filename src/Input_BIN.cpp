@@ -16,6 +16,8 @@
 #define BIN_ValueOPEN_FALSE 0
 #define BIN_ValueOPEN_TRUE 1
 
+#ifdef BinInputs
+
 uint8_t channel_BIN = 0;
 
 uint32_t sendDelay_BIN[BIN_ChannelCount] = {0};
@@ -154,3 +156,5 @@ void processInput_BIN()
         }
     } // Ende 5V Fehler
 }
+
+#endif

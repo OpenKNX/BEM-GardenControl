@@ -9,6 +9,8 @@
 
 #define BIN_Input_S0 2
 
+#ifdef S0Inputs
+
 //-------- Test only --------------------
 // #define Input_S0_Output_Int
 unsigned long time_S0_LED_Blink[BIN_ChannelCount] = {0};
@@ -492,3 +494,5 @@ void sendZaehlerStand_2(int i, uint16_t S0_Zaehler[], uint16_t S0_Zaehler_old[])
     SERIAL_PORT.println(S0_Zaehler[i]);
 #endif
 }
+
+#endif

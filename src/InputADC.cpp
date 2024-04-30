@@ -22,6 +22,8 @@
 #define SensorType_windspeed 8
 #define SensorType_percent 9
 
+#ifdef ADC_enable
+
 uint32_t processDelay[ADC_ChannelCount] = {0};
 uint32_t sendDelay[ADC_ChannelCount] = {0};
 
@@ -376,3 +378,5 @@ float getSensorValue(uint8_t channel)
     }
     return value;
 }
+
+#endif //ADC_Enable

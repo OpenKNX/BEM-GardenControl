@@ -8,6 +8,8 @@
 
 #define BIN_Input 1
 
+#ifdef BinInputs
+
 bool flagBINinput1 = false;
 bool flagBINinput2 = false;
 bool flagBINinput3 = false;
@@ -135,3 +137,5 @@ bool getStateInput(uint8_t ch)
 {
     return inputState[ch];
 }
+
+#endif

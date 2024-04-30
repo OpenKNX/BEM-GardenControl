@@ -8,15 +8,23 @@
 #include "ErrorHandling.h"
 #include "GardenControlDevice.h"
 #include "I2C_IOExpander.h"
-#include "InputADC.h"
-#include "Input_4_20mA.h"
-#include "Input_BIN.h"
-#include "Input_Impulse.h"
-#include "Input_S0.h"
+#ifdef ADC_enable
+    #include "InputADC.h"
+    #include "Input_4_20mA.h"
+    #include "ReadADC.h"
+#endif
+#ifdef BinInputs
+    #include "Input_BIN.h"
+    #include "ReadBinary.h"
+#endif
+#ifdef ImplInput
+    #include "Input_Impulse.h"
+#endif
+#ifdef S0Inputs
+    #include "Input_S0.h"
+#endif
 #include "KnxHelper.h"
 #include "LED_Statusanzeige.h"
-#include "ReadADC.h"
-#include "ReadBinary.h"
 #include "SystemFailureHandling.h"
 #include "handleVentilRelais.h"
 
@@ -26,6 +34,8 @@ uint32_t READ_PRINT = 0;
 uint32_t TestDelay = 0;
 uint32_t LED_Delay2 = 0;
 uint32_t LED_Delay = 0;
+
+bool HWinit_Done = false;
 
 bool initADCFlag = false;
 bool TestState = false;
@@ -79,6 +89,39 @@ void GardenControlDevice::waitStartupLoop()
         LED_Delay2 = millis();
         SERIAL_DEBUG.println("Wait for 5V");
     }
+}
+
+void GardenControlDevice::initialHWinit()
+{
+    SERIAL_DEBUG.println("Start init HW TOP + BOT");
+    initHW_Top();
+    read_HW_ID_BOT();
+    print_HW_ID_BOT(get_HW_ID_BOT());
+    initHW_Bot();
+
+    // load ETS parameters
+    SERIAL_DEBUG.println("Load Parameters");
+// init Inputs: Binäereingänge
+#ifdef BinInputs
+    InitBinInput1(OptoIN_1); // Input 1
+    InitBinInput2(OptoIN_2); // Input 2
+    InitBinInput3(OptoIN_3); // Input 3
+    InitBinInput4(OptoIN_4); // Input 4
+#endif
+#ifdef S0Inputs
+    InitS0Input1();
+    InitS0Input2();
+    InitS0Input3();
+    InitS0Input4();
+#endif
+#ifdef ADC_enable
+    initInputADC();
+#endif
+#ifdef ImplInput
+    InitImpulseInputs();
+#endif
+    // load_ETS_par();
+    SERIAL_DEBUG.println("Done");
 }
 
 void GardenControlDevice::processInputKo(GroupObject &iKo)
@@ -174,205 +217,196 @@ void GardenControlDevice::setup()
     delay(500);
     setLED_OFF_ALL();
 
-    while (digitalRead(get_5V_status_PIN())) // ******************************************************************************  ändern !!!!!!!!!!!!!
-    {
-        waitStartupLoop();
-    }
-
     if (!digitalRead(get_5V_status_PIN()))
     {
-        SERIAL_DEBUG.println("Start init HW TOP + BOT");
-        initHW_Top();
-        read_HW_ID_BOT();
-        print_HW_ID_BOT(get_HW_ID_BOT());
-        initHW_Bot();
-
-        // load ETS parameters
-        SERIAL_DEBUG.println("Load Parameters");
-        // init Inputs: Binäereingänge
-        InitBinInput1(OptoIN_1); // Input 1
-        InitBinInput2(OptoIN_2); // Input 2
-        InitBinInput3(OptoIN_3); // Input 3
-        InitBinInput4(OptoIN_4); // Input 4
-
-        InitS0Input1();
-        InitS0Input2();
-        InitS0Input3();
-        InitS0Input4();
-
-        initInputADC();
-
-        InitImpulseInputs();
-        // load_ETS_par();
-        SERIAL_DEBUG.println("Done");
-        delay(3000);
     }
 }
 
 void GardenControlDevice::loop()
 {
-    if (get_5V_Error())
+    // 
+    if (!HWinit_Done && !digitalRead(get_5V_status_PIN()))
     {
-        initADCFlag = false;
+        initialHWinit();
+        HWinit_Done = true;
+        digitalWrite(get_PROG_LED_PIN(), false);
     }
-
-    processErrorHandling(); // PRIO 1
-    processSysFailure();    // PRIO 1
-
-#ifdef BinInputs
-    processReadInputs(); // PRIO 1
-#endif
-#ifdef S0Inputs
-    // processReadS0Input();                   //******************************************anpassen
-#endif
-#ifdef ImplInput
-    // processReadImpulseInput(); // PRIO 1    //******************************************anpassen
-#endif
-
-    switch (StateM)
+    else if (HWinit_Done)
     {
-        case Pos1:
-#ifdef ADC_enable
-            if (processADConversation() && initADCFlag == false)
-            {
-                SERIAL_DEBUG.println("--> ADC ready <--"); // PRIO 3
-                initADCFlag = true;
-            }
-#endif
-            processInput_ADC(initADCFlag);
-            StateM = Pos2;
-            break;
-        case Pos2:
-            processInput_4_20mA(initADCFlag);
-            StateM = Pos3;
-            break;
-        case Pos3:
-            processInput_BIN();
-            StateM = Pos4;
-            break;
-        case Pos4:
-            processInputImpulse();
-            StateM = Pos5;
-            break;
-        case Pos5:
-            processVentil();     // PRIO 3
-            processRelais();     // PRIO 3
-            process_5V_Relais(); // PRIO 3
-            StateM = Pos1;
-            break;
-        default:
-            break;
-    }
 
-    // Hier warten bis die Funktionen davor schon ein paar mal ausgeführt wurden !!!!
-
-    /*
-      if (delayCheck(READ_ADC_Delay, 10000))
-      {
-        if (!getError())
-        {
-          TestState = !TestState;
-          control_Relais(1, TestState);
-          control_Relais(2, TestState);
-          control_Relais(3, TestState);
-          READ_ADC_Delay = millis();
-          SERIAL_DEBUG.print("--> Relais: ");
-          SERIAL_DEBUG.println(TestState);
-        }
-      }
-    */
-    if (delayCheck(Output_Delay, 1000))
-    {
         if (get_5V_Error())
         {
-            setLED_24VAC(true);
+            initADCFlag = false;
         }
-        else
-        {
-            setLED_24VAC(false);
-        }
-        /*
-        SERIAL_DEBUG.print("Ventil1: ");
-        SERIAL_DEBUG.println(get_Ventil_StateOld(0));
-        SERIAL_DEBUG.print("Relais1: ");
-        SERIAL_DEBUG.println(get_Relais_StateOld(0));
-    */
-        if (getError())
-        {
 
-#ifdef SerialError
-            SERIAL_DEBUG.println(getError());
+        processErrorHandling(); // PRIO 1
+        processSysFailure();    // PRIO 1
+
+#ifdef BinInputs
+        processReadInputs(); // PRIO 1
+#endif
+#ifdef S0Inputs
+        processReadS0Input();
+#endif
+#ifdef ImplInput
+        processReadImpulseInput(); // PRIO 1
+#endif
+
+        switch (StateM)
+        {
+            case Pos1:
+#ifdef ADC_enable
+                if (processADConversation() && initADCFlag == false)
+                {
+                    SERIAL_DEBUG.println("--> ADC ready <--"); // PRIO 3
+                    initADCFlag = true;
+                }
+
+                processInput_ADC(initADCFlag);
+#endif
+                StateM = Pos2;
+                break;
+            case Pos2:
+#ifdef ADC_enable
+                processInput_4_20mA(initADCFlag);
+#endif
+                StateM = Pos3;
+                break;
+            case Pos3:
+#ifdef BinInputs
+                processInput_BIN();
+#endif
+                StateM = Pos4;
+                break;
+            case Pos4:
+#ifdef ImplInput
+                processInputImpulse();
+#endif
+                StateM = Pos5;
+                break;
+            case Pos5:
+                processVentil();     // PRIO 3
+                processRelais();     // PRIO 3
+                process_5V_Relais(); // PRIO 3
+                StateM = Pos1;
+                break;
+            default:
+                break;
+        }
+
+        // Hier warten bis die Funktionen davor schon ein paar mal ausgeführt wurden !!!!
+
+        /*
+          if (delayCheck(READ_ADC_Delay, 10000))
+          {
+            if (!getError())
+            {
+              TestState = !TestState;
+              control_Relais(1, TestState);
+              control_Relais(2, TestState);
+              control_Relais(3, TestState);
+              READ_ADC_Delay = millis();
+              SERIAL_DEBUG.print("--> Relais: ");
+              SERIAL_DEBUG.println(TestState);
+            }
+          }
+        */
+        if (delayCheck(Output_Delay, 1000))
+        {
+            if (get_5V_Error())
+            {
+                setLED_24VAC(true);
+            }
+            else
+            {
+                setLED_24VAC(false);
+            }
+            /*
             SERIAL_DEBUG.print("Ventil1: ");
             SERIAL_DEBUG.println(get_Ventil_StateOld(0));
-            SERIAL_DEBUG.println(get_5V_Error());
-            SERIAL_DEBUG.println(get_12V_Error());
-            SERIAL_DEBUG.println(get_24V_Error());
-            SERIAL_DEBUG.println(get_5V_out_Error());
-#endif
-        }
-#ifdef ADC_enable_Output
-        SERIAL_DEBUG.print("ADC CH1: ");
-        SERIAL_DEBUG.println(getSensorValue(0));
-        SERIAL_DEBUG.print("ADC CH2: ");
-        SERIAL_DEBUG.println(getSensorValue(1));
-        SERIAL_DEBUG.print("ADC CH3: ");
-        SERIAL_DEBUG.println(getSensorValue(2));
-        SERIAL_DEBUG.print("VCC_12V: ");
-        switch (get_HW_ID())
-        {
-            case HW_1_0:
-                SERIAL_DEBUG.println(getAdcVoltage_12V());
-                break;
-            case HW_2_0:
-                SERIAL_DEBUG.println("NA");
-                break;
-        }
-        SERIAL_DEBUG.print("VCC_24V: ");
-        SERIAL_DEBUG.println(getAdcVoltage_24V());
-        /*
-        SERIAL_DEBUG.print("ADC CH5: ");
-        SERIAL_DEBUG.println(get4_20mA_CH1());
-        SERIAL_DEBUG.print("ADC CH6: ");
-        SERIAL_DEBUG.println(get4_20mA_CH2());
+            SERIAL_DEBUG.print("Relais1: ");
+            SERIAL_DEBUG.println(get_Relais_StateOld(0));
         */
-        SERIAL_DEBUG.println(" ");
+            if (getError())
+            {
+
+#ifdef SerialError
+                SERIAL_DEBUG.println(getError());
+                SERIAL_DEBUG.print("Ventil1: ");
+                SERIAL_DEBUG.println(get_Ventil_StateOld(0));
+                SERIAL_DEBUG.println(get_5V_Error());
+                SERIAL_DEBUG.println(get_12V_Error());
+                SERIAL_DEBUG.println(get_24V_Error());
+                SERIAL_DEBUG.println(get_5V_out_Error());
+#endif
+            }
+#ifdef ADC_enable_Output
+            SERIAL_DEBUG.print("ADC CH1: ");
+            SERIAL_DEBUG.println(getSensorValue(0));
+            SERIAL_DEBUG.print("ADC CH2: ");
+            SERIAL_DEBUG.println(getSensorValue(1));
+            SERIAL_DEBUG.print("ADC CH3: ");
+            SERIAL_DEBUG.println(getSensorValue(2));
+            SERIAL_DEBUG.print("VCC_12V: ");
+            switch (get_HW_ID())
+            {
+                case HW_1_0:
+                    SERIAL_DEBUG.println(getAdcVoltage_12V());
+                    break;
+                case HW_2_0:
+                    SERIAL_DEBUG.println("NA");
+                    break;
+            }
+            SERIAL_DEBUG.print("VCC_24V: ");
+            SERIAL_DEBUG.println(getAdcVoltage_24V());
+            /*
+            SERIAL_DEBUG.print("ADC CH5: ");
+            SERIAL_DEBUG.println(get4_20mA_CH1());
+            SERIAL_DEBUG.print("ADC CH6: ");
+            SERIAL_DEBUG.println(get4_20mA_CH2());
+            */
+            SERIAL_DEBUG.println(" ");
 #endif
 
 #ifdef BinInputs_Output
-        SERIAL_DEBUG.print("BIN CH1: ");
-        SERIAL_DEBUG.println(getStateInput1());
-        SERIAL_DEBUG.print("BIN CH2: ");
-        SERIAL_DEBUG.println(getStateInput2());
-        SERIAL_DEBUG.print("BIN CH3: ");
-        SERIAL_DEBUG.println(getStateInput3());
-        SERIAL_DEBUG.print("BIN CH4: ");
-        SERIAL_DEBUG.println(getStateInput4());
+            SERIAL_DEBUG.print("BIN CH1: ");
+            SERIAL_DEBUG.println(getStateInput1());
+            SERIAL_DEBUG.print("BIN CH2: ");
+            SERIAL_DEBUG.println(getStateInput2());
+            SERIAL_DEBUG.print("BIN CH3: ");
+            SERIAL_DEBUG.println(getStateInput3());
+            SERIAL_DEBUG.print("BIN CH4: ");
+            SERIAL_DEBUG.println(getStateInput4());
 #endif
 
 #ifdef ImplInput_Output
-        SERIAL_DEBUG.print("Impl: ");
-        SERIAL_DEBUG.println(getFlowValue());
+            SERIAL_DEBUG.print("Impl: ");
+            SERIAL_DEBUG.println(getFlowValue());
 #endif
 
 #ifdef Opto_IN_Output
-        SERIAL_DEBUG.print("Opto CH1: ");
-        SERIAL_DEBUG.println(digitalRead(OptoIN_1));
-        SERIAL_DEBUG.print("Opto CH2: ");
-        SERIAL_DEBUG.println(digitalRead(OptoIN_2));
-        SERIAL_DEBUG.print("Opto CH3: ");
-        SERIAL_DEBUG.println(digitalRead(OptoIN_3));
-        SERIAL_DEBUG.print("Opto CH4: ");
-        SERIAL_DEBUG.println(digitalRead(OptoIN_4));
+            SERIAL_DEBUG.print("Opto CH1: ");
+            SERIAL_DEBUG.println(digitalRead(OptoIN_1));
+            SERIAL_DEBUG.print("Opto CH2: ");
+            SERIAL_DEBUG.println(digitalRead(OptoIN_2));
+            SERIAL_DEBUG.print("Opto CH3: ");
+            SERIAL_DEBUG.println(digitalRead(OptoIN_3));
+            SERIAL_DEBUG.print("Opto CH4: ");
+            SERIAL_DEBUG.println(digitalRead(OptoIN_4));
 #endif
 
-        Output_Delay = millis();
-    }
-#ifdef ProgLedblinking1sek
-    if (delayCheck(LED_Delay, 200))
+            Output_Delay = millis();
+        }
+    } // END IF HW is init
+    else
     {
-        TestLEDstate = !TestLEDstate;
-        digitalWrite(get_PROG_LED_PIN(), TestLEDstate);
-        LED_Delay = millis();
-    }
+#ifdef ProgLedblinking1sek
+        if (delayCheck(LED_Delay, 200))
+        {
+            TestLEDstate = !TestLEDstate;
+            digitalWrite(get_PROG_LED_PIN(), TestLEDstate);
+            LED_Delay = millis();
+        }
 #endif
+    }
 }

@@ -22,5 +22,6 @@ class GardenControlDevice : public OpenKNX::Module
 
   private:
     void waitStartupLoop();
+    void initialHWinit();
 };
  extern GardenControlDevice openknxGardenControlModule;

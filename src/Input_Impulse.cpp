@@ -10,6 +10,8 @@
 
 #define BIN_Input_Impuls 3
 
+#ifdef ImplInput
+
 uint32_t counter[BIN_ChannelCount] = {0};
 uint32_t counterOLD[BIN_ChannelCount] = {0};
 uint32_t readTimer = 0;
@@ -221,3 +223,5 @@ float getFlowValue(uint8_t ch)
     else
         return waterflow[ch];
 }
+
+#endif
