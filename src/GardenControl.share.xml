@@ -101,15 +101,10 @@
           <!-- Here statrs the UI definition -->
           <Dynamic>
             <Channel Id="%AID%_CH-1" Name="Standard" Number="1" Text="Magnetventile">
-              <!-- A parameter block represents a tab on the left side, showing a page full of parameters -->
-              <ParameterBlock Name="Docu" Text="Dokumentation" Id="%AID%_PB-nnn" Icon="information-outline" HelpContext="BEM-Dokumentation">
-                <ParameterSeparator Id="%AID%_PS-nnn" Text="Dokumentation" UIHint="Headline" />
-                <ParameterSeparator Id="%AID%_PS-nnn" Text="Die Dokumentation ist als Kontextsensitive Hilfe verfügbar, siehe den Text im unteren Bereich des Bildschirms." />
-                <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                <ParameterSeparator Id="%AID%_PS-nnn" Text="Version vom Garden Control: %ApplicationVersion%" UIHint="Headline" />
-              </ParameterBlock>
               <!-- A tab page with general settings -->
-              <ParameterBlock Id="%AID%_PB-2" Name="General" Text="Basiseinstellungen" Icon="cog-outline" HelpContext="Empty">
+              <ParameterBlock Id="%AID%_PB-2" Name="General" Text="Allgemein" Icon="cog-outline" HelpContext="Empty">
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Garden Control Version: %ApplicationVersion%" UIHint="Headline" />
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="GardenControl-Optionen" UIHint="Headline" />
                 <ParameterRefRef RefId="%AID%_UP-%TT%00000_R-%TT%0000001" IndentLevel="1" />  <!-- +5V Relais vorhanden -->
                 <choose ParamRefId="%AID%_UP-%TT%00000_R-%TT%0000001">
@@ -133,6 +128,11 @@
                   </when>
                 </choose>
                 <ParameterSeparator Id="%AID%_PS-7" Text="" UIHint="HorizontalRuler" />
+              </ParameterBlock>
+              <!-- A parameter block represents a tab on the left side, showing a page full of parameters -->
+              <ParameterBlock Name="Docu" Text="Dokumentation" Id="%AID%_PB-nnn" Icon="information-outline" HelpContext="BEM-Dokumentation">
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Dokumentation" UIHint="Headline" />
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Die Dokumentation ist als Kontextsensitive Hilfe verfügbar, siehe den Text im unteren Bereich des Bildschirms." />
               </ParameterBlock>
               <ParameterBlock Id="%AID%_PB-xxx" Name="Magnetventile" Text="Magnetventile" Icon="valve" HelpContext="Empty" ShowInComObjectTree="true">
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Ventilauswahl" UIHint="Headline" />
