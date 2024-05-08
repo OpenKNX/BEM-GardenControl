@@ -31,8 +31,8 @@
               </ParameterType>
               <ParameterType Id="%AID%_PT-OnOFF" Name="OnOFF">
                 <TypeRestriction Base="Value" SizeInBit="1">
-                  <Enumeration Text="OFF" Value="0" Id="%ENID%" />
-                  <Enumeration Text="ON" Value="1" Id="%ENID%" />
+                  <Enumeration Text="AUS" Value="0" Id="%ENID%" />
+                  <Enumeration Text="AN" Value="1" Id="%ENID%" />
                 </TypeRestriction>
               </ParameterType>
               <!-- Parameter type for an 8 bit percent parameter -->
