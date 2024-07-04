@@ -39,41 +39,6 @@ uint8_t processErrorHandling()
         error &= ~(1 << ERROR_5V);
     }
 
-#ifdef ADC_enable
-    // Check 24V
-    float value = (float)getAdcVoltage_24V();
-    if (value > Threshold_24V_max || value < Threshold_24V_min)
-    {
-        error |= 1 << ERROR_24V;
-    }
-    else
-    {
-        error &= ~(1 << ERROR_24V);
-    }
-
-    // Check 12V
-    switch (get_HW_ID())
-    {
-        case HW_1_0:
-            value = (float)getAdcVoltage_12V();
-            if (value > Threshold_12V_max || value < Threshold_12V_min)
-            {
-                error |= 1 << ERROR_12V;
-            }
-            else
-            {
-                error &= ~(1 << ERROR_12V);
-            }
-            break;
-        case HW_2_0:
-        case HW_2_1:
-            error &= ~(1 << ERROR_12V);
-            break;
-        default:
-            SERIAL_PORT.println("ErrorHandling 12V HW ID not defined");
-            break;
-    }
-#endif
     // Check 5V
     if (digitalRead(get_5V_status_PIN()))
     {

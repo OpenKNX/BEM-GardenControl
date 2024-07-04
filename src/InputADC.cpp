@@ -38,7 +38,7 @@ union InputADCValuesOLD
 
 float calculateSensorValueLinearFunction(uint8_t channel, float a, float b, bool Div)
 {
-    return ((getAdcVoltage_TOP(channel, Div)) - b) / a;
+    return ((getAdcVoltage_TOP(channel)) - b) / a;
 }
 
 void processInput_ADC(bool readyFlag)
@@ -90,12 +90,10 @@ void processInput_ADC(bool readyFlag)
                     {
                     case SensorType_voltage: // DPT9.020 (mV)
                         // STEP 2: Get new Sensor value 
-                        value.ladcValue = getAdcVoltage_TOP(channel, 1);
+                        value.ladcValue = getAdcVoltage_TOP(channel);
                         // STEP 2a: Get Abs value
                         lAbsolute = (knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel))) / 1000.0; // Value in mV
 
-                        SERIAL_PORT.println(value.ladcValue);
-                        SERIAL_PORT.println(channel);
                         break;
 
                     default:
@@ -354,14 +352,14 @@ float getSensorValue(uint8_t channel)
 #ifdef InputADC_Output
         SERIAL_PORT.print(" ADC-WERT: ");
 #endif
-        value = getAdcVoltage_TOP(channel, (knx.paramByte(getParADC(ADC_CHVoltageDiv, channel))));
+        value = getAdcVoltage_TOP(channel);
         break;
 
     case SMT50_Bodenfeuchte:
 #ifdef InputADC_Output
         SERIAL_PORT.print(" SMT50-BF: ");
 #endif
-        value = getAdcVoltage_TOP(channel, DIV_5V);
+        value = getAdcVoltage_TOP(channel);
         value = value / 3.0 * 50.0;
         break;
 
@@ -369,7 +367,7 @@ float getSensorValue(uint8_t channel)
 #ifdef InputADC_Output
         SERIAL_PORT.print(" SMT50-BT: ");
 #endif
-        value = getAdcVoltage_TOP(channel, DIV_5V);
+        value = getAdcVoltage_TOP(channel);
         value = (value - 0.5) / 0.01;
         break;
 

@@ -44,7 +44,7 @@ union InputADCValuesOLD
 
 float calculateSensorValueLinearFunction(uint8_t channel2, float a, float b)
 {
-    return ((get4_20mA(channel2)) - b) / a;
+    return ((getAdcVoltage_BOT(channel2)) - b) / a;
 }
 
 float calculateSensorValueLinearFunction2(uint8_t channel2, uint8_t p1y, int16_t p1x, int16_t p2x)
@@ -52,7 +52,7 @@ float calculateSensorValueLinearFunction2(uint8_t channel2, uint8_t p1y, int16_t
     float store = p2x - p1x;
     float m = (20 - p1y) / store;
     float b = p1y - (m * p1x);
-    return ((get4_20mA(channel2)) - b) / m;
+    return ((getAdcVoltage_BOT(channel2)) - b) / m;
 }
 
 float getFunctionM(int16_t p1x, int16_t p1y, int16_t p2x, int16_t p2y)
@@ -129,10 +129,10 @@ void processInput_4_20mA(bool readyFlag)
                 switch (knx.paramByte(getParCUR(CUR_CHSensorTypes2, channel2)))
                 {
                     case SensorType_current:
-                        value2.ladcValue = get4_20mA(channel2);
+                        value2.ladcValue = getAdcVoltage_BOT(channel2);
                         break;
                     case SensorType_percent:
-                        value2.ladcValue = get4_20mA(channel2);
+                        value2.ladcValue = getAdcVoltage_BOT(channel2);
                         break;
                     default:
 

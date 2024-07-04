@@ -32,6 +32,7 @@ class MCP3428
         bool CheckConversion();
         bool CheckforResult();
         long readADC();
+        int isAdcI2cBusy_TOP_MCP3428();
 
     private:
         TwoWire*  _wire;

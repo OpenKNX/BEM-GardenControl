@@ -35,12 +35,22 @@ void requestADC_BOT(uint8_t ch);
 uint16_t getAdcI2cValue_BOT(uint8_t ch);
 void readAdcI2cValue_BOT(uint8_t ch);
 /*******************************************************/
+/**************  MCP3428  ******************************/
+void initADC_TOP_MCP3428(uint8_t res_top);
+void initADC_BOT_MCP3428(uint8_t res_bot);
+
+void StartAdcConversation_TOP(uint8_t ch);
+void StartAdcConversation_BOT(uint8_t ch);
+
+void ReadAdcValue();
+void ReadAdcValue_BOT();
+bool isAdcBusy_TOP_MCP3428();
+bool isAdcBusy_BOT_MCP3428();
+
+/*******************************************************/
 
 bool processADConversation_TOP();
 bool processADConversation_BOT();
-
-void initADC_TOP(uint8_t res_top);
-void initADC_BOT(uint8_t res_bot);
 
 void set_ADC_DIV(uint8_t ch, bool div);
 void set_ADC_CorrFactor(uint8_t ch, float corrFactor);
@@ -51,29 +61,17 @@ bool get_CH3_DIV();
 
 void clearInitFlags_ADC();
 
-void StartAdcConversation(uint8_t ch);
-void StartAdcConversation_BOT(uint8_t ch);
-
-long ReadAdcValue();
-long ReadAdcValue_BOT();
-
 uint16_t getAdcValue(uint8_t ch);
 uint16_t getAdcValue_BOT(uint8_t ch);
 
-float getAdcVoltage_TOP(uint8_t ch, bool div);
-float getAdcVoltage_BOT(uint8_t ch, bool isCurrent);
-
-bool isADCready();
+float getAdcVoltage_TOP(uint8_t ch);
+float getAdcVoltage_BOT(uint8_t ch);
 
 
 float getAdcVoltage_CH1();
 float getAdcVoltage_CH2();
 float getAdcVoltage_CH3();
-float getAdcVoltage_12V();
 
-float get4_20mA(uint8_t ch);
-float get4_20mA_CH1();
-float get4_20mA_CH2();
 
-float getAdcVoltage_24V();
+
 

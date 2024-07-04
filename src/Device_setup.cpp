@@ -290,7 +290,7 @@ void initHW_Top()
         case HW_1_0:
         case HW_2_0:
 #ifdef ADC_enable
-            initADC_TOP(Resolution16Bit);
+            initADC_TOP_MCP3428(Resolution16Bit);
 #endif
             break;
 
@@ -314,16 +314,10 @@ void initHW_Bot()
     switch (hw_ID_Bot)
     {
         case HW_BOT_1_0:
-            init_IOExpander_GPIOs_BOT();
-#ifdef ADC_enable
-            initADC_BOT(Resolution16Bit);
-#endif
-            break;
-
         case HW_BOT_2_0:
             init_IOExpander_GPIOs_BOT();
 #ifdef ADC_enable
-            initADC_BOT(Resolution16Bit);
+            initADC_BOT_MCP3428(Resolution16Bit);
 #endif
             break;
 

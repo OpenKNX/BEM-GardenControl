@@ -350,29 +350,29 @@ void GardenControlDevice::loop()
             SERIAL_DEBUG.print("ADC CH1: ");
             SERIAL_DEBUG.print(getAdcI2cValue_TOP(0));
             SERIAL_DEBUG.print(" Volt: ");
-            SERIAL_DEBUG.println(getAdcVoltage_TOP(0,1),3);
+            SERIAL_DEBUG.println(getAdcVoltage_TOP(0),3);
             SERIAL_DEBUG.print("ADC CH2: ");
             SERIAL_DEBUG.print(getAdcI2cValue_TOP(1));
             SERIAL_DEBUG.print(" Volt: ");
-            SERIAL_DEBUG.println(getAdcVoltage_TOP(1,1),3);
+            SERIAL_DEBUG.println(getAdcVoltage_TOP(1),3);
             SERIAL_DEBUG.print("ADC CH3: ");
             SERIAL_DEBUG.print(getAdcI2cValue_TOP(2));
             SERIAL_DEBUG.print(" Volt: ");
-            SERIAL_DEBUG.println(getAdcVoltage_TOP(2,1),3);
+            SERIAL_DEBUG.println(getAdcVoltage_TOP(2),3);
             SERIAL_DEBUG.print("ADC CH4: ");
             SERIAL_DEBUG.print(getAdcI2cValue_TOP(3));
             SERIAL_DEBUG.print(" Volt: ");
-            SERIAL_DEBUG.println(getAdcI2cValueMillivolt_TOP(3),0);
+            SERIAL_DEBUG.println(getAdcVoltage_TOP(3),3);
            
             
             SERIAL_DEBUG.print("4-20mA CH1: ");
             SERIAL_DEBUG.print(getAdcI2cValue_BOT(0));
             SERIAL_DEBUG.print(" Curr: ");
-            SERIAL_DEBUG.println(get4_20mA(0));
+            SERIAL_DEBUG.println(getAdcVoltage_BOT(0));
             SERIAL_DEBUG.print("4-20mA CH2: ");
             SERIAL_DEBUG.print(getAdcI2cValue_BOT(1));
             SERIAL_DEBUG.print(" Curr: ");
-            SERIAL_DEBUG.println(get4_20mA(1));
+            SERIAL_DEBUG.println(getAdcVoltage_BOT(1));
             
             SERIAL_DEBUG.println(" ");
 #endif

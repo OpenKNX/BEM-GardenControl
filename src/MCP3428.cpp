@@ -8,8 +8,8 @@
 */
 /****************************************************************************/
 
-#include <Wire.h>
 #include <MCP3428.h>
+#include <Wire.h>
 
 /**************************************************************************/
 /*
@@ -63,7 +63,7 @@ void MCP3428::SetConfiguration(uint8_t channel, uint8_t resolution, bool mode, u
     config = 0;
     config = config << 2;
     // Setting the Channel
-    config |= (channel-1);
+    config |= (channel - 1);
     config = config << 1;
     // Setting the Conversion Mode
     config |= mode;
@@ -82,6 +82,8 @@ void MCP3428::SetConfiguration(uint8_t channel, uint8_t resolution, bool mode, u
     _wire->write((config |= 128));
     _wire->endTransmission();
 }
+
+
 
 /**************************************************************************/
 /*
@@ -103,17 +105,20 @@ bool MCP3428::CheckConversion()
     return testvar;
 }
 
-
+/**************************************************************************/
+/*
+        isBusy
+*/
+/**************************************************************************/
 bool MCP3428::CheckforResult()
 {
-    uint8_t adcStatus;
     no_of_bytes = 3;
-    if (Wire.requestFrom(_address, no_of_bytes) == 3)
+    if (_wire->requestFrom(_address, no_of_bytes) == 3)
     {
-        data[0] = Wire.read();
-        data[1] = Wire.read();
-        data[2] = Wire.read();
-        Serial.println(data[2],BIN);
+        data[0] = _wire->read();
+        data[1] = _wire->read();
+        data[2] = _wire->read();
+        // Serial.println(data[2], BIN);
     }
     return ((data[2] >> 7) & 1);
 }
@@ -133,12 +138,8 @@ long MCP3428::readADC()
 {
 
     raw_adc = 0;
-
-    // while (CheckConversion() == 1);
-    if (CheckConversion() == 0)
+    switch (SPS)
     {
-        switch (SPS)
-        {
 
         case 12:
             raw_adc = data[0];
@@ -183,8 +184,6 @@ long MCP3428::readADC()
             // raw_adc = raw_adc * LSB(62.5 µV)/PGA for PGA = 1;
 
             break;
-        }
-        return raw_adc;
     }
-    return 1;
+    return raw_adc;
 }
