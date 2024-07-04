@@ -19,9 +19,25 @@
 #define is4_20mA 1
 #define DIV_24V  0
 
+/**************  ADS1015  ******************************/
+void initADC_TOP_ADS1015(uint8_t res_top);
+bool getAdcI2cRun_TOP();
+bool isAdcI2cBusy_TOP();
+void requestADC(uint8_t ch);
+uint16_t getAdcI2cValue_TOP(uint8_t ch);
+float getAdcI2cValueMillivolt_TOP(uint8_t ch);
+void readAdcI2cValue(uint8_t ch);
 
+void initADC_BOT_ADS1015(uint8_t res_bot);
+bool getAdcI2cRun_BOT();
+bool isAdcI2cBusy_BOT();
+void requestADC_BOT(uint8_t ch);
+uint16_t getAdcI2cValue_BOT(uint8_t ch);
+void readAdcI2cValue_BOT(uint8_t ch);
+/*******************************************************/
 
-bool processADConversation();
+bool processADConversation_TOP();
+bool processADConversation_BOT();
 
 void initADC_TOP(uint8_t res_top);
 void initADC_BOT(uint8_t res_bot);
@@ -44,7 +60,7 @@ long ReadAdcValue_BOT();
 uint16_t getAdcValue(uint8_t ch);
 uint16_t getAdcValue_BOT(uint8_t ch);
 
-float getAdcVoltage(uint8_t ch, bool div);
+float getAdcVoltage_TOP(uint8_t ch, bool div);
 float getAdcVoltage_BOT(uint8_t ch, bool isCurrent);
 
 bool isADCready();

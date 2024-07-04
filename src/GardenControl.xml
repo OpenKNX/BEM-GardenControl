@@ -2,8 +2,8 @@
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
   
-  <op:config name="%ApplicationVersion%" value="0.5" />
-  <op:config name="%ReplacesVersions%" value="0.4 0.3 0.2 0.1" />
+  <op:config name="%ApplicationVersion%" value="0.6" />
+  <op:config name="%ReplacesVersions%" value="0.5 0.4 0.3 0.2 0.1" />
 
   <op:ETS OpenKnxId="0xA2"
     ApplicationNumber="0x10"
@@ -29,14 +29,14 @@
     share="GardenControlRelais.share.xml"
     template="GardenControlRelais.templ.xml"
     ModuleType="30" />  <!-- KoOffset = 66 -> 30 + BEM (12ch*3kO) 36 -->
-  <!-- <op:define prefix="ADC" NumChannels="3" KoOffset="75"
+  <op:define prefix="ADC" NumChannels="3" KoOffset="75"
     share="InputADC.share.xml"
     template="InputADC.templ.xml"
-    ModuleType="40" />  KoOffset = 75 -> 66 + REL (3ch*3kO) 9 -->
-  <!-- <op:define prefix="CUR" NumChannels="2" KoOffset="81"
+    ModuleType="40" />  <!-- KoOffset = 75 -> 66 + REL (3ch*3kO) 9 -->
+ <op:define prefix="CUR" NumChannels="2" KoOffset="81"
     share="Input_4_20mA.share.xml"
     template="Input_4_20mA.templ.xml"
-    ModuleType="50" />  KoOffset = 81 -> 75 + ADC (3ch*1kO) 6 -->
+    ModuleType="50" />  <!-- KoOffset = 81 -> 75 + ADC (3ch*1kO) 6 -->
   <!-- <op:define prefix="BIN" NumChannels="4" KoOffset="90"
     share="Input_BIN_S0.share.xml"
     template="Input_BIN_S0.templ.xml"
@@ -54,8 +54,8 @@
       <Channel Id="%AID%_CH-1" Name="GardenControl" Number="1" Text="Garden Control" Icon="grass" HelpContext="Empty">
         <op:include href="GardenControl.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="BEM" />
         <op:include href="GardenControlRelais.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="REL" />
-        <!-- <op:include href="InputADC.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="ADC" /> -->
-        <!-- <op:include href="Input_4_20mA.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="CUR" /> -->
+        <op:include href="InputADC.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="ADC" /> 
+        <op:include href="Input_4_20mA.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="CUR" /> 
         <!-- <op:include href="Input_BIN_S0.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="BIN" /> -->
       </Channel>
       <op:include href="../lib/OFM-LogicModule/src/Logikmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="LOG" />

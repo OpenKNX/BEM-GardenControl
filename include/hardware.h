@@ -6,7 +6,7 @@
 
 //*** necessary ***
 #define IOExp_enable
-//#define ADC_enable
+#define ADC_enable
 //#define Opto_IN
 //#define BinInputs
 //#define ImplInput
@@ -19,8 +19,8 @@
 // #define KNXcallback_Output
 // #define Input_BIN_Output
 // #define InputADC_Output
-// #define ADC_enable_Output
-// #define Input_4_20mA_Output
+ #define ADC_enable_Output
+ //#define Input_4_20mA_Output
 // #define InputImpuls_Output2
 // #define InputImpuls_Output
 // #define Opto_IN_Output
@@ -75,6 +75,8 @@
 #define i2cAddr_IO_Bot 0x20
 #define i2cADC 0x68
 #define i2cADC_BOT 0x6E
+#define i2cADC_ADS1015_TOP 0x48
+#define i2cADC_ADS1015_BOT 0x49
 
 // SSR Reilais
 #define GPIO_SSR_EN 2

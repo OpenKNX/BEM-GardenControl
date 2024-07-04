@@ -4,8 +4,8 @@
 
 #include "GardenControlDevice.h"
 #include "I2C_IOExpander.h"
+#include "ReadADC.h"
 // #include "Input_Impulse.h"
-// #include "ReadADC.h"
 // #include "ReadBinary.h"
 
 uint8_t hw_ID = 0;
@@ -276,47 +276,28 @@ void initHW()
 
 void initHW_Top()
 {
+    SERIAL_PORT.println("  I2C.begin");
+    // I2C Init
+    Wire1.setSDA(14);
+    Wire1.setSCL(15);
+
+    Wire1.begin();
+
+    init_IOExpander_GPIOs_TOP();
+
     switch (hw_ID)
     {
         case HW_1_0:
-            SERIAL_PORT.println("  I2C.begin");
-
-            // I2C Init
-            Wire1.setSDA(14);
-            Wire1.setSCL(15);
-
-            Wire1.begin();
-
-            init_IOExpander_GPIOs_TOP();
-#ifdef ADC_enable
-            initADC_TOP(Resolution16Bit);
-#endif
-            break;
-
         case HW_2_0:
-            SERIAL_PORT.println("  I2C.begin");
-            // I2C Init
-            Wire1.setSDA(14);
-            Wire1.setSCL(15);
-
-            Wire1.begin();
-
-            init_IOExpander_GPIOs_TOP();
 #ifdef ADC_enable
             initADC_TOP(Resolution16Bit);
 #endif
             break;
 
         case HW_2_1:
-            SERIAL_PORT.println("  I2C.begin");
-            // I2C Init
-            Wire1.setSDA(14);
-            Wire1.setSCL(15);
-
-            Wire1.begin();
-
-            init_IOExpander_GPIOs_TOP();
-            // initADC_TOP(Resolution16Bit);             // ****************************** ädern auf neu
+#ifdef ADC_enable
+            initADC_TOP_ADS1015(Resolution12Bit);
+#endif
             break;
 
         default:
@@ -349,7 +330,7 @@ void initHW_Bot()
         case HW_BOT_2_1:
             init_IOExpander_GPIOs_BOT();
 #ifdef ADC_enable
-            // initADC_BOT(Resolution16Bit);  // **********************************ädern auf neu
+        initADC_BOT_ADS1015(Resolution12Bit);
 #endif
             break;
 

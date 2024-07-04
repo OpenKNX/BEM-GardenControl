@@ -10,8 +10,8 @@
                                              
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16
-#define MAIN_ApplicationVersion 5
-#define MAIN_ParameterSize 8589
+#define MAIN_ApplicationVersion 6
+#define MAIN_ParameterSize 8658
 #define MAIN_MaxKoNumber 716
 #define MAIN_OrderNumber "MFKnxBem"
 #define LOG_ModuleVersion 49
@@ -256,128 +256,234 @@
 // Relais %C%:
 #define KoREL__Sperr_relais                       (knx.getGroupObject(REL_KoCalcNumber(REL_Ko_Sperr_relais)))
 
-#define LOG_BuzzerInstalled                     62      // 1 Bit, Bit 7
+#define ADC_ChannelCount 3
+
+// Parameter per channel
+#define ADC_ParamBlockOffset 62
+#define ADC_ParamBlockSize 15
+#define ADC_ParamCalcIndex(index) (index + ADC_ParamBlockOffset + _channelIndex * ADC_ParamBlockSize)
+
+#define ADC_CHSensorType                         0      // 8 Bits, Bit 7-0
+#define ADC_CHSendcycletime                      1      // int16_t
+#define ADC_CHSendenAbsolut                      3      // int16_t
+#define ADC_CHSendenRelativ                      5      // int8_t
+#define ADC_CHValueFilter                        6      // int8_t
+#define ADC_CHVoltageDiv                         7      // 1 Bit, Bit 7
+#define     ADC_CHVoltageDivMask 0x80
+#define     ADC_CHVoltageDivShift 7
+#define ADC_CHVoltageCorrection                  8      // int16_t
+#define ADC_CHSensorTypes                       10      // 8 Bits, Bit 7-0
+#define ADC_CHGeradeM                           11      // int16_t
+#define ADC_CHGeradeB                           13      // int16_t
+
+// Sensortyp
+#define ParamADC_CHSensorType                        (knx.paramByte(ADC_ParamCalcIndex(ADC_CHSensorType)))
+// zyklisch senden(0 = nicht zyklisch senden)
+#define ParamADC_CHSendcycletime                     ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHSendcycletime)))
+// senden bei absoluter Abweichung(0 = nicht senden)
+#define ParamADC_CHSendenAbsolut                     ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHSendenAbsolut)))
+// senden bei relativer Abweichung(0 = nicht senden)
+#define ParamADC_CHSendenRelativ                     ((int8_t)knx.paramByte(ADC_ParamCalcIndex(ADC_CHSendenRelativ)))
+// Wert glätten: P =
+#define ParamADC_CHValueFilter                       ((int8_t)knx.paramByte(ADC_ParamCalcIndex(ADC_CHValueFilter)))
+// Eingangsspannungsbereich
+#define ParamADC_CHVoltageDiv                        ((bool)(knx.paramByte(ADC_ParamCalcIndex(ADC_CHVoltageDiv)) & ADC_CHVoltageDivMask))
+// Korrekturfaktor
+#define ParamADC_CHVoltageCorrection                 ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHVoltageCorrection)))
+// Meßwerteinheit (KO)
+#define ParamADC_CHSensorTypes                       (knx.paramByte(ADC_ParamCalcIndex(ADC_CHSensorTypes)))
+// Wert m
+#define ParamADC_CHGeradeM                           ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHGeradeM)))
+// Wert b
+#define ParamADC_CHGeradeB                           ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHGeradeB)))
+
+// deprecated
+#define ADC_KoOffset 75
+
+// Communication objects per channel (multiple occurrence)
+#define ADC_KoBlockOffset 75
+#define ADC_KoBlockSize 1
+
+#define ADC_KoCalcNumber(index) (index + ADC_KoBlockOffset + _channelIndex * ADC_KoBlockSize)
+#define ADC_KoCalcIndex(number) ((number >= ADC_KoCalcNumber(0) && number < ADC_KoCalcNumber(ADC_KoBlockSize)) ? (number - ADC_KoBlockOffset) % ADC_KoBlockSize : -1)
+#define ADC_KoCalcChannel(number) ((number >= ADC_KoBlockOffset && number < ADC_KoBlockOffset + ADC_ChannelCount * ADC_KoBlockSize) ? (number - ADC_KoBlockOffset) / ADC_KoBlockSize : -1)
+
+#define ADC_KoGO_BASE__1 0
+
+// GO_BASE_%C%_1
+#define KoADC_GO_BASE__1                          (knx.getGroupObject(ADC_KoCalcNumber(ADC_KoGO_BASE__1)))
+
+#define CUR_ChannelCount 2
+
+// Parameter per channel
+#define CUR_ParamBlockOffset 107
+#define CUR_ParamBlockSize 12
+#define CUR_ParamCalcIndex(index) (index + CUR_ParamBlockOffset + _channelIndex * CUR_ParamBlockSize)
+
+#define CUR_CHSensorType2                        0      // 8 Bits, Bit 7-0
+#define CUR_CHSendcycletime2                     1      // int16_t
+#define CUR_CHSendenAbsolut2                     3      // int16_t
+#define CUR_CHSendenRelativ2                     5      // int8_t
+#define CUR_CHValueFilter2                       6      // int8_t
+#define CUR_CHSensorTypes2                       7      // 8 Bits, Bit 7-0
+#define CUR_CHPoint4mA                           8      // int16_t
+#define CUR_CHPoint20mA                         10      // int16_t
+
+// Sensortyp
+#define ParamCUR_CHSensorType2                       (knx.paramByte(CUR_ParamCalcIndex(CUR_CHSensorType2)))
+// zyklisch senden(0 = nicht zyklisch senden)
+#define ParamCUR_CHSendcycletime2                    ((int16_t)knx.paramWord(CUR_ParamCalcIndex(CUR_CHSendcycletime2)))
+// senden bei absoluter Abweichung(0 = nicht senden)
+#define ParamCUR_CHSendenAbsolut2                    ((int16_t)knx.paramWord(CUR_ParamCalcIndex(CUR_CHSendenAbsolut2)))
+// senden bei relativer Abweichung(0 = nicht senden)
+#define ParamCUR_CHSendenRelativ2                    ((int8_t)knx.paramByte(CUR_ParamCalcIndex(CUR_CHSendenRelativ2)))
+// Wert glätten: P =
+#define ParamCUR_CHValueFilter2                      ((int8_t)knx.paramByte(CUR_ParamCalcIndex(CUR_CHValueFilter2)))
+// Meßwerteinheit (KO)
+#define ParamCUR_CHSensorTypes2                      (knx.paramByte(CUR_ParamCalcIndex(CUR_CHSensorTypes2)))
+// Wert bei 4mA
+#define ParamCUR_CHPoint4mA                          ((int16_t)knx.paramWord(CUR_ParamCalcIndex(CUR_CHPoint4mA)))
+// Wert bei 20mA
+#define ParamCUR_CHPoint20mA                         ((int16_t)knx.paramWord(CUR_ParamCalcIndex(CUR_CHPoint20mA)))
+
+// deprecated
+#define CUR_KoOffset 81
+
+// Communication objects per channel (multiple occurrence)
+#define CUR_KoBlockOffset 81
+#define CUR_KoBlockSize 1
+
+#define CUR_KoCalcNumber(index) (index + CUR_KoBlockOffset + _channelIndex * CUR_KoBlockSize)
+#define CUR_KoCalcIndex(number) ((number >= CUR_KoCalcNumber(0) && number < CUR_KoCalcNumber(CUR_KoBlockSize)) ? (number - CUR_KoBlockOffset) % CUR_KoBlockSize : -1)
+#define CUR_KoCalcChannel(number) ((number >= CUR_KoBlockOffset && number < CUR_KoBlockOffset + CUR_ChannelCount * CUR_KoBlockSize) ? (number - CUR_KoBlockOffset) / CUR_KoBlockSize : -1)
+
+#define CUR_KoCUR_BASE__1 0
+
+// CUR_BASE_%C%_1
+#define KoCUR_CUR_BASE__1                         (knx.getGroupObject(CUR_KoCalcNumber(CUR_KoCUR_BASE__1)))
+
+#define LOG_BuzzerInstalled                     131      // 1 Bit, Bit 7
 #define     LOG_BuzzerInstalledMask 0x80
 #define     LOG_BuzzerInstalledShift 7
-#define LOG_LedInstalled                        62      // 1 Bit, Bit 6
+#define LOG_LedInstalled                        131      // 1 Bit, Bit 6
 #define     LOG_LedInstalledMask 0x40
 #define     LOG_LedInstalledShift 6
-#define LOG_VacationKo                          62      // 1 Bit, Bit 5
+#define LOG_VacationKo                          131      // 1 Bit, Bit 5
 #define     LOG_VacationKoMask 0x20
 #define     LOG_VacationKoShift 5
-#define LOG_HolidayKo                           62      // 1 Bit, Bit 4
+#define LOG_HolidayKo                           131      // 1 Bit, Bit 4
 #define     LOG_HolidayKoMask 0x10
 #define     LOG_HolidayKoShift 4
-#define LOG_VacationRead                        62      // 1 Bit, Bit 3
+#define LOG_VacationRead                        131      // 1 Bit, Bit 3
 #define     LOG_VacationReadMask 0x08
 #define     LOG_VacationReadShift 3
-#define LOG_HolidaySend                         62      // 1 Bit, Bit 2
+#define LOG_HolidaySend                         131      // 1 Bit, Bit 2
 #define     LOG_HolidaySendMask 0x04
 #define     LOG_HolidaySendShift 2
-#define LOG_EnableSave                          62      // 1 Bit, Bit 1
+#define LOG_EnableSave                          131      // 1 Bit, Bit 1
 #define     LOG_EnableSaveMask 0x02
 #define     LOG_EnableSaveShift 1
-#define LOG_Neujahr                             63      // 1 Bit, Bit 7
+#define LOG_Neujahr                             132      // 1 Bit, Bit 7
 #define     LOG_NeujahrMask 0x80
 #define     LOG_NeujahrShift 7
-#define LOG_DreiKoenige                         63      // 1 Bit, Bit 6
+#define LOG_DreiKoenige                         132      // 1 Bit, Bit 6
 #define     LOG_DreiKoenigeMask 0x40
 #define     LOG_DreiKoenigeShift 6
-#define LOG_Weiberfastnacht                     63      // 1 Bit, Bit 5
+#define LOG_Weiberfastnacht                     132      // 1 Bit, Bit 5
 #define     LOG_WeiberfastnachtMask 0x20
 #define     LOG_WeiberfastnachtShift 5
-#define LOG_Rosenmontag                         63      // 1 Bit, Bit 4
+#define LOG_Rosenmontag                         132      // 1 Bit, Bit 4
 #define     LOG_RosenmontagMask 0x10
 #define     LOG_RosenmontagShift 4
-#define LOG_Fastnachtsdienstag                  63      // 1 Bit, Bit 3
+#define LOG_Fastnachtsdienstag                  132      // 1 Bit, Bit 3
 #define     LOG_FastnachtsdienstagMask 0x08
 #define     LOG_FastnachtsdienstagShift 3
-#define LOG_Aschermittwoch                      63      // 1 Bit, Bit 2
+#define LOG_Aschermittwoch                      132      // 1 Bit, Bit 2
 #define     LOG_AschermittwochMask 0x04
 #define     LOG_AschermittwochShift 2
-#define LOG_Frauentag                           63      // 1 Bit, Bit 1
+#define LOG_Frauentag                           132      // 1 Bit, Bit 1
 #define     LOG_FrauentagMask 0x02
 #define     LOG_FrauentagShift 1
-#define LOG_Gruendonnerstag                     63      // 1 Bit, Bit 0
+#define LOG_Gruendonnerstag                     132      // 1 Bit, Bit 0
 #define     LOG_GruendonnerstagMask 0x01
 #define     LOG_GruendonnerstagShift 0
-#define LOG_Karfreitag                          64      // 1 Bit, Bit 7
+#define LOG_Karfreitag                          133      // 1 Bit, Bit 7
 #define     LOG_KarfreitagMask 0x80
 #define     LOG_KarfreitagShift 7
-#define LOG_Ostersonntag                        64      // 1 Bit, Bit 6
+#define LOG_Ostersonntag                        133      // 1 Bit, Bit 6
 #define     LOG_OstersonntagMask 0x40
 #define     LOG_OstersonntagShift 6
-#define LOG_Ostermontag                         64      // 1 Bit, Bit 5
+#define LOG_Ostermontag                         133      // 1 Bit, Bit 5
 #define     LOG_OstermontagMask 0x20
 #define     LOG_OstermontagShift 5
-#define LOG_TagDerArbeit                        64      // 1 Bit, Bit 4
+#define LOG_TagDerArbeit                        133      // 1 Bit, Bit 4
 #define     LOG_TagDerArbeitMask 0x10
 #define     LOG_TagDerArbeitShift 4
-#define LOG_Himmelfahrt                         64      // 1 Bit, Bit 3
+#define LOG_Himmelfahrt                         133      // 1 Bit, Bit 3
 #define     LOG_HimmelfahrtMask 0x08
 #define     LOG_HimmelfahrtShift 3
-#define LOG_Pfingstsonntag                      64      // 1 Bit, Bit 2
+#define LOG_Pfingstsonntag                      133      // 1 Bit, Bit 2
 #define     LOG_PfingstsonntagMask 0x04
 #define     LOG_PfingstsonntagShift 2
-#define LOG_Pfingstmontag                       64      // 1 Bit, Bit 1
+#define LOG_Pfingstmontag                       133      // 1 Bit, Bit 1
 #define     LOG_PfingstmontagMask 0x02
 #define     LOG_PfingstmontagShift 1
-#define LOG_Fronleichnam                        64      // 1 Bit, Bit 0
+#define LOG_Fronleichnam                        133      // 1 Bit, Bit 0
 #define     LOG_FronleichnamMask 0x01
 #define     LOG_FronleichnamShift 0
-#define LOG_Friedensfest                        65      // 1 Bit, Bit 7
+#define LOG_Friedensfest                        134      // 1 Bit, Bit 7
 #define     LOG_FriedensfestMask 0x80
 #define     LOG_FriedensfestShift 7
-#define LOG_MariaHimmelfahrt                    65      // 1 Bit, Bit 6
+#define LOG_MariaHimmelfahrt                    134      // 1 Bit, Bit 6
 #define     LOG_MariaHimmelfahrtMask 0x40
 #define     LOG_MariaHimmelfahrtShift 6
-#define LOG_DeutscheEinheit                     65      // 1 Bit, Bit 5
+#define LOG_DeutscheEinheit                     134      // 1 Bit, Bit 5
 #define     LOG_DeutscheEinheitMask 0x20
 #define     LOG_DeutscheEinheitShift 5
-#define LOG_Nationalfeiertag                    66      // 1 Bit, Bit 1
+#define LOG_Nationalfeiertag                    135      // 1 Bit, Bit 1
 #define     LOG_NationalfeiertagMask 0x02
 #define     LOG_NationalfeiertagShift 1
-#define LOG_Reformationstag                     65      // 1 Bit, Bit 4
+#define LOG_Reformationstag                     134      // 1 Bit, Bit 4
 #define     LOG_ReformationstagMask 0x10
 #define     LOG_ReformationstagShift 4
-#define LOG_Allerheiligen                       65      // 1 Bit, Bit 3
+#define LOG_Allerheiligen                       134      // 1 Bit, Bit 3
 #define     LOG_AllerheiligenMask 0x08
 #define     LOG_AllerheiligenShift 3
-#define LOG_BussBettag                          65      // 1 Bit, Bit 2
+#define LOG_BussBettag                          134      // 1 Bit, Bit 2
 #define     LOG_BussBettagMask 0x04
 #define     LOG_BussBettagShift 2
-#define LOG_MariaEmpfaengnis                    66      // 1 Bit, Bit 0
+#define LOG_MariaEmpfaengnis                    135      // 1 Bit, Bit 0
 #define     LOG_MariaEmpfaengnisMask 0x01
 #define     LOG_MariaEmpfaengnisShift 0
-#define LOG_Advent1                             65      // 1 Bit, Bit 1
+#define LOG_Advent1                             134      // 1 Bit, Bit 1
 #define     LOG_Advent1Mask 0x02
 #define     LOG_Advent1Shift 1
-#define LOG_Advent2                             65      // 1 Bit, Bit 0
+#define LOG_Advent2                             134      // 1 Bit, Bit 0
 #define     LOG_Advent2Mask 0x01
 #define     LOG_Advent2Shift 0
-#define LOG_Advent3                             66      // 1 Bit, Bit 7
+#define LOG_Advent3                             135      // 1 Bit, Bit 7
 #define     LOG_Advent3Mask 0x80
 #define     LOG_Advent3Shift 7
-#define LOG_Advent4                             66      // 1 Bit, Bit 6
+#define LOG_Advent4                             135      // 1 Bit, Bit 6
 #define     LOG_Advent4Mask 0x40
 #define     LOG_Advent4Shift 6
-#define LOG_Heiligabend                         66      // 1 Bit, Bit 5
+#define LOG_Heiligabend                         135      // 1 Bit, Bit 5
 #define     LOG_HeiligabendMask 0x20
 #define     LOG_HeiligabendShift 5
-#define LOG_Weihnachtstag1                      66      // 1 Bit, Bit 4
+#define LOG_Weihnachtstag1                      135      // 1 Bit, Bit 4
 #define     LOG_Weihnachtstag1Mask 0x10
 #define     LOG_Weihnachtstag1Shift 4
-#define LOG_Weihnachtstag2                      66      // 1 Bit, Bit 3
+#define LOG_Weihnachtstag2                      135      // 1 Bit, Bit 3
 #define     LOG_Weihnachtstag2Mask 0x08
 #define     LOG_Weihnachtstag2Shift 3
-#define LOG_Silvester                           66      // 1 Bit, Bit 2
+#define LOG_Silvester                           135      // 1 Bit, Bit 2
 #define     LOG_SilvesterMask 0x04
 #define     LOG_SilvesterShift 2
-#define LOG_BuzzerSilent                        67      // uint16_t
-#define LOG_BuzzerNormal                        69      // uint16_t
-#define LOG_BuzzerLoud                          71      // uint16_t
-#define LOG_VisibleChannels                     73      // uint8_t
-#define LOG_LedMapping                          74      // 3 Bits, Bit 7-5
+#define LOG_BuzzerSilent                        136      // uint16_t
+#define LOG_BuzzerNormal                        138      // uint16_t
+#define LOG_BuzzerLoud                          140      // uint16_t
+#define LOG_VisibleChannels                     142      // uint8_t
+#define LOG_LedMapping                          143      // 3 Bits, Bit 7-5
 #define     LOG_LedMappingMask 0xE0
 #define     LOG_LedMappingShift 5
 
@@ -490,7 +596,7 @@
 #define LOG_ChannelCount 99
 
 // Parameter per channel
-#define LOG_ParamBlockOffset 75
+#define LOG_ParamBlockOffset 144
 #define LOG_ParamBlockSize 86
 #define LOG_ParamCalcIndex(index) (index + LOG_ParamBlockOffset + _channelIndex * LOG_ParamBlockSize)
 
@@ -2174,7 +2280,7 @@
 #define BASE_KommentarModuleModuleParamSize 0
 #define BASE_KommentarModuleSubmodulesParamSize 0
 #define BASE_KommentarModuleParamSize 0
-#define BASE_KommentarModuleParamOffset 8589
+#define BASE_KommentarModuleParamOffset 8658
 #define BASE_KommentarModuleCalcIndex(index, m1) (index + BASE_KommentarModuleParamOffset + _channelIndex * BASE_KommentarModuleCount * BASE_KommentarModuleParamSize + m1 * BASE_KommentarModuleParamSize)
 
 

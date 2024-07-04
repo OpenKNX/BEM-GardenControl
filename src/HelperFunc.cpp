@@ -2,6 +2,7 @@
 
 #include "HelperFunc.h"
 #include "OpenKNX.h"
+#include "hardware.h"
 
 // bool delayCheck(uint32_t iOldTimer, uint32_t iDuration)
 // {
