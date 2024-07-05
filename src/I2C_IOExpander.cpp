@@ -19,7 +19,7 @@ uint8_t failureCounter2 = 0;
 void init_IOExpander_GPIOs_TOP()
 {
     // check if +5V iso is available
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
         SERIAL_PORT.print("  PCA9554: ");
         if (pca9554.isConnected())
@@ -69,12 +69,14 @@ void init_IOExpander_GPIOs_TOP()
         else
         {
             SERIAL_PORT.println("NOK");
+            /*
             failureCounter++;
             if (failureCounter > 10)
             {
                 rebootExternalPWR();
                 failureCounter = 0;
             }
+            */
         }
     }
     else
@@ -86,7 +88,7 @@ void init_IOExpander_GPIOs_TOP()
 void init_IOExpander_GPIOs_BOT()
 {
     // check if +5V iso is available
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
         SERIAL_PORT.print("  PCA9555: ");
         if (pca9555.isConnected())
@@ -123,7 +125,7 @@ void clearInitFlags_IOExp()
 void set_IOExpander_Input(uint8_t ch, bool state)
 {
     // check if +5V iso is available
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
         if (init_flag_PCA9554)
         {
@@ -140,7 +142,7 @@ void set_IOExpander_Input(uint8_t ch, bool state)
 bool get_IOExpander_Input(uint8_t ch)
 {
     // check if +5V iso is available
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
         if (init_flag_PCA9554)
         {
@@ -161,7 +163,7 @@ bool get_IOExpander_Input(uint8_t ch)
 bool get_IOExpander_BOT_Input(uint8_t ch)
 {
     // check if +5V iso is available
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
         if (init_flag_PCA9555)
         {
@@ -182,7 +184,7 @@ bool get_IOExpander_BOT_Input(uint8_t ch)
 void set_IOExpander_BOT_Input(uint8_t ch, bool state)
 {
     // check if +5V iso is available
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
         if (init_flag_PCA9555)
         {

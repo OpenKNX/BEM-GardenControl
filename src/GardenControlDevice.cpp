@@ -36,9 +36,6 @@ uint32_t LED_Delay2 = 0;
 uint32_t LED_Delay = 0;
 
 bool HWinit_Done = false;
-
-bool initADCFlag_TOP = false;
-bool initADCFlag_BOT = false;
 bool TestState = false;
 bool TestLEDstate = false;
 bool TestLEDstate2 = false;
@@ -238,7 +235,6 @@ void GardenControlDevice::loop()
         processErrorHandling(); // PRIO 1
         processSysFailure();    // PRIO 1
 
-
 #ifdef BinInputs
         processReadInputs(); // PRIO 1
 #endif
@@ -253,28 +249,28 @@ void GardenControlDevice::loop()
         {
             case Pos1:
 
-            #ifdef ADC_enable
-        if (processADConversation_TOP() && initADCFlag_TOP == false)
-        {
-            SERIAL_DEBUG.println("--> ADC TOP ready <--"); // PRIO 3
-            initADCFlag_TOP = true;
-        }
+#ifdef ADC_enable
+                if (processADConversation_TOP() && get_ADC_Ready_Flag_TOP() == false)
+                {
+                    SERIAL_DEBUG.println("--> ADC TOP ready <--"); // PRIO 3
+                    set_ADC_Ready_Flag_TOP(); // Now all ADC CH have a new Value sampled
+                }
 #endif
 #ifdef ADC_enable
-        if (processADConversation_BOT() && initADCFlag_BOT == false)
-        {
-            SERIAL_DEBUG.println("--> ADC BOT ready <--"); // PRIO 3
-            initADCFlag_BOT = true;
-        }
+                if (processADConversation_BOT() && get_ADC_Ready_Flag_BOT() == false)
+                {
+                    SERIAL_DEBUG.println("--> ADC BOT ready <--"); // PRIO 3
+                    set_ADC_Ready_Flag_BOT(); // Now all ADC CH have a new Value sampled
+                }
 #endif
 #ifdef ADC_enable
-                processInput_ADC(initADCFlag_TOP);
+                processInput_ADC(get_ADC_Ready_Flag_TOP());
 #endif
                 StateM = Pos2;
                 break;
             case Pos2:
 #ifdef ADC_enable
-                processInput_4_20mA(initADCFlag_BOT);
+                processInput_4_20mA(get_ADC_Ready_Flag_BOT());
 #endif
                 StateM = Pos3;
                 break;
@@ -317,22 +313,9 @@ void GardenControlDevice::loop()
             }
           }
         */
-        if (delayCheck(Output_Delay, 1000))
+
+        if (delayCheck(Output_Delay, 2007))
         {
-            if (get_5V_Error())
-            {
-                setLED_24VAC(true);
-            }
-            else
-            {
-                setLED_24VAC(false);
-            }
-            /*
-            SERIAL_DEBUG.print("Ventil1: ");
-            SERIAL_DEBUG.println(get_Ventil_StateOld(0));
-            SERIAL_DEBUG.print("Relais1: ");
-            SERIAL_DEBUG.println(get_Relais_StateOld(0));
-        */
             if (getError())
             {
 
@@ -340,31 +323,30 @@ void GardenControlDevice::loop()
                 SERIAL_DEBUG.println(getError());
                 SERIAL_DEBUG.print("Ventil1: ");
                 SERIAL_DEBUG.println(get_Ventil_StateOld(0));
-                SERIAL_DEBUG.println(get_5V_Error());
+                SERIAL_DEBUG.println(get_24V_AC_Error());
                 SERIAL_DEBUG.println(get_12V_Error());
                 SERIAL_DEBUG.println(get_24V_Error());
-                SERIAL_DEBUG.println(get_5V_out_Error());
+                SERIAL_DEBUG.println(get_5V_Error());
 #endif
             }
 #ifdef ADC_enable_Output
             SERIAL_DEBUG.print("ADC CH1: ");
             SERIAL_DEBUG.print(getAdcI2cValue_TOP(0));
             SERIAL_DEBUG.print(" Volt: ");
-            SERIAL_DEBUG.println(getAdcVoltage_TOP(0),3);
+            SERIAL_DEBUG.println(getAdcVoltage_TOP(0), 3);
             SERIAL_DEBUG.print("ADC CH2: ");
             SERIAL_DEBUG.print(getAdcI2cValue_TOP(1));
             SERIAL_DEBUG.print(" Volt: ");
-            SERIAL_DEBUG.println(getAdcVoltage_TOP(1),3);
+            SERIAL_DEBUG.println(getAdcVoltage_TOP(1), 3);
             SERIAL_DEBUG.print("ADC CH3: ");
             SERIAL_DEBUG.print(getAdcI2cValue_TOP(2));
             SERIAL_DEBUG.print(" Volt: ");
-            SERIAL_DEBUG.println(getAdcVoltage_TOP(2),3);
+            SERIAL_DEBUG.println(getAdcVoltage_TOP(2), 3);
             SERIAL_DEBUG.print("ADC CH4: ");
             SERIAL_DEBUG.print(getAdcI2cValue_TOP(3));
             SERIAL_DEBUG.print(" Volt: ");
-            SERIAL_DEBUG.println(getAdcVoltage_TOP(3),3);
-           
-            
+            SERIAL_DEBUG.println(getAdcVoltage_TOP(3), 3);
+
             SERIAL_DEBUG.print("4-20mA CH1: ");
             SERIAL_DEBUG.print(getAdcI2cValue_BOT(0));
             SERIAL_DEBUG.print(" Curr: ");
@@ -373,7 +355,7 @@ void GardenControlDevice::loop()
             SERIAL_DEBUG.print(getAdcI2cValue_BOT(1));
             SERIAL_DEBUG.print(" Curr: ");
             SERIAL_DEBUG.println(getAdcVoltage_BOT(1));
-            
+
             SERIAL_DEBUG.println(" ");
 #endif
 

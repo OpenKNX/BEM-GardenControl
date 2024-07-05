@@ -120,11 +120,12 @@
                 <choose ParamRefId="%AID%_UP-%TT%00003_R-%TT%0000301">
                   <when test="!=0">
                     <ComObjectRefRef RefId="%AID%_O-%TT%00002_R-%TT%0000201" /> <!-- KO: Diag KO PWR Rail enable -->
-                    <ParameterSeparator Id="%AID%_PS-8" Text="Info: Bit0 = LSB" />
-                    <ParameterSeparator Id="%AID%_PS-9" Text="Bit0 = Error 24V" />
-                    <ParameterSeparator Id="%AID%_PS-10" Text="Bit1 = Error 12V" />
-                    <ParameterSeparator Id="%AID%_PS-11" Text="Bit2 = Error 5V" />
-                    <ParameterSeparator Id="%AID%_PS-12" Text="Bit3 = Error Sensor 5V" />
+                    <ParameterSeparator Id="%AID%_PS-8" Text="Info: Bit0 = LSB  |   0 = OK ; 1 = ERROR" />
+                    <ParameterSeparator Id="%AID%_PS-9" Text="Bit0 = Error 24V AC INPUT" />
+                    <ParameterSeparator Id="%AID%_PS-10" Text="Bit1 = Error VCC 5V" />
+                    <ParameterSeparator Id="%AID%_PS-11" Text="Bit2 = Error VCC 12V" />
+                    <ParameterSeparator Id="%AID%_PS-12" Text="Bit3 = Error VCC 24V" />
+                    <ParameterSeparator Id="%AID%_PS-13" Text="Bit4 = Error Relay 5V" />
                   </when>
                 </choose>
                 <ParameterSeparator Id="%AID%_PS-7" Text="" UIHint="HorizontalRuler" />

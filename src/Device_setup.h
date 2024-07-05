@@ -33,6 +33,7 @@ uint8_t get_PROG_LED_PIN();
 uint8_t get_PROG_BUTTON_PIN();
 uint8_t get_SAVE_INTERRUPT_PIN();
 uint8_t get_SSR_EN_PIN();
+uint8_t get_SSR_FAULT_PIN();
 uint8_t get_5V_EN_PIN();
 uint8_t get_5V_fault_PIN();
 uint8_t get_5V_status_PIN();

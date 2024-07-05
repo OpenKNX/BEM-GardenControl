@@ -133,7 +133,7 @@ void processInputImpulse()
     float lAbsolute;
     uint32_t lCycle;
 
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
 
         if (knx.paramByte(getParBIN(BIN_CHInputTypes3, channel_Impl)) == BIN_Input_Impuls)

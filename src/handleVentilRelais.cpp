@@ -91,7 +91,7 @@ void set_Ventil_Sperrobjekt(uint8_t ch, bool state)
  ****************************************************************************/
 void processRelais()
 {
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
         // check of state chnage and Send new Status
         for (int ch = 0; ch < REL_ChannelCount; ch++)

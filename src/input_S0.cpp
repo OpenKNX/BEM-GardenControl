@@ -150,7 +150,7 @@ void processReadS0Input()
     uint8_t lsendModeCon;
     bool det_maxPuls = false;
 
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
 
         if (knx.paramByte(getParBIN(BIN_CHInputTypes3, channel_S0)) == BIN_Input_S0)

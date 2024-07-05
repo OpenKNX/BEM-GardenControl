@@ -84,7 +84,7 @@ void processInput_4_20mA(bool readyFlag)
         // uint8_t lsoilmoistureU8;
     } value2;
 
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
 
         if (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)) != Input_x_20mA_CH_inaktiv && readyFlag)

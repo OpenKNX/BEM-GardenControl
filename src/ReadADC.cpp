@@ -216,7 +216,7 @@ void initADC_TOP_MCP3428(uint8_t res_top)
     resolution_TOP = res_top; // set resolution TOP
     corr_Factor[3] = 1;       // Correctionfactor 12V input always 1
 
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
         SERIAL_PORT.print("  MCP3428_TOP:");
         if (MCP3428_adc_TOP.testConnection())
@@ -246,7 +246,7 @@ void initADC_BOT_MCP3428(uint8_t res_bot)
 {
     resolution_BOT = res_bot; // set resolution BOT
 
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
         SERIAL_PORT.print("  MCP3428_BOT:");
         if (MCP3428_adc_BOT.testConnection())
@@ -286,8 +286,6 @@ bool isAdcBusy_BOT_MCP3428()
 {
     return MCP3428_adc_BOT.CheckforResult();
 }
-
-
 
 void clearInitFlags_ADC()
 {
@@ -340,7 +338,7 @@ void set_ADC_CorrFactor(uint8_t ch, float corrFactor)
 
 void StartAdcConversation_TOP(uint8_t ch)
 {
-    if (!get_5V_Error() && init_flag_Top)
+    if (!get_24V_AC_Error() && init_flag_Top)
     {
         MCP3428_adc_TOP.SetConfiguration(ch + 1, resolution_TOP, 0, gain_1);
     }
@@ -348,7 +346,7 @@ void StartAdcConversation_TOP(uint8_t ch)
 
 void StartAdcConversation_BOT(uint8_t ch)
 {
-    if (!get_5V_Error() && init_flag_Bot)
+    if (!get_24V_AC_Error() && init_flag_Bot)
     {
         MCP3428_adc_BOT.SetConfiguration(ch + 1, resolution_BOT, 0, gain_1);
     }
@@ -407,27 +405,25 @@ float getAdcVoltage_TOP(uint8_t ch)
 
 float getAdcVoltage_BOT(uint8_t ch)
 {
-        switch (resolution_BOT)
-        {
-            case Resolution12Bit:
-                return checkZero(adc_Value_BOT[ch] * 0.01); // 2.047 / 2047.0 / 100;
-                break;
-            case Resolution14Bit:
-                return checkZero(adc_Value_BOT[ch] * 0.0025); // 2.047 / 8191.0 / 100;
-                break;
-            case Resolution16Bit:
-                return checkZero(adc_Value_BOT[ch] * 0.000625); // 2.047 / 32767.0 / 100;
-                break;
-            default:
+    switch (resolution_BOT)
+    {
+        case Resolution12Bit:
+            return checkZero(adc_Value_BOT[ch] * 0.01); // 2.047 / 2047.0 / 100;
+            break;
+        case Resolution14Bit:
+            return checkZero(adc_Value_BOT[ch] * 0.0025); // 2.047 / 8191.0 / 100;
+            break;
+        case Resolution16Bit:
+            return checkZero(adc_Value_BOT[ch] * 0.000625); // 2.047 / 32767.0 / 100;
+            break;
+        default:
 #ifdef Input_4_20mA_Output
-                SERIAL_PORT.println("wrong RES 4-20mA");
+            SERIAL_PORT.println("wrong RES 4-20mA");
 #endif
-                return 0;
-                break;
-        }    
+            return 0;
+            break;
+    }
 }
-
-
 
 float getAdcVoltage(uint8_t ch)
 {
@@ -436,363 +432,378 @@ float getAdcVoltage(uint8_t ch)
 
 bool processADConversation_TOP()
 {
-    switch (get_HW_ID_TOP())
+    if (!get_24V_AC_Error())
     {
-        case HW_1_0:
-        case HW_2_0:
-            switch (ADC_State_TOP)
-            {
-                case wait_Init:
-                    if (!get_5V_Error())
-                    {
-                        if (!init_flag_Top)
-                        {
-                            initADC_TOP_MCP3428(Resolution16Bit);
-                            Serial.println("** init");
-                        }
-                        ADC_State_TOP = Set_TOP;
-                    }
-                    return false;
-                    break;
-                case Set_TOP:
-                    switch (ADC_TOP_CH)
-                    {
-                        case ADC_1:
-                            StartAdcConversation_TOP(2); //  CH1 -> liegt auch ADC2
-                            break;
-                        case ADC_2:
-                            StartAdcConversation_TOP(1); //  CH2 -> liegt auch ADC1
-                            break;
-                        case ADC_3:
-                            StartAdcConversation_TOP(0); //  CH3 -> liegt auch ADC0
-                            break;
-                        case ADC_4:
-                            StartAdcConversation_TOP(3); // CH4  > liegt auch ADC3
-                            break;
-                        default:
-                            Serial.println("Wrong StateADC TOP CH");
-                            break;
-                    }
-                    ADC_State_TOP = Read_TOP;
-                    break;
-                case Read_TOP:
-
-                    if (isAdcBusy_TOP_MCP3428() == false)
-                    {
-                        switch (ADC_TOP_CH)
-                        {
-                            case ADC_1: // CH1
-                                Readadc_Value_TOP(0);
-                                ADC_TOP_CH = ADC_2;
-                                break;
-                            case ADC_2: // CH2
-                                Readadc_Value_TOP(1);
-                                ADC_TOP_CH = ADC_3;
-                                break;
-                            case ADC_3: // CH3
-                                Readadc_Value_TOP(2);
-                                ADC_TOP_CH = ADC_4;
-                                break;
-                            case ADC_4: // HSS
-                                Readadc_Value_TOP(3);
-                                ADC_TOP_CH = ADC_1;
-                                break;
-
-                            default:
-                                Serial.println("Wrong StateADC TOP CH");
-                                break;
-                        }
-                        ADC_State_TOP = wait_Init;
-                        return true;
-                    }
-                    else
-                    {
-                        if (!init_flag_Top) // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC agaib
-                        {
-                            ADC_State_TOP = wait_Init;
-                        }
-                    }
-                    break;
-
-                default:
-                    Serial.println("Wrong StateADC TOP");
-                    break;
-            }
-            break;
-
-        case HW_2_1:
-            if (!get_5V_Error())
-            {
-                switch (ADC_State_TOP)
+        switch (get_HW_ID_TOP())
+        {
+            case HW_1_0:
+            case HW_2_0:
+                if (!get_24V_AC_Error())
                 {
-                    case wait_Init:
-                        if (!get_5V_Error())
-                        {
-                            if (!init_flag_Top)
+                    switch (ADC_State_TOP)
+                    {
+                        case wait_Init:
+                            if (!get_24V_AC_Error())
                             {
-                                initADC_TOP_ADS1015(Resolution12Bit);
+                                if (!init_flag_Top)
+                                {
+                                    initADC_TOP_MCP3428(Resolution16Bit);
+                                    ADC_TOP_CH = ADC_1; // Damit er immer bei einer Spannungswiederker mit ADC1 beginnt
+                                }
+                                ADC_State_TOP = Set_TOP;
+                                
                             }
-                            ADC_State_TOP = Set_TOP;
-                        }
-                        return false;
-                        break;
-                    case Set_TOP:
-                        switch (ADC_TOP_CH)
-                        {
-                            case ADC_1:
-                                requestADC(2); //  CH1 -> liegt auch ADC2
-                                break;
-                            case ADC_2:
-                                requestADC(1); //  CH2 -> liegt auch ADC1
-                                break;
-                            case ADC_3:
-                                requestADC(0); //  CH3 -> liegt auch ADC0
-                                break;
-                            case ADC_4:
-                                requestADC(3); // CH4  > liegt auch ADC3
-                                break;
-                            default:
-                                Serial.println("Wrong StateADC TOP CH");
-                                break;
-                        }
-                        ADC_State_TOP = Read_TOP;
-                        break;
-                    case Read_TOP:
-
-                        if (isAdcI2cBusy_TOP() == false)
-                        {
+                            break;
+                        case Set_TOP:
                             switch (ADC_TOP_CH)
                             {
-                                case ADC_1: // CH1
-                                    readAdcI2cValue(0);
-                                    ADC_TOP_CH = ADC_2;
+                                case ADC_1:
+                                    StartAdcConversation_TOP(2); //  CH1 -> liegt auch ADC2
                                     break;
-                                case ADC_2: // CH2
-                                    readAdcI2cValue(1);
-                                    ADC_TOP_CH = ADC_3;
+                                case ADC_2:
+                                    StartAdcConversation_TOP(1); //  CH2 -> liegt auch ADC1
                                     break;
-                                case ADC_3: // CH3
-                                    readAdcI2cValue(2);
-                                    ADC_TOP_CH = ADC_4;
+                                case ADC_3:
+                                    StartAdcConversation_TOP(0); //  CH3 -> liegt auch ADC0
                                     break;
-                                case ADC_4: // HSS
-                                    readAdcI2cValue(3);
-                                    ADC_TOP_CH = ADC_1;
+                                case ADC_4:
+                                    StartAdcConversation_TOP(3); // CH4  > liegt auch ADC3
                                     break;
-
                                 default:
                                     Serial.println("Wrong StateADC TOP CH");
                                     break;
                             }
-                            ADC_State_TOP = wait_Init;
-                            return true;
+                            ADC_State_TOP = Read_TOP;
+                            break;
+                        case Read_TOP:
+
+                            if (isAdcBusy_TOP_MCP3428() == false)
+                            {
+                                switch (ADC_TOP_CH)
+                                {
+                                    case ADC_1: // CH1
+                                        Readadc_Value_TOP(0);
+                                        ADC_TOP_CH = ADC_2;
+                                        break;
+                                    case ADC_2: // CH2
+                                        Readadc_Value_TOP(1);
+                                        ADC_TOP_CH = ADC_3;
+                                        break;
+                                    case ADC_3: // CH3
+                                        Readadc_Value_TOP(2);
+                                        ADC_TOP_CH = ADC_4;
+                                        break;
+                                    case ADC_4: // HSS
+                                        Readadc_Value_TOP(3);
+                                        ADC_TOP_CH = ADC_1;
+                                        ADC_State_TOP = wait_Init; // Needed because of the Return true
+                                        return true;
+                                        break;
+
+                                    default:
+                                        Serial.println("Wrong StateADC TOP CH");
+                                        break;
+                                }
+                                ADC_State_TOP = wait_Init;
+                            }
+
+                            break;
+
+                        default:
+                            Serial.println("Wrong StateADC TOP");
+                            break;
+                    }
+                    break;
+
+                    case HW_2_1:
+                        if (!get_24V_AC_Error())
+                        {
+                            switch (ADC_State_TOP)
+                            {
+                                case wait_Init:
+                                    if (!get_24V_AC_Error())
+                                    {
+                                        if (!init_flag_Top)
+                                        {
+                                            initADC_TOP_ADS1015(Resolution12Bit);
+                                            ADC_TOP_CH = ADC_1; // Damit er immer bei einer Spannungswiederker mit ADC1 beginnt
+                                        }
+                                        ADC_State_TOP = Set_TOP;
+                                    }
+                                    break;
+                                case Set_TOP:
+                                    switch (ADC_TOP_CH)
+                                    {
+                                        case ADC_1:
+                                            requestADC(2); //  CH1 -> liegt auch ADC2
+                                            break;
+                                        case ADC_2:
+                                            requestADC(1); //  CH2 -> liegt auch ADC1
+                                            break;
+                                        case ADC_3:
+                                            requestADC(0); //  CH3 -> liegt auch ADC0
+                                            break;
+                                        case ADC_4:
+                                            requestADC(3); // CH4  > liegt auch ADC3
+                                            break;
+                                        default:
+                                            Serial.println("Wrong StateADC TOP CH");
+                                            break;
+                                    }
+                                    ADC_State_TOP = Read_TOP;
+                                    break;
+                                case Read_TOP:
+
+                                    if (isAdcI2cBusy_TOP() == false)
+                                    {
+                                        switch (ADC_TOP_CH)
+                                        {
+                                            case ADC_1: // CH1
+                                                readAdcI2cValue(0);
+                                                ADC_TOP_CH = ADC_2;
+                                                break;
+                                            case ADC_2: // CH2
+                                                readAdcI2cValue(1);
+                                                ADC_TOP_CH = ADC_3;
+                                                break;
+                                            case ADC_3: // CH3
+                                                readAdcI2cValue(2);
+                                                ADC_TOP_CH = ADC_4;
+                                                break;
+                                            case ADC_4: // HSS
+                                                readAdcI2cValue(3);
+                                                ADC_TOP_CH = ADC_1;
+                                                ADC_State_TOP = wait_Init; // Needed because of the Return true
+                                                return true;
+                                                break;
+
+                                            default:
+                                                Serial.println("Wrong StateADC TOP CH");
+                                                break;
+                                        }
+                                        ADC_State_TOP = wait_Init;
+                                    }
+                                    break;
+
+                                default:
+                                    Serial.println("Wrong StateADC TOP");
+                                    break;
+                            }
                         }
                         else
                         {
-                            if (!init_flag_Top) // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC agaib
-                            {
-                                ADC_State_TOP = wait_Init;
-                            }
+                            ADC_State_TOP = wait_Init; // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC again
                         }
                         break;
 
                     default:
-                        Serial.println("Wrong StateADC TOP");
                         break;
                 }
-            }
-            else
-            {
-                ADC_State_TOP = wait_Init;
-            }
-            break;
-
-        default:
-            break;
+                else
+                {
+                    ADC_State_TOP = wait_Init; // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC again
+                }
+        }
     }
-
+    else
+    {
+        ADC_State_TOP = wait_Init; // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC again
+    }
     return false;
 }
 
 bool processADConversation_BOT()
 {
-    switch (get_HW_ID_BOT())
+    if (!get_24V_AC_Error())
     {
-        case HW_BOT_1_0:
-        case HW_BOT_2_0:
-            switch (ADC_State_BOT)
-            {
-                case wait_Init:
-                    if (!get_5V_Error())
-                    {
-                        if (!init_flag_Bot)
-                        {
-                            initADC_BOT_MCP3428(Resolution16Bit);
-                            Serial.println("** init");
-                        }
-                        ADC_State_BOT = Set_BOT;
-                    }
-                    return false;
-                    break;
-                case Set_BOT:
-                    switch (ADC_BOT_CH)
-                    {
-                        case ADC_1:
-                            StartAdcConversation_BOT(0); 
-                            break;
-                        case ADC_2:
-                            StartAdcConversation_BOT(1); 
-                            break;
-                        case ADC_3:
-                            StartAdcConversation_BOT(2); 
-                            break;
-                        case ADC_4:
-                            StartAdcConversation_BOT(3); 
-                            break;
-                        default:
-                            Serial.println("Wrong StateADC BOT CH");
-                            break;
-                    }
-                    ADC_State_BOT = Read_BOT;
-                    break;
-                case Read_BOT:
-
-                    if (isAdcBusy_BOT_MCP3428() == false)
-                    {
-                        switch (ADC_BOT_CH)
-                        {
-                            case ADC_1: // CH1
-                                Readadc_Value_BOT(0);
-                                ADC_BOT_CH = ADC_2;
-                                break;
-                            case ADC_2: // CH2
-                                Readadc_Value_BOT(1);
-                                ADC_BOT_CH = ADC_3;
-                                break;
-                            case ADC_3: // CH3
-                                Readadc_Value_BOT(2);
-                                ADC_BOT_CH = ADC_4;
-                                break;
-                            case ADC_4: // HSS
-                                Readadc_Value_BOT(3);
-                                ADC_BOT_CH = ADC_1;
-                                break;
-
-                            default:
-                                Serial.println("Wrong StateADC BOT CH");
-                                break;
-                        }
-                        ADC_State_BOT = wait_Init;
-                        return true;
-                    }
-                    else
-                    {
-                        if (!init_flag_Bot) // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC agaib
-                        {
-                            ADC_State_BOT = wait_Init;
-                        }
-                    }
-                    break;
-
-                default:
-                    Serial.println("Wrong StateADC BOT");
-                    break;
-            }
-            break;
-        case HW_BOT_2_1:
-            if (!get_5V_Error())
-            {
-                switch (ADC_State_BOT)
+        switch (get_HW_ID_BOT())
+        {
+            case HW_BOT_1_0:
+            case HW_BOT_2_0:
+                if (!get_24V_AC_Error())
                 {
-                    case wait_Init:
-                        if (!get_5V_Error())
-                        {
-                            if (!init_flag_Bot)
+                    switch (ADC_State_BOT)
+                    {
+                        case wait_Init:
+                            if (!get_24V_AC_Error())
                             {
-                                initADC_BOT_ADS1015(Resolution12Bit);
+                                if (!init_flag_Bot)
+                                {
+                                    initADC_BOT_MCP3428(Resolution16Bit);
+                                    ADC_BOT_CH = ADC_1; // Damit er immer bei einer Spannungswiederker mit ADC1 beginnt
+                                }
+                                ADC_State_BOT = Set_BOT;
+                                
                             }
-                            ADC_State_BOT = Set_BOT;
-                        }
-                        return false;
-                        break;
-                    case Set_BOT:
-                        switch (ADC_BOT_CH)
-                        {
-                            case ADC_1:
-                                requestADC_BOT(1); // 4-20mA_1 -> liegt auch ADC1
-                                // Cur_CH = ADC2;
-                                break;
-                            case ADC_2:
-                                requestADC_BOT(0); // 4-20mA_2 -> liegt auch ADC0
-                                // Cur_CH = ADC3;
-                                break;
-                            case ADC_3:
-                                requestADC_BOT(2);
-                                // Cur_CH = ADC4;
-                                break;
-                            case ADC_4:
-                                requestADC_BOT(3);
-                                // Cur_CH = ADC1;
-                                break;
-                            default:
-                                Serial.println("Wrong StateADC BOT CH");
-                                break;
-                        }
-                        ADC_State_BOT = Read_BOT;
-                        break;
-                    case Read_BOT:
-
-                        if (isAdcI2cBusy_BOT() == false)
-                        {
+                            break;
+                        case Set_BOT:
                             switch (ADC_BOT_CH)
                             {
-                                case ADC_1: // 4-20mA CH1
-                                    readAdcI2cValue_BOT(0);
-                                    ADC_BOT_CH = ADC_2;
+                                case ADC_1:
+                                    StartAdcConversation_BOT(0);
                                     break;
-                                case ADC_2: // 4-20mA CH2
-                                    readAdcI2cValue_BOT(1);
-                                    ADC_BOT_CH = ADC_3;
+                                case ADC_2:
+                                    StartAdcConversation_BOT(1);
                                     break;
-                                case ADC_3: // HSS CS1
-                                    readAdcI2cValue_BOT(2);
-                                    ADC_BOT_CH = ADC_4;
+                                case ADC_3:
+                                    StartAdcConversation_BOT(2);
                                     break;
-                                case ADC_4: // HSS CS2
-                                    readAdcI2cValue_BOT(3);
-                                    ADC_BOT_CH = ADC_1;
+                                case ADC_4:
+                                    StartAdcConversation_BOT(3);
                                     break;
-
                                 default:
                                     Serial.println("Wrong StateADC BOT CH");
                                     break;
                             }
-                            ADC_State_BOT = wait_Init;
-                            return true;
-                        }
-                        else
-                        {
-                            if (!init_flag_Bot) // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC agaib
+                            ADC_State_BOT = Read_BOT;
+                            break;
+                        case Read_BOT:
+
+                            if (isAdcBusy_BOT_MCP3428() == false)
                             {
+                                switch (ADC_BOT_CH)
+                                {
+                                    case ADC_1: // CH1
+                                        Readadc_Value_BOT(0);
+                                        ADC_BOT_CH = ADC_2;
+                                        break;
+                                    case ADC_2: // CH2
+                                        Readadc_Value_BOT(1);
+                                        ADC_BOT_CH = ADC_3;
+                                        break;
+                                    case ADC_3: // CH3
+                                        Readadc_Value_BOT(2);
+                                        ADC_BOT_CH = ADC_4;
+                                        break;
+                                    case ADC_4: // HSS
+                                        Readadc_Value_BOT(3);
+                                        ADC_BOT_CH = ADC_1;
+                                        ADC_State_BOT = wait_Init; // Needed because of the Return true
+                                        return true;
+                                        break;
+
+                                    default:
+                                        Serial.println("Wrong StateADC BOT CH");
+                                        break;
+                                }
                                 ADC_State_BOT = wait_Init;
                             }
-                        }
-                        break;
+                            else
+                            {
+                                if (!init_flag_Bot)
+                                {
+                                    ADC_State_BOT = wait_Init;
+                                }
+                            }
+                            break;
 
-                    default:
-                        Serial.println("Wrong StateADC");
-                        break;
+                        default:
+                            Serial.println("Wrong StateADC BOT");
+                            break;
+                    }
                 }
-            }
-            else
-            {
-                ADC_State_BOT = wait_Init;
-            }
-            break;
+                else
+                {
+                    ADC_State_BOT = wait_Init; // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC again
+                }
 
-        default:
-            break;
+                break;
+            case HW_BOT_2_1:
+                if (!get_24V_AC_Error())
+                {
+                    switch (ADC_State_BOT)
+                    {
+                        case wait_Init:
+                            if (!get_24V_AC_Error())
+                            {
+                                if (!init_flag_Bot)
+                                {
+                                    initADC_BOT_ADS1015(Resolution12Bit);
+                                    ADC_BOT_CH = ADC_1; // Damit er immer bei einer Spannungswiederker mit ADC1 beginnt
+                                }
+                                ADC_State_BOT = Set_BOT;
+                            }
+                            break;
+                        case Set_BOT:
+                            switch (ADC_BOT_CH)
+                            {
+                                case ADC_1:
+                                    requestADC_BOT(1); // 4-20mA_1 -> liegt auch ADC1
+                                    // Cur_CH = ADC2;
+                                    break;
+                                case ADC_2:
+                                    requestADC_BOT(0); // 4-20mA_2 -> liegt auch ADC0
+                                    // Cur_CH = ADC3;
+                                    break;
+                                case ADC_3:
+                                    requestADC_BOT(2);
+                                    // Cur_CH = ADC4;
+                                    break;
+                                case ADC_4:
+                                    requestADC_BOT(3);
+                                    // Cur_CH = ADC1;
+                                    break;
+                                default:
+                                    Serial.println("Wrong StateADC BOT CH");
+                                    break;
+                            }
+                            ADC_State_BOT = Read_BOT;
+                            break;
+                        case Read_BOT:
+
+                            if (isAdcI2cBusy_BOT() == false)
+                            {
+                                switch (ADC_BOT_CH)
+                                {
+                                    case ADC_1: // 4-20mA CH1
+                                        readAdcI2cValue_BOT(0);
+                                        ADC_BOT_CH = ADC_2;
+                                        break;
+                                    case ADC_2: // 4-20mA CH2
+                                        readAdcI2cValue_BOT(1);
+                                        ADC_BOT_CH = ADC_3;
+                                        break;
+                                    case ADC_3: // HSS CS1
+                                        readAdcI2cValue_BOT(2);
+                                        ADC_BOT_CH = ADC_4;
+                                        break;
+                                    case ADC_4: // HSS CS2
+                                        readAdcI2cValue_BOT(3);
+                                        ADC_BOT_CH = ADC_1;
+                                        ADC_State_BOT = wait_Init; // Needed because of the Return true
+                                        return true;
+                                        break;
+
+                                    default:
+                                        Serial.println("Wrong StateADC BOT CH");
+                                        break;
+                                }
+                                ADC_State_BOT = wait_Init;
+                            }
+                            else
+                            {
+                                ADC_State_BOT = wait_Init; // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC again
+                            }
+                            break;
+
+                        default:
+                            Serial.println("Wrong StateADC");
+                            break;
+                    }
+                }
+                else
+                {
+                    ADC_State_BOT = wait_Init; // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC again
+                }
+                break;
+
+            default:
+                break;
+        }
     }
-
+    else
+    {
+        ADC_State_BOT = wait_Init; // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC again
+    }
     return false;
 }

@@ -109,6 +109,23 @@ uint8_t get_SSR_EN_PIN()
     }
 }
 
+uint8_t get_SSR_FAULT_PIN()
+{
+    switch (hw_ID)
+    {
+        case HW_1_0: // V1.x
+        case HW_2_0: // V2.x
+        case HW_2_1: // V2.x
+            return GPIO_SSR_FAULT;
+            break;
+        default:
+            SERIAL_PORT.println("Wrong ID: SSR fault");
+            return 255;
+            break;
+    }
+}
+
+
 uint8_t get_5V_EN_PIN()
 {
     switch (hw_ID)
@@ -251,9 +268,11 @@ void initHW()
             // RP2040 GPIO Init
             pinMode(get_PROG_LED_PIN(), OUTPUT);
             pinMode(get_SSR_EN_PIN(), OUTPUT);
+            pinMode(get_SSR_FAULT_PIN(), INPUT);
             pinMode(get_5V_EN_PIN(), OUTPUT);
             pinMode(get_5V_status_PIN(), INPUT);
             pinMode(get_Status_PIN(), OUTPUT);
+
             pinMode(OptoIN_1, INPUT);
             pinMode(OptoIN_2, INPUT);
             pinMode(OptoIN_3, INPUT);

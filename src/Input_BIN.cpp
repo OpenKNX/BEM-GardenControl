@@ -32,7 +32,7 @@ void processInput_BIN()
 
     bool ladcValue;
 
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
 
         // Check if Channel = BIN-Input

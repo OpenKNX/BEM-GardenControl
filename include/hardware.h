@@ -16,7 +16,7 @@
 //*** Debug Outputs ********
  #define IOExp_enable_Output
  #define ProgLedblinking1sek
-// #define KNXcallback_Output
+ #define KNXcallback_Output
 // #define Input_BIN_Output
 // #define InputADC_Output
  #define ADC_enable_Output
@@ -78,8 +78,9 @@
 #define i2cADC_ADS1015_TOP 0x48
 #define i2cADC_ADS1015_BOT 0x49
 
-// SSR Reilais
+//Ext Relais 5V
 #define GPIO_SSR_EN 2
+#define GPIO_SSR_FAULT 3
 
 // Status Isolated 5V
 #define GPIO_5V_status 8
