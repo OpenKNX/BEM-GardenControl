@@ -47,7 +47,7 @@ void processInput_ADC(bool readyFlag)
     float lAbsolute;
     // uint16_t lAbsoluteU16;
     // uint8_t lRelativU8;
-    uint8_t Dpt = 0;
+    //uint8_t Dpt = 0;
 
     uint32_t lCycle;
 
@@ -57,6 +57,7 @@ void processInput_ADC(bool readyFlag)
         // uint16_t ladcValueU16;
         // uint8_t lsoilmoistureU8;
     } value;
+    value.ladcValue = 0;
 
     if (!get_5V_Error())
     {
@@ -337,7 +338,7 @@ void initInputADC()
 
 float getSensorValue(uint8_t channel)
 {
-    float value;
+    float value = 0;
 
     switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
     {

@@ -11,7 +11,7 @@
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16
 #define MAIN_ApplicationVersion 6
-#define MAIN_ParameterSize 8658
+#define MAIN_ParameterSize 8657
 #define MAIN_MaxKoNumber 716
 #define MAIN_OrderNumber "MFKnxBem"
 #define LOG_ModuleVersion 49
@@ -215,7 +215,7 @@
 // Magnetventil %C%:
 #define KoBEM__Sperr_ventil                       (knx.getGroupObject(BEM_KoCalcNumber(BEM_Ko_Sperr_ventil)))
 
-#define REL_ChannelCount 3
+#define REL_ChannelCount 2
 
 // Parameter per channel
 #define REL_ParamBlockOffset 59
@@ -259,7 +259,7 @@
 #define ADC_ChannelCount 3
 
 // Parameter per channel
-#define ADC_ParamBlockOffset 62
+#define ADC_ParamBlockOffset 61
 #define ADC_ParamBlockSize 15
 #define ADC_ParamCalcIndex(index) (index + ADC_ParamBlockOffset + _channelIndex * ADC_ParamBlockSize)
 
@@ -316,7 +316,7 @@
 #define CUR_ChannelCount 2
 
 // Parameter per channel
-#define CUR_ParamBlockOffset 107
+#define CUR_ParamBlockOffset 106
 #define CUR_ParamBlockSize 12
 #define CUR_ParamCalcIndex(index) (index + CUR_ParamBlockOffset + _channelIndex * CUR_ParamBlockSize)
 
@@ -362,128 +362,128 @@
 // CUR_BASE_%C%_1
 #define KoCUR_CUR_BASE__1                         (knx.getGroupObject(CUR_KoCalcNumber(CUR_KoCUR_BASE__1)))
 
-#define LOG_BuzzerInstalled                     131      // 1 Bit, Bit 7
+#define LOG_BuzzerInstalled                     130      // 1 Bit, Bit 7
 #define     LOG_BuzzerInstalledMask 0x80
 #define     LOG_BuzzerInstalledShift 7
-#define LOG_LedInstalled                        131      // 1 Bit, Bit 6
+#define LOG_LedInstalled                        130      // 1 Bit, Bit 6
 #define     LOG_LedInstalledMask 0x40
 #define     LOG_LedInstalledShift 6
-#define LOG_VacationKo                          131      // 1 Bit, Bit 5
+#define LOG_VacationKo                          130      // 1 Bit, Bit 5
 #define     LOG_VacationKoMask 0x20
 #define     LOG_VacationKoShift 5
-#define LOG_HolidayKo                           131      // 1 Bit, Bit 4
+#define LOG_HolidayKo                           130      // 1 Bit, Bit 4
 #define     LOG_HolidayKoMask 0x10
 #define     LOG_HolidayKoShift 4
-#define LOG_VacationRead                        131      // 1 Bit, Bit 3
+#define LOG_VacationRead                        130      // 1 Bit, Bit 3
 #define     LOG_VacationReadMask 0x08
 #define     LOG_VacationReadShift 3
-#define LOG_HolidaySend                         131      // 1 Bit, Bit 2
+#define LOG_HolidaySend                         130      // 1 Bit, Bit 2
 #define     LOG_HolidaySendMask 0x04
 #define     LOG_HolidaySendShift 2
-#define LOG_EnableSave                          131      // 1 Bit, Bit 1
+#define LOG_EnableSave                          130      // 1 Bit, Bit 1
 #define     LOG_EnableSaveMask 0x02
 #define     LOG_EnableSaveShift 1
-#define LOG_Neujahr                             132      // 1 Bit, Bit 7
+#define LOG_Neujahr                             131      // 1 Bit, Bit 7
 #define     LOG_NeujahrMask 0x80
 #define     LOG_NeujahrShift 7
-#define LOG_DreiKoenige                         132      // 1 Bit, Bit 6
+#define LOG_DreiKoenige                         131      // 1 Bit, Bit 6
 #define     LOG_DreiKoenigeMask 0x40
 #define     LOG_DreiKoenigeShift 6
-#define LOG_Weiberfastnacht                     132      // 1 Bit, Bit 5
+#define LOG_Weiberfastnacht                     131      // 1 Bit, Bit 5
 #define     LOG_WeiberfastnachtMask 0x20
 #define     LOG_WeiberfastnachtShift 5
-#define LOG_Rosenmontag                         132      // 1 Bit, Bit 4
+#define LOG_Rosenmontag                         131      // 1 Bit, Bit 4
 #define     LOG_RosenmontagMask 0x10
 #define     LOG_RosenmontagShift 4
-#define LOG_Fastnachtsdienstag                  132      // 1 Bit, Bit 3
+#define LOG_Fastnachtsdienstag                  131      // 1 Bit, Bit 3
 #define     LOG_FastnachtsdienstagMask 0x08
 #define     LOG_FastnachtsdienstagShift 3
-#define LOG_Aschermittwoch                      132      // 1 Bit, Bit 2
+#define LOG_Aschermittwoch                      131      // 1 Bit, Bit 2
 #define     LOG_AschermittwochMask 0x04
 #define     LOG_AschermittwochShift 2
-#define LOG_Frauentag                           132      // 1 Bit, Bit 1
+#define LOG_Frauentag                           131      // 1 Bit, Bit 1
 #define     LOG_FrauentagMask 0x02
 #define     LOG_FrauentagShift 1
-#define LOG_Gruendonnerstag                     132      // 1 Bit, Bit 0
+#define LOG_Gruendonnerstag                     131      // 1 Bit, Bit 0
 #define     LOG_GruendonnerstagMask 0x01
 #define     LOG_GruendonnerstagShift 0
-#define LOG_Karfreitag                          133      // 1 Bit, Bit 7
+#define LOG_Karfreitag                          132      // 1 Bit, Bit 7
 #define     LOG_KarfreitagMask 0x80
 #define     LOG_KarfreitagShift 7
-#define LOG_Ostersonntag                        133      // 1 Bit, Bit 6
+#define LOG_Ostersonntag                        132      // 1 Bit, Bit 6
 #define     LOG_OstersonntagMask 0x40
 #define     LOG_OstersonntagShift 6
-#define LOG_Ostermontag                         133      // 1 Bit, Bit 5
+#define LOG_Ostermontag                         132      // 1 Bit, Bit 5
 #define     LOG_OstermontagMask 0x20
 #define     LOG_OstermontagShift 5
-#define LOG_TagDerArbeit                        133      // 1 Bit, Bit 4
+#define LOG_TagDerArbeit                        132      // 1 Bit, Bit 4
 #define     LOG_TagDerArbeitMask 0x10
 #define     LOG_TagDerArbeitShift 4
-#define LOG_Himmelfahrt                         133      // 1 Bit, Bit 3
+#define LOG_Himmelfahrt                         132      // 1 Bit, Bit 3
 #define     LOG_HimmelfahrtMask 0x08
 #define     LOG_HimmelfahrtShift 3
-#define LOG_Pfingstsonntag                      133      // 1 Bit, Bit 2
+#define LOG_Pfingstsonntag                      132      // 1 Bit, Bit 2
 #define     LOG_PfingstsonntagMask 0x04
 #define     LOG_PfingstsonntagShift 2
-#define LOG_Pfingstmontag                       133      // 1 Bit, Bit 1
+#define LOG_Pfingstmontag                       132      // 1 Bit, Bit 1
 #define     LOG_PfingstmontagMask 0x02
 #define     LOG_PfingstmontagShift 1
-#define LOG_Fronleichnam                        133      // 1 Bit, Bit 0
+#define LOG_Fronleichnam                        132      // 1 Bit, Bit 0
 #define     LOG_FronleichnamMask 0x01
 #define     LOG_FronleichnamShift 0
-#define LOG_Friedensfest                        134      // 1 Bit, Bit 7
+#define LOG_Friedensfest                        133      // 1 Bit, Bit 7
 #define     LOG_FriedensfestMask 0x80
 #define     LOG_FriedensfestShift 7
-#define LOG_MariaHimmelfahrt                    134      // 1 Bit, Bit 6
+#define LOG_MariaHimmelfahrt                    133      // 1 Bit, Bit 6
 #define     LOG_MariaHimmelfahrtMask 0x40
 #define     LOG_MariaHimmelfahrtShift 6
-#define LOG_DeutscheEinheit                     134      // 1 Bit, Bit 5
+#define LOG_DeutscheEinheit                     133      // 1 Bit, Bit 5
 #define     LOG_DeutscheEinheitMask 0x20
 #define     LOG_DeutscheEinheitShift 5
-#define LOG_Nationalfeiertag                    135      // 1 Bit, Bit 1
+#define LOG_Nationalfeiertag                    134      // 1 Bit, Bit 1
 #define     LOG_NationalfeiertagMask 0x02
 #define     LOG_NationalfeiertagShift 1
-#define LOG_Reformationstag                     134      // 1 Bit, Bit 4
+#define LOG_Reformationstag                     133      // 1 Bit, Bit 4
 #define     LOG_ReformationstagMask 0x10
 #define     LOG_ReformationstagShift 4
-#define LOG_Allerheiligen                       134      // 1 Bit, Bit 3
+#define LOG_Allerheiligen                       133      // 1 Bit, Bit 3
 #define     LOG_AllerheiligenMask 0x08
 #define     LOG_AllerheiligenShift 3
-#define LOG_BussBettag                          134      // 1 Bit, Bit 2
+#define LOG_BussBettag                          133      // 1 Bit, Bit 2
 #define     LOG_BussBettagMask 0x04
 #define     LOG_BussBettagShift 2
-#define LOG_MariaEmpfaengnis                    135      // 1 Bit, Bit 0
+#define LOG_MariaEmpfaengnis                    134      // 1 Bit, Bit 0
 #define     LOG_MariaEmpfaengnisMask 0x01
 #define     LOG_MariaEmpfaengnisShift 0
-#define LOG_Advent1                             134      // 1 Bit, Bit 1
+#define LOG_Advent1                             133      // 1 Bit, Bit 1
 #define     LOG_Advent1Mask 0x02
 #define     LOG_Advent1Shift 1
-#define LOG_Advent2                             134      // 1 Bit, Bit 0
+#define LOG_Advent2                             133      // 1 Bit, Bit 0
 #define     LOG_Advent2Mask 0x01
 #define     LOG_Advent2Shift 0
-#define LOG_Advent3                             135      // 1 Bit, Bit 7
+#define LOG_Advent3                             134      // 1 Bit, Bit 7
 #define     LOG_Advent3Mask 0x80
 #define     LOG_Advent3Shift 7
-#define LOG_Advent4                             135      // 1 Bit, Bit 6
+#define LOG_Advent4                             134      // 1 Bit, Bit 6
 #define     LOG_Advent4Mask 0x40
 #define     LOG_Advent4Shift 6
-#define LOG_Heiligabend                         135      // 1 Bit, Bit 5
+#define LOG_Heiligabend                         134      // 1 Bit, Bit 5
 #define     LOG_HeiligabendMask 0x20
 #define     LOG_HeiligabendShift 5
-#define LOG_Weihnachtstag1                      135      // 1 Bit, Bit 4
+#define LOG_Weihnachtstag1                      134      // 1 Bit, Bit 4
 #define     LOG_Weihnachtstag1Mask 0x10
 #define     LOG_Weihnachtstag1Shift 4
-#define LOG_Weihnachtstag2                      135      // 1 Bit, Bit 3
+#define LOG_Weihnachtstag2                      134      // 1 Bit, Bit 3
 #define     LOG_Weihnachtstag2Mask 0x08
 #define     LOG_Weihnachtstag2Shift 3
-#define LOG_Silvester                           135      // 1 Bit, Bit 2
+#define LOG_Silvester                           134      // 1 Bit, Bit 2
 #define     LOG_SilvesterMask 0x04
 #define     LOG_SilvesterShift 2
-#define LOG_BuzzerSilent                        136      // uint16_t
-#define LOG_BuzzerNormal                        138      // uint16_t
-#define LOG_BuzzerLoud                          140      // uint16_t
-#define LOG_VisibleChannels                     142      // uint8_t
-#define LOG_LedMapping                          143      // 3 Bits, Bit 7-5
+#define LOG_BuzzerSilent                        135      // uint16_t
+#define LOG_BuzzerNormal                        137      // uint16_t
+#define LOG_BuzzerLoud                          139      // uint16_t
+#define LOG_VisibleChannels                     141      // uint8_t
+#define LOG_LedMapping                          142      // 3 Bits, Bit 7-5
 #define     LOG_LedMappingMask 0xE0
 #define     LOG_LedMappingShift 5
 
@@ -596,7 +596,7 @@
 #define LOG_ChannelCount 99
 
 // Parameter per channel
-#define LOG_ParamBlockOffset 144
+#define LOG_ParamBlockOffset 143
 #define LOG_ParamBlockSize 86
 #define LOG_ParamCalcIndex(index) (index + LOG_ParamBlockOffset + _channelIndex * LOG_ParamBlockSize)
 
@@ -2280,7 +2280,7 @@
 #define BASE_KommentarModuleModuleParamSize 0
 #define BASE_KommentarModuleSubmodulesParamSize 0
 #define BASE_KommentarModuleParamSize 0
-#define BASE_KommentarModuleParamOffset 8658
+#define BASE_KommentarModuleParamOffset 8657
 #define BASE_KommentarModuleCalcIndex(index, m1) (index + BASE_KommentarModuleParamOffset + _channelIndex * BASE_KommentarModuleCount * BASE_KommentarModuleParamSize + m1 * BASE_KommentarModuleParamSize)
 
 

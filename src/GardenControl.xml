@@ -25,10 +25,10 @@
     share="GardenControl.share.xml"
     template="GardenControl.templ.xml"
     ModuleType="20" />  <!-- KoOffset = 30 -> 20 default from Logik + 10 for default of Gardencontrol -->
-  <op:define prefix="REL" NumChannels="3" KoOffset="66"
+  <op:define prefix="REL" NumChannels="2" KoOffset="66"  
     share="GardenControlRelais.share.xml"
     template="GardenControlRelais.templ.xml"
-    ModuleType="30" />  <!-- KoOffset = 66 -> 30 + BEM (12ch*3kO) 36 -->
+    ModuleType="30" />  <!-- KoOffset = 66 -> 30 + BEM (12ch*3kO) 36    ACCHTUNG: seit V2.1 nur noch 2CH Relais-->
   <op:define prefix="ADC" NumChannels="3" KoOffset="75"
     share="InputADC.share.xml"
     template="InputADC.templ.xml"
