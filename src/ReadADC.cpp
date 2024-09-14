@@ -450,17 +450,17 @@ void set_ADC_DIV(uint8_t ch, bool div)
     switch (ch)
     {
         case 0:
-            set_IOExpander_TOP_Input(IO_Set_DIV_1, div);
+            set_IOExpander_TOP_Output(IO_Set_DIV_1, div);
             SERIAL_PORT.print("Ch1 set ADC Div: ");
             SERIAL_PORT.println(div);
             break;
         case 1:
-            set_IOExpander_TOP_Input(IO_Set_DIV_2, div);
+            set_IOExpander_TOP_Output(IO_Set_DIV_2, div);
             SERIAL_PORT.print("Ch2 set ADC Div: ");
             SERIAL_PORT.println(div);
             break;
         case 2:
-            set_IOExpander_TOP_Input(IO_Set_DIV_3, div);
+            set_IOExpander_TOP_Output(IO_Set_DIV_3, div);
             SERIAL_PORT.print("Ch3 set ADC Div: ");
             SERIAL_PORT.println(div);
             break;
@@ -753,16 +753,16 @@ bool processADConversation_TOP()
                                     switch (ADC_TOP_CH)
                                     {
                                         case ADC_1:
-                                            requestADC_TOP(2); //  CH1 -> liegt auch ADC2
+                                            requestADC_TOP(0); //  CH1 -> liegt auch ADC1
                                             break;
                                         case ADC_2:
-                                            requestADC_TOP(1); //  CH2 -> liegt auch ADC1
+                                            requestADC_TOP(1); //  CH2 -> liegt auch ADC2
                                             break;
                                         case ADC_3:
-                                            requestADC_TOP(0); //  CH3 -> liegt auch ADC0
+                                            requestADC_TOP(2); //  CH3 -> liegt auch ADC3
                                             break;
                                         case ADC_4:
-                                            requestADC_TOP(3); // CH4  > liegt auch ADC3
+                                            requestADC_TOP(3); // CH4  > liegt auch ADC4
                                             break;
                                         default:
                                             Serial.println("Wrong StateADC TOP CH");

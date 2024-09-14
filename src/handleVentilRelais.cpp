@@ -134,7 +134,7 @@ void control_Ventil(uint8_t ch, bool state)
 {
     if (ch <= BEM_ChannelCount && ch >= 0)
     {
-        set_IOExpander_BOT_Input(ch, state);
+        set_IOExpander_BOT_Output(ch, state);
         setLED_Ventil(ch, !state);
     }
 }
@@ -144,15 +144,15 @@ void control_Relais(uint8_t nr, bool state)
     switch (nr)
     {
         case 0:
-            set_IOExpander_BOT_Input(12, state);
+            set_IOExpander_BOT_Output(12, state);
             setLED_Relais(LEDRelais1, !state);
             break;
         case 1:
-            set_IOExpander_BOT_Input(13, state);
+            set_IOExpander_BOT_Output(13, state);
             setLED_Relais(LEDRelais2, !state);
             break;
         case 2:
-            set_IOExpander_BOT_Input(14, state);
+            set_IOExpander_BOT_Output(14, state);
             setLED_Relais(LEDRelais3, !state);
             break;
         default:

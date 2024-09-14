@@ -18,7 +18,7 @@
  #define ProgLedblinking1sek
  #define KNXcallback_Output
 // #define Input_BIN_Output
-// #define InputADC_Output
+ #define InputADC_Output
  #define ADC_enable_Output
  //#define Input_4_20mA_Output
 // #define InputImpuls_Output2
@@ -35,7 +35,6 @@
 
 // IO Expander TOP
 #define IO_5V_EN 0
-#define IO_5V_EN_V3 3
 #define IO_HW_ID1 1
 #define IO_HW_ID2 2
 #define IO_HW_ID3 3
@@ -46,6 +45,11 @@
 #define IO_Set_DIV_1 5
 #define IO_Set_DIV_2 6
 #define IO_Set_DIV_3 7
+// HW V3.0
+#define IO_5V_EN_V3 3
+#define IO_12V_EN_V3 4
+#define IO_24V_EN_V3 5
+
 
 // IO Expander BOT
 #define Ventil_1 1

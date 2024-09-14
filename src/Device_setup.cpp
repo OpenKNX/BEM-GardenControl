@@ -339,6 +339,11 @@ void initHW_Top()
 
     init_IOExpander_GPIOs_TOP();
 
+    //Enable Outputs
+    set_IOExpander_TOP_Output(IO_5V_EN_V3,HIGH);
+    set_IOExpander_TOP_Output(IO_12V_EN_V3,HIGH);
+    set_IOExpander_TOP_Output(IO_24V_EN_V3,HIGH);
+
     switch (hw_ID)
     {
         case HW_1_0:

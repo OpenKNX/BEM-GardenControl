@@ -188,7 +188,7 @@ void clearInitFlags_IOExp()
     init_flag_PCA9555 = false;
 }
 
-void set_IOExpander_TOP_Input(uint8_t ch, bool state)
+void set_IOExpander_TOP_Output(uint8_t ch, bool state)
 {
     // check if +5V iso is available
     if (!get_24V_AC_Error())
@@ -316,7 +316,7 @@ bool get_IOExpander_BOT_Input(uint8_t ch)
     }
 }
 
-void set_IOExpander_BOT_Input(uint8_t ch, bool state)
+void set_IOExpander_BOT_Output(uint8_t ch, bool state)
 {
     // check if +5V iso is available
     if (!get_24V_AC_Error())
@@ -386,10 +386,10 @@ void enable_5V(bool state)
         case HW_1_0:
         case HW_2_0:
         case HW_2_1:
-            set_IOExpander_TOP_Input(IO_5V_EN, state);
+            set_IOExpander_TOP_Output(IO_5V_EN, state);
             break;
         case HW_3_0:
-            set_IOExpander_TOP_Input(IO_5V_EN_V3, state);
+            set_IOExpander_TOP_Output(IO_5V_EN_V3, state);
             break;
         default:
             SERIAL_PORT.println("Wrong HW-ID enable 5V");
@@ -399,17 +399,17 @@ void enable_5V(bool state)
 
 void set_ADC1_VoltageDiff(bool state)
 {
-    set_IOExpander_TOP_Input(IO_Set_DIV_1, state);
+    set_IOExpander_TOP_Output(IO_Set_DIV_1, state);
 }
 
 void set_ADC2_VoltageDiff(bool state)
 {
-    set_IOExpander_TOP_Input(IO_Set_DIV_2, state);
+    set_IOExpander_TOP_Output(IO_Set_DIV_2, state);
 }
 
 void set_ADC3_VoltageDiff(bool state)
 {
-    set_IOExpander_TOP_Input(IO_Set_DIV_3, state);
+    set_IOExpander_TOP_Output(IO_Set_DIV_3, state);
 }
 
 bool getInitFlag_PCA9555()
