@@ -4,17 +4,19 @@
 
 #define ID1 0
 #define ID2 1
-#define ID3 3
+#define ID3 6
 
 // IDs TOP
 #define HW_1_0      7 // ID1 = H ; ID2 = H ; ID3 = H  --> b00000111 --> 0x07 --> dez 7 (MCP3428)
 #define HW_2_0      6 // ID1 = L ; ID2 = H ; ID3 = H  --> b00000110 --> 0x06 --> dez 6 (MCP3428)
 #define HW_2_1      4 // ID1 = L ; ID2 = L ; ID3 = H  --> b00000100 --> 0x04 --> dez 4 (ADS1015)
+#define HW_3_0      2 // ID1 = L ; ID2 = H ; ID3 = L  --> b00000010 --> 0x02 --> dez 2 (ADS1115 & MCP230017)
 
 // IDs BOT
 #define HW_BOT_1_0  0 // ID1 = L ; ID2 = L ; ID3 = L  --> b00000000 --> 0x00 --> dez 0  (MCP3428)
 #define HW_BOT_2_0  1 // ID1 = H ; ID2 = L ; ID3 = L  --> b00000001 --> 0x01 --> dez 1  (MCP3428)
 #define HW_BOT_2_1  3 // ID1 = H ; ID2 = H ; ID3 = L  --> b00000011 --> 0x03 --> dez 3  (ADS1015)
+#define HW_BOT_5_0  4 // ID1 = L ; ID2 = L ; ID3 = H  --> b00000100 --> 0x04 --> dez 4  (ADS1115 & MCP230017)
 
 
 //void init_GPIOs();

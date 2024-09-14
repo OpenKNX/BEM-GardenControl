@@ -27,6 +27,7 @@ uint8_t get_Status_PIN()
         case HW_1_0: // V1.x
         case HW_2_0: // V2.x
         case HW_2_1: // V2.x
+        case HW_3_0: // V3.x
             return 22;
             break;
         default:
@@ -43,6 +44,7 @@ uint8_t get_PROG_LED_PIN()
         case HW_1_0: // V1.x
         case HW_2_0: // V2.x
         case HW_2_1: // V2.x
+        case HW_3_0: // V3.x
             return 24;
             break;
         default:
@@ -62,6 +64,7 @@ uint8_t get_PROG_BUTTON_PIN()
 
         case HW_2_0: // V2.0
         case HW_2_1: // V2.1
+        case HW_3_0: // V3.x
             return 25;
             break;
 
@@ -81,6 +84,7 @@ uint8_t get_SAVE_INTERRUPT_PIN()
             break;
         case HW_2_0: // V2.x
         case HW_2_1: // V2.x
+        case HW_3_0: // V3.x
             return 23;
             break;
 
@@ -100,6 +104,7 @@ uint8_t get_SSR_EN_PIN()
             break;
         case HW_2_0: // V2.x
         case HW_2_1: // V2.x
+        case HW_3_0: // V3.x
             return GPIO_SSR_EN;
             break;
         default:
@@ -116,6 +121,7 @@ uint8_t get_SSR_FAULT_PIN()
         case HW_1_0: // V1.x
         case HW_2_0: // V2.x
         case HW_2_1: // V2.x
+        case HW_3_0: // V3.x
             return GPIO_SSR_FAULT;
             break;
         default:
@@ -124,7 +130,6 @@ uint8_t get_SSR_FAULT_PIN()
             break;
     }
 }
-
 
 uint8_t get_5V_EN_PIN()
 {
@@ -135,6 +140,7 @@ uint8_t get_5V_EN_PIN()
             break;
         case HW_2_0: // V2.x
         case HW_2_1: // V2.x
+        case HW_3_0: // V3.x
             return GPIO_5V_EN;
             break;
         default:
@@ -153,6 +159,7 @@ uint8_t get_5V_status_PIN()
             break;
         case HW_2_0: // V2.x
         case HW_2_1: // V2.x
+        case HW_3_0: // V3.x
             return GPIO_5V_status;
             break;
         default:
@@ -171,6 +178,7 @@ uint8_t get_5V_fault_PIN()
             break;
         case HW_2_0: // V2.x
         case HW_2_1: // V2.x
+        case HW_3_0: // V3.x
             return IO_5V_fault;
             break;
         default:
@@ -197,6 +205,10 @@ void print_HW_ID_TOP(uint8_t id)
             SERIAL_PORT.println("V2.1");
             break;
 
+        case HW_3_0:
+            SERIAL_PORT.println("V3.0");
+            break;
+
         default:
             SERIAL_PORT.println("Not Defined");
             break;
@@ -219,6 +231,10 @@ void print_HW_ID_BOT(uint8_t id)
 
         case HW_BOT_2_1:
             SERIAL_PORT.println("V2.1");
+            break;
+
+        case HW_BOT_5_0:
+            SERIAL_PORT.println("V5.0");
             break;
 
         default:
@@ -247,10 +263,28 @@ uint8_t get_HW_ID_TOP()
 
 void read_HW_ID_BOT()
 {
-    // read Inputs
-    bitWrite(hw_ID_Bot, 0, get_IOExpander_Input(IO_HW_ID1));
-    bitWrite(hw_ID_Bot, 1, get_IOExpander_Input(IO_HW_ID2));
-    bitWrite(hw_ID_Bot, 2, get_IOExpander_Input(IO_HW_ID3));
+    switch (hw_ID)
+    {
+        case HW_1_0:
+        case HW_2_0:
+        case HW_2_1:
+            // read Inputs
+            bitWrite(hw_ID_Bot, 0, get_IOExpander_TOP_Input(IO_HW_ID1));
+            bitWrite(hw_ID_Bot, 1, get_IOExpander_TOP_Input(IO_HW_ID2));
+            bitWrite(hw_ID_Bot, 2, get_IOExpander_TOP_Input(IO_HW_ID3));
+        case HW_3_0:
+            // read Inputs
+            bitWrite(hw_ID_Bot, 0, get_IOExpander_TOP_Input(IO_HW_V3_ID1));
+            bitWrite(hw_ID_Bot, 1, get_IOExpander_TOP_Input(IO_HW_V3_ID2));
+            bitWrite(hw_ID_Bot, 2, get_IOExpander_TOP_Input(IO_HW_V3_ID3));
+            break;
+        default:
+            SERIAL_PORT.println("Wrong HW-ID  = STOPP");
+            while (true)
+            {
+            };
+            break;
+    }
 }
 
 uint8_t get_HW_ID_BOT()
@@ -265,6 +299,7 @@ void initHW()
         case HW_1_0:
         case HW_2_0:
         case HW_2_1:
+        case HW_3_0:
             // RP2040 GPIO Init
             pinMode(get_PROG_LED_PIN(), OUTPUT);
             pinMode(get_SSR_EN_PIN(), OUTPUT);
@@ -319,6 +354,12 @@ void initHW_Top()
 #endif
             break;
 
+        case HW_3_0:
+#ifdef ADC_enable
+            initADC_TOP_ADS1115(Resolution16Bit);
+#endif
+            break;
+
         default:
             SERIAL_PORT.println("Wrong HW-ID  = STOPP");
             while (true)
@@ -343,7 +384,14 @@ void initHW_Bot()
         case HW_BOT_2_1:
             init_IOExpander_GPIOs_BOT();
 #ifdef ADC_enable
-        initADC_BOT_ADS1015(Resolution12Bit);
+            initADC_BOT_ADS1015(Resolution12Bit);
+#endif
+            break;
+
+        case HW_BOT_5_0:
+            init_IOExpander_GPIOs_BOT();
+#ifdef ADC_enable
+            initADC_BOT_ADS1115(Resolution12Bit);
 #endif
             break;
 

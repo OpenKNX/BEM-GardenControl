@@ -11,8 +11,8 @@ void init_IOExpander_GPIOs_BOT();
 
 void clearInitFlags_IOExp();
 
-bool get_IOExpander_Input(uint8_t ch);
-void set_IOExpander_Input(uint8_t ch, bool state);
+bool get_IOExpander_TOP_Input(uint8_t ch);
+void set_IOExpander_TOP_Input(uint8_t ch, bool state);
 bool get_IOExpander_BOT_Input(uint8_t ch);
 void set_IOExpander_BOT_Input(uint8_t ch, bool state);
 

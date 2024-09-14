@@ -35,9 +35,13 @@
 
 // IO Expander TOP
 #define IO_5V_EN 0
+#define IO_5V_EN_V3 3
 #define IO_HW_ID1 1
 #define IO_HW_ID2 2
 #define IO_HW_ID3 3
+#define IO_HW_V3_ID1 0
+#define IO_HW_V3_ID2 1
+#define IO_HW_V3_ID3 2
 #define IO_5V_fault 4
 #define IO_Set_DIV_1 5
 #define IO_Set_DIV_2 6
@@ -71,8 +75,10 @@
 #define SAVE_INTERRUPT_PIN 23
 #define LED_YELLOW_PIN 22 // nicht 22 weil es in V1 für GPIO_5V_EN verwendet wird, 27 frei gewählt weil in HW nicht belegt!
 // Set i2c address
-#define i2cAddr_IO 0x27
-#define i2cAddr_IO_Bot 0x20
+#define i2cAddr_IO_Top_PCA9554  0x27
+#define i2cAddr_IO_Top_MCP23017 0x26
+#define i2cAddr_IO_Bot_PCA9555  0x20
+#define i2cAddr_IO_Bot_MCP23017 0x27
 #define i2cADC 0x68
 #define i2cADC_BOT 0x6E
 #define i2cADC_ADS1015_TOP 0x48

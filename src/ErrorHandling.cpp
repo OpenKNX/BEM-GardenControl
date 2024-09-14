@@ -89,7 +89,7 @@ uint8_t processErrorHandling()
     }
 
     // read +5V Sensor fault
-    if (!get_IOExpander_Input(get_5V_fault_PIN()))
+    if (!get_IOExpander_TOP_Input(get_5V_fault_PIN()))
     {
         error |= 1 << ERROR_VCC_5V;
     }
