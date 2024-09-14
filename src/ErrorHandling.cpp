@@ -88,15 +88,6 @@ uint8_t processErrorHandling()
         // error &= ~(1 << ERROR_5V);
     }
 
-    // read +5V Sensor fault
-    if (!get_IOExpander_TOP_Input(get_5V_fault_PIN()))
-    {
-        error |= 1 << ERROR_VCC_5V;
-    }
-    else
-    {
-        error &= ~(1 << ERROR_VCC_5V);
-    }
 
     // Check ext Relais 5V
     if (!digitalRead(get_SSR_FAULT_PIN()))
@@ -112,6 +103,39 @@ uint8_t processErrorHandling()
     {
         error &= ~(1 << ERROR_Relais_5V);
     }
+
+
+    // read +5V Output  fault
+    if (!get_IOExpander_TOP_Input(get_5V_Output_fault_PIN()))
+    {
+        error |= 1 << ERROR_VCC_5V;
+    }
+    else
+    {
+        error &= ~(1 << ERROR_VCC_5V);
+    }
+
+    // read +12V Output  fault
+    if (get_12V_Output_fault_PIN() != 255 && get_IOExpander_TOP_Input(get_12V_Output_fault_PIN()))
+    {
+        error |= 1 << ERROR_VCC_12V;
+    }
+    else
+    {
+        error &= ~(1 << ERROR_VCC_12V);
+    }
+
+    // read +24V Output  fault
+    if (get_24V_Output_fault_PIN() != 255 && get_IOExpander_TOP_Input(get_24V_Output_fault_PIN()))
+    {
+        error |= 1 << ERROR_VCC_24V;
+    }
+    else
+    {
+        error &= ~(1 << ERROR_VCC_24V);
+    }
+
+    
 
     if (error_old != error && delayCheck(delayTimer_DiagKO, DelayTime_DiagKO))
     {

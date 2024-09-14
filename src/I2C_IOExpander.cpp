@@ -421,3 +421,21 @@ bool getInitFlag_PCA9554()
 {
     return init_flag_PCA9554;
 }
+
+// only TEST
+
+void set_IOExpander_BOT_Output_PCA9555(uint8_t ch, bool state)
+{
+    if (!get_24V_AC_Error())
+    {
+        if (init_flag_PCA9555)
+        {
+            pca9555.digitalWrite(ch, state);
+        }
+        else
+        {
+            init_IOExpander_GPIOs_BOT();
+            pca9555.digitalWrite(ch, state);
+        }
+    }
+}

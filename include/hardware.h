@@ -17,6 +17,7 @@
  #define IOExp_enable_Output
  #define ProgLedblinking1sek
  #define KNXcallback_Output
+ #define ErrorBits_Output
 // #define Input_BIN_Output
  #define InputADC_Output
  #define ADC_enable_Output
@@ -49,6 +50,11 @@
 #define IO_5V_EN_V3 3
 #define IO_12V_EN_V3 4
 #define IO_24V_EN_V3 5
+#define IO_HSS_Sense_1_V3 8
+#define IO_HSS_Sense_2_V3 9
+#define IO_5V_fault_V3 10
+#define IO_12V_24V_fault_V3 11
+
 
 
 // IO Expander BOT

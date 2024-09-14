@@ -27,6 +27,8 @@ bool getStatus_Relais(uint8_t ch);
 bool getInitFlag_PCA9555();
 bool getInitFlag_PCA9554();
 
+void set_IOExpander_BOT_Output_PCA9555(uint8_t ch, bool state);
+
 
 
 #endif

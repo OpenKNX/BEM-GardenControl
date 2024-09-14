@@ -215,7 +215,6 @@ void GardenControlDevice::setup()
     delay(500);
     setLED_OFF_ALL();
 
-
     if (!digitalRead(get_5V_status_PIN()))
     {
     }
@@ -254,14 +253,14 @@ void GardenControlDevice::loop()
                 if (processADConversation_TOP() && get_ADC_Ready_Flag_TOP() == false)
                 {
                     SERIAL_DEBUG.println("--> ADC TOP ready <--"); // PRIO 3
-                    set_ADC_Ready_Flag_TOP(); // Now all ADC CH have a new Value sampled
+                    set_ADC_Ready_Flag_TOP();                      // Now all ADC CH have a new Value sampled
                 }
 #endif
 #ifdef ADC_enable
                 if (processADConversation_BOT() && get_ADC_Ready_Flag_BOT() == false)
                 {
                     SERIAL_DEBUG.println("--> ADC BOT ready <--"); // PRIO 3
-                    set_ADC_Ready_Flag_BOT(); // Now all ADC CH have a new Value sampled
+                    set_ADC_Ready_Flag_BOT();                      // Now all ADC CH have a new Value sampled
                 }
 #endif
 #ifdef ADC_enable
@@ -317,19 +316,22 @@ void GardenControlDevice::loop()
 
         if (delayCheck(Output_Delay, 2007))
         {
-            if (getError())
-            {
 
-#ifdef SerialError
-                SERIAL_DEBUG.println(getError());
-                SERIAL_DEBUG.print("Ventil1: ");
-                SERIAL_DEBUG.println(get_Ventil_StateOld(0));
-                SERIAL_DEBUG.println(get_24V_AC_Error());
-                SERIAL_DEBUG.println(get_12V_Error());
-                SERIAL_DEBUG.println(get_24V_Error());
-                SERIAL_DEBUG.println(get_5V_Error());
+        // only TEST enable 24V outputs for 4-20mA
+        set_IOExpander_BOT_Output_PCA9555(14, HIGH);
+        set_IOExpander_BOT_Output_PCA9555(15, HIGH);
+
+#ifdef ErrorBits_Output
+            SERIAL_DEBUG.println("------------------");
+            SERIAL_DEBUG.print("--> Error 5V: ");
+            SERIAL_DEBUG.println(get_5V_Error());
+            SERIAL_DEBUG.print("--> Error 12V: ");
+            SERIAL_DEBUG.println(get_12V_Error());
+            SERIAL_DEBUG.print("--> Error 24V: ");
+            SERIAL_DEBUG.println(get_24V_Error());
+            SERIAL_DEBUG.println("------------------");
 #endif
-            }
+
 #ifdef ADC_enable_Output
             SERIAL_DEBUG.print("ADC CH1: ");
             SERIAL_DEBUG.print(getAdcI2cValue_TOP(0));
@@ -347,7 +349,7 @@ void GardenControlDevice::loop()
             SERIAL_DEBUG.print(getAdcI2cValue_TOP(3));
             SERIAL_DEBUG.print(" Volt: ");
             SERIAL_DEBUG.println(getAdcVoltage_TOP(3), 3);
-
+            SERIAL_DEBUG.println("------------------");
             SERIAL_DEBUG.print("4-20mA CH1: ");
             SERIAL_DEBUG.print(getAdcI2cValue_BOT(0));
             SERIAL_DEBUG.print(" Curr: ");
@@ -356,7 +358,7 @@ void GardenControlDevice::loop()
             SERIAL_DEBUG.print(getAdcI2cValue_BOT(1));
             SERIAL_DEBUG.print(" Curr: ");
             SERIAL_DEBUG.println(getAdcVoltage_BOT(1));
-
+            SERIAL_DEBUG.println("------------------");
             SERIAL_DEBUG.println(" ");
 #endif
 

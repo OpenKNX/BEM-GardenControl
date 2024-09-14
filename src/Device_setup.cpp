@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include "GardenControlDevice.h"
+#include "HelperFunc.h"
 #include "I2C_IOExpander.h"
 #include "ReadADC.h"
 // #include "Input_Impulse.h"
@@ -169,7 +170,7 @@ uint8_t get_5V_status_PIN()
     }
 }
 
-uint8_t get_5V_fault_PIN()
+uint8_t get_5V_Output_fault_PIN()
 {
     switch (hw_ID)
     {
@@ -178,11 +179,49 @@ uint8_t get_5V_fault_PIN()
             break;
         case HW_2_0: // V2.x
         case HW_2_1: // V2.x
-        case HW_3_0: // V3.x
             return IO_5V_fault;
+            break;
+        case HW_3_0: // V3.x
+            return IO_5V_fault_V3;
             break;
         default:
             SERIAL_PORT.println("Wrong ID: 5V Fault");
+            return 255;
+            break;
+    }
+}
+
+uint8_t get_12V_Output_fault_PIN()
+{
+    switch (hw_ID)
+    {
+        case HW_1_0: // V1.x
+        case HW_2_0: // V2.x
+        case HW_2_1: // V2.x
+            return 255;
+        case HW_3_0: // V3.x
+            return IO_HSS_Sense_1_V3;
+            break;
+        default:
+            SERIAL_PORT.println("Wrong ID: 12V Fault");
+            return 255;
+            break;
+    }
+}
+
+uint8_t get_24V_Output_fault_PIN()
+{
+    switch (hw_ID)
+    {
+        case HW_1_0: // V1.x
+        case HW_2_0: // V2.x
+        case HW_2_1: // V2.x
+            return 255;
+        case HW_3_0: // V3.x
+            return IO_HSS_Sense_2_V3;
+            break;
+        default:
+            SERIAL_PORT.println("Wrong ID: 24V Fault");
             return 255;
             break;
     }
@@ -339,10 +378,10 @@ void initHW_Top()
 
     init_IOExpander_GPIOs_TOP();
 
-    //Enable Outputs
-    set_IOExpander_TOP_Output(IO_5V_EN_V3,HIGH);
-    set_IOExpander_TOP_Output(IO_12V_EN_V3,HIGH);
-    set_IOExpander_TOP_Output(IO_24V_EN_V3,HIGH);
+    // Enable Outputs
+    set_IOExpander_TOP_Output(IO_5V_EN_V3, HIGH);
+    set_IOExpander_TOP_Output(IO_12V_EN_V3, HIGH);
+    set_IOExpander_TOP_Output(IO_24V_EN_V3, HIGH);
 
     switch (hw_ID)
     {
@@ -396,11 +435,38 @@ void initHW_Bot()
         case HW_BOT_5_0:
             init_IOExpander_GPIOs_BOT();
 #ifdef ADC_enable
-            initADC_BOT_ADS1115(Resolution12Bit);
+            initADC_BOT_ADS1115(Resolution16Bit);
 #endif
             break;
 
         default:
+            SERIAL_DEBUG.println("Wrong HW-ID initHW_Bot()");
+            break;
+    }
+
+    // Enable 24V Output for 4-20mA, only when Channel is active
+    switch (get_HW_ID_BOT())
+    {
+        case HW_BOT_1_0:
+        case HW_BOT_2_0:
+        case HW_BOT_2_1:
+            break;
+        case HW_BOT_5_0:
+            // CH1
+            if (knx.paramByte(getParCUR(CUR_CHSensorType2, 0)) != 0)
+            {
+                set_IOExpander_BOT_Output(14, HIGH);
+                SERIAL_DEBUG.println("***********CH1 24V ON");
+            }
+            // CH2
+            if (knx.paramByte(getParCUR(CUR_CHSensorType2, 1)) != 0)
+            {
+                set_IOExpander_BOT_Output(15, HIGH);
+                SERIAL_DEBUG.println("***********CH2 24V ON");
+            }
+            break;
+        default:
+            SERIAL_DEBUG.println("Wrong HW-ID initHW_Bot() set 24V output");
             break;
     }
 }
