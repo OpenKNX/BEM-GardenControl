@@ -21,19 +21,29 @@
     ModuleType="10"> <!-- BASE muss immer der gleiche ModuleType wie LogicModule sein (am besten 10) -->
     <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.1" />
   </op:define>
+  <op:define prefix="UCT"
+    share="../../OFM-ConfigTransfer/src/ConfigTransfer.share.xml"
+    noConfigTransfer="true"
+    ModuleType="98">
+    <op:verify File="../../OFM-ConfigTransfer/library.json" ModuleVersion="0.2" />
+  </op:define>
   <op:define prefix="BEM" NumChannels="12" KoOffset="30"
+    configTransferName="Garden Control"
     share="GardenControl.share.xml"
     template="GardenControl.templ.xml"
     ModuleType="20" />  <!-- KoOffset = 30 -> 20 default from Logik + 10 for default of Gardencontrol -->
-  <op:define prefix="REL" NumChannels="2" KoOffset="66"  
+  <op:define prefix="REL" NumChannels="2" KoOffset="66"
+    configTransferName="  ext. Relais"
     share="GardenControlRelais.share.xml"
     template="GardenControlRelais.templ.xml"
     ModuleType="30" />  <!-- KoOffset = 66 -> 30 + BEM (12ch*3kO) 36    ACCHTUNG: seit V2.1 nur noch 2CH Relais-->
   <op:define prefix="ADC" NumChannels="4" KoOffset="75"
+    configTransferName="  Analogeingänge 0-12V"
     share="InputADC.share.xml"
     template="InputADC.templ.xml"
     ModuleType="40" />  <!-- KoOffset = 75 -> 66 + REL (3ch*3kO) 9 -->
  <op:define prefix="CUR" NumChannels="2" KoOffset="81"
+    configTransferName="  Analogeingänge 4-20mA"
     share="Input_4_20mA.share.xml"
     template="Input_4_20mA.templ.xml"
     ModuleType="50" />  <!-- KoOffset = 81 -> 75 + ADC (4ch*1kO) 6 -->
@@ -51,11 +61,12 @@
   <generate>
     <Dynamic>
       <op:include href="../lib/OGM-Common/src/Common.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BASE" />
+      <op:include href="../lib/OGM-ConfigTransfer/src/ConfigTransfer.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="UCT" />
       <Channel Id="%AID%_CH-1" Name="GardenControl" Number="1" Text="Garden Control" Icon="grass" HelpContext="Empty">
         <op:include href="GardenControl.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="BEM" />
         <op:include href="GardenControlRelais.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="REL" />
-        <op:include href="InputADC.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="ADC" /> 
-        <op:include href="Input_4_20mA.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="CUR" /> 
+        <op:include href="InputADC.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="ADC" />
+        <op:include href="Input_4_20mA.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="CUR" />
         <!-- <op:include href="Input_BIN_S0.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="BIN" /> -->
       </Channel>
       <op:include href="../lib/OFM-LogicModule/src/Logikmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="LOG" />

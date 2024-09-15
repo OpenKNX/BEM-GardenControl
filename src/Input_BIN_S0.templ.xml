@@ -293,10 +293,10 @@
                       Text="Binäreingang %C%: {{0:...}}"
                       TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
                       <ParameterBlock Id="%AID%_PB-BIN%C%Wrapper" Inline="true">
-                        <ParameterSeparator Id="%AID%_PS-1"
+                        <ParameterSeparator Id="%AID%_PS-nnn"
                           Text="Einstellungen Binäreingang %C%" UIHint="Headline" />
                         <ParameterRefRef RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" IndentLevel="1" />
-                        <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <!-- KOs for Channel -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%%CC%000_R-%TT%%CC%00001" /> <!-- KO:
                             status   -->
@@ -307,17 +307,17 @@
                             Senden-->
                         <ParameterRefRef RefId="%AID%_UP-%TT%%CC%003_R-%TT%%CC%00301" IndentLevel="1" />  <!--
                             Definiert Zustand für Open-->
-                        <ParameterSeparator Id="%AID%_PS-4" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <ParameterRefRef RefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101" IndentLevel="1" />  <!-- Senden
                             bei Buswiederkehr JA/NEIN-->
-                        <ParameterSeparator Id="%AID%_PS-5" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <ParameterRefRef RefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" IndentLevel="1" />  <!--
                             Sperrobjakt JA/NEIN-->
                         <choose ParamRefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201">
                           <when test="!=0">
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%001_R-%TT%%CC%00101" /> <!-- KO:
                                 sperrobjekt -->
-                            <ParameterSeparator Id="%AID%_PS-6"
+                            <ParameterSeparator Id="%AID%_PS-nnn"
                               Text="Falls sich der Zustand des Eingangs ändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und gesendet, sobald das Sperrobjekt wieder deaktiviert wird." />
                           </when>
                         </choose>
@@ -335,20 +335,20 @@
                       Text="S0-Eingnang %C%: {{0:...}}"
                       TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
                       <ParameterBlock Id="%AID%_PB-BIN%C%Wrapper" Inline="true">
-                        <ParameterSeparator Id="%AID%_PS-1"
+                        <ParameterSeparator Id="%AID%_PS-nnn"
                           Text="Einstellungen S0-Eingnang %C%: {{0:...}}" UIHint="Headline" />
                         <ParameterRefRef RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" IndentLevel="1" />
-                        <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <ParameterRefRef RefId="%AID%_UP-%TT%%CC%016_R-%TT%%CC%01601" IndentLevel="1" />
                         <choose ParamRefId="%AID%_UP-%TT%%CC%016_R-%TT%%CC%01601">
                           <when test="1"> <!-- Elektischer Zähler -->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00401" />
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%005_R-%TT%%CC%00501" />
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%006_R-%TT%%CC%00601" />
-                            <ParameterSeparator Id="%AID%_PS-20" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%015_R-%TT%%CC%01501" IndentLevel="1" /> <!--
                                 impl/kWh -->
-                            <ParameterSeparator Id="%AID%_PS-22" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801" IndentLevel="1" /> <!--
                                 Neuer Zählerstand -->
                             <choose ParamRefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801">
@@ -356,8 +356,8 @@
                                 <ComObjectRefRef RefId="%AID%_O-%TT%%CC%003_R-%TT%%CC%00301" />
                               </when>
                             </choose>
-                            <ParameterSeparator Id="%AID%_PS-100" Text="" UIHint="HorizontalRuler" />
-                            <ParameterSeparator Id="%AID%_PS-101" Text="Zählerstand"
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Zählerstand"
                               UIHint="Headline" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%020_R-%TT%%CC%02001" IndentLevel="1" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%020_R-%TT%%CC%02001">
@@ -374,7 +374,7 @@
                                 <ParameterRefRef RefId="%AID%_UP-%TT%%CC%022_R-%TT%%CC%02201" IndentLevel="1" />
                               </when>
                             </choose>
-                            <ParameterSeparator Id="%AID%_PS-100" Text="Verbrauch" UIHint="Headline" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Verbrauch" UIHint="Headline" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%025_R-%TT%%CC%02501" IndentLevel="1" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%025_R-%TT%%CC%02501">
                               <when test="1"> <!-- Bei Wertänderung -->
@@ -390,17 +390,17 @@
                                 <ParameterRefRef RefId="%AID%_UP-%TT%%CC%024_R-%TT%%CC%02401" IndentLevel="1" />
                               </when>
                             </choose>
-                            <ParameterSeparator Id="%AID%_PS-24" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" IndentLevel="1" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%028_R-%TT%%CC%02801" IndentLevel="1" /> <!--
                                 Mindestleistung -->
-                            <ParameterSeparator Id="%AID%_PS-24"
+                            <ParameterSeparator Id="%AID%_PS-nnn"
                               Text="                                                          Mindestleistung, Werte unterhalb werden mit 0W gesendet" />
                           </when>
                           <when test="2 3">  <!-- Wasser & Gas Zähler -->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%005_R-%TT%%CC%00502" />
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%006_R-%TT%%CC%00602" />
-                            <ParameterSeparator Id="%AID%_PS-20" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%027_R-%TT%%CC%02701" IndentLevel="1" /> <!-- Wahl
                                 zwischen l & m3 -->
                             <choose ParamRefId="%AID%_UP-%TT%%CC%027_R-%TT%%CC%02701">
@@ -415,7 +415,7 @@
                                 <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00402" />
                               </when>
                             </choose>
-                            <ParameterSeparator Id="%AID%_PS-22" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801" IndentLevel="1" /> <!--
                                 Neuer Zählerstand -->
                             <choose ParamRefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801">
@@ -432,8 +432,8 @@
                                 </choose>
                               </when>
                             </choose>
-                            <ParameterSeparator Id="%AID%_PS-100" Text="" UIHint="HorizontalRuler" />
-                            <ParameterSeparator Id="%AID%_PS-101" Text="Zählerstand"
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Zählerstand"
                               UIHint="Headline" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%020_R-%TT%%CC%02001" IndentLevel="1" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%020_R-%TT%%CC%02001">
@@ -468,7 +468,7 @@
                                 </choose>
                               </when>
                             </choose>
-                            <ParameterSeparator Id="%AID%_PS-100" Text="Verbrauch" UIHint="Headline" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Verbrauch" UIHint="Headline" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%025_R-%TT%%CC%02501" IndentLevel="1" />
                             <choose ParamRefId="%AID%_UP-%TT%%CC%025_R-%TT%%CC%02501">
                               <when test="1"> <!-- Bei Wertänderung -->
@@ -484,22 +484,22 @@
                                 <ParameterRefRef RefId="%AID%_UP-%TT%%CC%024_R-%TT%%CC%02402" IndentLevel="1" />
                               </when>
                             </choose>
-                            <ParameterSeparator Id="%AID%_PS-24" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" IndentLevel="1" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%028_R-%TT%%CC%02802" IndentLevel="1" /> <!--
                                 Mindestdurchfluss-->
-                            <ParameterSeparator Id="%AID%_PS-24"
+                            <ParameterSeparator Id="%AID%_PS-nnn"
                               Text="                                                          Mindestdurchfluss, Werte unterhalb werden mit 0W gesendet" />
                           </when>
                           <when test="4"> <!-- sonstiges -->
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%004_R-%TT%%CC%00404" />
-                            <ParameterSeparator Id="%AID%_PS-21" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%015_R-%TT%%CC%01504" IndentLevel="1" /> <!-- impl -->
-                            <ParameterSeparator Id="%AID%_PS-23" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%018_R-%TT%%CC%01801" IndentLevel="1" />
-                            <ParameterSeparator Id="%AID%_PS-24" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%017_R-%TT%%CC%01701" IndentLevel="1" />
-                            <ParameterSeparator Id="%AID%_PS-25" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                             <ParameterRefRef RefId="%AID%_UP-%TT%%CC%019_R-%TT%%CC%01901" IndentLevel="1" />
                           </when>
                         </choose>
@@ -517,26 +517,26 @@
                       Text="Impulseingang %C%: {{0:...}}"
                       TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
                       <ParameterBlock Id="%AID%_PB-BIN%C%Wrapper" Inline="true">
-                        <ParameterSeparator Id="%AID%_PS-1"
+                        <ParameterSeparator Id="%AID%_PS-nnn"
                           Text="Einstellungen Impulseingang %C%" UIHint="Headline" />
                         <ParameterRefRef RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" IndentLevel="1" />
-                        <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <!-- KOs for Channel -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%%CC%002_R-%TT%%CC%00201" /> <!-- KO:
                             Impulszähler L/h   -->
                         <!-- weitere Parameter -->
                         <ParameterRefRef RefId="%AID%_UP-%TT%%CC%012_R-%TT%%CC%01201" IndentLevel="1" />  <!-- Formel
                             Wert -->
-                        <ParameterSeparator Id="%AID%_PS-4"
+                        <ParameterSeparator Id="%AID%_PS-nnn"
                           Text="Hinweis: Der Wert wird mit L/min berechnet, aber mit L/h gesendet !" />
-                        <ParameterSeparator Id="%AID%_PS-5" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <ParameterRefRef RefId="%AID%_UP-%TT%%CC%010_R-%TT%%CC%01001" IndentLevel="1" />  <!-- Zyklisch
                             Senden-->
                         <ParameterRefRef RefId="%AID%_UP-%TT%%CC%013_R-%TT%%CC%01301" IndentLevel="1" />  <!-- Absolut
                             Senden-->
                         <ParameterRefRef RefId="%AID%_UP-%TT%%CC%014_R-%TT%%CC%01401" IndentLevel="1" />  <!-- Releativ
                             Senden-->
-                        <ParameterSeparator Id="%AID%_PS-6" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                       </ParameterBlock>
                     </Channel>
                   </ParameterBlock>

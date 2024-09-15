@@ -73,10 +73,10 @@
                       Text="Ventil %C%: {{0:...}}"
                       TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
                       <ParameterBlock Id="%AID%_PB-ENO%C%Wrapper" Inline="true">
-                        <ParameterSeparator Id="%AID%_PS-1" Text="Einstellungen Magnetventil %C%"
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Einstellungen Magnetventil %C%"
                           UIHint="Headline" />
                         <ParameterRefRef RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" IndentLevel="1" />
-                        <ParameterSeparator Id="%AID%_PS-2" Text="" UIHint="HorizontalRuler" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         <!-- KOs for Channel -->
                         <ComObjectRefRef RefId="%AID%_O-%TT%%CC%000_R-%TT%%CC%00001" /> <!-- KO:
                         schalten -->
@@ -89,7 +89,7 @@
                           <when test="!=0">
                             <ComObjectRefRef RefId="%AID%_O-%TT%%CC%002_R-%TT%%CC%00201" /> <!-- KO:
                             sperrobjekt -->
-                            <ParameterSeparator Id="%AID%_PS-5"
+                            <ParameterSeparator Id="%AID%_PS-nnn"
                               Text="Wird der Zustand des Ventils geändert, während das Sperrobjekt aktiv ist, wird dieser neue Zustand intern gespeichert und ausgeführt, sobald das Sperrobjekt wieder deaktiviert wird." />
                           </when>
                         </choose>

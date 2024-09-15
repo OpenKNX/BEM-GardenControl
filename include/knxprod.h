@@ -10,10 +10,11 @@
                                              
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16
-#define MAIN_ApplicationVersion 7
+#define MAIN_ApplicationVersion 9
 #define MAIN_ParameterSize 11474
 #define MAIN_MaxKoNumber 716
 #define MAIN_OrderNumber "MFKnxBem"
+#define UCT_ModuleVersion 2
 #define LOG_ModuleVersion 51
 // Parameter with single occurrence
 
@@ -140,6 +141,8 @@
 #define KoBASE_IsSummertime                        (knx.getGroupObject(BASE_KoIsSummertime))
 // Speichern
 #define KoBASE_ManualSave                          (knx.getGroupObject(BASE_KoManualSave))
+
+
 
 #define BEM_ext5VRelais                         46      // 1 Bit, Bit 7
 #define     BEM_ext5VRelaisMask 0x80

@@ -4,16 +4,19 @@
 			"path": "."
 		},
 		{
-			"path": "..\\OFM-LogicModule"
+			"path": "../OFM-LogicModule"
 		},
 		{
-			"path": "..\\OFM-FileTransferModule"
+			"path": "../OFM-FileTransferModule"
 		},
 		{
-			"path": "..\\OGM-Common"
+			"path": "../OGM-Common"
 		},
 		{
-			"path": "..\\knx"
+			"path": "../knx"
+		},
+		{
+			"path": "../OFM-ConfigTransfer"
 		}
 	],
 	"settings": {
