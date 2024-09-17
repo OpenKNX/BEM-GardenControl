@@ -10,7 +10,7 @@
                                              
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16
-#define MAIN_ApplicationVersion 9
+#define MAIN_ApplicationVersion 7
 #define MAIN_ParameterSize 11474
 #define MAIN_MaxKoNumber 716
 #define MAIN_OrderNumber "MFKnxBem"

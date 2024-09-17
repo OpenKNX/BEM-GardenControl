@@ -40,4 +40,5 @@ uint8_t get_5V_EN_PIN();
 uint8_t get_5V_Output_fault_PIN();
 uint8_t get_12V_Output_fault_PIN();
 uint8_t get_24V_Output_fault_PIN();
+uint8_t get_12_or_24V_Output_fault_PIN();
 uint8_t get_5V_status_PIN();

@@ -96,8 +96,8 @@ void init_IOExpander_GPIOs_TOP()
                     mcp23017_TOP.pinMode(3, OUTPUT);       // +5V_EN
                     mcp23017_TOP.pinMode(4, OUTPUT);       // +12V_EN
                     mcp23017_TOP.pinMode(5, OUTPUT);       // +24V_EN
-                    mcp23017_TOP.pinMode(6, OUTPUT);       // +24V_1_EN (optional)
-                    mcp23017_TOP.pinMode(7, OUTPUT);       // +24V_2_EN (optional)
+                    mcp23017_TOP.pinMode(6, INPUT);       // +24V_1_EN (optional)
+                    mcp23017_TOP.pinMode(7, INPUT);       // +24V_2_EN (optional)
 
                     mcp23017_TOP.pinMode(8, INPUT);  // HSS_Sense1
                     mcp23017_TOP.pinMode(9, INPUT);  // HSS_Sense2
@@ -213,6 +213,10 @@ void set_IOExpander_TOP_Output(uint8_t ch, bool state)
                 if (init_flag_PCA9554)
                 {
                     mcp23017_TOP.digitalWrite(ch, state);
+                    SERIAL_PORT.print("MCP23017_TOP.write ");
+                    SERIAL_PORT.print(state);
+                    SERIAL_PORT.print("  CH");
+                    SERIAL_PORT.println(ch);
                 }
                 else
                 {
@@ -340,11 +344,17 @@ void set_IOExpander_BOT_Output(uint8_t ch, bool state)
                 if (init_flag_PCA9555)
                 {
                     mcp23017_BOT.digitalWrite(ch, state);
+                    SERIAL_PORT.print("MCP23017_BOT.write ");
+                    SERIAL_PORT.print(state);
+                    SERIAL_PORT.print("  CH");
+                    SERIAL_PORT.println(ch);
+                    break;
                 }
                 else
                 {
                     init_IOExpander_GPIOs_BOT();
                     mcp23017_BOT.digitalWrite(ch, state);
+                    SERIAL_PORT.println("::::: Write");
                 }
 
                 break;

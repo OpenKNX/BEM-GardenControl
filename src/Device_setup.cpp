@@ -227,6 +227,25 @@ uint8_t get_24V_Output_fault_PIN()
     }
 }
 
+uint8_t get_12_or_24V_Output_fault_PIN()
+{
+    switch (hw_ID)
+    {
+        case HW_1_0: // V1.x
+        case HW_2_0: // V2.x
+        case HW_2_1: // V2.x
+            return 255;
+        case HW_3_0: // V3.x
+            return IO_12V_24V_fault_V3;
+            break;
+        default:
+            SERIAL_PORT.println("Wrong ID: 12 or 24V Fault");
+            return 255;
+            break;
+    }
+}
+
+
 void print_HW_ID_TOP(uint8_t id)
 {
     SERIAL_PORT.print("  HW-ID-TOP: ");
@@ -456,13 +475,11 @@ void initHW_Bot()
             if (knx.paramByte(getParCUR(CUR_CHSensorType2, 0)) != 0)
             {
                 set_IOExpander_BOT_Output(14, HIGH);
-                SERIAL_DEBUG.println("***********CH1 24V ON");
             }
             // CH2
             if (knx.paramByte(getParCUR(CUR_CHSensorType2, 1)) != 0)
             {
                 set_IOExpander_BOT_Output(15, HIGH);
-                SERIAL_DEBUG.println("***********CH2 24V ON");
             }
             break;
         default:

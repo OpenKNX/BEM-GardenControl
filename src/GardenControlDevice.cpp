@@ -317,9 +317,15 @@ void GardenControlDevice::loop()
         if (delayCheck(Output_Delay, 2007))
         {
 
-        // only TEST enable 24V outputs for 4-20mA
-        set_IOExpander_BOT_Output_PCA9555(14, HIGH);
-        set_IOExpander_BOT_Output_PCA9555(15, HIGH);
+            // only TEST enable 24V outputs for 4-20mA
+            // set_IOExpander_BOT_Output_PCA9555(14, HIGH);
+            // set_IOExpander_BOT_Output_PCA9555(15, HIGH);
+            // Enable Outputs
+            set_IOExpander_TOP_Output(IO_5V_EN_V3, HIGH);
+            set_IOExpander_TOP_Output(IO_12V_EN_V3, HIGH);
+            set_IOExpander_TOP_Output(IO_24V_EN_V3, HIGH);
+            set_IOExpander_TOP_Output(13, HIGH);
+
 
 #ifdef ErrorBits_Output
             SERIAL_DEBUG.println("------------------");
@@ -329,6 +335,8 @@ void GardenControlDevice::loop()
             SERIAL_DEBUG.println(get_12V_Error());
             SERIAL_DEBUG.print("--> Error 24V: ");
             SERIAL_DEBUG.println(get_24V_Error());
+            SERIAL_DEBUG.print("--> Error 12/24V: ");
+            SERIAL_DEBUG.println(get_12V_or_24V_Error());
             SERIAL_DEBUG.println("------------------");
 #endif
 

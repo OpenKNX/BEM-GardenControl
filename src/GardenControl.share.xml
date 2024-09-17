@@ -127,6 +127,9 @@
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit2 = Error VCC 12V" />
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit3 = Error VCC 24V" />
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit4 = Error Relay 5V" />
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit5 = Error VCC 24V (4-10mA CH1)" />
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit6 = Error VCC 24V (4-10mA CH2)" />
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit7 = Error VCC 12V or 24V" />
                   </when>
                 </choose>
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />

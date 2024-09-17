@@ -151,10 +151,6 @@ void control_Relais(uint8_t nr, bool state)
             set_IOExpander_BOT_Output(13, state);
             setLED_Relais(LEDRelais2, !state);
             break;
-        case 2:
-            set_IOExpander_BOT_Output(14, state);
-            setLED_Relais(LEDRelais3, !state);
-            break;
         default:
             break;
     }

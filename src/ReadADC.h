@@ -19,7 +19,7 @@
 #define is4_20mA 1
 #define DIV_24V  0
 
-/**************  ADS1015  ******************************/
+/**************  ADS1x15  ******************************/
 void initADC_TOP_ADS1015(uint8_t res_top);
 void initADC_TOP_ADS1115(uint8_t res_top);
 bool getAdcI2cRun_TOP();
@@ -31,11 +31,6 @@ void readAdcI2cValue_TOP(uint8_t ch);
 
 void initADC_BOT_ADS1015(uint8_t res_bot);
 void initADC_BOT_ADS1115(uint8_t res_bot);
-bool getAdcI2cRun_BOT();
-bool isAdcI2cBusy_BOT();
-void requestADC_BOT(uint8_t ch);
-uint16_t getAdcI2cValue_BOT(uint8_t ch);
-void readAdcI2cValue_BOT(uint8_t ch);
 /*******************************************************/
 /**************  MCP3428  ******************************/
 void initADC_TOP_MCP3428(uint8_t res_top);
@@ -44,12 +39,18 @@ void initADC_BOT_MCP3428(uint8_t res_bot);
 void StartAdcConversation_TOP(uint8_t ch);
 void StartAdcConversation_BOT(uint8_t ch);
 
-void ReadAdcValue();
-void ReadAdcValue_BOT();
+//void ReadAdcValue();
+//void ReadAdcValue_BOT();
 bool isAdcBusy_TOP_MCP3428();
 bool isAdcBusy_BOT_MCP3428();
 
 /*******************************************************/
+
+bool getAdcI2cRun_BOT();
+bool isAdcI2cBusy_BOT();
+void requestADC_BOT(uint8_t ch);
+uint16_t getAdcI2cValue_BOT(uint8_t ch);
+void readAdcI2cValue_BOT(uint8_t ch);
 
 bool processADConversation_TOP();
 bool processADConversation_BOT();

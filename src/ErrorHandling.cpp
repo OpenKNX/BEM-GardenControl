@@ -12,11 +12,15 @@
     #include "ReadADC.h"
 #endif
 
+// ERROR Byte
 #define ERROR_24V_AC 0
 #define ERROR_VCC_5V 1
 #define ERROR_VCC_12V 2
 #define ERROR_VCC_24V 3
 #define ERROR_Relais_5V 4
+#define ERROR_24V_4_20mA_CH1 5
+#define ERROR_24V_4_20mA_CH2 6
+#define ERROR_VCC12_or_VCC24 7
 
 #define DelayTime 1000
 #define DelayTime_DiagKO 1000
@@ -74,7 +78,7 @@ uint8_t processErrorHandling()
         clearInitFlags_ADC();
 #endif
         clearInitFlags_IOExp();
-        
+
         initADCFlag_TOP = false;
         initADCFlag_BOT = false;
     }
@@ -88,22 +92,20 @@ uint8_t processErrorHandling()
         // error &= ~(1 << ERROR_5V);
     }
 
-
     // Check ext Relais 5V
     if (!digitalRead(get_SSR_FAULT_PIN()))
     {
         error |= 1 << ERROR_Relais_5V;
-       /* RestartTimer_5V_Relais = millis();
-        digitalWrite(get_SSR_EN_PIN(), false);
-        restart_5V_Relais = true;
-        Serial.println("------> STOPP");
-        */
+        /* RestartTimer_5V_Relais = millis();
+         digitalWrite(get_SSR_EN_PIN(), false);
+         restart_5V_Relais = true;
+         Serial.println("------> STOPP");
+         */
     }
     else
     {
         error &= ~(1 << ERROR_Relais_5V);
     }
-
 
     // read +5V Output  fault
     if (!get_IOExpander_TOP_Input(get_5V_Output_fault_PIN()))
@@ -135,7 +137,35 @@ uint8_t processErrorHandling()
         error &= ~(1 << ERROR_VCC_24V);
     }
 
-    
+    // read +24V 4-20mA CH1
+    if (check_24V_4_20mA_CH1())
+    {
+        error |= 1 << ERROR_24V_4_20mA_CH1;
+    }
+    else
+    {
+        error &= ~(1 << ERROR_24V_4_20mA_CH1);
+    }
+
+      // read +24V 4-20mA CH2
+    if (check_24V_4_20mA_CH2())
+    {
+        error |= 1 << ERROR_24V_4_20mA_CH2;
+    }
+    else
+    {
+        error &= ~(1 << ERROR_24V_4_20mA_CH2);
+    }
+
+    // read ERROR_VCC12_or_VCC24 (only for special HW)
+    if (get_12_or_24V_Output_fault_PIN() != 255 && !get_IOExpander_TOP_Input(get_12_or_24V_Output_fault_PIN()))
+    {
+        error |= 1 << ERROR_VCC12_or_VCC24;
+    }
+    else
+    {
+        error &= ~(1 << ERROR_VCC12_or_VCC24);
+    }
 
     if (error_old != error && delayCheck(delayTimer_DiagKO, DelayTime_DiagKO))
     {
@@ -169,6 +199,11 @@ bool get_24V_Error()
     return (error >> ERROR_VCC_24V) & 1;
 }
 
+bool get_12V_or_24V_Error()
+{
+    return (error >> ERROR_VCC12_or_VCC24) & 1;
+}
+
 bool get_24V_AC_Error()
 {
     return (error >> ERROR_24V_AC) & 1;
@@ -192,4 +227,56 @@ void set_ADC_Ready_Flag_TOP()
 void set_ADC_Ready_Flag_BOT()
 {
     initADCFlag_BOT = true;
+}
+
+bool check_24V_4_20mA_CH1()
+{
+    switch (get_HW_ID_BOT())
+    {
+        case HW_BOT_1_0:
+        case HW_BOT_2_0:
+        case HW_BOT_2_1:
+            return false;
+            break;
+        case HW_BOT_5_0:
+            if (getAdcVoltage_BOT(2) > 2.4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            break;
+        default:
+            SERIAL_PORT.println("Wrong HW-ID  check_24V_4_20mA()");
+            return false;
+            break;
+    }
+}
+
+bool check_24V_4_20mA_CH2()
+{
+    switch (get_HW_ID_BOT())
+    {
+        case HW_BOT_1_0:
+        case HW_BOT_2_0:
+        case HW_BOT_2_1:
+            return false;
+            break;
+        case HW_BOT_5_0:
+            if (getAdcVoltage_BOT(3) > 2.4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            break;
+        default:
+            SERIAL_PORT.println("Wrong HW-ID  check_24V_4_20mA()");
+            return false;
+            break;
+    }
 }
