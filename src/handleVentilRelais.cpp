@@ -8,6 +8,9 @@
 #include "ErrorHandling.h"
 #include "LED_Statusanzeige.h"
 
+bool initVentil = false;
+bool initRelay = false;
+
 bool ventil_State[BEM_ChannelCount] = {0};
 bool ventil_State_old[BEM_ChannelCount] = {0};
 bool ventil_Sperrobjekt[BEM_ChannelCount] = {0};
@@ -28,6 +31,18 @@ bool displayCleared_Relais = false;
  ****************************************************************************/
 void processVentil()
 {
+    if (!initVentil)
+    {
+        SERIAL_PORT.println("Senden Status Objekte Ventil");
+        if ((knx.paramByte(BEM_ext5VRelaisStartState) >> BEM_ext5VRelaisStartStateShift) & 1) // Senden bei Startup "AN"
+        {
+            for (int i = 0; i < BEM_ChannelCount; i++)
+            {
+                knx.getGroupObject(BEM_KoOffset + (i * BEM_KoBlockSize + BEM_Ko_Status_ventil)).objectWritten();
+            }
+        }
+        initVentil = true;
+    }
     if (!get_5V_Error())
     {
         // check of state chnage and Send new Status
@@ -91,6 +106,18 @@ void set_Ventil_Sperrobjekt(uint8_t ch, bool state)
  ****************************************************************************/
 void processRelais()
 {
+    if (!initRelay)
+    {
+        SERIAL_PORT.println("Senden Status Objekte Relays");
+        if ((knx.paramByte(BEM_ext5VRelaisStartState) >> BEM_ext5VRelaisStartStateShift) & 1) // Senden bei Startup "AN"
+        {
+            for (int i = 0; i < REL_ChannelCount; i++)
+            {
+                knx.getGroupObject(REL_KoOffset + (i * REL_KoBlockSize + REL_Ko_Status_relais)).objectWritten();
+            }
+        }
+        initRelay = true;
+    }
     if (!get_24V_AC_Error())
     {
         // check of state chnage and Send new Status

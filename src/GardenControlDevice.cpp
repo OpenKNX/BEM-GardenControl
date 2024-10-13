@@ -215,9 +215,17 @@ void GardenControlDevice::setup()
     delay(500);
     setLED_OFF_ALL();
 
-    if (!digitalRead(get_5V_status_PIN()))
+    //set KOs initial Ventil
+    for(int i=0;i<BEM_ChannelCount;i++)
     {
+        knx.getGroupObject(BEM_KoOffset + (i * BEM_KoBlockSize + BEM_Ko_Status_ventil)).valueNoSend(false, getDPT(VAL_DPT_1));
+
     }
+    //set KOs initial Relays
+    for(int i=0;i<REL_ChannelCount;i++)
+    {
+        knx.getGroupObject(REL_KoOffset + (i * REL_KoBlockSize + REL_Ko_Status_relais)).valueNoSend(false, getDPT(VAL_DPT_1)); 
+    }  
 }
 
 void GardenControlDevice::loop()
