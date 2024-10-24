@@ -245,7 +245,6 @@ uint8_t get_12_or_24V_Output_fault_PIN()
     }
 }
 
-
 void print_HW_ID_TOP(uint8_t id)
 {
     SERIAL_PORT.print("  HW-ID-TOP: ");
@@ -397,11 +396,6 @@ void initHW_Top()
 
     init_IOExpander_GPIOs_TOP();
 
-    // Enable Outputs
-    set_IOExpander_TOP_Output(IO_5V_EN_V3, HIGH);
-    set_IOExpander_TOP_Output(IO_12V_EN_V3, HIGH);
-    set_IOExpander_TOP_Output(IO_24V_EN_V3, HIGH);
-
     switch (hw_ID)
     {
         case HW_1_0:
@@ -420,6 +414,10 @@ void initHW_Top()
         case HW_3_0:
 #ifdef ADC_enable
             initADC_TOP_ADS1115(Resolution16Bit);
+            // Enable Outputs
+            set_IOExpander_TOP_Output(IO_5V_EN_V3, HIGH);
+            set_IOExpander_TOP_Output(IO_12V_EN_V3, HIGH);
+            set_IOExpander_TOP_Output(IO_24V_EN_V3, HIGH);
 #endif
             break;
 
@@ -434,7 +432,7 @@ void initHW_Top()
 
 void initHW_Bot()
 {
-    switch (hw_ID_Bot)
+    switch (get_HW_ID_BOT())
     {
         case HW_BOT_1_0:
         case HW_BOT_2_0:

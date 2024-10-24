@@ -40,6 +40,9 @@ bool TestState = false;
 bool TestLEDstate = false;
 bool TestLEDstate2 = false;
 
+uint8_t adc_TOP_cycle_count = 0;
+uint8_t adc_BOT_cycle_count = 0;
+
 enum StateMaschine
 {
     Pos1 = 1,
@@ -212,34 +215,40 @@ void GardenControlDevice::setup()
 
     initI2cStatusLeds();
     setLED_ON_ALL();
-    delay(500);
+    delay(200);
     setLED_OFF_ALL();
 
-    //set KOs initial Ventil
-    for(int i=0;i<BEM_ChannelCount;i++)
+    // set KOs initial Ventil
+    for (int i = 0; i < BEM_ChannelCount; i++)
     {
         knx.getGroupObject(BEM_KoOffset + (i * BEM_KoBlockSize + BEM_Ko_Status_ventil)).valueNoSend(false, getDPT(VAL_DPT_1));
-
     }
-    //set KOs initial Relays
-    for(int i=0;i<REL_ChannelCount;i++)
+    // set KOs initial Relays
+    for (int i = 0; i < REL_ChannelCount; i++)
     {
-        knx.getGroupObject(REL_KoOffset + (i * REL_KoBlockSize + REL_Ko_Status_relais)).valueNoSend(false, getDPT(VAL_DPT_1)); 
-    }  
+        knx.getGroupObject(REL_KoOffset + (i * REL_KoBlockSize + REL_Ko_Status_relais)).valueNoSend(false, getDPT(VAL_DPT_1));
+    }
 }
 
 void GardenControlDevice::loop()
 {
-    // Afrage ob die HW schon komplett initialisiert wurde. Das ist nur möglich, wenn auch die 24VAC(5V) anliegen
+    // Abfrage ob die HW schon komplett initialisiert wurde. Das ist nur möglich, wenn auch die 24VAC(5V) anliegen
     if (!HWinit_Done && !digitalRead(get_5V_status_PIN()))
     {
         initialHWinit();
         HWinit_Done = true;
         digitalWrite(get_PROG_LED_PIN(), false);
+
+        // Enable HW TOP
+        init_IOExpander_GPIOs_TOP();
+        set_IOExpander_TOP_Output(IO_5V_EN_V3, HIGH);
+        set_IOExpander_TOP_Output(IO_12V_EN_V3, HIGH);
+        set_IOExpander_TOP_Output(IO_24V_EN_V3, HIGH);
     }
     // HW ist komplett initialisiert --> ab hier beginnt die eigentliche Loop()
     else if (HWinit_Done)
     {
+
         processErrorHandling(); // PRIO 1
         processSysFailure();    // PRIO 1
 
@@ -260,15 +269,25 @@ void GardenControlDevice::loop()
 #ifdef ADC_enable
                 if (processADConversation_TOP() && get_ADC_Ready_Flag_TOP() == false)
                 {
-                    SERIAL_DEBUG.println("--> ADC TOP ready <--"); // PRIO 3
-                    set_ADC_Ready_Flag_TOP();                      // Now all ADC CH have a new Value sampled
+                    adc_TOP_cycle_count++;
+                    if (adc_TOP_cycle_count >= 5) // wait 5 times to set the flag -> to be sure that the ADC value is good
+                    {
+                        SERIAL_DEBUG.println("--> ADC TOP ready <--"); // PRIO 3
+                        set_ADC_Ready_Flag_TOP();                      // Now all ADC CH have a new Value sampled
+                        adc_TOP_cycle_count = 0;
+                    }
                 }
 #endif
 #ifdef ADC_enable
                 if (processADConversation_BOT() && get_ADC_Ready_Flag_BOT() == false)
                 {
-                    SERIAL_DEBUG.println("--> ADC BOT ready <--"); // PRIO 3
-                    set_ADC_Ready_Flag_BOT();                      // Now all ADC CH have a new Value sampled
+                    adc_BOT_cycle_count++;
+                    if (adc_BOT_cycle_count >= 5) // wait 5 times to set the flag -> to be sure that the ADC value is good
+                    {
+                        SERIAL_DEBUG.println("--> ADC BOT ready <--"); // PRIO 3
+                        set_ADC_Ready_Flag_BOT();                      // Now all ADC CH have a new Value sampled
+                        adc_BOT_cycle_count = 0;
+                    }
                 }
 #endif
 #ifdef ADC_enable
@@ -322,18 +341,12 @@ void GardenControlDevice::loop()
           }
         */
 
-        if (delayCheck(Output_Delay, 2007))
+        if (delayCheck(Output_Delay, 2007000000))
         {
 
             // only TEST enable 24V outputs for 4-20mA
             // set_IOExpander_BOT_Output_PCA9555(14, HIGH);
             // set_IOExpander_BOT_Output_PCA9555(15, HIGH);
-            // Enable Outputs
-            set_IOExpander_TOP_Output(IO_5V_EN_V3, HIGH);
-            set_IOExpander_TOP_Output(IO_12V_EN_V3, HIGH);
-            set_IOExpander_TOP_Output(IO_24V_EN_V3, HIGH);
-            set_IOExpander_TOP_Output(13, HIGH);
-
 
 #ifdef ErrorBits_Output
             SERIAL_DEBUG.println("------------------");

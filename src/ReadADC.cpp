@@ -1024,6 +1024,30 @@ bool processADConversation_BOT()
                             {
                                 if (!init_flag_Bot)
                                 {
+                                    //Io-Exp_Bot will need to activate the 24V Power for the 4-20mA Sensors, because of that it also must reinit here
+                                    init_IOExpander_GPIOs_BOT();
+                                    switch (get_HW_ID_BOT())
+                                    {
+                                        case HW_BOT_1_0:
+                                        case HW_BOT_2_0:
+                                        case HW_BOT_2_1:
+                                            break;
+                                        case HW_BOT_5_0:
+                                            // CH1
+                                            if (knx.paramByte(getParCUR(CUR_CHSensorType2, 0)) != 0)
+                                            {
+                                                set_IOExpander_BOT_Output(14, HIGH);
+                                            }
+                                            // CH2
+                                            if (knx.paramByte(getParCUR(CUR_CHSensorType2, 1)) != 0)
+                                            {
+                                                set_IOExpander_BOT_Output(15, HIGH);
+                                            }
+                                            break;
+                                        default:
+                                            SERIAL_DEBUG.println("Wrong HW-ID initHW_Bot() set 24V output");
+                                            break;
+                                    }
                                     initADC_BOT_ADS1115(Resolution16Bit);
                                     ADC_BOT_CH = ADC_1; // Damit er immer bei einer Spannungswiederker mit ADC1 beginnt
                                 }

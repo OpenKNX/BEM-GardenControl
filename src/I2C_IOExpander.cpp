@@ -153,7 +153,7 @@ void init_IOExpander_GPIOs_BOT()
                 break;
 
             case HW_BOT_5_0:
-                SERIAL_PORT.print("  MCP230017: ");
+                SERIAL_PORT.print("  MCP230017_Bot: ");
                 if (mcp23017_BOT.isConnected())
                 {
                     mcp23017_TOP.begin();

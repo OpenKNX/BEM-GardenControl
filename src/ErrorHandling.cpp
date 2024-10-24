@@ -147,7 +147,7 @@ uint8_t processErrorHandling()
         error &= ~(1 << ERROR_24V_4_20mA_CH1);
     }
 
-      // read +24V 4-20mA CH2
+    // read +24V 4-20mA CH2
     if (check_24V_4_20mA_CH2())
     {
         error |= 1 << ERROR_24V_4_20mA_CH2;
