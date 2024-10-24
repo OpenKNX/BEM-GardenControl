@@ -1,0 +1,15 @@
+
+ToDOs
+
+KNXprod
+- Hilfetexte einbinden
+- Diagnose Byte, bits erweitern
+- 5V externes Relay "Zustand Start" klarer beschreiben, das es sich hier um das Relay handelt
+
+
+Firmware:
+- Binäreingänge + Zählermodul ergänzen
+
+nice to have:
+- 24V 4-20mA über KOs schalten 
+- 5V, 12V, 24V über KO schalten
