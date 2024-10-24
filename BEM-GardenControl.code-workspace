@@ -17,7 +17,14 @@
 		},
 		{
 			"path": "../OFM-ConfigTransfer"
+		},
+		{
+			"path": "../OFM-BinaryInput"
+		},
+		{
+			"path": "../OFM-Meter"
 		}
+		
 	],
 	"settings": {
 		"files.associations": {

@@ -4,7 +4,9 @@
 
 #include "Device_setup.h"
 #include "FileTransferModule.h"
+#include "GpioBinaryInputModule.h"
 #include "Logic.h"
+#include "MeterModule.h"
 
 #ifdef ARDUINO_ARCH_RP2040
     #pragma message "Pico Core Version: " ARDUINO_PICO_VERSION_STR
@@ -17,6 +19,10 @@ void setup()
     openknx.init(firmwareRevision);
     openknx.addModule(1, openknxLogic);
     openknx.addModule(2, openknxGardenControlModule);
+#if defined(OPENKNX_BI_GPIO_PINS) && OPENKNX_BI_GPIO_COUNT > 0 && BI_ChannelCount > 0
+    openknx.addModule(6, openknxGpioBinaryInputModule);
+#endif
+    openknx.addModule(7, openknxMeterModule);
     openknx.addModule(9, openknxFileTransferModule);
 
     SERIAL_DEBUG.println("Start init HW TOP");

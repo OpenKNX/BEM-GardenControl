@@ -1,5 +1,9 @@
 #pragma once
 
+// HW GPIOS
+#define OPENKNX_BI_GPIO_PINS 12, 11, 10
+#define OPENKNX_BI_GPIO_COUNT 3
+
 // Variant handling
 // #define V1
 // #define V2
@@ -7,21 +11,20 @@
 //*** necessary ***
 #define IOExp_enable
 #define ADC_enable
-//#define Opto_IN
-//#define BinInputs
-//#define ImplInput
-//#define S0Inputs
-
+// #define Opto_IN
+// #define BinInputs
+// #define ImplInput
+// #define S0Inputs
 
 //*** Debug Outputs ********
- #define IOExp_enable_Output
- #define ProgLedblinking1sek
- #define KNXcallback_Output
- #define ErrorBits_Output
+#define IOExp_enable_Output
+#define ProgLedblinking1sek
+#define KNXcallback_Output
+#define ErrorBits_Output
 // #define Input_BIN_Output
 // #define InputADC_Output
- //#define ADC_enable_Output
- //#define Input_4_20mA_Output
+// #define ADC_enable_Output
+// #define Input_4_20mA_Output
 // #define InputImpuls_Output2
 // #define InputImpuls_Output
 // #define Opto_IN_Output
@@ -29,7 +32,6 @@
 // #define Input_S0_Output
 
 // #define Serial_Debug_S0_Int
-
 
 #define ADC_Div_5V 0
 #define ADC_Div_12V 1
@@ -54,8 +56,6 @@
 #define IO_HSS_Sense_2_V3 9
 #define IO_5V_fault_V3 10
 #define IO_12V_24V_fault_V3 11
-
-
 
 // IO Expander BOT
 #define Ventil_1 1
@@ -85,16 +85,16 @@
 #define SAVE_INTERRUPT_PIN 23
 #define LED_YELLOW_PIN 22 // nicht 22 weil es in V1 für GPIO_5V_EN verwendet wird, 27 frei gewählt weil in HW nicht belegt!
 // Set i2c address
-#define i2cAddr_IO_Top_PCA9554  0x27
+#define i2cAddr_IO_Top_PCA9554 0x27
 #define i2cAddr_IO_Top_MCP23017 0x26
-#define i2cAddr_IO_Bot_PCA9555  0x20
+#define i2cAddr_IO_Bot_PCA9555 0x20
 #define i2cAddr_IO_Bot_MCP23017 0x27
 #define i2cADC 0x68
 #define i2cADC_BOT 0x6E
 #define i2cADC_ADS1015_TOP 0x48
 #define i2cADC_ADS1015_BOT 0x49
 
-//Ext Relais 5V
+// Ext Relais 5V
 #define GPIO_SSR_EN 2
 #define GPIO_SSR_FAULT 3
 
