@@ -8,12 +8,12 @@
             (time & 0xC000) == 0x8000 ? ((time & 0x3FFF) > 1000 ? 3600000 : \
                                          (time & 0x3FFF) * 3600000 ) : 0 )
                                              
-#define MAIN_OpenKnxId 0xA2
-#define MAIN_ApplicationNumber 16
-#define MAIN_ApplicationVersion 8
+#define MAIN_OpenKnxId 0xA9
+#define MAIN_ApplicationNumber 0
+#define MAIN_ApplicationVersion 2
 #define MAIN_ParameterSize 12231
 #define MAIN_MaxKoNumber 716
-#define MAIN_OrderNumber "MFKnxBem"
+#define MAIN_OrderNumber "SmartMF-GardenControl-TEST"
 #define UCT_ModuleVersion 2
 #define BI_ModuleVersion 2
 #define MTR_ModuleVersion 2
@@ -158,15 +158,20 @@
 #define BEM_Diag_KO_PWT_enable                  46      // 1 Bit, Bit 4
 #define     BEM_Diag_KO_PWT_enableMask 0x10
 #define     BEM_Diag_KO_PWT_enableShift 4
+#define BEM_KOsStateSendStartup                 46      // 1 Bit, Bit 4
+#define     BEM_KOsStateSendStartupMask 0x10
+#define     BEM_KOsStateSendStartupShift 4
 
 // externes +5V Relais vorhanden?
 #define ParamBEM_ext5VRelais                         ((bool)(knx.paramByte(BEM_ext5VRelais) & BEM_ext5VRelaisMask))
-// Zustand Start
+// externes +5V Relais Zustand nach Startup
 #define ParamBEM_ext5VRelaisStateBegin               ((bool)(knx.paramByte(BEM_ext5VRelaisStateBegin) & BEM_ext5VRelaisStateBeginMask))
-// Status senden nach Startup
+// externes +5V Relais Status KO senden nach Startup
 #define ParamBEM_ext5VRelaisStartState               ((bool)(knx.paramByte(BEM_ext5VRelaisStartState) & BEM_ext5VRelaisStartStateMask))
 // Diagnose KO (Spannungen) aktivieren
 #define ParamBEM_Diag_KO_PWT_enable                  ((bool)(knx.paramByte(BEM_Diag_KO_PWT_enable) & BEM_Diag_KO_PWT_enableMask))
+// Status KOs senden nach Startup
+#define ParamBEM_KOsStateSendStartup                 ((bool)(knx.paramByte(BEM_KOsStateSendStartup) & BEM_KOsStateSendStartupMask))
 
 #define BEM_Ko_Set_5V_relais 21
 #define BEM_Ko_Status_5V_relais 22

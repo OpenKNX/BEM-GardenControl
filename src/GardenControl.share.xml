@@ -55,14 +55,17 @@
                 <Parameter Id="%AID%_UP-%TT%00000" Name="ext5VRelais" ParameterType="%AID%_PT-YesNo"
                   Text="externes +5V Relais vorhanden?" Value="1" Offset="0" BitOffset="0" />
                 <Parameter Id="%AID%_UP-%TT%00001" Name="ext5VRelaisStateBegin"
-                  ParameterType="%AID%_PT-OnOFF" Text="Zustand Start" Value="1" Offset="0"
-                  BitOffset="1" />
+                  ParameterType="%AID%_PT-OnOFF" Text="externes +5V Relais Zustand nach Startup" Value="1" 
+                  Offset="0" BitOffset="1" />
                 <Parameter Id="%AID%_UP-%TT%00002" Name="ext5VRelaisStartState"
-                  ParameterType="%AID%_PT-OnOFF" Text="Status senden nach Startup" Value="0"
+                  ParameterType="%AID%_PT-OnOFF" Text="externes +5V Relais Status KO senden nach Startup" Value="0"
                   Offset="0" BitOffset="2" />
                 <Parameter Id="%AID%_UP-%TT%00003" Name="Diag_KO_PWT_enable"
                   ParameterType="%AID%_PT-OnOFF" Text="Diagnose KO (Spannungen) aktivieren" Value="0"
                   Offset="0" BitOffset="3" />
+                <Parameter Id="%AID%_UP-%TT%00004" Name="KOsStateSendStartup"
+                  ParameterType="%AID%_PT-OnOFF" Text="Status KOs senden nach Startup" Value="0"
+                  Offset="0" BitOffset="3" />  
               </Union>
             </Parameters>
             <ParameterRefs>
@@ -77,6 +80,8 @@
               externes 5V relais senden Zustand nach Start -->
               <ParameterRef Id="%AID%_UP-%TT%00003_R-%TT%0000301" RefId="%AID%_UP-%TT%00003" /> <!--
               Diag KO PWR Rail enable -->
+              <ParameterRef Id="%AID%_UP-%TT%00004_R-%TT%0000401" RefId="%AID%_UP-%TT%00004" /> <!--
+              Status KOs senden nach Startup -->
             </ParameterRefs>
             <ComObjectTable>
               <ComObject Id="%AID%_O-%TT%00000" Name="_Set_5V_relais" Text="ext +5V Relais"
@@ -116,6 +121,9 @@
                     <ParameterRefRef RefId="%AID%_UP-%TT%00002_R-%TT%0000201" IndentLevel="1" />  <!-- +5V Relais Status senden nach Start -->
                   </when>
                 </choose>
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Ventil und Relais" />
+                <ParameterRefRef RefId="%AID%_UP-%TT%00004_R-%TT%0000401" IndentLevel="1" />  <!-- Status KOs senden nach Startup -->
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                 <ParameterRefRef RefId="%AID%_UP-%TT%00003_R-%TT%0000301" IndentLevel="1" />  <!-- Diag KO PWR Rail enable -->
                 <choose ParamRefId="%AID%_UP-%TT%00003_R-%TT%0000301">

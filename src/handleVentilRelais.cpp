@@ -34,7 +34,7 @@ void processVentil()
     if (!initVentil)
     {
         SERIAL_PORT.println("Senden Status Objekte Ventil");
-        if ((knx.paramByte(BEM_ext5VRelaisStartState) >> BEM_ext5VRelaisStartStateShift) & 1) // Senden bei Startup "AN"
+        if ((knx.paramByte(BEM_KOsStateSendStartup) >> BEM_KOsStateSendStartupShift) & 1) // Senden bei Startup "AN"
         {
             for (int i = 0; i < BEM_ChannelCount; i++)
             {
@@ -109,7 +109,7 @@ void processRelais()
     if (!initRelay)
     {
         SERIAL_PORT.println("Senden Status Objekte Relays");
-        if ((knx.paramByte(BEM_ext5VRelaisStartState) >> BEM_ext5VRelaisStartStateShift) & 1) // Senden bei Startup "AN"
+        if ((knx.paramByte(BEM_KOsStateSendStartup) >> BEM_KOsStateSendStartupShift) & 1) // Senden bei Startup "AN"
         {
             for (int i = 0; i < REL_ChannelCount; i++)
             {
