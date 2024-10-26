@@ -23,7 +23,7 @@
           <!-- Here statrs the UI definition -->
           <Dynamic>
             <Channel Id="%AID%_CH-2" Name="Standard" Number="2" Text="ext. Relais">
-              <ParameterBlock Id="%AID%_PB-xxx" Name="Relais" Text="ext. Releais" Icon="electric-switch" HelpContext="Empty" ShowInComObjectTree="true">
+              <ParameterBlock Id="%AID%_PB-xxx" Name="Relais" Text="ext. Relais" Icon="electric-switch" HelpContext="BEM-Relais_Auswahl" ShowInComObjectTree="true">
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Relaisauswahl" UIHint="Headline" />
                 <ParameterBlock Id="%AID%_PB-nnn" Inline="true" Layout="Table" Text="#">
                   <Rows>

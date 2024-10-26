@@ -112,20 +112,20 @@
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Version: %ApplicationVersion%" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="GardenControl-Optionen" UIHint="Headline" />
-                <ParameterRefRef RefId="%AID%_UP-%TT%00000_R-%TT%0000001" IndentLevel="1" />  <!-- +5V Relais vorhanden -->
+                <ParameterRefRef RefId="%AID%_UP-%TT%00000_R-%TT%0000001" HelpContext="BEM-Allgemein-5V_Relay" IndentLevel="1" />  <!-- +5V Relais vorhanden -->
                 <choose ParamRefId="%AID%_UP-%TT%00000_R-%TT%0000001">
                   <when test="!=0">
                     <ComObjectRefRef RefId="%AID%_O-%TT%00000_R-%TT%0000001" /> <!-- KO: ext +5V Relais -->
                     <ComObjectRefRef RefId="%AID%_O-%TT%00001_R-%TT%0000101" /> <!-- KO: ext +5V Relais Status -->
-                    <ParameterRefRef RefId="%AID%_UP-%TT%00001_R-%TT%0000101" IndentLevel="1" />  <!-- +5V Relais Zustand Start -->
-                    <ParameterRefRef RefId="%AID%_UP-%TT%00002_R-%TT%0000201" IndentLevel="1" />  <!-- +5V Relais Status senden nach Start -->
+                    <ParameterRefRef RefId="%AID%_UP-%TT%00001_R-%TT%0000101" HelpContext="BEM-Allgemein-5V_Relay" IndentLevel="1" />  <!-- +5V Relais Zustand Start -->
+                    <ParameterRefRef RefId="%AID%_UP-%TT%00002_R-%TT%0000201" HelpContext="BEM-Allgemein-5V_Relay" IndentLevel="1" />  <!-- +5V Relais Status senden nach Start -->
                   </when>
                 </choose>
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                <ParameterSeparator Id="%AID%_PS-nnn" Text="Ventil und Relais" />
-                <ParameterRefRef RefId="%AID%_UP-%TT%00004_R-%TT%0000401" IndentLevel="1" />  <!-- Status KOs senden nach Startup -->
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Ventile und Relais" />
+                <ParameterRefRef RefId="%AID%_UP-%TT%00004_R-%TT%0000401" HelpContext="BEM-Allgemein-Ventil-und-Relais" IndentLevel="1" />  <!-- Status KOs senden nach Startup -->
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                <ParameterRefRef RefId="%AID%_UP-%TT%00003_R-%TT%0000301" IndentLevel="1" />  <!-- Diag KO PWR Rail enable -->
+                <ParameterRefRef RefId="%AID%_UP-%TT%00003_R-%TT%0000301" HelpContext="BEM-Allgemein-Diagnose-KO" IndentLevel="1" />  <!-- Diag KO PWR Rail enable -->
                 <choose ParamRefId="%AID%_UP-%TT%00003_R-%TT%0000301">
                   <when test="!=0">
                     <ComObjectRefRef RefId="%AID%_O-%TT%00002_R-%TT%0000201" /> <!-- KO: Diag KO PWR Rail enable -->
@@ -135,15 +135,15 @@
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit2 = Error VCC 12V" />
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit3 = Error VCC 24V" />
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit4 = Error Relay 5V" />
-                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit5 = Error VCC 24V (4-10mA CH1)" />
-                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit6 = Error VCC 24V (4-10mA CH2)" />
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit5 = Error VCC 24V CH1 (4-20mA Inputs)" />
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit6 = Error VCC 24V CH2 (4-20mA INputs)" />
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Bit7 = Error VCC 12V or 24V" />
                   </when>
                 </choose>
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
               </ParameterBlock>
               <!-- A parameter block represents a tab on the left side, showing a page full of parameters -->
-              <ParameterBlock Id="%AID%_PB-nnn" Name="Magnetventile" Text="Magnetventile" Icon="valve" HelpContext="Empty" ShowInComObjectTree="true">
+              <ParameterBlock Id="%AID%_PB-nnn" Name="Magnetventile" Text="Magnetventile" Icon="valve" HelpContext="BEM-Magnetventile_Auswahl" ShowInComObjectTree="true">
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Ventilauswahl" UIHint="Headline" />
                 <ParameterBlock Id="%AID%_PB-nnn" Inline="true" Layout="Table" Text="#">
                   <Rows>

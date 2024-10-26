@@ -5,6 +5,11 @@
   <op:config name="%ApplicationVersion%" value="0.2" />
   <op:config name="%ReplacesVersions%" value="0.1" />
 
+  <op:config name="%BASE_ExtendedSave%" value="1" />
+  <op:config name="%BASE_PeriodicSave%" value="1" />
+  <op:config name="%LOG_NumChannelsDefault%" value="5" />
+  <op:config name="%MTR_NumChannelsDefault%" value="5" />
+
   <op:ETS OpenKnxId="0xA9" 
     ApplicationNumber="0x00"
     ApplicationVersion="%ApplicationVersion%"
