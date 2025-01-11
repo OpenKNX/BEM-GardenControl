@@ -36,7 +36,7 @@ void initI2cStatusLeds()
     {
         SERIAL_DEBUG.println("Status LED IO-EXP: TCA95555");
         // LED I2C Inputs
-        for (int i = 0; i < I2C_Expander_CH; i++)
+        for (int i = 0; i < MAX_NUMBER_OF_I2C_Channels; i++)
         {
             tca9555_LED_CH1_16.pinMode1(i, OUTPUT);
         }

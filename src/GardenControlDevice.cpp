@@ -143,7 +143,7 @@ void GardenControlDevice::processInputKo(GroupObject &iKo)
             if (iKo.asap() == BEM_KoOffset + (BEM_Ko_Set_ventil + (koIndex * BEM_KoBlockSize))) // KO Abfrage für Ventile
             {
                 uint8_t ventil_Nr = ((iKo.asap() - BEM_KoOffset) / BEM_KoBlockSize);
-#ifdef KNXcallback_Output
+#ifdef KNXcallback_Input
                 SERIAL_DEBUG.print("KO_Ventil_");
                 SERIAL_DEBUG.print(ventil_Nr + 1);
                 SERIAL_DEBUG.print(": ");
@@ -164,7 +164,7 @@ void GardenControlDevice::processInputKo(GroupObject &iKo)
             if (iKo.asap() == REL_KoOffset + (REL_Ko_Set_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Relais
             {
                 uint8_t relais_Nr = ((iKo.asap() - REL_KoOffset) / REL_KoBlockSize);
-#ifdef KNXcallback_Output
+#ifdef KNXcallback_Input
                 SERIAL_DEBUG.print("KO_Relais_");
                 SERIAL_DEBUG.print(relais_Nr + 1);
                 SERIAL_DEBUG.print(": ");
@@ -215,7 +215,7 @@ void GardenControlDevice::setup()
 
     initI2cStatusLeds();
     setLED_ON_ALL();
-    delay(200);
+    delay(300);
     setLED_OFF_ALL();
 
     delay(2000);
