@@ -19,7 +19,7 @@
 //*** Debug Outputs ********
 #define IOExp_enable_Output
 #define ProgLedblinking1sek
-#define KNXcallback_Output
+//#define KNXcallback_Output
 #define ErrorBits_Output
 // #define Input_BIN_Output
 // #define InputADC_Output

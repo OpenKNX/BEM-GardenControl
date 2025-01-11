@@ -217,7 +217,6 @@ void process_5V_Relais()
     {
         if ((knx.paramByte(BEM_ext5VRelaisStartState) >> BEM_ext5VRelaisStartStateShift) & 1) // Senden bei Startup "AN"
         {
-            SERIAL_PORT.println("E");
             knx.getGroupObject(BEM_Ko_Status_5V_relais).value(relais_5V_State, getDPT(VAL_DPT_1));
         }
         relais_5V_startup_flag = false;

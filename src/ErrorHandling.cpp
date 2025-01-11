@@ -62,6 +62,15 @@ uint8_t processErrorHandling()
             setLED_24VAC(false);
         }
         timer1sek = millis();
+
+        if (error != 0)
+        {
+            setLED_ERROR(true);
+        }
+        else
+        {
+            setLED_ERROR(false);
+        }
     }
 
     if (startDelay && delayCheck(delayTimer, DelayTime))

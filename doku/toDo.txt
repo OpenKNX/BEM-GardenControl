@@ -3,12 +3,12 @@ ToDOs
 
 KNXprod
 - Hilfetexte einbinden
-- Diagnose Byte, bits erweitern
-- 5V externes Relay "Zustand Start" klarer beschreiben, das es sich hier um das Relay handelt
+
 
 
 Firmware:
-- Binäreingänge + Zählermodul ergänzen
+- Begrenzung auf max Ventile gleichzeitig
+- Sperrobjekt mehr parametrisieren 
 
 nice to have:
 - 24V 4-20mA über KOs schalten 

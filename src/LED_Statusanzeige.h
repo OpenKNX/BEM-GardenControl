@@ -1,8 +1,12 @@
 #pragma once
 
 #include <stdint.h>
+#include "PCF8575.h"
+#include "TCA9555.h"
+
 
 #define LED24VAC   0
+#define LEDERROR   1
 #define LEDRelais3 1
 #define LEDRelais2 2
 #define LEDRelais1 3
@@ -16,3 +20,4 @@ void set_State_LED(uint8_t ch, bool state);
 void setLED_24VAC(bool state);
 void setLED_Relais(uint8_t ch, bool state);
 void setLED_Ventil(uint8_t ch, bool state);
+void setLED_ERROR(bool state);

@@ -5,7 +5,7 @@
     <Manufacturer RefId="M-00FA">
       <ApplicationPrograms>
         <ApplicationProgram Id="%AID%" ApplicationNumber="0" ApplicationVersion="0"
-          ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="EnoceanGateway"
+          ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="GardenControl"
           LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de"
           DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
           <Static>

@@ -14,6 +14,8 @@
 
 void setup()
 {
+    delay(5000);
+    
     // change this also in library.json
     const uint8_t firmwareRevision = 0;
     openknx.init(firmwareRevision);
