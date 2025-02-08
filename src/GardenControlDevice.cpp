@@ -218,7 +218,7 @@ void GardenControlDevice::setup()
     delay(300);
     setLED_OFF_ALL();
 
-    delay(2000);
+    delay(100);
 
     // set KOs initial Ventil
     for (int i = 0; i < BEM_ChannelCount; i++)

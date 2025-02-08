@@ -8,12 +8,12 @@
             (time & 0xC000) == 0x8000 ? ((time & 0x3FFF) > 1000 ? 3600000 : \
                                          (time & 0x3FFF) * 3600000 ) : 0 )
                                              
-#define MAIN_OpenKnxId 0xA9
-#define MAIN_ApplicationNumber 0
-#define MAIN_ApplicationVersion 3
+#define MAIN_OpenKnxId 0xA2
+#define MAIN_ApplicationNumber 16
+#define MAIN_ApplicationVersion 8
 #define MAIN_ParameterSize 12331
 #define MAIN_MaxKoNumber 716
-#define MAIN_OrderNumber "SmartMF-GardenControl-TEST"
+#define MAIN_OrderNumber "SmartMF-GardenControl"
 #define UCT_ModuleVersion 2
 #define BI_ModuleVersion 2
 #define MTR_ModuleVersion 2

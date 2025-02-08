@@ -2,16 +2,16 @@
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
   
-  <op:config name="%ApplicationVersion%" value="0.3" />
-  <op:config name="%ReplacesVersions%" value="0.2 0.1" />
+  <op:config name="%ApplicationVersion%" value="0.8" />
+  <op:config name="%ReplacesVersions%" value="0.7 0.6 0.5 0.4 0.3 0.2 0.1" />
 
   <op:config name="%BASE_ExtendedSave%" value="1" />
   <op:config name="%BASE_PeriodicSave%" value="1" />
   <op:config name="%LOG_NumChannelsDefault%" value="5" />
   <op:config name="%MTR_NumChannelsDefault%" value="5" />
 
-  <op:ETS OpenKnxId="0xA9" 
-    ApplicationNumber="0x00"
+  <op:ETS OpenKnxId="0xA2" 
+    ApplicationNumber="0x10"
     ApplicationVersion="%ApplicationVersion%"
     ReplacesVersions="%ReplacesVersions%"
     ApplicationRevision="0"
@@ -19,7 +19,7 @@
     ApplicationName="GardenControl"
     BusCurrent="10"
     SerialNumber="GardenControlV1"
-    OrderNumber="SmartMF-GardenControl-TEST"
+    OrderNumber="SmartMF-GardenControl"
   /> 
   <!-- OpenKnxId="0xA2"
   ApplicationNumber="0x10"
