@@ -18,7 +18,7 @@ VCC 5V ist eine der drei Ausgangsspannungen für die ADC-Imputs. Diese Spannunge
 
 "0" = VCC 5V OK
 
-"1" = VCC 5V in überlast oder Kurzschluss
+"1" = VCC 5V Überlast oder Kurzschluss
 
 #### BIT2 = ERROR VCC 12V
 
@@ -26,7 +26,7 @@ VCC 12V ist eine der drei Ausgangsspannungen für die ADC-Imputs. Diese Spannung
 
 "0" = VCC 12V OK
 
-"1" = VCC 12V in überlast oder Kurzschluss
+"1" = VCC 12V Überlast oder Kurzschluss
 
 #### BIT3 = ERROR VCC 24V
 
