@@ -10,7 +10,7 @@
 
 //*** necessary ***
 #define IOExp_enable
-#define ADC_enable
+//#define ADC_enable
 // #define Opto_IN
 // #define BinInputs
 // #define ImplInput
@@ -21,7 +21,7 @@
 #define ProgLedblinking1sek
 //#define KNXcallback_Output
 #define KNXcallback_Input
-#define ErrorBits_Output
+//#define ErrorBits_Output
 // #define Input_BIN_Output
 // #define InputADC_Output
 // #define ADC_enable_Output

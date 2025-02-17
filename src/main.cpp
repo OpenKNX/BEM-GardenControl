@@ -7,6 +7,7 @@
 #include "GpioBinaryInputModule.h"
 #include "Logic.h"
 #include "MeterModule.h"
+#include "ADCInputModule.h"
 
 #ifdef ARDUINO_ARCH_RP2040
     #pragma message "Pico Core Version: " ARDUINO_PICO_VERSION_STR
@@ -14,7 +15,7 @@
 
 void setup()
 {
-    //delay(5000);
+    delay(5000);
     
     // change this also in library.json
     const uint8_t firmwareRevision = 0;
@@ -25,6 +26,7 @@ void setup()
     openknx.addModule(6, openknxGpioBinaryInputModule);
 #endif
     openknx.addModule(7, openknxMeterModule);
+    openknx.addModule(8, openknxADCInputModule);
     openknx.addModule(9, openknxFileTransferModule);
 
     SERIAL_DEBUG.println("Start init HW TOP");

@@ -11,8 +11,7 @@
           <Static>
             <Parameters>
               <!-- only description no offset -->
-              <Parameter Id="%AID%_P-%TT%%CC%000" Name="CH%C%Name"
-                ParameterType="%AID%_PT-Text40Byte" Text="Beschreibung des Eingangs" Value="" /> <!--
+              <Parameter Id="%AID%_P-%TT%%CC%000" Name="CH%C%Name" ParameterType="%AID%_PT-Text40Byte" Text="Beschreibung des Eingangs" Value="" /> <!--
               Definition in Common -->
               <!-- ADC_Inputs -->
               <Union SizeInBit="120">

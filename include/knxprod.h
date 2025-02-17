@@ -8,15 +8,16 @@
             (time & 0xC000) == 0x8000 ? ((time & 0x3FFF) > 1000 ? 3600000 : \
                                          (time & 0x3FFF) * 3600000 ) : 0 )
                                              
-#define MAIN_OpenKnxId 0xA2
+#define MAIN_OpenKnxId 0xA5
 #define MAIN_ApplicationNumber 16
-#define MAIN_ApplicationVersion 8
+#define MAIN_ApplicationVersion 9
 #define MAIN_ParameterSize 12331
 #define MAIN_MaxKoNumber 716
 #define MAIN_OrderNumber "SmartMF-GardenControl"
 #define UCT_ModuleVersion 2
 #define BI_ModuleVersion 2
 #define MTR_ModuleVersion 2
+#define ADC_ModuleVersion 1
 #define LOG_ModuleVersion 53
 // Parameter with single occurrence
 
@@ -266,67 +267,10 @@
 // Relais %C%:
 #define KoREL__Sperr_relais                       (knx.getGroupObject(REL_KoCalcNumber(REL_Ko_Sperr_relais)))
 
-#define ADC_ChannelCount 4
-
-// Parameter per channel
-#define ADC_ParamBlockOffset 61
-#define ADC_ParamBlockSize 15
-#define ADC_ParamCalcIndex(index) (index + ADC_ParamBlockOffset + _channelIndex * ADC_ParamBlockSize)
-
-#define ADC_CHSensorType                         0      // 8 Bits, Bit 7-0
-#define ADC_CHSendcycletime                      1      // int16_t
-#define ADC_CHSendenAbsolut                      3      // int16_t
-#define ADC_CHSendenRelativ                      5      // int8_t
-#define ADC_CHValueFilter                        6      // int8_t
-#define ADC_CHVoltageDiv                         7      // 1 Bit, Bit 7
-#define     ADC_CHVoltageDivMask 0x80
-#define     ADC_CHVoltageDivShift 7
-#define ADC_CHVoltageCorrection                  8      // int16_t
-#define ADC_CHSensorTypes                       10      // 8 Bits, Bit 7-0
-#define ADC_CHGeradeM                           11      // int16_t
-#define ADC_CHGeradeB                           13      // int16_t
-
-// Sensortyp
-#define ParamADC_CHSensorType                        (knx.paramByte(ADC_ParamCalcIndex(ADC_CHSensorType)))
-// zyklisch senden(0 = nicht zyklisch senden)
-#define ParamADC_CHSendcycletime                     ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHSendcycletime)))
-// senden bei absoluter Abweichung(0 = nicht senden)
-#define ParamADC_CHSendenAbsolut                     ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHSendenAbsolut)))
-// senden bei relativer Abweichung(0 = nicht senden)
-#define ParamADC_CHSendenRelativ                     ((int8_t)knx.paramByte(ADC_ParamCalcIndex(ADC_CHSendenRelativ)))
-// Wert glätten: P =
-#define ParamADC_CHValueFilter                       ((int8_t)knx.paramByte(ADC_ParamCalcIndex(ADC_CHValueFilter)))
-// Eingangsspannungsbereich
-#define ParamADC_CHVoltageDiv                        ((bool)(knx.paramByte(ADC_ParamCalcIndex(ADC_CHVoltageDiv)) & ADC_CHVoltageDivMask))
-// Korrekturfaktor
-#define ParamADC_CHVoltageCorrection                 ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHVoltageCorrection)))
-// Meßwerteinheit (KO)
-#define ParamADC_CHSensorTypes                       (knx.paramByte(ADC_ParamCalcIndex(ADC_CHSensorTypes)))
-// Wert m
-#define ParamADC_CHGeradeM                           ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHGeradeM)))
-// Wert b
-#define ParamADC_CHGeradeB                           ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHGeradeB)))
-
-// deprecated
-#define ADC_KoOffset 75
-
-// Communication objects per channel (multiple occurrence)
-#define ADC_KoBlockOffset 75
-#define ADC_KoBlockSize 1
-
-#define ADC_KoCalcNumber(index) (index + ADC_KoBlockOffset + _channelIndex * ADC_KoBlockSize)
-#define ADC_KoCalcIndex(number) ((number >= ADC_KoCalcNumber(0) && number < ADC_KoCalcNumber(ADC_KoBlockSize)) ? (number - ADC_KoBlockOffset) % ADC_KoBlockSize : -1)
-#define ADC_KoCalcChannel(number) ((number >= ADC_KoBlockOffset && number < ADC_KoBlockOffset + ADC_ChannelCount * ADC_KoBlockSize) ? (number - ADC_KoBlockOffset) / ADC_KoBlockSize : -1)
-
-#define ADC_KoGO_BASE__1 0
-
-// GO_BASE_%C%_1
-#define KoADC_GO_BASE__1                          (knx.getGroupObject(ADC_KoCalcNumber(ADC_KoGO_BASE__1)))
-
 #define CUR_ChannelCount 2
 
 // Parameter per channel
-#define CUR_ParamBlockOffset 121
+#define CUR_ParamBlockOffset 61
 #define CUR_ParamBlockSize 12
 #define CUR_ParamCalcIndex(index) (index + CUR_ParamBlockOffset + _channelIndex * CUR_ParamBlockSize)
 
@@ -377,7 +321,7 @@
 #define BI_ChannelCount 3
 
 // Parameter per channel
-#define BI_ParamBlockOffset 145
+#define BI_ParamBlockOffset 85
 #define BI_ParamBlockSize 4
 #define BI_ParamCalcIndex(index) (index + BI_ParamBlockOffset + _channelIndex * BI_ParamBlockSize)
 
@@ -434,7 +378,7 @@
 // 
 #define KoBI_ChannelOutput                       (knx.getGroupObject(BI_KoCalcNumber(BI_KoChannelOutput)))
 
-#define MTR_VisibleChannels                     157      // uint8_t
+#define MTR_VisibleChannels                     97      // uint8_t
 
 // Verfügbare Kanäle
 #define ParamMTR_VisibleChannels                     (knx.paramByte(MTR_VisibleChannels))
@@ -442,7 +386,7 @@
 #define MTR_ChannelCount 12
 
 // Parameter per channel
-#define MTR_ParamBlockOffset 158
+#define MTR_ParamBlockOffset 98
 #define MTR_ParamBlockSize 62
 #define MTR_ParamCalcIndex(index) (index + MTR_ParamBlockOffset + _channelIndex * MTR_ParamBlockSize)
 
@@ -541,6 +485,65 @@
 #define KoMTR_ChannelOptional                     (knx.getGroupObject(MTR_KoCalcNumber(MTR_KoChannelOptional)))
 // 
 #define KoMTR_ChannelReset                        (knx.getGroupObject(MTR_KoCalcNumber(MTR_KoChannelReset)))
+
+
+
+#define ADC_ChannelCount 4
+
+// Parameter per channel
+#define ADC_ParamBlockOffset 842
+#define ADC_ParamBlockSize 15
+#define ADC_ParamCalcIndex(index) (index + ADC_ParamBlockOffset + _channelIndex * ADC_ParamBlockSize)
+
+#define ADC_CHSensorType                         0      // 8 Bits, Bit 7-0
+#define ADC_CHSendcycletime                      1      // int16_t
+#define ADC_CHSendenAbsolut                      3      // int16_t
+#define ADC_CHSendenRelativ                      5      // int8_t
+#define ADC_CHValueFilter                        6      // int8_t
+#define ADC_CHVoltageDiv                         7      // 1 Bit, Bit 7
+#define     ADC_CHVoltageDivMask 0x80
+#define     ADC_CHVoltageDivShift 7
+#define ADC_CHVoltageCorrection                  8      // int16_t
+#define ADC_CHSensorTypes                       10      // 8 Bits, Bit 7-0
+#define ADC_CHGeradeM                           11      // int16_t
+#define ADC_CHGeradeB                           13      // int16_t
+
+// Sensortyp
+#define ParamADC_CHSensorType                        (knx.paramByte(ADC_ParamCalcIndex(ADC_CHSensorType)))
+// zyklisch senden(0 = nicht zyklisch senden)
+#define ParamADC_CHSendcycletime                     ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHSendcycletime)))
+// senden bei absoluter Abweichung(0 = nicht senden)
+#define ParamADC_CHSendenAbsolut                     ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHSendenAbsolut)))
+// senden bei relativer Abweichung(0 = nicht senden)
+#define ParamADC_CHSendenRelativ                     ((int8_t)knx.paramByte(ADC_ParamCalcIndex(ADC_CHSendenRelativ)))
+// Wert glätten: P =
+#define ParamADC_CHValueFilter                       ((int8_t)knx.paramByte(ADC_ParamCalcIndex(ADC_CHValueFilter)))
+// Eingangsspannungsbereich
+#define ParamADC_CHVoltageDiv                        ((bool)(knx.paramByte(ADC_ParamCalcIndex(ADC_CHVoltageDiv)) & ADC_CHVoltageDivMask))
+// Korrekturfaktor
+#define ParamADC_CHVoltageCorrection                 ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHVoltageCorrection)))
+// Meßwerteinheit (KO)
+#define ParamADC_CHSensorTypes                       (knx.paramByte(ADC_ParamCalcIndex(ADC_CHSensorTypes)))
+// Wert m
+#define ParamADC_CHGeradeM                           ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHGeradeM)))
+// Wert b
+#define ParamADC_CHGeradeB                           ((int16_t)knx.paramWord(ADC_ParamCalcIndex(ADC_CHGeradeB)))
+
+// deprecated
+#define ADC_KoOffset 250
+
+// Communication objects per channel (multiple occurrence)
+#define ADC_KoBlockOffset 250
+#define ADC_KoBlockSize 1
+
+#define ADC_KoCalcNumber(index) (index + ADC_KoBlockOffset + _channelIndex * ADC_KoBlockSize)
+#define ADC_KoCalcIndex(number) ((number >= ADC_KoCalcNumber(0) && number < ADC_KoCalcNumber(ADC_KoBlockSize)) ? (number - ADC_KoBlockOffset) % ADC_KoBlockSize : -1)
+#define ADC_KoCalcChannel(number) ((number >= ADC_KoBlockOffset && number < ADC_KoBlockOffset + ADC_ChannelCount * ADC_KoBlockSize) ? (number - ADC_KoBlockOffset) / ADC_KoBlockSize : -1)
+
+#define ADC_KoChannelOutput 0
+
+// ChannelOutput%C%
+#define KoADC_ChannelOutput                       (knx.getGroupObject(ADC_KoCalcNumber(ADC_KoChannelOutput)))
 
 #define LOG_BuzzerInstalled                     902      // 1 Bit, Bit 7
 #define     LOG_BuzzerInstalledMask 0x80

@@ -470,6 +470,7 @@ void initHW_Bot()
             break;
         case HW_BOT_5_0:
             // CH1
+            #ifdef ADC_enable
             if (knx.paramByte(getParCUR(CUR_CHSensorType2, 0)) != 0)
             {
                 set_IOExpander_BOT_Output(14, HIGH);
@@ -479,6 +480,7 @@ void initHW_Bot()
             {
                 set_IOExpander_BOT_Output(15, HIGH);
             }
+            #endif
             break;
         default:
             SERIAL_DEBUG.println("Wrong HW-ID initHW_Bot() set 24V output");

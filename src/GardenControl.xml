@@ -2,7 +2,7 @@
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
   
-  <op:config name="%ApplicationVersion%" value="0.8" />
+  <op:config name="%ApplicationVersion%" value="0.9" />
   <op:config name="%ReplacesVersions%" value="0.7 0.6 0.5 0.4 0.3 0.2 0.1" />
 
   <op:config name="%BASE_ExtendedSave%" value="1" />
@@ -10,13 +10,13 @@
   <op:config name="%LOG_NumChannelsDefault%" value="5" />
   <op:config name="%MTR_NumChannelsDefault%" value="5" />
 
-  <op:ETS OpenKnxId="0xA2" 
+  <op:ETS OpenKnxId="0xA5" 
     ApplicationNumber="0x10"
     ApplicationVersion="%ApplicationVersion%"
     ReplacesVersions="%ReplacesVersions%"
     ApplicationRevision="0"
     ProductName="GardenControl"
-    ApplicationName="GardenControl"
+    ApplicationName="GardenControl_TEST"
     BusCurrent="10"
     SerialNumber="GardenControlV1"
     OrderNumber="SmartMF-GardenControl"
@@ -50,20 +50,16 @@
     share="GardenControlRelais.share.xml"
     template="GardenControlRelais.templ.xml"
     ModuleType="30" />  <!-- KoOffset = 66 -> 30 + BEM (12ch*3kO) 36    ACCHTUNG: seit V2.1 nur noch 2CH Relais-->
-  <op:define prefix="ADC" NumChannels="4" KoOffset="75"
+  <!--<op:define prefix="ADC" NumChannels="4" KoOffset="75"
     configTransferName="  Analogeingänge 0-12V"
     share="InputADC.share.xml"
     template="InputADC.templ.xml"
-    ModuleType="40" />  <!-- KoOffset = 75 -> 66 + REL (3ch*3kO) 9 -->
+    ModuleType="40" />  <! KoOffset = 75 -> 66 + REL (3ch*3kO) 9 -->
  <op:define prefix="CUR" NumChannels="2" KoOffset="81"
     configTransferName="  Analogeingänge 4-20mA"
     share="Input_4_20mA.share.xml"
     template="Input_4_20mA.templ.xml"
     ModuleType="50" />  <!-- KoOffset = 81 -> 75 + ADC (4ch*1kO) 6 -->
-  <!-- <op:define prefix="BIN" NumChannels="4" KoOffset="90"
-    share="Input_BIN_S0.share.xml"
-    template="Input_BIN_S0.templ.xml"
-    ModuleType="60" />  KoOffset = 90 -> 81 + CUR (3ch*3kO) 9 -->
   <op:define prefix="BI" NumChannels="3" KoOffset="100"
     share="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml"
     template="../lib/OFM-BinaryInput/src/BinaryInputChannel.templ.xml"
@@ -75,6 +71,12 @@
     template="../lib/OFM-Meter/src/MeterModule.templ.xml"
     ModuleType="70">
     <op:verify File="../lib/OFM-Meter/library.json" ModuleVersion="0.2" /> 
+  </op:define>
+    <op:define prefix="ADC" NumChannels="4" KoOffset="250"  
+    share="../lib/OFM-ADCInput/src/ADCInputChannel.share.xml"
+    template="../lib/OFM-ADCInput/src/ADCInputChannel.templ.xml"
+    ModuleType="80">
+    <op:verify File="../lib/OFM-ADCInput/library.json" ModuleVersion="0.1" /> 
   </op:define>
   <op:define prefix="LOG" NumChannels="99" KoOffset="420"
     share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
@@ -90,11 +92,12 @@
       <Channel Id="%AID%_CH-1" Name="GardenControl" Number="1" Text="Garden Control" Icon="grass" HelpContext="Empty">
         <op:include href="GardenControl.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="BEM" />
         <op:include href="GardenControlRelais.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="REL" />
-        <op:include href="InputADC.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="ADC" />
+        <!-- <op:include href="InputADC.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="ADC" /> -->
         <op:include href="Input_4_20mA.share.xml" xpath="//ApplicationProgram/Dynamic/Channel/*" prefix="CUR" />
       </Channel>
       <op:include href="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BI" />
       <op:include href="../lib/OFM-Meter/src/MeterModule.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="MTR" />
+      <op:include href="../lib/OFM-ADCInput/src/ADCInputChannel.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="MTR" />
       <op:include href="../lib/OFM-LogicModule/src/Logikmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="LOG" />
     </Dynamic>
   </generate>

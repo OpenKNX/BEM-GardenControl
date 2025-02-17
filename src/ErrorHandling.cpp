@@ -248,6 +248,7 @@ bool check_24V_4_20mA_CH1()
             return false;
             break;
         case HW_BOT_5_0:
+        #ifdef ADC_enable
             if (getAdcVoltage_BOT(2) > 2.4)
             {
                 return true;
@@ -257,6 +258,10 @@ bool check_24V_4_20mA_CH1()
                 return false;
             }
             break;
+            #endif
+            #ifndef ADC_enable
+            return false;
+            #endif
         default:
             SERIAL_PORT.println("Wrong HW-ID  check_24V_4_20mA()");
             return false;
@@ -274,6 +279,7 @@ bool check_24V_4_20mA_CH2()
             return false;
             break;
         case HW_BOT_5_0:
+        #ifdef ADC_enable
             if (getAdcVoltage_BOT(3) > 2.4)
             {
                 return true;
@@ -282,6 +288,10 @@ bool check_24V_4_20mA_CH2()
             {
                 return false;
             }
+            #endif
+            #ifndef ADC_enable
+            return false;
+            #endif
             break;
         default:
             SERIAL_PORT.println("Wrong HW-ID  check_24V_4_20mA()");

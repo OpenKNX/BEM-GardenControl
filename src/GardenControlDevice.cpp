@@ -116,7 +116,7 @@ void GardenControlDevice::initialHWinit()
     InitS0Input4();
 #endif
 #ifdef ADC_enable
-    initInputADC();
+    //initInputADC();  //********************************************************************* */
 #endif
 #ifdef ImplInput
     InitImpulseInputs();

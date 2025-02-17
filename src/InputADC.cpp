@@ -156,7 +156,7 @@ void processInput_ADC(bool readyFlag)
                                 SERIAL_PORT.println(value.ladcValue);
     #endif
                                 // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                                knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue * 1000, getDPT(VAL_DPT_9));
+                                knx.getGroupObject(getComADC(KoADC_ChannelOutput, channel)).valueNoSend(value.ladcValue * 1000, getDPT(VAL_DPT_9));    //************************* */
                                 break;
 
                             case SensorType_percent:
@@ -164,7 +164,7 @@ void processInput_ADC(bool readyFlag)
                                 SERIAL_PORT.println(value.ladcValue);
     #endif
                                 // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                                knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue * 2.55, getDPT(VAL_DPT_5));
+                                knx.getGroupObject(getComADC(KoADC_ChannelOutput, channel)).valueNoSend(value.ladcValue * 2.55, getDPT(VAL_DPT_5));     //************************** */
                                 break;
 
                             default:
@@ -172,7 +172,7 @@ void processInput_ADC(bool readyFlag)
                                 SERIAL_PORT.println(value.ladcValue);
     #endif
                                 // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                                knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue, getDPT(VAL_DPT_9));
+                                knx.getGroupObject(getComADC(KoADC_ChannelOutput, channel)).valueNoSend(value.ladcValue, getDPT(VAL_DPT_9));    //************************** */
                                 break;
                         }
 
@@ -202,7 +202,7 @@ void processInput_ADC(bool readyFlag)
                         SERIAL_PORT.println(value.ladcValue);
     #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                        knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend((uint8_t)(value.ladcValue * 2.55), getDPT(VAL_DPT_5));
+                        knx.getGroupObject(getComADC(KoADC_ChannelOutput, channel)).valueNoSend((uint8_t)(value.ladcValue * 2.55), getDPT(VAL_DPT_5)); //************* */
 
                         break;
 
@@ -241,7 +241,7 @@ void processInput_ADC(bool readyFlag)
                         SERIAL_PORT.println(value.ladcValue);
     #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                        knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue, getDPT(VAL_DPT_9));
+                        knx.getGroupObject(getComADC(KoADC_ChannelOutput, channel)).valueNoSend(value.ladcValue, getDPT(VAL_DPT_9));  //**************************** */
                         break;
 
                     default:
@@ -265,7 +265,7 @@ void processInput_ADC(bool readyFlag)
                 SERIAL_PORT.print(": senden: ");
                 SERIAL_PORT.println(value.ladcValue);
     #endif
-                knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).objectWritten();
+                knx.getGroupObject(getComADC(KoADC_ChannelOutput, channel)).objectWritten(); //********************************* */
                 valueOld.ladcValue[channel] = value.ladcValue;
                 sendDelay[channel] = millis();
                 lSend = false;
