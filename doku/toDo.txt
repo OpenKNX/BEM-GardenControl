@@ -9,6 +9,7 @@ KNXprod
 Firmware:
 - Begrenzung auf max Ventile gleichzeitig
 - Sperrobjekt mehr parametrisieren 
+- LED Blinken auf Status LED ändern 
 
 nice to have:
 - 24V 4-20mA über KOs schalten 

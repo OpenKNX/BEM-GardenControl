@@ -86,7 +86,7 @@ void GardenControlDevice::waitStartupLoop()
     if (delayCheck(LED_Delay2, 700))
     {
         TestLEDstate2 = !TestLEDstate2;
-        digitalWrite(get_PROG_LED_PIN(), TestLEDstate2);
+        digitalWrite(get_Status_PIN(), TestLEDstate2);
         LED_Delay2 = millis();
         SERIAL_DEBUG.println("Wait for 5V");
     }
@@ -239,7 +239,7 @@ void GardenControlDevice::loop()
     {
         initialHWinit();
         HWinit_Done = true;
-        digitalWrite(get_PROG_LED_PIN(), false);
+        digitalWrite(get_Status_PIN(), false);
 
         // Enable HW TOP
         init_IOExpander_GPIOs_TOP();
@@ -430,7 +430,7 @@ void GardenControlDevice::loop()
         if (delayCheck(LED_Delay, 200))
         {
             TestLEDstate = !TestLEDstate;
-            digitalWrite(get_PROG_LED_PIN(), TestLEDstate);
+            digitalWrite(get_Status_PIN(), TestLEDstate);
             LED_Delay = millis();
             SERIAL_DEBUG.println("LED");
         }

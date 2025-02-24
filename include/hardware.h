@@ -1,8 +1,23 @@
 #pragma once
 
+
+#define OPENKNX_ADC_ADS_WIRE Wire1
+#define OPENKNX_ADC_ADS_ADDR 0x48
+#define OPENKNX_ADC_ADS_SDA 14
+#define OPENKNX_ADC_ADS_SCL 15
+#define OPENKNX_ADC_ADS_GAIN 2
+
 // HW GPIOS
 #define OPENKNX_BI_GPIO_PINS 12, 11, 10
 #define OPENKNX_BI_GPIO_COUNT 3
+
+
+
+
+
+
+
+
 
 // Variant handling
 // #define V1
