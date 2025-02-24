@@ -14,8 +14,8 @@ PCA9555 pca9555(i2cAddr_IO_Bot_PCA9555, &Wire1); // Create an object at this add
 MCP23017 mcp23017_TOP(i2cAddr_IO_Top_MCP23017, &Wire1);
 MCP23017 mcp23017_BOT(i2cAddr_IO_Bot_MCP23017, &Wire1);
 
-bool init_flag_PCA9555 = false;
-bool init_flag_PCA9554 = false;
+bool init_flag_EXP_BOT = false;
+bool init_flag_EXP_TOP = false;
 
 uint8_t failureCounter = 0;
 uint8_t failureCounter2 = 0;
@@ -74,7 +74,7 @@ void init_IOExpander_GPIOs_TOP()
 
                     SERIAL_PORT.println(" OK");
 
-                    init_flag_PCA9554 = true;
+                    init_flag_EXP_TOP = true;
                 }
                 else
                 {
@@ -107,7 +107,7 @@ void init_IOExpander_GPIOs_TOP()
                     mcp23017_TOP.pinMode(13, INPUT); // BGPIO6 (optional)
 
                     SERIAL_PORT.println(" OK");
-                    init_flag_PCA9554 = true;
+                    init_flag_EXP_TOP = true;
                 }
                 else
                 {
@@ -123,7 +123,7 @@ void init_IOExpander_GPIOs_TOP()
     }
     else
     {
-        SERIAL_PORT.println("  PCA9554 ERROR: no +5V_Iso");
+        SERIAL_PORT.println("  IO-EXP_TOP ERROR: no +5V_Iso");
     }
 }
 
@@ -144,7 +144,7 @@ void init_IOExpander_GPIOs_BOT()
                     pca9555.begin();
                     pca9555.digitalWriteAllToLow();
                     pca9555.pinModeAllOutputs();
-                    init_flag_PCA9555 = true;
+                    init_flag_EXP_BOT = true;
                 }
                 else
                 {
@@ -165,7 +165,7 @@ void init_IOExpander_GPIOs_BOT()
                         mcp23017_BOT.pinMode(i, OUTPUT);
                     }
                     SERIAL_PORT.println("OK");
-                    init_flag_PCA9555 = true;
+                    init_flag_EXP_BOT = true;
                 }
                 else
                 {
@@ -184,21 +184,21 @@ void init_IOExpander_GPIOs_BOT()
 
 void clearInitFlags_IOExp()
 {
-    init_flag_PCA9554 = false;
-    init_flag_PCA9555 = false;
+    init_flag_EXP_TOP = false;
+    init_flag_EXP_BOT = false;
 }
 
 void set_IOExpander_TOP_Output(uint8_t ch, bool state)
 {
     // check if +5V iso is available
-    if (!get_24V_AC_Error())
+    if (!digitalRead(get_5V_status_PIN()))
     {
         switch (get_HW_ID_TOP())
         {
             case HW_1_0:
             case HW_2_0:
             case HW_2_1:
-                if (init_flag_PCA9554)
+                if (init_flag_EXP_TOP)
                 {
                     pca9554.digitalWrite(ch, state);
                 }
@@ -210,7 +210,7 @@ void set_IOExpander_TOP_Output(uint8_t ch, bool state)
                 break;
 
             case HW_3_0:
-                if (init_flag_PCA9554)
+                if (init_flag_EXP_TOP)
                 {
                     mcp23017_TOP.digitalWrite(ch, state);
                     SERIAL_PORT.print("MCP23017_TOP.write ");
@@ -222,12 +222,20 @@ void set_IOExpander_TOP_Output(uint8_t ch, bool state)
                 {
                     init_IOExpander_GPIOs_TOP();
                     mcp23017_TOP.digitalWrite(ch, state);
+                    SERIAL_PORT.print("INIT & MCP23017_TOP.write ");
+                    SERIAL_PORT.print(state);
+                    SERIAL_PORT.print("  CH");
+                    SERIAL_PORT.println(ch);
                 }
                 break;
             default:
                 SERIAL_PORT.println("Wrong HW-ID Get_IOexpander_Top_Input");
                 break;
         }
+    }
+    else
+    {
+        SERIAL_PORT.println("-*-*-> 5V Failure IO-EXP-TOP"); 
     }
 }
 
@@ -241,7 +249,7 @@ bool get_IOExpander_TOP_Input(uint8_t ch)
             case HW_1_0:
             case HW_2_0:
             case HW_2_1:
-                if (init_flag_PCA9554)
+                if (init_flag_EXP_TOP)
                 {
                     return pca9554.digitalRead(ch);
                 }
@@ -252,7 +260,7 @@ bool get_IOExpander_TOP_Input(uint8_t ch)
                 }
                 break;
             case HW_3_0:
-                if (init_flag_PCA9554)
+                if (init_flag_EXP_TOP)
                 {
                     return mcp23017_TOP.digitalRead(ch);
                 }
@@ -285,7 +293,7 @@ bool get_IOExpander_BOT_Input(uint8_t ch)
             case HW_BOT_1_0:
             case HW_BOT_2_0:
             case HW_BOT_2_1:
-                if (init_flag_PCA9555)
+                if (init_flag_EXP_BOT)
                 {
                     return pca9555.digitalRead(ch);
                 }
@@ -297,7 +305,7 @@ bool get_IOExpander_BOT_Input(uint8_t ch)
                 break;
 
             case HW_BOT_5_0:
-                if (init_flag_PCA9555)
+                if (init_flag_EXP_BOT)
                 {
                     return mcp23017_BOT.digitalRead(ch);
                 }
@@ -330,7 +338,7 @@ void set_IOExpander_BOT_Output(uint8_t ch, bool state)
             case HW_BOT_1_0:
             case HW_BOT_2_0:
             case HW_BOT_2_1:
-                if (init_flag_PCA9555)
+                if (init_flag_EXP_BOT)
                 {
                     pca9555.digitalWrite(ch, state);
                 }
@@ -341,7 +349,7 @@ void set_IOExpander_BOT_Output(uint8_t ch, bool state)
                 }
                 break;
             case HW_BOT_5_0:
-                if (init_flag_PCA9555)
+                if (init_flag_EXP_BOT)
                 {
                     mcp23017_BOT.digitalWrite(ch, state);
                     SERIAL_PORT.print("MCP23017_BOT.write ");
@@ -424,12 +432,12 @@ void set_ADC3_VoltageDiff(bool state)
 
 bool getInitFlag_PCA9555()
 {
-    return init_flag_PCA9555;
+    return init_flag_EXP_BOT;
 }
 
 bool getInitFlag_PCA9554()
 {
-    return init_flag_PCA9554;
+    return init_flag_EXP_TOP;
 }
 
 // only TEST
@@ -438,7 +446,7 @@ void set_IOExpander_BOT_Output_PCA9555(uint8_t ch, bool state)
 {
     if (!get_24V_AC_Error())
     {
-        if (init_flag_PCA9555)
+        if (init_flag_EXP_BOT)
         {
             pca9555.digitalWrite(ch, state);
         }

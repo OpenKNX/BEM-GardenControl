@@ -28,6 +28,7 @@
 bool startDelay = false;
 bool restart_5V_Relais = false;
 
+bool initHW_Flag = false;
 bool initADCFlag_TOP = false;
 bool initADCFlag_BOT = false;
 
@@ -49,57 +50,64 @@ void restart_Relais_5V()
     }
 }
 
+void processCheck24VAC()
+{
+   // Check 24V AC
+   if (digitalRead(get_5V_status_PIN()))
+   {
+       error = 0;
+       error = 1 << ERROR_24V_AC;
+#ifdef ADC_enable
+       clearInitFlags_ADC();
+#endif
+       clearInitFlags_IOExp();
+
+       initADCFlag_TOP = false;
+       initADCFlag_BOT = false;
+       initHW_Flag = false;
+
+
+   }
+   else
+   {
+       if (!startDelay)
+       {
+           startDelay = true;
+           delayTimer = millis();
+       }
+       error = 0;
+   }
+
+   if (delayCheck(timer1sek, 500))
+   {
+       timer1sek = millis();
+       if (digitalRead(get_5V_status_PIN()))
+       {
+           setLED_24VAC(false);
+           //Serial.println("------> 24VAC OFF LED AUS");
+       }
+       else
+       {
+           setLED_24VAC(true);
+       }
+
+
+       if (error != 0 && !digitalRead(get_5V_status_PIN()))
+       {
+           setLED_ERROR(true);
+       }
+       else
+       {
+           setLED_ERROR(false);
+       }
+   }
+
+}
+
+
 uint8_t processErrorHandling()
 {
-    if (delayCheck(timer1sek, 1000))
-    {
-        if (get_24V_AC_Error())
-        {
-            setLED_24VAC(true);
-        }
-        else
-        {
-            setLED_24VAC(false);
-        }
-        timer1sek = millis();
-
-        if (error != 0)
-        {
-            setLED_ERROR(true);
-        }
-        else
-        {
-            setLED_ERROR(false);
-        }
-    }
-
-    if (startDelay && delayCheck(delayTimer, DelayTime))
-    {
-        startDelay = false;
-        error &= ~(1 << ERROR_24V_AC);
-    }
-
-    // Check 24V AC
-    if (digitalRead(get_5V_status_PIN()))
-    {
-        error |= 1 << ERROR_24V_AC;
-#ifdef ADC_enable
-        clearInitFlags_ADC();
-#endif
-        clearInitFlags_IOExp();
-
-        initADCFlag_TOP = false;
-        initADCFlag_BOT = false;
-    }
-    else
-    {
-        if (!startDelay)
-        {
-            startDelay = true;
-            delayTimer = millis();
-        }
-        // error &= ~(1 << ERROR_5V);
-    }
+  
 
     // Check ext Relais 5V
     if (!digitalRead(get_SSR_FAULT_PIN()))
@@ -236,6 +244,16 @@ void set_ADC_Ready_Flag_TOP()
 void set_ADC_Ready_Flag_BOT()
 {
     initADCFlag_BOT = true;
+}
+
+void set_HW_Init_Flag()
+{
+    initHW_Flag = true;
+}
+
+bool get_HW_Init_Flag()
+{
+    return initHW_Flag;
 }
 
 bool check_24V_4_20mA_CH1()

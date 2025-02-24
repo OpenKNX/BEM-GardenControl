@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAIN_Version "0b61b9e"
+#define MAIN_Version "5efe94e"
 #define KNX_Version "2.1.2+764900e"
 #define MODULE_Common_Version "1.2.0+9f24e6e"
 #define MODULE_Common_Version_Major 1
@@ -22,7 +22,7 @@
 #define MODULE_BinaryInput_Version_Minor 2
 #define MODULE_BinaryInput_Version_Revision 0
 #define MODULE_BinaryInput_ETS 2
-#define MODULE_Meter_Version "0.2.0+a669e60"
+#define MODULE_Meter_Version "0.2.0+453c73b"
 #define MODULE_Meter_Version_Major 0
 #define MODULE_Meter_Version_Minor 2
 #define MODULE_Meter_Version_Revision 0

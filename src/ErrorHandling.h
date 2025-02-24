@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-
+void processCheck24VAC();
 uint8_t processErrorHandling();
 
 uint8_t getError();
@@ -18,3 +18,5 @@ bool get_ADC_Ready_Flag_TOP();
 bool get_ADC_Ready_Flag_BOT();
 void set_ADC_Ready_Flag_TOP();
 void set_ADC_Ready_Flag_BOT();
+void set_HW_Init_Flag();
+bool get_HW_Init_Flag();

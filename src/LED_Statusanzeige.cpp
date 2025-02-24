@@ -128,7 +128,7 @@ void set_State_LED(uint8_t ch, bool state)
 
 void setLED_24VAC(bool state)
 {
-    set_State_LED(LED24VAC, state);
+    set_State_LED(LED24VAC, !state);
 }
 
 void setLED_Relais(uint8_t ch, bool state)

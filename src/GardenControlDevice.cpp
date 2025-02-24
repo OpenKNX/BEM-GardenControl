@@ -35,7 +35,6 @@ uint32_t TestDelay = 0;
 uint32_t LED_Delay2 = 0;
 uint32_t LED_Delay = 0;
 
-bool HWinit_Done = false;
 bool TestState = false;
 bool TestLEDstate = false;
 bool TestLEDstate2 = false;
@@ -86,7 +85,7 @@ void GardenControlDevice::waitStartupLoop()
     if (delayCheck(LED_Delay2, 700))
     {
         TestLEDstate2 = !TestLEDstate2;
-        digitalWrite(get_PROG_LED_PIN(), TestLEDstate2);
+        digitalWrite(get_Status_PIN(), TestLEDstate2);
         LED_Delay2 = millis();
         SERIAL_DEBUG.println("Wait for 5V");
     }
@@ -234,21 +233,24 @@ void GardenControlDevice::setup()
 
 void GardenControlDevice::loop()
 {
+    processCheck24VAC();
+
     // Abfrage ob die HW schon komplett initialisiert wurde. Das ist nur möglich, wenn auch die 24VAC(5V) anliegen
-    if (!HWinit_Done && !digitalRead(get_5V_status_PIN()))
+    if (!get_HW_Init_Flag() && !digitalRead(get_5V_status_PIN()))
     {
         initialHWinit();
-        HWinit_Done = true;
-        digitalWrite(get_PROG_LED_PIN(), false);
-
         // Enable HW TOP
         init_IOExpander_GPIOs_TOP();
+        set_HW_Init_Flag();
+
+        digitalWrite(get_Status_PIN(), false);
+
         set_IOExpander_TOP_Output(IO_5V_EN_V3, HIGH);
         set_IOExpander_TOP_Output(IO_12V_EN_V3, HIGH);
         set_IOExpander_TOP_Output(IO_24V_EN_V3, HIGH);
     }
     // HW ist komplett initialisiert --> ab hier beginnt die eigentliche Loop()
-    else if (HWinit_Done)
+    else if (get_HW_Init_Flag())
     {
 
         processErrorHandling(); // PRIO 1
@@ -430,9 +432,8 @@ void GardenControlDevice::loop()
         if (delayCheck(LED_Delay, 200))
         {
             TestLEDstate = !TestLEDstate;
-            digitalWrite(get_PROG_LED_PIN(), TestLEDstate);
+            digitalWrite(get_Status_PIN(), TestLEDstate);
             LED_Delay = millis();
-            SERIAL_DEBUG.println("LED");
         }
 #endif
     }
