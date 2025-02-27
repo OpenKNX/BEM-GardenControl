@@ -1,9 +1,9 @@
 #include "OpenKNX.h"
 
-#include "InputADC.h"
-#include "KnxHelper.h"
 #include "ErrorHandling.h"
 #include "HelperFunc.h"
+#include "InputADC.h"
+#include "KnxHelper.h"
 #include "ReadADC.h"
 
 #define Channel_inaktiv 0
@@ -38,13 +38,14 @@ union InputADCValuesOLD
 
 float calculateSensorValueLinearFunction(uint8_t channel, float a, float b, bool Div)
 {
-    return ((getAdcVoltage_TOP(channel)) - b) / a;
+    return ((getAdcVoltage_TOP(channel))-b) / a;
 }
 
 void processInput_ADC(bool readyFlag)
 {
     bool lSend = false;
     float lAbsolute;
+    float absValue;
     // uint16_t lAbsoluteU16;
     // uint8_t lRelativU8;
     // uint8_t Dpt = 0;
@@ -94,7 +95,6 @@ void processInput_ADC(bool readyFlag)
                                 value.ladcValue = getAdcVoltage_TOP(channel);
                                 // STEP 2a: Get Abs value
                                 lAbsolute = (knx.paramWord(getParADC(ADC_CHSendenAbsolut, channel))) / 1000.0; // Value in mV
-
                                 break;
 
                             default:
@@ -229,7 +229,8 @@ void processInput_ADC(bool readyFlag)
                         }
                         // senden bei Wertänderung Relativ
                         lAbsolute = knx.paramByte(getParADC(ADC_CHSendenRelativ, channel));
-                        if (lAbsolute > 0 && (value.ladcValue > 0.5 || value.ladcValue < -0.5) && roundf(abs(value.ladcValue - valueOld.ladcValue[channel])) >= value.ladcValue / 100 * lAbsolute)
+                        absValue = abs(value.ladcValue);
+                        if (lAbsolute > 0 && (absValue / 100 * lAbsolute) > 0.1 && abs(absValue - abs(valueOld.ladcValue[channel])) >= (absValue / 100 * lAbsolute))
                         {
                             lSend = true;
     #ifdef InputADC_Output

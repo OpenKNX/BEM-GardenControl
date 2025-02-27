@@ -439,7 +439,7 @@ void clearInitFlags_ADC()
             adc_Value_TOP[i] = 0;
             adc_Value_BOT[i] = 0;
         }
-        SERIAL_PORT.println("ERROR --> ADC Cleared !!!");
+        // SERIAL_PORT.println("ERROR --> ADC Cleared !!!");
     }
 }
 
@@ -1024,7 +1024,7 @@ bool processADConversation_BOT()
                             {
                                 if (!init_flag_Bot)
                                 {
-                                    //Io-Exp_Bot will need to activate the 24V Power for the 4-20mA Sensors, because of that it also must reinit here
+                                    // Io-Exp_Bot will need to activate the 24V Power for the 4-20mA Sensors, because of that it also must reinit here
                                     init_IOExpander_GPIOs_BOT();
                                     switch (get_HW_ID_BOT())
                                     {

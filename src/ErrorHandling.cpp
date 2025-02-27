@@ -223,7 +223,7 @@ bool get_12V_or_24V_Error()
 
 bool get_24V_AC_Error()
 {
-    return (error >> ERROR_24V_AC) & 1;
+    return digitalRead(get_5V_status_PIN());
 }
 
 bool get_ADC_Ready_Flag_TOP()

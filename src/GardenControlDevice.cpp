@@ -163,12 +163,12 @@ void GardenControlDevice::processInputKo(GroupObject &iKo)
             if (iKo.asap() == REL_KoOffset + (REL_Ko_Set_relais + (koIndex * REL_KoBlockSize))) // KO Abfrage für Relais
             {
                 uint8_t relais_Nr = ((iKo.asap() - REL_KoOffset) / REL_KoBlockSize);
-#ifdef KNXcallback_Input
+    #ifdef KNXcallback_Input
                 SERIAL_DEBUG.print("KO_Relais_");
                 SERIAL_DEBUG.print(relais_Nr + 1);
                 SERIAL_DEBUG.print(": ");
                 SERIAL_DEBUG.println((bool)iKo.value(getDPT(VAL_DPT_1)));
-#endif
+    #endif
                 set_Relais_State(relais_Nr, iKo.value(getDPT(VAL_DPT_1)));
                 callLogic = false;
             }
@@ -234,6 +234,7 @@ void GardenControlDevice::setup()
 void GardenControlDevice::loop()
 {
     processCheck24VAC();
+    process_5V_Relais(); 
 
     // Abfrage ob die HW schon komplett initialisiert wurde. Das ist nur möglich, wenn auch die 24VAC(5V) anliegen
     if (!get_HW_Init_Flag() && !digitalRead(get_5V_status_PIN()))
@@ -256,21 +257,21 @@ void GardenControlDevice::loop()
         processErrorHandling(); // PRIO 1
         processSysFailure();    // PRIO 1
 
-#ifdef BinInputs
+    #ifdef BinInputs
         processReadInputs(); // PRIO 1
-#endif
-#ifdef S0Inputs
+    #endif
+    #ifdef S0Inputs
         processReadS0Input();
-#endif
-#ifdef ImplInput
+    #endif
+    #ifdef ImplInput
         processReadImpulseInput(); // PRIO 1
-#endif
+    #endif
 
         switch (StateM)
         {
             case Pos1:
 
-#ifdef ADC_enable
+    #ifdef ADC_enable
                 if (processADConversation_TOP() && get_ADC_Ready_Flag_TOP() == false)
                 {
                     adc_TOP_cycle_count++;
@@ -281,8 +282,8 @@ void GardenControlDevice::loop()
                         adc_TOP_cycle_count = 0;
                     }
                 }
-#endif
-#ifdef ADC_enable
+    #endif
+    #ifdef ADC_enable
                 if (processADConversation_BOT() && get_ADC_Ready_Flag_BOT() == false)
                 {
                     adc_BOT_cycle_count++;
@@ -293,34 +294,33 @@ void GardenControlDevice::loop()
                         adc_BOT_cycle_count = 0;
                     }
                 }
-#endif
-#ifdef ADC_enable
+    #endif
+    #ifdef ADC_enable
                 processInput_ADC(get_ADC_Ready_Flag_TOP());
-#endif
+    #endif
                 StateM = Pos2;
                 break;
             case Pos2:
-#ifdef ADC_enable
+    #ifdef ADC_enable
                 processInput_4_20mA(get_ADC_Ready_Flag_BOT());
-#endif
+    #endif
                 StateM = Pos3;
                 break;
             case Pos3:
-#ifdef BinInputs
+    #ifdef BinInputs
                 processInput_BIN();
-#endif
+    #endif
                 StateM = Pos4;
                 break;
             case Pos4:
-#ifdef ImplInput
+    #ifdef ImplInput
                 processInputImpulse();
-#endif
+    #endif
                 StateM = Pos5;
                 break;
             case Pos5:
                 processVentil();     // PRIO 3
                 processRelais();     // PRIO 3
-                process_5V_Relais(); // PRIO 3
                 StateM = Pos1;
                 break;
             default:
@@ -345,14 +345,14 @@ void GardenControlDevice::loop()
           }
         */
 
-        if (delayCheck(Output_Delay, 2007))
+        if (delayCheck(Output_Delay, 10007))
         {
 
             // only TEST enable 24V outputs for 4-20mA
             // set_IOExpander_BOT_Output_PCA9555(14, HIGH);
             // set_IOExpander_BOT_Output_PCA9555(15, HIGH);
 
-#ifdef ErrorBits_Output
+    #ifdef ErrorBits_Output
             SERIAL_DEBUG.println("------------------");
             SERIAL_DEBUG.print("--> Error 5V: ");
             SERIAL_DEBUG.println(get_5V_Error());
@@ -363,9 +363,9 @@ void GardenControlDevice::loop()
             SERIAL_DEBUG.print("--> Error 12/24V: ");
             SERIAL_DEBUG.println(get_12V_or_24V_Error());
             SERIAL_DEBUG.println("------------------");
-#endif
+    #endif
 
-#ifdef ADC_enable_Output
+    #ifdef ADC_enable_Output
             SERIAL_DEBUG.print("ADC CH1: ");
             SERIAL_DEBUG.print(getAdcI2cValue_TOP(0));
             SERIAL_DEBUG.print(" Volt: ");
@@ -393,9 +393,9 @@ void GardenControlDevice::loop()
             SERIAL_DEBUG.println(getAdcVoltage_BOT(1));
             SERIAL_DEBUG.println("------------------");
             SERIAL_DEBUG.println(" ");
-#endif
+    #endif
 
-#ifdef BinInputs_Output
+    #ifdef BinInputs_Output
             SERIAL_DEBUG.print("BIN CH1: ");
             SERIAL_DEBUG.println(getStateInput1());
             SERIAL_DEBUG.print("BIN CH2: ");
@@ -404,14 +404,14 @@ void GardenControlDevice::loop()
             SERIAL_DEBUG.println(getStateInput3());
             SERIAL_DEBUG.print("BIN CH4: ");
             SERIAL_DEBUG.println(getStateInput4());
-#endif
+    #endif
 
-#ifdef ImplInput_Output
+    #ifdef ImplInput_Output
             SERIAL_DEBUG.print("Impl: ");
             SERIAL_DEBUG.println(getFlowValue());
-#endif
+    #endif
 
-#ifdef Opto_IN_Output
+    #ifdef Opto_IN_Output
             SERIAL_DEBUG.print("Opto CH1: ");
             SERIAL_DEBUG.println(digitalRead(OptoIN_1));
             SERIAL_DEBUG.print("Opto CH2: ");
@@ -420,7 +420,7 @@ void GardenControlDevice::loop()
             SERIAL_DEBUG.println(digitalRead(OptoIN_3));
             SERIAL_DEBUG.print("Opto CH4: ");
             SERIAL_DEBUG.println(digitalRead(OptoIN_4));
-#endif
+    #endif
 
             Output_Delay = millis();
         }
@@ -428,13 +428,13 @@ void GardenControlDevice::loop()
     // IN der ELSE-Schleife kann man Funktionen aufrufen, solange die HW noch nicht komplettt initialisiert wurde und noch keine 24VAC(5V) anliegen
     else
     {
-#ifdef ProgLedblinking1sek
+    #ifdef ProgLedblinking1sek
         if (delayCheck(LED_Delay, 200))
         {
             TestLEDstate = !TestLEDstate;
             digitalWrite(get_Status_PIN(), TestLEDstate);
             LED_Delay = millis();
         }
-#endif
+    #endif
     }
 }
