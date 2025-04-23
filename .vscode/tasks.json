@@ -61,6 +61,15 @@
             "group": "test"
         },
         {
+            "label": "Generate Dependencies.txt",
+            "type": "shell",
+            "command": "lib/OGM-Common/scripts/setup/reusable/Build-Dependencies.ps1",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": "test"
+        },
+        {
             "label": "Build-Release",
             "type": "shell",
             "command": "scripts/Build-Release.ps1",
