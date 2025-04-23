@@ -19,6 +19,9 @@
 			"path": "../OFM-ConfigTransfer"
 		},
 		{
+			"path": "../OFM-DFA"
+		},
+		{
 			"path": "../OFM-BinaryInput"
 		},
 		{
