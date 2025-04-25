@@ -3,7 +3,9 @@
 #include "OpenKNX.h"
 
 #include "Device_setup.h"
-#include "FileTransferModule.h"
+#ifdef ARDUINO_ARCH_RP2040
+    #include "FileTransferModule.h"
+#endif
 #include "GpioBinaryInputModule.h"
 #include "Logic.h"
 #include "MeterModule.h"
@@ -25,7 +27,9 @@ void setup()
     openknx.addModule(6, openknxGpioBinaryInputModule);
 #endif
     openknx.addModule(7, openknxMeterModule);
+#ifdef ARDUINO_ARCH_RP2040
     openknx.addModule(9, openknxFileTransferModule);
+#endif
 
     SERIAL_DEBUG.println("Start init HW TOP");
     read_HW_ID_TOP();
