@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAIN_Version "4e3fd05"
+#define MAIN_Version "3a96f99"
 #define KNX_Version "2.1.2+764900e"
 #define MODULE_Common_Version "1.2.0+9f24e6e"
 #define MODULE_Common_Version_Major 1
@@ -27,3 +27,8 @@
 #define MODULE_Meter_Version_Minor 2
 #define MODULE_Meter_Version_Revision 0
 #define MODULE_Meter_ETS 2
+#define MODULE_DFA_Version "0.4.0+3553289"
+#define MODULE_DFA_Version_Major 0
+#define MODULE_DFA_Version_Minor 4
+#define MODULE_DFA_Version_Revision 0
+#define MODULE_DFA_ETS 4
