@@ -54,7 +54,9 @@
 			"thread": "cpp",
 			"valarray": "cpp",
 			"typeindex": "cpp",
-			"typeinfo": "cpp"
+			"typeinfo": "cpp",
+			"format": "cpp",
+			"future": "cpp"
 		}
 	}
 }

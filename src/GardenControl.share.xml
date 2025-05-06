@@ -96,11 +96,16 @@
                 FunctionText="Diagnose" Number="23" ObjectSize="1 Byte" ReadFlag="Enabled"
                 WriteFlag="Disabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"
                 UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-5-10" />
+              <ComObject Id="%AID%_O-%TT%00003" Name="_Set_Magnetventil_Nr" Text="Magnetventil-Nr"
+                FunctionText="Schalten" Number="24" ObjectSize="1 Byte" ReadFlag="Disabled"
+                WriteFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Disabled"
+                UpdateFlag="Disabled" ReadOnInitFlag="Disabled" DatapointType="DPST-5-10" />  
             </ComObjectTable>
             <ComObjectRefs>
               <ComObjectRef Id="%AID%_O-%TT%00000_R-%TT%0000001" RefId="%AID%_O-%TT%00000" />
               <ComObjectRef Id="%AID%_O-%TT%00001_R-%TT%0000101" RefId="%AID%_O-%TT%00001" />
               <ComObjectRef Id="%AID%_O-%TT%00002_R-%TT%0000201" RefId="%AID%_O-%TT%00002" />
+              <ComObjectRef Id="%AID%_O-%TT%00003_R-%TT%0000301" RefId="%AID%_O-%TT%00003" />
             </ComObjectRefs>
           </Static>
           <!-- Here statrs the UI definition -->
@@ -159,6 +164,7 @@
                 </ParameterBlock>
                 <op:include href="GardenControl.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/*"
                   type="template" prefix="BEM" IsInner="true" />
+                  <ComObjectRefRef RefId="%AID%_O-%TT%00003_R-%TT%0000301" /> <!-- KO: Ventil single schalten -->  
               </ParameterBlock>
             </Channel>
           </Dynamic>

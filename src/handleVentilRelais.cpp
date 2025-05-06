@@ -1,4 +1,5 @@
 #include "handleVentilRelais.h"
+#include "HelperFunc.h"
 #include "I2C_IOExpander.h"
 #include "KnxHelper.h"
 #include "OpenKNX.h"
@@ -85,6 +86,42 @@ void processVentil()
 void set_Ventil_State(uint8_t ch, bool state)
 {
     ventil_State[ch] = state;
+}
+
+void set_Ventil_State_single(uint8_t ch)
+{
+
+    SERIAL_PORT.println("### Ventil aktiv");
+    if (ch <= BEM_ChannelCount && ch > 0)
+    {
+        if (knx.paramByte(getParBEM(BEM_CHAktive, ch - 1)))
+        {
+            SERIAL_PORT.print("### Ventil_");
+            SERIAL_PORT.print(ch);
+            SERIAL_PORT.println(" öffnen");
+            set_Ventil_State(ch - 1, true);
+        }
+        else
+        {
+            SERIAL_PORT.print("### Ventil_");
+            SERIAL_PORT.print(ch);
+            SERIAL_PORT.println(" INAKTIV");
+        }
+    }
+    else if (ch == 0) // close all open Gauges
+    {
+        for (int i = 0; i < BEM_ChannelCount; i++)
+        {
+            // check if another gauge is open
+            if (get_Ventil_StateOld(i))
+            {
+                SERIAL_PORT.print("### Ventil_");
+                SERIAL_PORT.print(i + 1);
+                SERIAL_PORT.println(" schließen");
+                set_Ventil_State(i, false);
+            }
+        }
+    }
 }
 
 bool get_Ventil_StateOld(uint8_t ch)

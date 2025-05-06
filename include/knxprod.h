@@ -177,6 +177,7 @@
 #define BEM_Ko_Set_5V_relais 21
 #define BEM_Ko_Status_5V_relais 22
 #define BEM_Ko_Diagnose_KO_PWR 23
+#define BEM_Ko_Set_Magnetventil_Nr 24
 
 // ext +5V Relais
 #define KoBEM__Set_5V_relais                      (knx.getGroupObject(BEM_Ko_Set_5V_relais))
@@ -184,6 +185,8 @@
 #define KoBEM__Status_5V_relais                   (knx.getGroupObject(BEM_Ko_Status_5V_relais))
 // Power Rails
 #define KoBEM__Diagnose_KO_PWR                    (knx.getGroupObject(BEM_Ko_Diagnose_KO_PWR))
+// Magnetventil-Nr
+#define KoBEM__Set_Magnetventil_Nr                (knx.getGroupObject(BEM_Ko_Set_Magnetventil_Nr))
 
 #define BEM_ChannelCount 12
 

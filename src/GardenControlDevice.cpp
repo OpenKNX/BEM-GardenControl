@@ -134,6 +134,11 @@ void GardenControlDevice::processInputKo(GroupObject &iKo)
     {
         set_5V_Relais_State(iKo.value(getDPT(VAL_DPT_1)));
     }
+    else if (iKo.asap() == BEM_Ko_Set_Magnetventil_Nr)
+    {
+        set_Ventil_State_single(iKo.value(getDPT(VAL_DPT_5)));
+    }
+    
     else
     {
         bool callLogic = true;
@@ -197,7 +202,7 @@ void GardenControlDevice::setup()
     digitalWrite(get_5V_EN_PIN(), HIGH);
     // wait until internal 5V voltage go to 0V
     SERIAL_DEBUG.println("wait");
-    delay(1000);
+    delay(2000);
     // restart 5V
     SERIAL_DEBUG.println("restart 5V");
     digitalWrite(get_5V_EN_PIN(), LOW);

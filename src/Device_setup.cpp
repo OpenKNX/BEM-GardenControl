@@ -351,13 +351,13 @@ uint8_t get_HW_ID_BOT()
 
 void initHW()
 {
-    switch (hw_ID)
+    switch (get_HW_ID_TOP())
     {
         case HW_1_0:
         case HW_2_0:
         case HW_2_1:
         case HW_3_0:
-            // RP2040 GPIO Init
+            // RP2040 GPIO InitS
             pinMode(get_PROG_LED_PIN(), OUTPUT);
             pinMode(get_SSR_EN_PIN(), OUTPUT);
             pinMode(get_SSR_FAULT_PIN(), INPUT);
@@ -372,7 +372,7 @@ void initHW()
 
             digitalWrite(get_PROG_LED_PIN(), LOW);
             digitalWrite(get_SSR_EN_PIN(), LOW);
-            digitalWrite(get_5V_EN_PIN(), LOW);
+            digitalWrite(get_5V_EN_PIN(), HIGH);  // deafault = 5V OFF (PIN=HIGH)
             digitalWrite(get_Status_PIN(), LOW);
             break;
 

@@ -17,6 +17,10 @@
 
 void setup()
 {
+    read_HW_ID_TOP();
+    initHW();
+    print_HW_ID_TOP(get_HW_ID_TOP());
+    SERIAL_DEBUG.println("Done");
     //delay(5000);
     
     // change this also in library.json
@@ -33,11 +37,7 @@ void setup()
     openknx.addModule(9, openknxFileTransferModule);
 #endif
 
-    SERIAL_DEBUG.println("Start init HW TOP");
-    read_HW_ID_TOP();
-    print_HW_ID_TOP(get_HW_ID_TOP());
-    initHW();
-    SERIAL_DEBUG.println("Done");
+
 
     Serial1.setRX(17); // UART0 KNX
     Serial1.setTX(16); // UART0
