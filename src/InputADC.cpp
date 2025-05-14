@@ -202,7 +202,14 @@ void processInput_ADC(bool readyFlag)
                         SERIAL_PORT.println(value.ladcValue);
     #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
+                        if(knx.paramByte(getParADC(ADC_CHSMT50DPTType,channel)) == 0)
+                        {
                         knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend((uint8_t)(value.ladcValue * 2.55), getDPT(VAL_DPT_5));
+                        }
+                        else
+                        {
+                        knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue, getDPT(VAL_DPT_9));
+                        }
 
                         break;
 

@@ -66,6 +66,12 @@
                   <Enumeration Text="Windgeschwindigkeit (m/s)" Value="8" Id="%ENID%" />
                   <Enumeration Text="Prozent (%)" Value="9" Id="%ENID%" />
                 </TypeRestriction>
+               </ParameterType> 
+              <ParameterType Id="%AID%_PT-SMT50DptType" Name="SMT50DptType">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Text="DPT5" Value="0" Id="%ENID%" />
+                  <Enumeration Text="DPT9" Value="1" Id="%ENID%" />
+                </TypeRestriction>
               </ParameterType>
             </ParameterTypes>
             <Parameters>

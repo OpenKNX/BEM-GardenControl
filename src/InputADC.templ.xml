@@ -42,6 +42,10 @@
                 <Parameter Id="%AID%_UP-%TT%%CC%010" Name="CH%C%GeradeB"
                   Offset="13" BitOffset="0" ParameterType="%AID%_PT-ADCValueI16" Text="Wert b" Value="0" />
               </Union>
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="15" BitOffset="0" />
+                <Parameter Id="%AID%_UP-%TT%%CC%011" Name="CH%C%SMT50DPTType" Offset="0" BitOffset="0" ParameterType="%AID%_PT-SMT50DptType" Text="Wähle DPT" Value="0" />
+              </Union>
             </Parameters>
             <ParameterRefs>
               <!-- ParameterRef have to be defined for each parameter, pay attention, that the
@@ -85,6 +89,8 @@
                 SuffixText="*0.01" /> <!-- Geadengleichung Wert M -->
               <ParameterRef Id="%AID%_UP-%TT%%CC%010_R-%TT%%CC%01001" RefId="%AID%_UP-%TT%%CC%010"
                 SuffixText="*0.01" /> <!-- Geadengleichung Wert B -->
+              <ParameterRef Id="%AID%_UP-%TT%%CC%011_R-%TT%%CC%01101" RefId="%AID%_UP-%TT%%CC%011" /> <!--
+              SMT Feuchte DPT5 oder DPT9 -->  
             </ParameterRefs>
             <ComObjectTable>
               <ComObject Id="%AID%_O-%TT%%CC%000" Name="GO_BASE_%C%_1" Text="GO_BASE_%C%_1"
@@ -149,10 +155,15 @@
                 ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"
                 DatapointType="DPST-9-1" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
               <ComObjectRef Id="%AID%_O-%TT%%CC%000_R-%TT%%CC%00012" RefId="%AID%_O-%TT%%CC%000"
-                Name="Out_BodF_DPT_09" Text="ADC Input %C%: {{0:-}}"
+                Name="Out_BodF_DPT_05" Text="ADC Input %C%: {{0:-}}"
                 FunctionText="SMT-50 Bodenfeuchte" Priority="Low" ObjectSize="1 Byte"
                 ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"
                 DatapointType="DPST-5-1" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
+              <ComObjectRef Id="%AID%_O-%TT%%CC%000_R-%TT%%CC%00013" RefId="%AID%_O-%TT%%CC%000"
+                Name="Out_BodF_DPT_09" Text="ADC Input %C%: {{0:-}}"
+                FunctionText="SMT-50 Bodenfeuchte" Priority="Low" ObjectSize="2 Bytes"
+                ReadFlag="Enabled" CommunicationFlag="Enabled" TransmitFlag="Enabled"
+                DatapointType="DPST-9-7" TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
             </ComObjectRefs>
           </Static>
           <!-- Here statrs the UI definition -->
@@ -359,6 +370,16 @@
                           <ParameterRefRef RefId="%AID%_UP-%TT%%CC%007_R-%TT%%CC%00701" IndentLevel="1" />  <!--
                             Korrekturfaktor -->
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                          <ParameterRefRef RefId="%AID%_UP-%TT%%CC%011_R-%TT%%CC%01101" IndentLevel="1" />
+                          <choose ParamRefId="%AID%_UP-%TT%%CC%011_R-%TT%%CC%01101">
+                            <when test="0">  <!-- DPT5 -->
+                              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%000_R-%TT%%CC%00012" />  <!-- KO: Bodenfeuchte -->
+                            </when>
+                            <when test="1">  <!-- DPT9 -->
+                              <ComObjectRefRef RefId="%AID%_O-%TT%%CC%000_R-%TT%%CC%00013" />  <!-- KO: Bodenfeuchte -->
+                            </when>
+                          </choose>
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                           <ParameterRefRef RefId="%AID%_UP-%TT%%CC%002_R-%TT%%CC%00201" IndentLevel="1" />  <!-- Zyklisch
                             Senden -->
                           <ParameterRefRef RefId="%AID%_UP-%TT%%CC%003_R-%TT%%CC%00303" IndentLevel="1" />  <!-- Zyklisch
@@ -366,8 +387,7 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                           <ParameterRefRef RefId="%AID%_UP-%TT%%CC%005_R-%TT%%CC%00501" IndentLevel="1" />  <!-- Wert
                             gläten -->
-                          <ComObjectRefRef RefId="%AID%_O-%TT%%CC%000_R-%TT%%CC%00012" />  <!-- KO:
-                            Bodenfeuchte -->
+                          
                         </when>
                         <when test="3">  <!-- Sensor: SMT50-Temp -->
                           <ParameterSeparator Id="%AID%_PS-nnn"
