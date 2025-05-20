@@ -427,12 +427,11 @@ void GardenControlDevice::loop()
     else
     {
 #ifdef ProgLedblinking1sek
-        if (delayCheck(LED_Delay, 200))
+        if (delayCheck(LED_Delay, 400))
         {
             TestLEDstate = !TestLEDstate;
             digitalWrite(get_Status_PIN(), TestLEDstate);
             LED_Delay = millis();
-            SERIAL_DEBUG.println("LED");
         }
 #endif
     }
