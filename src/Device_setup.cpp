@@ -329,6 +329,7 @@ void read_HW_ID_BOT()
             bitWrite(hw_ID_Bot, 0, get_IOExpander_TOP_Input(IO_HW_ID1));
             bitWrite(hw_ID_Bot, 1, get_IOExpander_TOP_Input(IO_HW_ID2));
             bitWrite(hw_ID_Bot, 2, get_IOExpander_TOP_Input(IO_HW_ID3));
+            break;
         case HW_3_0:
             // read Inputs
             bitWrite(hw_ID_Bot, 0, get_IOExpander_TOP_Input(IO_HW_V3_ID1));
