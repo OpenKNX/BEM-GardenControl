@@ -273,10 +273,10 @@ void print_HW_ID_TOP(uint8_t id)
     }
 }
 
-void print_HW_ID_BOT(uint8_t id)
+void print_HW_ID_BOT(uint8_t id_Bot)
 {
     SERIAL_PORT.print("  HW-ID-BOT: ");
-    switch (id)
+    switch (id_Bot)
     {
         case HW_BOT_1_0:
             SERIAL_PORT.println("V1.x");
@@ -296,7 +296,7 @@ void print_HW_ID_BOT(uint8_t id)
 
         default:
             SERIAL_PORT.print("Not Defined: ");
-            SERIAL_PORT.println(id, BIN);
+            SERIAL_PORT.println(id_Bot, BIN);
             break;
     }
 }
