@@ -273,10 +273,10 @@ void print_HW_ID_TOP(uint8_t id)
     }
 }
 
-void print_HW_ID_BOT(uint8_t id)
+void print_HW_ID_BOT(uint8_t id_Bot)
 {
     SERIAL_PORT.print("  HW-ID-BOT: ");
-    switch (id)
+    switch (id_Bot)
     {
         case HW_BOT_1_0:
             SERIAL_PORT.println("V1.x");
@@ -296,7 +296,7 @@ void print_HW_ID_BOT(uint8_t id)
 
         default:
             SERIAL_PORT.print("Not Defined: ");
-            SERIAL_PORT.println(id, BIN);
+            SERIAL_PORT.println(id_Bot, BIN);
             break;
     }
 }
@@ -329,6 +329,7 @@ void read_HW_ID_BOT()
             bitWrite(hw_ID_Bot, 0, get_IOExpander_TOP_Input(IO_HW_ID1));
             bitWrite(hw_ID_Bot, 1, get_IOExpander_TOP_Input(IO_HW_ID2));
             bitWrite(hw_ID_Bot, 2, get_IOExpander_TOP_Input(IO_HW_ID3));
+            break;
         case HW_3_0:
             // read Inputs
             bitWrite(hw_ID_Bot, 0, get_IOExpander_TOP_Input(IO_HW_V3_ID1));
