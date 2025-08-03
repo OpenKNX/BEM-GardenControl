@@ -213,19 +213,23 @@ void set_IOExpander_TOP_Output(uint8_t ch, bool state)
                 if (init_flag_EXP_TOP)
                 {
                     mcp23017_TOP.digitalWrite(ch, state);
+                    /*
                     SERIAL_PORT.print("MCP23017_TOP.write ");
                     SERIAL_PORT.print(state);
                     SERIAL_PORT.print("  CH");
                     SERIAL_PORT.println(ch);
+                    */
                 }
                 else
                 {
                     init_IOExpander_GPIOs_TOP();
                     mcp23017_TOP.digitalWrite(ch, state);
+                    /*
                     SERIAL_PORT.print("INIT & MCP23017_TOP.write ");
                     SERIAL_PORT.print(state);
                     SERIAL_PORT.print("  CH");
                     SERIAL_PORT.println(ch);
+                    */
                 }
                 break;
             default:

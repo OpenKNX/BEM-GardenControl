@@ -23,7 +23,7 @@
 #define ERROR_VCC12_or_VCC24 7
 
 #define DelayTime 1000
-#define DelayTime_DiagKO 1000
+#define DelayTime_DiagKO 1500
 
 bool startDelay = false;
 bool restart_5V_Relais = false;
@@ -32,6 +32,8 @@ bool initHW_Flag = false;
 bool initADCFlag_TOP = false;
 bool initADCFlag_BOT = false;
 
+bool error_vcc_12V_old = false;
+
 uint32_t delayTimer = 0;
 uint32_t delayTimer_DiagKO = 0;
 uint32_t timer1sek = 0;
@@ -39,6 +41,8 @@ uint32_t RestartTimer_5V_Relais = 0;
 
 uint8_t error = 0;
 uint8_t error_old = 0;
+uint8_t counter_5V_VCC_error = 0;
+uint8_t counter_12V_VCC_error = 0;
 
 void restart_Relais_5V()
 {
@@ -52,64 +56,59 @@ void restart_Relais_5V()
 
 void processCheck24VAC()
 {
-   // Check 24V AC
-   if (digitalRead(get_5V_status_PIN()))
-   {
-       error = 0;
-       error = 1 << ERROR_24V_AC;
+    // Check 24V AC
+    if (digitalRead(get_5V_status_PIN()))
+    {
+        error = 0;
+        Serial.println("------> ERROR = 0");
+        error = 1 << ERROR_24V_AC;
 #ifdef ADC_enable
-       clearInitFlags_ADC();
+        clearInitFlags_ADC();
 #endif
-       clearInitFlags_IOExp();
+        clearInitFlags_IOExp();
 
-       initADCFlag_TOP = false;
-       initADCFlag_BOT = false;
-       initHW_Flag = false;
+        initADCFlag_TOP = false;
+        initADCFlag_BOT = false;
+        initHW_Flag = false;
+    }
+    else
+    {
+        if (!startDelay)
+        {
+            startDelay = true;
+            delayTimer = millis();
+        }
+        error &= ~(1 << ERROR_24V_AC);
+    }
 
+    if (delayCheck(timer1sek, 500))
+    {
+        timer1sek = millis();
+        if (digitalRead(get_5V_status_PIN()))
+        {
+            setLED_24VAC(false);
+            // Serial.println("------> 24VAC OFF LED AUS");
+        }
+        else
+        {
+            setLED_24VAC(true);
+        }
 
-   }
-   else
-   {
-       if (!startDelay)
-       {
-           startDelay = true;
-           delayTimer = millis();
-       }
-       error = 0;
-   }
-
-   if (delayCheck(timer1sek, 500))
-   {
-       timer1sek = millis();
-       if (digitalRead(get_5V_status_PIN()))
-       {
-           setLED_24VAC(false);
-           //Serial.println("------> 24VAC OFF LED AUS");
-       }
-       else
-       {
-           setLED_24VAC(true);
-       }
-
-
-       if (error != 0 && !digitalRead(get_5V_status_PIN()))
-       {
-           setLED_ERROR(true);
-       }
-       else
-       {
-           setLED_ERROR(false);
-       }
-   }
-
+        if (error != 0 && !digitalRead(get_5V_status_PIN()))
+        {
+            setLED_ERROR(true);
+        }
+        else
+        {
+            setLED_ERROR(false);
+        }
+    }
 }
-
 
 uint8_t processErrorHandling()
 {
-  
-
-    // Check ext Relais 5V
+    // error = 0;
+    //  Check ext Relais 5V
     if (!digitalRead(get_SSR_FAULT_PIN()))
     {
         error |= 1 << ERROR_Relais_5V;
@@ -128,20 +127,40 @@ uint8_t processErrorHandling()
     if (!get_IOExpander_TOP_Input(get_5V_Output_fault_PIN()))
     {
         error |= 1 << ERROR_VCC_5V;
+        counter_5V_VCC_error = 0;
     }
     else
     {
-        error &= ~(1 << ERROR_VCC_5V);
+        counter_5V_VCC_error++;
+        if (counter_5V_VCC_error > 100)
+        {
+            error &= ~(1 << ERROR_VCC_5V);
+        }
     }
 
     // read +12V Output  fault
     if (get_12V_Output_fault_PIN() != 255 && get_IOExpander_TOP_Input(get_12V_Output_fault_PIN()))
     {
         error |= 1 << ERROR_VCC_12V;
+        counter_12V_VCC_error = 0;
+        if (error_vcc_12V_old == false)
+        {
+            set_IOExpander_TOP_Output(4, LOW);
+            error_vcc_12V_old = true;
+        }
     }
     else
     {
-        error &= ~(1 << ERROR_VCC_12V);
+        counter_12V_VCC_error++;
+        if (counter_12V_VCC_error > 100)
+        {
+            error &= ~(1 << ERROR_VCC_12V);
+        }
+        if (error_vcc_12V_old == true)
+        {
+            set_IOExpander_TOP_Output(4, HIGH);
+            error_vcc_12V_old = false;
+        }
     }
 
     // read +24V Output  fault
@@ -177,11 +196,11 @@ uint8_t processErrorHandling()
     // read ERROR_VCC12_or_VCC24 (only for special HW)
     if (get_12_or_24V_Output_fault_PIN() != 255 && !get_IOExpander_TOP_Input(get_12_or_24V_Output_fault_PIN()))
     {
-        error |= 1 << ERROR_VCC12_or_VCC24;
+        // error |= 1 << ERROR_VCC12_or_VCC24;
     }
     else
     {
-        error &= ~(1 << ERROR_VCC12_or_VCC24);
+        // error &= ~(1 << ERROR_VCC12_or_VCC24);
     }
 
     if (error_old != error && delayCheck(delayTimer_DiagKO, DelayTime_DiagKO))

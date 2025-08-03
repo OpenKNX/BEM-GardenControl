@@ -350,7 +350,7 @@ void GardenControlDevice::loop()
           }
         */
 
-        if (delayCheck(Output_Delay, 10007))
+        if (delayCheck(Output_Delay, 1000))
         {
 
             // only TEST enable 24V outputs for 4-20mA
@@ -359,6 +359,8 @@ void GardenControlDevice::loop()
 
     #ifdef ErrorBits_Output
             SERIAL_DEBUG.println("------------------");
+            SERIAL_DEBUG.print("--> Error: ");
+            SERIAL_DEBUG.println(getError(),BIN);
             SERIAL_DEBUG.print("--> Error 5V: ");
             SERIAL_DEBUG.println(get_5V_Error());
             SERIAL_DEBUG.print("--> Error 12V: ");
