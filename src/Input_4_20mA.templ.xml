@@ -143,12 +143,12 @@
               <ComObjectRef Id="%AID%_O-%TT%%CC%000_R-%TT%%CC%00011" RefId="%AID%_O-%TT%%CC%000"
                 Name="2Out_lite_DPT_12" Text="4-20mA Input %C%: {{0:-}}" FunctionText="Liter (l)"
                 Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled"
-                TransmitFlag="Enabled" DatapointType="DPST-12-12"
+                TransmitFlag="Enabled" DatapointType="DPST-12-1200"
                 TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
               <ComObjectRef Id="%AID%_O-%TT%%CC%000_R-%TT%%CC%00012" RefId="%AID%_O-%TT%%CC%000"
                 Name="2Out_volu_DPT_12" Text="4-20mA Input %C%: {{0:-}}" FunctionText="Volumen (m³)"
                 Priority="Low" ObjectSize="4 Bytes" ReadFlag="Enabled" CommunicationFlag="Enabled"
-                TransmitFlag="Enabled" DatapointType="DPST-12-12"
+                TransmitFlag="Enabled" DatapointType="DPST-12-1201"
                 TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" />
             </ComObjectRefs>
           </Static>

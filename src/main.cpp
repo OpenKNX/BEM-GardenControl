@@ -24,7 +24,7 @@ void setup()
     //delay(5000);
     
     // change this also in library.json
-    const uint8_t firmwareRevision = 1;
+    const uint8_t firmwareRevision = 0;
     openknx.init(firmwareRevision);
     openknx.addModule(1, openknxLogic);
     openknx.addModule(3, openknxDfaModule);

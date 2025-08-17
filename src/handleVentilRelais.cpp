@@ -208,11 +208,11 @@ void control_Relais(uint8_t nr, bool state)
     switch (nr)
     {
         case 0:
-            set_IOExpander_BOT_Output(12, state);
+            set_IOExpander_BOT_Output(13, state);
             setLED_Relais(LEDRelais1, !state);
             break;
         case 1:
-            set_IOExpander_BOT_Output(13, state);
+            set_IOExpander_BOT_Output(12, state);
             setLED_Relais(LEDRelais2, !state);
             break;
         default:

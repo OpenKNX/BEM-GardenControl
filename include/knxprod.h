@@ -10,7 +10,7 @@
                                              
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16
-#define MAIN_ApplicationVersion 9
+#define MAIN_ApplicationVersion 16
 #define MAIN_ParameterSize 15231
 #define MAIN_MaxKoNumber 839
 #define MAIN_OrderNumber "SmartMF-GardenControl"
