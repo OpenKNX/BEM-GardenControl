@@ -350,7 +350,7 @@ void GardenControlDevice::loop()
           }
         */
 
-        if (delayCheck(Output_Delay, 1000))
+        if (delayCheck(Output_Delay, 100000))
         {
 
             // only TEST enable 24V outputs for 4-20mA
