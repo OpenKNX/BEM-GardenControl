@@ -8,6 +8,7 @@
 #include "HelperFunc.h"
 #include "I2C_IOExpander.h"
 #include "LED_Statusanzeige.h"
+#include "handleVentilRelais.h"
 #ifdef ADC_enable
     #include "ReadADC.h"
 #endif
@@ -79,6 +80,7 @@ void processCheck24VAC()
             delayTimer = millis();
         }
         error &= ~(1 << ERROR_24V_AC);
+
     }
 
     if (delayCheck(timer500ms, 503))
@@ -206,7 +208,7 @@ uint8_t processErrorHandling()
         if (delayCheck(timer1sek, 991))
         {
             timer1sek = millis();
-            setLED_OFF_ALL();   // clear all Status LEDs
+            setLED_OFF_ALL(); // clear all Status LEDs
         }
         // clear all error bits
         error &= ~(1 << ERROR_VCC_5V);

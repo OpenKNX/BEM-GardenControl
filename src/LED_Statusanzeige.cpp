@@ -74,9 +74,11 @@ void setLED_OFF_ALL()
     switch (ioExp)
     {
         case PCF_8575:
+            state_LED_Out = 0xFFFF;
             pcf8575_LED_CH1_16.pcf8575_WriteALL(0xFFFF);
             break;
         case TCA_9555:
+            state_LED_Out = 0xFFFF;
             tca9555_LED_CH1_16.write16(0xFFFF);
             break;
 
@@ -89,19 +91,44 @@ void setLED_OFF_ALL()
 
 void setLED_OFF_Ventil()
 {
-    state_LED_Out |= 0xFFF0;
-    pcf8575_LED_CH1_16.pcf8575_WriteALL(state_LED_Out);
+    switch (ioExp)
+    {
+        case PCF_8575:
+            state_LED_Out |= 0xFFF0;
+            pcf8575_LED_CH1_16.pcf8575_WriteALL(state_LED_Out);
+            break;
+        case TCA_9555:
+            state_LED_Out |= 0xFFF0;
+            tca9555_LED_CH1_16.write16(state_LED_Out);
+            break;
+
+        default:
+            SERIAL_DEBUG.println("Status Anzeige. IO-Exp not defined");
+            break;
+    }
 }
 
 void setLED_OFF_Relais()
 {
-    state_LED_Out |= 0x000E;
-    pcf8575_LED_CH1_16.pcf8575_WriteALL(state_LED_Out);
+    switch (ioExp)
+    {
+        case PCF_8575:
+            state_LED_Out |= 0x000E;
+            pcf8575_LED_CH1_16.pcf8575_WriteALL(state_LED_Out);
+            break;
+        case TCA_9555:
+            state_LED_Out |= 0x000E;
+            tca9555_LED_CH1_16.write16(state_LED_Out);
+            break;
+
+        default:
+            SERIAL_DEBUG.println("Status Anzeige. IO-Exp not defined");
+            break;
+    }
 }
 
 void set_State_LED(uint8_t ch, bool state)
 {
-
     switch (ioExp)
     {
         case PCF_8575:
@@ -114,9 +141,10 @@ void set_State_LED(uint8_t ch, bool state)
             }
             break;
         case TCA_9555:
-        if (ch <= MAX_NUMBER_OF_I2C_Channels)
+            if (ch <= MAX_NUMBER_OF_I2C_Channels)
             {
-              tca9555_LED_CH1_16.write1(ch, state);
+                state_LED_Out ^= (-state ^ state_LED_Out) & (1 << ch);
+                tca9555_LED_CH1_16.write1(ch, state);
             }
             break;
 
