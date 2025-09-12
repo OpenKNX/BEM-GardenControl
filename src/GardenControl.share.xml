@@ -112,7 +112,7 @@
           <Dynamic>
             <Channel Id="%AID%_CH-1" Name="Standard" Number="1" Text="Magnetventile">
               <!-- A tab page with general settings -->
-              <ParameterBlock Id="%AID%_PB-nnn" Name="General" Text="Allgemein" Icon="cog-outline" HelpContext="BEM-Dokumentation">
+              <ParameterBlock Id="%AID%_PB-nnn" Name="General" Text="Allgemein" Icon="cog-outline" HelpContext="BEM-Dokumentation" ShowInComObjectTree="true">
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Garden Control" UIHint="Headline" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Version: %ApplicationVersion%" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
