@@ -41,6 +41,11 @@ float calculateSensorValueLinearFunction(uint8_t channel, float a, float b, bool
     return ((getAdcVoltage_TOP(channel))-b) / a;
 }
 
+float calculateSensorValueLinearFunction2(uint8_t channel, float a, float b, bool Div)
+{
+    return ((getAdcVoltage_TOP(channel))*a) + b;
+}
+
 void processInput_ADC(bool readyFlag)
 {
     bool lSend = false;
@@ -99,13 +104,14 @@ void processInput_ADC(bool readyFlag)
 
                             default:
                                 // STEP 2: Get new Sensor value
-                                value.ladcValue = calculateSensorValueLinearFunction(channel, knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0, knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
+                                //value.ladcValue = calculateSensorValueLinearFunction2(channel, knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0, knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
+                                value.ladcValue = (getAdcVoltage_TOP(channel)*(int16_t)knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0) + (int16_t)knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0;
     #ifdef InputADC_Output
-                                SERIAL_PORT.print(value.ladcValue);
+                                SERIAL_PORT.print(getAdcVoltage_TOP(channel));
                                 SERIAL_PORT.print(" | ");
-                                SERIAL_PORT.print(knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0);
+                                SERIAL_PORT.print((int16_t)knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0);
                                 SERIAL_PORT.print(" | ");
-                                SERIAL_PORT.print(knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0);
+                                SERIAL_PORT.print((int16_t)knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0);
                                 SERIAL_PORT.print(" | ");
     #endif
                                 // STEP 3: Check value Change "Absolut"
