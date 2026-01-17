@@ -1,4 +1,5 @@
 #include "GardenControlDevice.h"
+#include "HardwareConfig.h"
 
 #include "OpenKNX.h"
 
@@ -6,10 +7,10 @@
 #ifdef ARDUINO_ARCH_RP2040
     #include "FileTransferModule.h"
 #endif
+#include "DfaModule.h"
 #include "GpioBinaryInputModule.h"
 #include "Logic.h"
 #include "MeterModule.h"
-#include "DfaModule.h"
 
 #ifdef ARDUINO_ARCH_RP2040
     #pragma message "Pico Core Version: " ARDUINO_PICO_VERSION_STR
@@ -21,8 +22,8 @@ void setup()
     initHW();
     print_HW_ID_TOP(get_HW_ID_TOP());
     SERIAL_DEBUG.println("Done");
-    //delay(5000);
-    
+    // delay(5000);
+
     // change this also in library.json
     const uint8_t firmwareRevision = 0;
     openknx.init(firmwareRevision);
@@ -36,8 +37,6 @@ void setup()
 #ifdef ARDUINO_ARCH_RP2040
     openknx.addModule(9, openknxFileTransferModule);
 #endif
-
-
 
     Serial1.setRX(17); // UART0 KNX
     Serial1.setTX(16); // UART0
