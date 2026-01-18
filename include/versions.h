@@ -12,11 +12,19 @@
 #define MODULE_Common_Version_Minor 5
 #define MODULE_Common_Version_Revision 1
 #define MODULE_Common_ETS 21
+<<<<<<< HEAD
 #define MODULE_DFA_Version "0.7.1+d9ccb83"
 #define MODULE_DFA_Version_Major 0
 #define MODULE_DFA_Version_Minor 7
 #define MODULE_DFA_Version_Revision 1
 #define MODULE_DFA_ETS 7
+=======
+#define MODULE_DFA_Version "0.4.0+3553289"
+#define MODULE_DFA_Version_Major 0
+#define MODULE_DFA_Version_Minor 4
+#define MODULE_DFA_Version_Revision 0
+#define MODULE_DFA_ETS 4
+>>>>>>> 7cfb99e1aa68c79edc2851169ff507539600203e
 #define MODULE_FileTransferModule_Version "0.1.4+3a96b4e"
 #define MODULE_FileTransferModule_Version_Major 0
 #define MODULE_FileTransferModule_Version_Minor 1
