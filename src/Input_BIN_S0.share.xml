@@ -144,7 +144,7 @@
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
-            <Channel Id="%AID%_CH-5" Name="Standard" Number="5" Text="Digitaleingänge">
+            <Channel Id="%AID%_CH-%PREFIX%" Name="Standard" Number="%PREFIX%" Text="Digitaleingänge">
               <ParameterBlock Id="%AID%_PB-nnn" Name="Binary" Text="Digitaleingänge" Icon="square-wave" HelpContext="Empty" ShowInComObjectTree="true">
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Auswahl Digitaleingänge" UIHint="Headline" />
                 <ParameterBlock Id="%AID%_PB-nnn" Inline="true" Layout="Table" Text="#">
