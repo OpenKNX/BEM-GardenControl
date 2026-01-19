@@ -44,7 +44,7 @@ void processVentil()
         }
         initVentil = true;
     }
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
         // check of state chnage and Send new Status
         for (int ch = 0; ch < BEM_ChannelCount; ch++)
@@ -62,7 +62,11 @@ void processVentil()
         }
         displayCleared_Ventil = false;
     }
-    else
+}
+
+void process_ventil_states()
+{
+    if (get_24V_AC_Error())
     {
         // check of state chnage and Send new Status
         for (int ch = 0; ch < BEM_ChannelCount; ch++)
@@ -138,6 +142,14 @@ void set_Ventil_Sperrobjekt(uint8_t ch, bool state)
     ventil_Sperrobjekt[ch] = state;
 }
 
+void clear_ALL_Ventil_states()
+{
+    for (int i = 0; i < BEM_ChannelCount; i++)
+    {
+        set_Ventil_State(i, false);
+    }
+}
+
 /*****************************************************************************
  * Relais
  ****************************************************************************/
@@ -173,7 +185,11 @@ void processRelais()
         }
         displayCleared_Relais = false;
     }
-    else
+}
+
+void process_relais_states()
+{
+    if (get_24V_AC_Error())
     {
         // check of state chnage and Send new Status
         for (int ch = 0; ch < REL_ChannelCount; ch++)
@@ -189,7 +205,7 @@ void processRelais()
         {
             setLED_OFF_Relais();
             displayCleared_Relais = true;
-            SERIAL_PORT.println("Ventile: Display clear");
+            SERIAL_PORT.println("Relais: Display clear");
         }
     }
 }
@@ -237,6 +253,14 @@ void set_Relais_Sperrobjekt(uint8_t ch, bool state)
     SERIAL_PORT.print(": ");
     SERIAL_PORT.println(state);
     relais_Sperrobjekt[ch] = state;
+}
+
+void clear_ALL_Relais_states()
+{
+    for (int i = 0; i < REL_ChannelCount; i++)
+    {
+        set_Relais_State(i, false);
+    }
 }
 
 /*****************************************************************************

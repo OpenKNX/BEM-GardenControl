@@ -240,6 +240,8 @@ void GardenControlDevice::loop()
 {
     processCheck24VAC();
     process_5V_Relais(); 
+    process_ventil_states();
+    process_relais_states();
 
     // Abfrage ob die HW schon komplett initialisiert wurde. Das ist nur möglich, wenn auch die 24VAC(5V) anliegen
     if (!get_HW_Init_Flag() && !digitalRead(get_5V_status_PIN()))
@@ -350,7 +352,7 @@ void GardenControlDevice::loop()
           }
         */
 
-        if (delayCheck(Output_Delay, 1000))
+        if (delayCheck(Output_Delay, 100000))
         {
 
             // only TEST enable 24V outputs for 4-20mA

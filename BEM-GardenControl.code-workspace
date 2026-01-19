@@ -56,7 +56,8 @@
 			"typeindex": "cpp",
 			"typeinfo": "cpp",
 			"format": "cpp",
-			"future": "cpp"
+			"future": "cpp",
+			"charconv": "cpp"
 		}
 	}
 }
