@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAIN_Version "3efaf1a"
+#define MAIN_Version "2e8c8ba"
 #define KNX_Version "2.2.2+ee3c00e"
 #define MODULE_LogicModule_Version "3.8.0+55beacc"
 #define MODULE_LogicModule_Version_Major 3
@@ -12,19 +12,11 @@
 #define MODULE_Common_Version_Minor 5
 #define MODULE_Common_Version_Revision 1
 #define MODULE_Common_ETS 21
-<<<<<<< HEAD
 #define MODULE_DFA_Version "0.7.1+d9ccb83"
 #define MODULE_DFA_Version_Major 0
 #define MODULE_DFA_Version_Minor 7
 #define MODULE_DFA_Version_Revision 1
 #define MODULE_DFA_ETS 7
-=======
-#define MODULE_DFA_Version "0.4.0+3553289"
-#define MODULE_DFA_Version_Major 0
-#define MODULE_DFA_Version_Minor 4
-#define MODULE_DFA_Version_Revision 0
-#define MODULE_DFA_ETS 4
->>>>>>> 7cfb99e1aa68c79edc2851169ff507539600203e
 #define MODULE_FileTransferModule_Version "0.1.4+3a96b4e"
 #define MODULE_FileTransferModule_Version_Major 0
 #define MODULE_FileTransferModule_Version_Minor 1
@@ -35,6 +27,11 @@
 #define MODULE_BinaryInput_Version_Minor 2
 #define MODULE_BinaryInput_Version_Revision 1
 #define MODULE_BinaryInput_ETS 2
+#define MODULE_HardwareConfig_Version "1.0.0+98190e8"
+#define MODULE_HardwareConfig_Version_Major 1
+#define MODULE_HardwareConfig_Version_Minor 0
+#define MODULE_HardwareConfig_Version_Revision 0
+#define MODULE_HardwareConfig_ETS 16
 #define MODULE_Meter_Version "0.5.0+4680ec0"
 #define MODULE_Meter_Version_Major 0
 #define MODULE_Meter_Version_Minor 5
