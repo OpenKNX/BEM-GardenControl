@@ -58,6 +58,7 @@ void processVentil()
                 SERIAL_PORT.println(ventil_State[ch]);
                 knx.getGroupObject(BEM_KoOffset + (ch * BEM_KoBlockSize + BEM_Ko_Status_ventil)).value(ventil_State[ch], getDPT(VAL_DPT_1));
                 ventil_State_old[ch] = ventil_State[ch];
+                return;
             }
         }
         displayCleared_Ventil = false;
@@ -181,6 +182,7 @@ void processRelais()
                 SERIAL_PORT.println(relais_State[ch]);
                 knx.getGroupObject(REL_KoOffset + (ch * REL_KoBlockSize + REL_Ko_Status_relais)).value(relais_State[ch], getDPT(VAL_DPT_1));
                 relais_State_old[ch] = relais_State[ch];
+                return;
             }
         }
         displayCleared_Relais = false;
