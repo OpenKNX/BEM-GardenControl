@@ -22,7 +22,7 @@
 #define MAIN_FirmwareName "GardenControl"
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16
-#define MAIN_ApplicationVersion 16
+#define MAIN_ApplicationVersion 17
 #define MAIN_ApplicationEncoding iso-8859-15
 #define MAIN_ParameterSize 15569
 #define MAIN_MaxKoNumber 839
