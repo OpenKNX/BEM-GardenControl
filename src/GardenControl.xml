@@ -38,13 +38,13 @@
   <op:define prefix="BASE"
     share="../lib/OGM-Common/src/Common.share.xml"
     ModuleType="10"> <!-- BASE muss immer der gleiche ModuleType wie LogicModule sein (am besten 10) -->
-    <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.5" />
+    <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.7" />
   </op:define>
   <op:define prefix="UCT"
     share="../../OFM-ConfigTransfer/src/ConfigTransfer.share.xml"
     noConfigTransfer="true"
     ModuleType="19">
-    <op:verify File="../../OFM-ConfigTransfer/library.json" ModuleVersion="0.4" />
+    <op:verify File="../../OFM-ConfigTransfer/library.json" ModuleVersion="0.5" />
   </op:define>
   <op:define prefix="BEM" NumChannels="12" KoOffset="30"
     configTransferName="Garden Control"
@@ -86,7 +86,7 @@
     share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
     template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
     ModuleType="10">
-    <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.8" />
+    <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="4.0" />
   </op:define>
 
   <!-- Needs large module-type! -->
@@ -96,7 +96,7 @@
     NumChannels="%DFA_NumChannels%"
     KoOffset="720"
     ModuleType="8">
-    <op:verify File="../lib/OFM-DFA/library.json" ModuleVersion="0.7" />
+    <op:verify File="../lib/OFM-DFA/library.json" ModuleVersion="0.8" />
   </op:define>
 
   <generate>
