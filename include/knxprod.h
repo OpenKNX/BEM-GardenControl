@@ -8,17 +8,31 @@
             (time & 0xC000) == 0x8000 ? ((time & 0x3FFF) > 1000 ? 3600000 : \
                                          (time & 0x3FFF) * 3600000 ) : 0 )
                                              
+#define ETS_ModuleId_NONE 0
+#define ETS_ModuleId_BASE 1
+#define ETS_ModuleId_UCT 2
+#define ETS_ModuleId_BEM 3
+#define ETS_ModuleId_REL 4
+#define ETS_ModuleId_ADC 5
+#define ETS_ModuleId_CUR 6
+#define ETS_ModuleId_BI 7
+#define ETS_ModuleId_MTR 8
+#define ETS_ModuleId_LOG 9
+#define ETS_ModuleId_DFA 10
+#define MAIN_FirmwareName "GardenControl"
 #define MAIN_OpenKnxId 0xA2
 #define MAIN_ApplicationNumber 16
-#define MAIN_ApplicationVersion 9
-#define MAIN_ParameterSize 15231
+#define MAIN_ApplicationVersion 17
+#define MAIN_ApplicationEncoding iso-8859-15
+#define MAIN_ParameterSize 15569
 #define MAIN_MaxKoNumber 839
 #define MAIN_OrderNumber "SmartMF-GardenControl"
-#define UCT_ModuleVersion 2
+#define BASE_ModuleVersion 21
+#define UCT_ModuleVersion 4
 #define BI_ModuleVersion 2
-#define MTR_ModuleVersion 2
-#define LOG_ModuleVersion 53
-#define DFA_ModuleVersion 4
+#define MTR_ModuleVersion 5
+#define LOG_ModuleVersion 56
+#define DFA_ModuleVersion 7
 // Parameter with single occurrence
 
 
@@ -37,12 +51,6 @@
 #define BASE_Timezone                             4      // 5 Bits, Bit 7-3
 #define     BASE_TimezoneMask 0xF8
 #define     BASE_TimezoneShift 3
-#define BASE_TimezoneSign                         4      // 1 Bit, Bit 7
-#define     BASE_TimezoneSignMask 0x80
-#define     BASE_TimezoneSignShift 7
-#define BASE_TimezoneValue                        4      // 4 Bits, Bit 6-3
-#define     BASE_TimezoneValueMask 0x78
-#define     BASE_TimezoneValueShift 3
 #define BASE_CombinedTimeDate                     4      // 1 Bit, Bit 2
 #define     BASE_CombinedTimeDateMask 0x04
 #define     BASE_CombinedTimeDateShift 2
@@ -58,25 +66,56 @@
 #define BASE_SummertimeKO                         4      // 2 Bits, Bit 1-0
 #define     BASE_SummertimeKOMask 0x03
 #define     BASE_SummertimeKOShift 0
-#define BASE_Latitude                             5      // float
-#define BASE_Longitude                            9      // float
-#define BASE_Diagnose                            14      // 1 Bit, Bit 7
+#define BASE_TimezoneCustom                       5      // char*, 63 Byte
+#define BASE_Latitude                            69      // float
+#define BASE_Longitude                           73      // float
+#define BASE_Diagnose                            78      // 1 Bit, Bit 7
 #define     BASE_DiagnoseMask 0x80
 #define     BASE_DiagnoseShift 7
-#define BASE_Watchdog                            14      // 1 Bit, Bit 6
+#define BASE_Watchdog                            78      // 1 Bit, Bit 6
 #define     BASE_WatchdogMask 0x40
 #define     BASE_WatchdogShift 6
-#define BASE_ReadTimeDate                        14      // 1 Bit, Bit 5
+#define BASE_ReadTimeDate                        78      // 1 Bit, Bit 5
 #define     BASE_ReadTimeDateMask 0x20
 #define     BASE_ReadTimeDateShift 5
-#define BASE_HeartbeatExtended                   14      // 1 Bit, Bit 4
+#define BASE_HeartbeatExtended                   78      // 1 Bit, Bit 4
 #define     BASE_HeartbeatExtendedMask 0x10
 #define     BASE_HeartbeatExtendedShift 4
-#define BASE_ManualSave                          14      // 3 Bits, Bit 2-0
+#define BASE_InternalTime                        78      // 1 Bit, Bit 3
+#define     BASE_InternalTimeMask 0x08
+#define     BASE_InternalTimeShift 3
+#define BASE_ManualSave                          78      // 3 Bits, Bit 2-0
 #define     BASE_ManualSaveMask 0x07
 #define     BASE_ManualSaveShift 0
-#define BASE_PeriodicSave                        15      // 8 Bits, Bit 7-0
-#define BASE_Dummy                               45      // uint8_t
+#define BASE_PeriodicSave                        79      // 8 Bits, Bit 7-0
+#define BASE_Dummy                               109      // uint8_t
+#define BASE_ModuleEnabled_UCT                   110      // 1 Bit, Bit 6
+#define     BASE_ModuleEnabled_UCTMask 0x40
+#define     BASE_ModuleEnabled_UCTShift 6
+#define BASE_ModuleEnabled_BEM                   110      // 1 Bit, Bit 5
+#define     BASE_ModuleEnabled_BEMMask 0x20
+#define     BASE_ModuleEnabled_BEMShift 5
+#define BASE_ModuleEnabled_REL                   110      // 1 Bit, Bit 4
+#define     BASE_ModuleEnabled_RELMask 0x10
+#define     BASE_ModuleEnabled_RELShift 4
+#define BASE_ModuleEnabled_ADC                   110      // 1 Bit, Bit 3
+#define     BASE_ModuleEnabled_ADCMask 0x08
+#define     BASE_ModuleEnabled_ADCShift 3
+#define BASE_ModuleEnabled_CUR                   110      // 1 Bit, Bit 2
+#define     BASE_ModuleEnabled_CURMask 0x04
+#define     BASE_ModuleEnabled_CURShift 2
+#define BASE_ModuleEnabled_BI                    110      // 1 Bit, Bit 1
+#define     BASE_ModuleEnabled_BIMask 0x02
+#define     BASE_ModuleEnabled_BIShift 1
+#define BASE_ModuleEnabled_MTR                   110      // 1 Bit, Bit 0
+#define     BASE_ModuleEnabled_MTRMask 0x01
+#define     BASE_ModuleEnabled_MTRShift 0
+#define BASE_ModuleEnabled_LOG                   111      // 1 Bit, Bit 7
+#define     BASE_ModuleEnabled_LOGMask 0x80
+#define     BASE_ModuleEnabled_LOGShift 7
+#define BASE_ModuleEnabled_DFA                   111      // 1 Bit, Bit 6
+#define     BASE_ModuleEnabled_DFAMask 0x40
+#define     BASE_ModuleEnabled_DFAShift 6
 
 // Zeitbasis
 #define ParamBASE_StartupDelayBase                    ((knx.paramByte(BASE_StartupDelayBase) & BASE_StartupDelayBaseMask) >> BASE_StartupDelayBaseShift)
@@ -92,10 +131,6 @@
 #define ParamBASE_HeartbeatDelayTimeMS                (paramDelay(knx.paramWord(BASE_HeartbeatDelayTime)))
 // Zeitzone
 #define ParamBASE_Timezone                            ((knx.paramByte(BASE_Timezone) & BASE_TimezoneMask) >> BASE_TimezoneShift)
-// Zeitzone-Vorzeichen
-#define ParamBASE_TimezoneSign                        ((bool)(knx.paramByte(BASE_TimezoneSign) & BASE_TimezoneSignMask))
-// Zeitzone-Wert
-#define ParamBASE_TimezoneValue                       ((knx.paramByte(BASE_TimezoneValue) & BASE_TimezoneValueMask) >> BASE_TimezoneValueShift)
 // Empfangen über
 #define ParamBASE_CombinedTimeDate                    ((bool)(knx.paramByte(BASE_CombinedTimeDate) & BASE_CombinedTimeDateMask))
 // Sommerzeit ermitteln durch
@@ -106,6 +141,8 @@
 #define ParamBASE_SummertimeWorld                     (knx.paramByte(BASE_SummertimeWorld) & BASE_SummertimeWorldMask)
 // Sommerzeit ermitteln durch
 #define ParamBASE_SummertimeKO                        (knx.paramByte(BASE_SummertimeKO) & BASE_SummertimeKOMask)
+// POSIX TZ-String
+#define ParamBASE_TimezoneCustom                      (knx.paramData(BASE_TimezoneCustom))
 // Breitengrad
 #define ParamBASE_Latitude                            (knx.paramFloat(BASE_Latitude, Float_Enc_IEEE754Single))
 // Längengrad
@@ -118,48 +155,71 @@
 #define ParamBASE_ReadTimeDate                        ((bool)(knx.paramByte(BASE_ReadTimeDate) & BASE_ReadTimeDateMask))
 // Erweitertes "In Betrieb"
 #define ParamBASE_HeartbeatExtended                   ((bool)(knx.paramByte(BASE_HeartbeatExtended) & BASE_HeartbeatExtendedMask))
+// InternalTime
+#define ParamBASE_InternalTime                        ((bool)(knx.paramByte(BASE_InternalTime) & BASE_InternalTimeMask))
 // Manuelles speichern
 #define ParamBASE_ManualSave                          (knx.paramByte(BASE_ManualSave) & BASE_ManualSaveMask)
 // Zyklisches speichern
 #define ParamBASE_PeriodicSave                        (knx.paramByte(BASE_PeriodicSave))
 // 
 #define ParamBASE_Dummy                               (knx.paramByte(BASE_Dummy))
+// UCT
+#define ParamBASE_ModuleEnabled_UCT                   ((bool)(knx.paramByte(BASE_ModuleEnabled_UCT) & BASE_ModuleEnabled_UCTMask))
+// BEM
+#define ParamBASE_ModuleEnabled_BEM                   ((bool)(knx.paramByte(BASE_ModuleEnabled_BEM) & BASE_ModuleEnabled_BEMMask))
+// REL
+#define ParamBASE_ModuleEnabled_REL                   ((bool)(knx.paramByte(BASE_ModuleEnabled_REL) & BASE_ModuleEnabled_RELMask))
+// ADC
+#define ParamBASE_ModuleEnabled_ADC                   ((bool)(knx.paramByte(BASE_ModuleEnabled_ADC) & BASE_ModuleEnabled_ADCMask))
+// CUR
+#define ParamBASE_ModuleEnabled_CUR                   ((bool)(knx.paramByte(BASE_ModuleEnabled_CUR) & BASE_ModuleEnabled_CURMask))
+// BI
+#define ParamBASE_ModuleEnabled_BI                    ((bool)(knx.paramByte(BASE_ModuleEnabled_BI) & BASE_ModuleEnabled_BIMask))
+// MTR
+#define ParamBASE_ModuleEnabled_MTR                   ((bool)(knx.paramByte(BASE_ModuleEnabled_MTR) & BASE_ModuleEnabled_MTRMask))
+// LOG
+#define ParamBASE_ModuleEnabled_LOG                   ((bool)(knx.paramByte(BASE_ModuleEnabled_LOG) & BASE_ModuleEnabled_LOGMask))
+// DFA
+#define ParamBASE_ModuleEnabled_DFA                   ((bool)(knx.paramByte(BASE_ModuleEnabled_DFA) & BASE_ModuleEnabled_DFAMask))
 
 #define BASE_KoHeartbeat 1
 #define BASE_KoTime 2
 #define BASE_KoDate 3
+#define BASE_KoDateTime 4
+#define BASE_KoIsSummertime 5
+#define BASE_KoManualSave 6
 #define BASE_KoDiagnose 7
-#define BASE_KoIsSummertime 10
-#define BASE_KoManualSave 11
 
 // In Betrieb
 #define KoBASE_Heartbeat                           (knx.getGroupObject(BASE_KoHeartbeat))
-// Uhrzeit/Datum
+// Uhrzeit
 #define KoBASE_Time                                (knx.getGroupObject(BASE_KoTime))
 // Datum
 #define KoBASE_Date                                (knx.getGroupObject(BASE_KoDate))
-// Diagnose
-#define KoBASE_Diagnose                            (knx.getGroupObject(BASE_KoDiagnose))
+// Uhrzeit/Datum
+#define KoBASE_DateTime                            (knx.getGroupObject(BASE_KoDateTime))
 // Sommerzeit aktiv
 #define KoBASE_IsSummertime                        (knx.getGroupObject(BASE_KoIsSummertime))
 // Speichern
 #define KoBASE_ManualSave                          (knx.getGroupObject(BASE_KoManualSave))
+// Diagnose
+#define KoBASE_Diagnose                            (knx.getGroupObject(BASE_KoDiagnose))
 
 
 
-#define BEM_ext5VRelais                         46      // 1 Bit, Bit 7
+#define BEM_ext5VRelais                         114      // 1 Bit, Bit 7
 #define     BEM_ext5VRelaisMask 0x80
 #define     BEM_ext5VRelaisShift 7
-#define BEM_ext5VRelaisStateBegin               46      // 1 Bit, Bit 6
+#define BEM_ext5VRelaisStateBegin               114      // 1 Bit, Bit 6
 #define     BEM_ext5VRelaisStateBeginMask 0x40
 #define     BEM_ext5VRelaisStateBeginShift 6
-#define BEM_ext5VRelaisStartState               46      // 1 Bit, Bit 5
+#define BEM_ext5VRelaisStartState               114      // 1 Bit, Bit 5
 #define     BEM_ext5VRelaisStartStateMask 0x20
 #define     BEM_ext5VRelaisStartStateShift 5
-#define BEM_Diag_KO_PWT_enable                  46      // 1 Bit, Bit 4
+#define BEM_Diag_KO_PWT_enable                  114      // 1 Bit, Bit 4
 #define     BEM_Diag_KO_PWT_enableMask 0x10
 #define     BEM_Diag_KO_PWT_enableShift 4
-#define BEM_KOsStateSendStartup                 46      // 1 Bit, Bit 4
+#define BEM_KOsStateSendStartup                 114      // 1 Bit, Bit 4
 #define     BEM_KOsStateSendStartupMask 0x10
 #define     BEM_KOsStateSendStartupShift 4
 
@@ -191,7 +251,7 @@
 #define BEM_ChannelCount 12
 
 // Parameter per channel
-#define BEM_ParamBlockOffset 47
+#define BEM_ParamBlockOffset 115
 #define BEM_ParamBlockSize 1
 #define BEM_ParamCalcIndex(index) (index + BEM_ParamBlockOffset + _channelIndex * BEM_ParamBlockSize)
 
@@ -232,7 +292,7 @@
 #define REL_ChannelCount 2
 
 // Parameter per channel
-#define REL_ParamBlockOffset 59
+#define REL_ParamBlockOffset 127
 #define REL_ParamBlockSize 1
 #define REL_ParamCalcIndex(index) (index + REL_ParamBlockOffset + _channelIndex * REL_ParamBlockSize)
 
@@ -273,7 +333,7 @@
 #define ADC_ChannelCount 4
 
 // Parameter per channel
-#define ADC_ParamBlockOffset 61
+#define ADC_ParamBlockOffset 129
 #define ADC_ParamBlockSize 17
 #define ADC_ParamCalcIndex(index) (index + ADC_ParamBlockOffset + _channelIndex * ADC_ParamBlockSize)
 
@@ -333,7 +393,7 @@
 #define CUR_ChannelCount 2
 
 // Parameter per channel
-#define CUR_ParamBlockOffset 129
+#define CUR_ParamBlockOffset 197
 #define CUR_ParamBlockSize 12
 #define CUR_ParamCalcIndex(index) (index + CUR_ParamBlockOffset + _channelIndex * CUR_ParamBlockSize)
 
@@ -384,7 +444,7 @@
 #define BI_ChannelCount 3
 
 // Parameter per channel
-#define BI_ParamBlockOffset 153
+#define BI_ParamBlockOffset 221
 #define BI_ParamBlockSize 4
 #define BI_ParamCalcIndex(index) (index + BI_ParamBlockOffset + _channelIndex * BI_ParamBlockSize)
 
@@ -441,7 +501,7 @@
 // 
 #define KoBI_ChannelOutput                       (knx.getGroupObject(BI_KoCalcNumber(BI_KoChannelOutput)))
 
-#define MTR_VisibleChannels                     165      // uint8_t
+#define MTR_VisibleChannels                     233      // uint8_t
 
 // Verfügbare Kanäle
 #define ParamMTR_VisibleChannels                     (knx.paramByte(MTR_VisibleChannels))
@@ -449,7 +509,7 @@
 #define MTR_ChannelCount 12
 
 // Parameter per channel
-#define MTR_ParamBlockOffset 166
+#define MTR_ParamBlockOffset 234
 #define MTR_ParamBlockSize 62
 #define MTR_ParamCalcIndex(index) (index + MTR_ParamBlockOffset + _channelIndex * MTR_ParamBlockSize)
 
@@ -549,251 +609,254 @@
 // 
 #define KoMTR_ChannelReset                        (knx.getGroupObject(MTR_KoCalcNumber(MTR_KoChannelReset)))
 
-#define LOG_BuzzerInstalled                     910      // 1 Bit, Bit 7
+#define LOG_BuzzerInstalled                     978      // 1 Bit, Bit 7
 #define     LOG_BuzzerInstalledMask 0x80
 #define     LOG_BuzzerInstalledShift 7
-#define LOG_LedInstalled                        910      // 1 Bit, Bit 6
+#define LOG_LedInstalled                        978      // 1 Bit, Bit 6
 #define     LOG_LedInstalledMask 0x40
 #define     LOG_LedInstalledShift 6
-#define LOG_VacationKo                          910      // 1 Bit, Bit 5
+#define LOG_VacationKo                          978      // 1 Bit, Bit 5
 #define     LOG_VacationKoMask 0x20
 #define     LOG_VacationKoShift 5
-#define LOG_HolidayKo                           910      // 1 Bit, Bit 4
+#define LOG_HolidayKo                           978      // 1 Bit, Bit 4
 #define     LOG_HolidayKoMask 0x10
 #define     LOG_HolidayKoShift 4
-#define LOG_VacationRead                        910      // 1 Bit, Bit 3
+#define LOG_VacationRead                        978      // 1 Bit, Bit 3
 #define     LOG_VacationReadMask 0x08
 #define     LOG_VacationReadShift 3
-#define LOG_HolidaySend                         910      // 1 Bit, Bit 2
+#define LOG_HolidaySend                         978      // 1 Bit, Bit 2
 #define     LOG_HolidaySendMask 0x04
 #define     LOG_HolidaySendShift 2
-#define LOG_Neujahr                             911      // 1 Bit, Bit 7
+#define LOG_Neujahr                             979      // 1 Bit, Bit 7
 #define     LOG_NeujahrMask 0x80
 #define     LOG_NeujahrShift 7
-#define LOG_DreiKoenige                         911      // 1 Bit, Bit 6
+#define LOG_DreiKoenige                         979      // 1 Bit, Bit 6
 #define     LOG_DreiKoenigeMask 0x40
 #define     LOG_DreiKoenigeShift 6
-#define LOG_Weiberfastnacht                     911      // 1 Bit, Bit 5
+#define LOG_Weiberfastnacht                     979      // 1 Bit, Bit 5
 #define     LOG_WeiberfastnachtMask 0x20
 #define     LOG_WeiberfastnachtShift 5
-#define LOG_Rosenmontag                         911      // 1 Bit, Bit 4
+#define LOG_Rosenmontag                         979      // 1 Bit, Bit 4
 #define     LOG_RosenmontagMask 0x10
 #define     LOG_RosenmontagShift 4
-#define LOG_Fastnachtsdienstag                  911      // 1 Bit, Bit 3
+#define LOG_Fastnachtsdienstag                  979      // 1 Bit, Bit 3
 #define     LOG_FastnachtsdienstagMask 0x08
 #define     LOG_FastnachtsdienstagShift 3
-#define LOG_Aschermittwoch                      911      // 1 Bit, Bit 2
+#define LOG_Aschermittwoch                      979      // 1 Bit, Bit 2
 #define     LOG_AschermittwochMask 0x04
 #define     LOG_AschermittwochShift 2
-#define LOG_Frauentag                           911      // 1 Bit, Bit 1
+#define LOG_Frauentag                           979      // 1 Bit, Bit 1
 #define     LOG_FrauentagMask 0x02
 #define     LOG_FrauentagShift 1
-#define LOG_Gruendonnerstag                     911      // 1 Bit, Bit 0
+#define LOG_Gruendonnerstag                     979      // 1 Bit, Bit 0
 #define     LOG_GruendonnerstagMask 0x01
 #define     LOG_GruendonnerstagShift 0
-#define LOG_Karfreitag                          912      // 1 Bit, Bit 7
+#define LOG_Karfreitag                          980      // 1 Bit, Bit 7
 #define     LOG_KarfreitagMask 0x80
 #define     LOG_KarfreitagShift 7
-#define LOG_Ostersonntag                        912      // 1 Bit, Bit 6
+#define LOG_Ostersonntag                        980      // 1 Bit, Bit 6
 #define     LOG_OstersonntagMask 0x40
 #define     LOG_OstersonntagShift 6
-#define LOG_Ostermontag                         912      // 1 Bit, Bit 5
+#define LOG_Ostermontag                         980      // 1 Bit, Bit 5
 #define     LOG_OstermontagMask 0x20
 #define     LOG_OstermontagShift 5
-#define LOG_TagDerArbeit                        912      // 1 Bit, Bit 4
+#define LOG_TagDerArbeit                        980      // 1 Bit, Bit 4
 #define     LOG_TagDerArbeitMask 0x10
 #define     LOG_TagDerArbeitShift 4
-#define LOG_Himmelfahrt                         912      // 1 Bit, Bit 3
+#define LOG_Himmelfahrt                         980      // 1 Bit, Bit 3
 #define     LOG_HimmelfahrtMask 0x08
 #define     LOG_HimmelfahrtShift 3
-#define LOG_Pfingstsonntag                      912      // 1 Bit, Bit 2
+#define LOG_Pfingstsonntag                      980      // 1 Bit, Bit 2
 #define     LOG_PfingstsonntagMask 0x04
 #define     LOG_PfingstsonntagShift 2
-#define LOG_Pfingstmontag                       912      // 1 Bit, Bit 1
+#define LOG_Pfingstmontag                       980      // 1 Bit, Bit 1
 #define     LOG_PfingstmontagMask 0x02
 #define     LOG_PfingstmontagShift 1
-#define LOG_Fronleichnam                        912      // 1 Bit, Bit 0
+#define LOG_Fronleichnam                        980      // 1 Bit, Bit 0
 #define     LOG_FronleichnamMask 0x01
 #define     LOG_FronleichnamShift 0
-#define LOG_Friedensfest                        913      // 1 Bit, Bit 7
+#define LOG_Friedensfest                        981      // 1 Bit, Bit 7
 #define     LOG_FriedensfestMask 0x80
 #define     LOG_FriedensfestShift 7
-#define LOG_MariaHimmelfahrt                    913      // 1 Bit, Bit 6
+#define LOG_MariaHimmelfahrt                    981      // 1 Bit, Bit 6
 #define     LOG_MariaHimmelfahrtMask 0x40
 #define     LOG_MariaHimmelfahrtShift 6
-#define LOG_DeutscheEinheit                     913      // 1 Bit, Bit 5
+#define LOG_DeutscheEinheit                     981      // 1 Bit, Bit 5
 #define     LOG_DeutscheEinheitMask 0x20
 #define     LOG_DeutscheEinheitShift 5
-#define LOG_Reformationstag                     913      // 1 Bit, Bit 4
+#define LOG_Reformationstag                     981      // 1 Bit, Bit 4
 #define     LOG_ReformationstagMask 0x10
 #define     LOG_ReformationstagShift 4
-#define LOG_Allerheiligen                       913      // 1 Bit, Bit 3
+#define LOG_Allerheiligen                       981      // 1 Bit, Bit 3
 #define     LOG_AllerheiligenMask 0x08
 #define     LOG_AllerheiligenShift 3
-#define LOG_BussBettag                          913      // 1 Bit, Bit 2
+#define LOG_BussBettag                          981      // 1 Bit, Bit 2
 #define     LOG_BussBettagMask 0x04
 #define     LOG_BussBettagShift 2
-#define LOG_Advent1                             913      // 1 Bit, Bit 1
+#define LOG_Advent1                             981      // 1 Bit, Bit 1
 #define     LOG_Advent1Mask 0x02
 #define     LOG_Advent1Shift 1
-#define LOG_Advent2                             913      // 1 Bit, Bit 0
+#define LOG_Advent2                             981      // 1 Bit, Bit 0
 #define     LOG_Advent2Mask 0x01
 #define     LOG_Advent2Shift 0
-#define LOG_Advent3                             914      // 1 Bit, Bit 7
+#define LOG_Advent3                             982      // 1 Bit, Bit 7
 #define     LOG_Advent3Mask 0x80
 #define     LOG_Advent3Shift 7
-#define LOG_Advent4                             914      // 1 Bit, Bit 6
+#define LOG_Advent4                             982      // 1 Bit, Bit 6
 #define     LOG_Advent4Mask 0x40
 #define     LOG_Advent4Shift 6
-#define LOG_Heiligabend                         914      // 1 Bit, Bit 5
+#define LOG_Heiligabend                         982      // 1 Bit, Bit 5
 #define     LOG_HeiligabendMask 0x20
 #define     LOG_HeiligabendShift 5
-#define LOG_Weihnachtstag1                      914      // 1 Bit, Bit 4
+#define LOG_Weihnachtstag1                      982      // 1 Bit, Bit 4
 #define     LOG_Weihnachtstag1Mask 0x10
 #define     LOG_Weihnachtstag1Shift 4
-#define LOG_Weihnachtstag2                      914      // 1 Bit, Bit 3
+#define LOG_Weihnachtstag2                      982      // 1 Bit, Bit 3
 #define     LOG_Weihnachtstag2Mask 0x08
 #define     LOG_Weihnachtstag2Shift 3
-#define LOG_Silvester                           914      // 1 Bit, Bit 2
+#define LOG_Silvester                           982      // 1 Bit, Bit 2
 #define     LOG_SilvesterMask 0x04
 #define     LOG_SilvesterShift 2
-#define LOG_Nationalfeiertag                    914      // 1 Bit, Bit 1
+#define LOG_Nationalfeiertag                    982      // 1 Bit, Bit 1
 #define     LOG_NationalfeiertagMask 0x02
 #define     LOG_NationalfeiertagShift 1
-#define LOG_MariaEmpfaengnis                    914      // 1 Bit, Bit 0
+#define LOG_MariaEmpfaengnis                    982      // 1 Bit, Bit 0
 #define     LOG_MariaEmpfaengnisMask 0x01
 #define     LOG_MariaEmpfaengnisShift 0
-#define LOG_NationalfeiertagSchweiz             915      // 1 Bit, Bit 7
+#define LOG_NationalfeiertagSchweiz             983      // 1 Bit, Bit 7
 #define     LOG_NationalfeiertagSchweizMask 0x80
 #define     LOG_NationalfeiertagSchweizShift 7
-#define LOG_Totensonntag                        915      // 1 Bit, Bit 6
+#define LOG_Totensonntag                        983      // 1 Bit, Bit 6
 #define     LOG_TotensonntagMask 0x40
 #define     LOG_TotensonntagShift 6
-#define LOG_BuzzerSilent                        916      // uint16_t
-#define LOG_BuzzerNormal                        918      // uint16_t
-#define LOG_BuzzerLoud                          920      // uint16_t
-#define LOG_VisibleChannels                     922      // uint8_t
-#define LOG_LedMapping                          923      // 3 Bits, Bit 7-5
+#define LOG_Weltkindertag                       983      // 1 Bit, Bit 5
+#define     LOG_WeltkindertagMask 0x20
+#define     LOG_WeltkindertagShift 5
+#define LOG_BuzzerSilent                        984      // uint16_t
+#define LOG_BuzzerNormal                        986      // uint16_t
+#define LOG_BuzzerLoud                          988      // uint16_t
+#define LOG_VisibleChannels                     990      // uint8_t
+#define LOG_LedMapping                          991      // 3 Bits, Bit 7-5
 #define     LOG_LedMappingMask 0xE0
 #define     LOG_LedMappingShift 5
-#define LOG_UserFormula1                        924      // char*, 99 Byte
-#define LOG_UserFormula1Active                  1023      // 1 Bit, Bit 7
+#define LOG_UserFormula1                        992      // char*, 99 Byte
+#define LOG_UserFormula1Active                  1091      // 1 Bit, Bit 7
 #define     LOG_UserFormula1ActiveMask 0x80
 #define     LOG_UserFormula1ActiveShift 7
-#define LOG_UserFormula2                        1024      // char*, 99 Byte
-#define LOG_UserFormula2Active                  1123      // 1 Bit, Bit 7
+#define LOG_UserFormula2                        1092      // char*, 99 Byte
+#define LOG_UserFormula2Active                  1191      // 1 Bit, Bit 7
 #define     LOG_UserFormula2ActiveMask 0x80
 #define     LOG_UserFormula2ActiveShift 7
-#define LOG_UserFormula3                        1124      // char*, 99 Byte
-#define LOG_UserFormula3Active                  1223      // 1 Bit, Bit 7
+#define LOG_UserFormula3                        1192      // char*, 99 Byte
+#define LOG_UserFormula3Active                  1291      // 1 Bit, Bit 7
 #define     LOG_UserFormula3ActiveMask 0x80
 #define     LOG_UserFormula3ActiveShift 7
-#define LOG_UserFormula4                        1224      // char*, 99 Byte
-#define LOG_UserFormula4Active                  1323      // 1 Bit, Bit 7
+#define LOG_UserFormula4                        1292      // char*, 99 Byte
+#define LOG_UserFormula4Active                  1391      // 1 Bit, Bit 7
 #define     LOG_UserFormula4ActiveMask 0x80
 #define     LOG_UserFormula4ActiveShift 7
-#define LOG_UserFormula5                        1324      // char*, 99 Byte
-#define LOG_UserFormula5Active                  1423      // 1 Bit, Bit 7
+#define LOG_UserFormula5                        1392      // char*, 99 Byte
+#define LOG_UserFormula5Active                  1491      // 1 Bit, Bit 7
 #define     LOG_UserFormula5ActiveMask 0x80
 #define     LOG_UserFormula5ActiveShift 7
-#define LOG_UserFormula6                        1424      // char*, 99 Byte
-#define LOG_UserFormula6Active                  1523      // 1 Bit, Bit 7
+#define LOG_UserFormula6                        1492      // char*, 99 Byte
+#define LOG_UserFormula6Active                  1591      // 1 Bit, Bit 7
 #define     LOG_UserFormula6ActiveMask 0x80
 #define     LOG_UserFormula6ActiveShift 7
-#define LOG_UserFormula7                        1524      // char*, 99 Byte
-#define LOG_UserFormula7Active                  1623      // 1 Bit, Bit 7
+#define LOG_UserFormula7                        1592      // char*, 99 Byte
+#define LOG_UserFormula7Active                  1691      // 1 Bit, Bit 7
 #define     LOG_UserFormula7ActiveMask 0x80
 #define     LOG_UserFormula7ActiveShift 7
-#define LOG_UserFormula8                        1624      // char*, 99 Byte
-#define LOG_UserFormula8Active                  1723      // 1 Bit, Bit 7
+#define LOG_UserFormula8                        1692      // char*, 99 Byte
+#define LOG_UserFormula8Active                  1791      // 1 Bit, Bit 7
 #define     LOG_UserFormula8ActiveMask 0x80
 #define     LOG_UserFormula8ActiveShift 7
-#define LOG_UserFormula9                        1724      // char*, 99 Byte
-#define LOG_UserFormula9Active                  1823      // 1 Bit, Bit 7
+#define LOG_UserFormula9                        1792      // char*, 99 Byte
+#define LOG_UserFormula9Active                  1891      // 1 Bit, Bit 7
 #define     LOG_UserFormula9ActiveMask 0x80
 #define     LOG_UserFormula9ActiveShift 7
-#define LOG_UserFormula10                       1824      // char*, 99 Byte
-#define LOG_UserFormula10Active                 1923      // 1 Bit, Bit 7
+#define LOG_UserFormula10                       1892      // char*, 99 Byte
+#define LOG_UserFormula10Active                 1991      // 1 Bit, Bit 7
 #define     LOG_UserFormula10ActiveMask 0x80
 #define     LOG_UserFormula10ActiveShift 7
-#define LOG_UserFormula11                       1924      // char*, 99 Byte
-#define LOG_UserFormula11Active                 2023      // 1 Bit, Bit 7
+#define LOG_UserFormula11                       1992      // char*, 99 Byte
+#define LOG_UserFormula11Active                 2091      // 1 Bit, Bit 7
 #define     LOG_UserFormula11ActiveMask 0x80
 #define     LOG_UserFormula11ActiveShift 7
-#define LOG_UserFormula12                       2024      // char*, 99 Byte
-#define LOG_UserFormula12Active                 2123      // 1 Bit, Bit 7
+#define LOG_UserFormula12                       2092      // char*, 99 Byte
+#define LOG_UserFormula12Active                 2191      // 1 Bit, Bit 7
 #define     LOG_UserFormula12ActiveMask 0x80
 #define     LOG_UserFormula12ActiveShift 7
-#define LOG_UserFormula13                       2124      // char*, 99 Byte
-#define LOG_UserFormula13Active                 2223      // 1 Bit, Bit 7
+#define LOG_UserFormula13                       2192      // char*, 99 Byte
+#define LOG_UserFormula13Active                 2291      // 1 Bit, Bit 7
 #define     LOG_UserFormula13ActiveMask 0x80
 #define     LOG_UserFormula13ActiveShift 7
-#define LOG_UserFormula14                       2224      // char*, 99 Byte
-#define LOG_UserFormula14Active                 2323      // 1 Bit, Bit 7
+#define LOG_UserFormula14                       2292      // char*, 99 Byte
+#define LOG_UserFormula14Active                 2391      // 1 Bit, Bit 7
 #define     LOG_UserFormula14ActiveMask 0x80
 #define     LOG_UserFormula14ActiveShift 7
-#define LOG_UserFormula15                       2324      // char*, 99 Byte
-#define LOG_UserFormula15Active                 2423      // 1 Bit, Bit 7
+#define LOG_UserFormula15                       2392      // char*, 99 Byte
+#define LOG_UserFormula15Active                 2491      // 1 Bit, Bit 7
 #define     LOG_UserFormula15ActiveMask 0x80
 #define     LOG_UserFormula15ActiveShift 7
-#define LOG_UserFormula16                       2424      // char*, 99 Byte
-#define LOG_UserFormula16Active                 2523      // 1 Bit, Bit 7
+#define LOG_UserFormula16                       2492      // char*, 99 Byte
+#define LOG_UserFormula16Active                 2591      // 1 Bit, Bit 7
 #define     LOG_UserFormula16ActiveMask 0x80
 #define     LOG_UserFormula16ActiveShift 7
-#define LOG_UserFormula17                       2524      // char*, 99 Byte
-#define LOG_UserFormula17Active                 2623      // 1 Bit, Bit 7
+#define LOG_UserFormula17                       2592      // char*, 99 Byte
+#define LOG_UserFormula17Active                 2691      // 1 Bit, Bit 7
 #define     LOG_UserFormula17ActiveMask 0x80
 #define     LOG_UserFormula17ActiveShift 7
-#define LOG_UserFormula18                       2624      // char*, 99 Byte
-#define LOG_UserFormula18Active                 2723      // 1 Bit, Bit 7
+#define LOG_UserFormula18                       2692      // char*, 99 Byte
+#define LOG_UserFormula18Active                 2791      // 1 Bit, Bit 7
 #define     LOG_UserFormula18ActiveMask 0x80
 #define     LOG_UserFormula18ActiveShift 7
-#define LOG_UserFormula19                       2724      // char*, 99 Byte
-#define LOG_UserFormula19Active                 2823      // 1 Bit, Bit 7
+#define LOG_UserFormula19                       2792      // char*, 99 Byte
+#define LOG_UserFormula19Active                 2891      // 1 Bit, Bit 7
 #define     LOG_UserFormula19ActiveMask 0x80
 #define     LOG_UserFormula19ActiveShift 7
-#define LOG_UserFormula20                       2824      // char*, 99 Byte
-#define LOG_UserFormula20Active                 2923      // 1 Bit, Bit 7
+#define LOG_UserFormula20                       2892      // char*, 99 Byte
+#define LOG_UserFormula20Active                 2991      // 1 Bit, Bit 7
 #define     LOG_UserFormula20ActiveMask 0x80
 #define     LOG_UserFormula20ActiveShift 7
-#define LOG_UserFormula21                       2924      // char*, 99 Byte
-#define LOG_UserFormula21Active                 3023      // 1 Bit, Bit 7
+#define LOG_UserFormula21                       2992      // char*, 99 Byte
+#define LOG_UserFormula21Active                 3091      // 1 Bit, Bit 7
 #define     LOG_UserFormula21ActiveMask 0x80
 #define     LOG_UserFormula21ActiveShift 7
-#define LOG_UserFormula22                       3024      // char*, 99 Byte
-#define LOG_UserFormula22Active                 3123      // 1 Bit, Bit 7
+#define LOG_UserFormula22                       3092      // char*, 99 Byte
+#define LOG_UserFormula22Active                 3191      // 1 Bit, Bit 7
 #define     LOG_UserFormula22ActiveMask 0x80
 #define     LOG_UserFormula22ActiveShift 7
-#define LOG_UserFormula23                       3124      // char*, 99 Byte
-#define LOG_UserFormula23Active                 3223      // 1 Bit, Bit 7
+#define LOG_UserFormula23                       3192      // char*, 99 Byte
+#define LOG_UserFormula23Active                 3291      // 1 Bit, Bit 7
 #define     LOG_UserFormula23ActiveMask 0x80
 #define     LOG_UserFormula23ActiveShift 7
-#define LOG_UserFormula24                       3224      // char*, 99 Byte
-#define LOG_UserFormula24Active                 3323      // 1 Bit, Bit 7
+#define LOG_UserFormula24                       3292      // char*, 99 Byte
+#define LOG_UserFormula24Active                 3391      // 1 Bit, Bit 7
 #define     LOG_UserFormula24ActiveMask 0x80
 #define     LOG_UserFormula24ActiveShift 7
-#define LOG_UserFormula25                       3324      // char*, 99 Byte
-#define LOG_UserFormula25Active                 3423      // 1 Bit, Bit 7
+#define LOG_UserFormula25                       3392      // char*, 99 Byte
+#define LOG_UserFormula25Active                 3491      // 1 Bit, Bit 7
 #define     LOG_UserFormula25ActiveMask 0x80
 #define     LOG_UserFormula25ActiveShift 7
-#define LOG_UserFormula26                       3424      // char*, 99 Byte
-#define LOG_UserFormula26Active                 3523      // 1 Bit, Bit 7
+#define LOG_UserFormula26                       3492      // char*, 99 Byte
+#define LOG_UserFormula26Active                 3591      // 1 Bit, Bit 7
 #define     LOG_UserFormula26ActiveMask 0x80
 #define     LOG_UserFormula26ActiveShift 7
-#define LOG_UserFormula27                       3524      // char*, 99 Byte
-#define LOG_UserFormula27Active                 3623      // 1 Bit, Bit 7
+#define LOG_UserFormula27                       3592      // char*, 99 Byte
+#define LOG_UserFormula27Active                 3691      // 1 Bit, Bit 7
 #define     LOG_UserFormula27ActiveMask 0x80
 #define     LOG_UserFormula27ActiveShift 7
-#define LOG_UserFormula28                       3624      // char*, 99 Byte
-#define LOG_UserFormula28Active                 3723      // 1 Bit, Bit 7
+#define LOG_UserFormula28                       3692      // char*, 99 Byte
+#define LOG_UserFormula28Active                 3791      // 1 Bit, Bit 7
 #define     LOG_UserFormula28ActiveMask 0x80
 #define     LOG_UserFormula28ActiveShift 7
-#define LOG_UserFormula29                       3724      // char*, 99 Byte
-#define LOG_UserFormula29Active                 3823      // 1 Bit, Bit 7
+#define LOG_UserFormula29                       3792      // char*, 99 Byte
+#define LOG_UserFormula29Active                 3891      // 1 Bit, Bit 7
 #define     LOG_UserFormula29ActiveMask 0x80
 #define     LOG_UserFormula29ActiveShift 7
-#define LOG_UserFormula30                       3824      // char*, 99 Byte
-#define LOG_UserFormula30Active                 3923      // 1 Bit, Bit 7
+#define LOG_UserFormula30                       3892      // char*, 99 Byte
+#define LOG_UserFormula30Active                 3991      // 1 Bit, Bit 7
 #define     LOG_UserFormula30ActiveMask 0x80
 #define     LOG_UserFormula30ActiveShift 7
 
@@ -877,6 +940,8 @@
 #define ParamLOG_NationalfeiertagSchweiz             ((bool)(knx.paramByte(LOG_NationalfeiertagSchweiz) & LOG_NationalfeiertagSchweizMask))
 // 34. Totensonntag
 #define ParamLOG_Totensonntag                        ((bool)(knx.paramByte(LOG_Totensonntag) & LOG_TotensonntagMask))
+// 35. Weltkindertag
+#define ParamLOG_Weltkindertag                       ((bool)(knx.paramByte(LOG_Weltkindertag) & LOG_WeltkindertagMask))
 // Frequenz für Buzzer (leise)
 #define ParamLOG_BuzzerSilent                        (knx.paramWord(LOG_BuzzerSilent))
 // Frequenz für Buzzer (normal)
@@ -1008,11 +1073,11 @@
 // Benutzerformel 30 aktiv
 #define ParamLOG_UserFormula30Active                 ((bool)(knx.paramByte(LOG_UserFormula30Active) & LOG_UserFormula30ActiveMask))
 
-#define LOG_KoVacation 4
-#define LOG_KoHoliday1 5
-#define LOG_KoHoliday2 6
-#define LOG_KoLedLock 8
-#define LOG_KoBuzzerLock 9
+#define LOG_KoVacation 15
+#define LOG_KoHoliday1 16
+#define LOG_KoHoliday2 17
+#define LOG_KoLedLock 18
+#define LOG_KoBuzzerLock 19
 
 // Urlaub
 #define KoLOG_Vacation                            (knx.getGroupObject(LOG_KoVacation))
@@ -1028,7 +1093,7 @@
 #define LOG_ChannelCount 99
 
 // Parameter per channel
-#define LOG_ParamBlockOffset 3924
+#define LOG_ParamBlockOffset 3992
 #define LOG_ParamBlockSize 85
 #define LOG_ParamCalcIndex(index) (index + LOG_ParamBlockOffset + _channelIndex * LOG_ParamBlockSize)
 
@@ -1151,6 +1216,36 @@
 #define LOG_fE1Low2Dpt2                         15      // 8 Bits, Bit 7-0
 #define LOG_fE1Low3Dpt2                         16      // 8 Bits, Bit 7-0
 #define LOG_fE1LowDpt2Fix                       13      // 8 Bits, Bit 7-0
+#define LOG_fE1Low0Dpt3Dir                      13      // 5 Bits, Bit 7-3
+#define     LOG_fE1Low0Dpt3DirMask 0xF8
+#define     LOG_fE1Low0Dpt3DirShift 3
+#define LOG_fE1Low0Dpt3Dim                      13      // 3 Bits, Bit 2-0
+#define     LOG_fE1Low0Dpt3DimMask 0x07
+#define     LOG_fE1Low0Dpt3DimShift 0
+#define LOG_fE1Low1Dpt3Dir                      14      // 5 Bits, Bit 7-3
+#define     LOG_fE1Low1Dpt3DirMask 0xF8
+#define     LOG_fE1Low1Dpt3DirShift 3
+#define LOG_fE1Low1Dpt3Dim                      14      // 3 Bits, Bit 2-0
+#define     LOG_fE1Low1Dpt3DimMask 0x07
+#define     LOG_fE1Low1Dpt3DimShift 0
+#define LOG_fE1Low2Dpt3Dir                      15      // 5 Bits, Bit 7-3
+#define     LOG_fE1Low2Dpt3DirMask 0xF8
+#define     LOG_fE1Low2Dpt3DirShift 3
+#define LOG_fE1Low2Dpt3Dim                      15      // 3 Bits, Bit 2-0
+#define     LOG_fE1Low2Dpt3DimMask 0x07
+#define     LOG_fE1Low2Dpt3DimShift 0
+#define LOG_fE1Low3Dpt3Dir                      16      // 5 Bits, Bit 7-3
+#define     LOG_fE1Low3Dpt3DirMask 0xF8
+#define     LOG_fE1Low3Dpt3DirShift 3
+#define LOG_fE1Low3Dpt3Dim                      16      // 3 Bits, Bit 2-0
+#define     LOG_fE1Low3Dpt3DimMask 0x07
+#define     LOG_fE1Low3Dpt3DimShift 0
+#define LOG_fE1LowDpt3FixDir                    13      // 5 Bits, Bit 7-3
+#define     LOG_fE1LowDpt3FixDirMask 0xF8
+#define     LOG_fE1LowDpt3FixDirShift 3
+#define LOG_fE1LowDpt3FixDim                    13      // 3 Bits, Bit 2-0
+#define     LOG_fE1LowDpt3FixDimMask 0x07
+#define     LOG_fE1LowDpt3FixDimShift 0
 #define LOG_fE1LowDpt5                          13      // uint8_t
 #define LOG_fE1HighDpt5                         17      // uint8_t
 #define LOG_fE1Low0Dpt5In                       13      // uint8_t
@@ -1291,6 +1386,36 @@
 #define LOG_fE2Low2Dpt2                         30      // 8 Bits, Bit 7-0
 #define LOG_fE2Low3Dpt2                         31      // 8 Bits, Bit 7-0
 #define LOG_fE2LowDpt2Fix                       28      // 8 Bits, Bit 7-0
+#define LOG_fE2Low0Dpt3Dir                      28      // 5 Bits, Bit 7-3
+#define     LOG_fE2Low0Dpt3DirMask 0xF8
+#define     LOG_fE2Low0Dpt3DirShift 3
+#define LOG_fE2Low0Dpt3Dim                      28      // 3 Bits, Bit 2-0
+#define     LOG_fE2Low0Dpt3DimMask 0x07
+#define     LOG_fE2Low0Dpt3DimShift 0
+#define LOG_fE2Low1Dpt3Dir                      29      // 5 Bits, Bit 7-3
+#define     LOG_fE2Low1Dpt3DirMask 0xF8
+#define     LOG_fE2Low1Dpt3DirShift 3
+#define LOG_fE2Low1Dpt3Dim                      29      // 3 Bits, Bit 2-0
+#define     LOG_fE2Low1Dpt3DimMask 0x07
+#define     LOG_fE2Low1Dpt3DimShift 0
+#define LOG_fE2Low2Dpt3Dir                      30      // 5 Bits, Bit 7-3
+#define     LOG_fE2Low2Dpt3DirMask 0xF8
+#define     LOG_fE2Low2Dpt3DirShift 3
+#define LOG_fE2Low2Dpt3Dim                      30      // 3 Bits, Bit 2-0
+#define     LOG_fE2Low2Dpt3DimMask 0x07
+#define     LOG_fE2Low2Dpt3DimShift 0
+#define LOG_fE2Low3Dpt3Dir                      31      // 5 Bits, Bit 7-3
+#define     LOG_fE2Low3Dpt3DirMask 0xF8
+#define     LOG_fE2Low3Dpt3DirShift 3
+#define LOG_fE2Low3Dpt3Dim                      31      // 3 Bits, Bit 2-0
+#define     LOG_fE2Low3Dpt3DimMask 0x07
+#define     LOG_fE2Low3Dpt3DimShift 0
+#define LOG_fE2LowDpt3FixDir                    28      // 5 Bits, Bit 7-3
+#define     LOG_fE2LowDpt3FixDirMask 0xF8
+#define     LOG_fE2LowDpt3FixDirShift 3
+#define LOG_fE2LowDpt3FixDim                    28      // 3 Bits, Bit 2-0
+#define     LOG_fE2LowDpt3FixDimMask 0x07
+#define     LOG_fE2LowDpt3FixDimShift 0
 #define LOG_fE2LowDpt5                          28      // uint8_t
 #define LOG_fE2HighDpt5                         32      // uint8_t
 #define LOG_fE2Low0Dpt5In                       28      // uint8_t
@@ -1684,25 +1809,25 @@
 #define LOG_fI1                                 36      // 2 Bits, Bit 7-6
 #define     LOG_fI1Mask 0xC0
 #define     LOG_fI1Shift 6
-#define LOG_fI2                                 36      // 2 Bits, Bit 5-4
-#define     LOG_fI2Mask 0x30
-#define     LOG_fI2Shift 4
-#define LOG_fI1Kind                             36      // 2 Bits, Bit 3-2
-#define     LOG_fI1KindMask 0x0C
-#define     LOG_fI1KindShift 2
-#define LOG_fI2Kind                             36      // 2 Bits, Bit 1-0
-#define     LOG_fI2KindMask 0x03
-#define     LOG_fI2KindShift 0
+#define LOG_fI1Kind                             36      // 2 Bits, Bit 5-4
+#define     LOG_fI1KindMask 0x30
+#define     LOG_fI1KindShift 4
+#define LOG_fI1AsTrigger                        36      // 1 Bit, Bit 3
+#define     LOG_fI1AsTriggerMask 0x08
+#define     LOG_fI1AsTriggerShift 3
 #define LOG_fI1Function                         37      // uint8_t
-#define LOG_fI2Function                         38      // uint8_t
 #define LOG_fI1FunctionRel                      37      // int8_t
-#define LOG_fI2FunctionRel                      38      // int8_t
-#define LOG_fI1AsTrigger                        39      // 1 Bit, Bit 7
-#define     LOG_fI1AsTriggerMask 0x80
-#define     LOG_fI1AsTriggerShift 7
-#define LOG_fI2AsTrigger                        39      // 1 Bit, Bit 6
-#define     LOG_fI2AsTriggerMask 0x40
-#define     LOG_fI2AsTriggerShift 6
+#define LOG_fI2                                 38      // 2 Bits, Bit 7-6
+#define     LOG_fI2Mask 0xC0
+#define     LOG_fI2Shift 6
+#define LOG_fI2Kind                             38      // 2 Bits, Bit 5-4
+#define     LOG_fI2KindMask 0x30
+#define     LOG_fI2KindShift 4
+#define LOG_fI2AsTrigger                        38      // 1 Bit, Bit 3
+#define     LOG_fI2AsTriggerMask 0x08
+#define     LOG_fI2AsTriggerShift 3
+#define LOG_fI2Function                         39      // uint8_t
+#define LOG_fI2FunctionRel                      39      // int8_t
 #define LOG_fOStairtimeBase                     40      // 2 Bits, Bit 7-6
 #define     LOG_fOStairtimeBaseMask 0xC0
 #define     LOG_fOStairtimeBaseShift 6
@@ -1780,6 +1905,12 @@
 #define LOG_fOOnTone                            56      // 8 Bits, Bit 7-0
 #define LOG_fOOnDpt1                            56      // 8 Bits, Bit 7-0
 #define LOG_fOOnDpt2                            56      // 8 Bits, Bit 7-0
+#define LOG_fOOnDpt3Dir                         56      // 5 Bits, Bit 7-3
+#define     LOG_fOOnDpt3DirMask 0xF8
+#define     LOG_fOOnDpt3DirShift 3
+#define LOG_fOOnDpt3Dim                         56      // 3 Bits, Bit 2-0
+#define     LOG_fOOnDpt3DimMask 0x07
+#define     LOG_fOOnDpt3DimShift 0
 #define LOG_fOOnDpt5                            56      // uint8_t
 #define LOG_fOOnDpt5001                         56      // uint8_t
 #define LOG_fOOnDpt6                            56      // int8_t
@@ -1820,6 +1951,12 @@
 #define LOG_fOOffTone                           71      // 8 Bits, Bit 7-0
 #define LOG_fOOffDpt1                           71      // 8 Bits, Bit 7-0
 #define LOG_fOOffDpt2                           71      // 8 Bits, Bit 7-0
+#define LOG_fOOffDpt3Dir                        71      // 5 Bits, Bit 7-3
+#define     LOG_fOOffDpt3DirMask 0xF8
+#define     LOG_fOOffDpt3DirShift 3
+#define LOG_fOOffDpt3Dim                        71      // 3 Bits, Bit 2-0
+#define     LOG_fOOffDpt3DimMask 0x07
+#define     LOG_fOOffDpt3DimShift 0
 #define LOG_fOOffDpt5                           71      // uint8_t
 #define LOG_fOOffDpt5001                        71      // uint8_t
 #define LOG_fOOffDpt6                           71      // int8_t
@@ -1960,6 +2097,26 @@
 #define ParamLOG_fE1Low3Dpt2                         (knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low3Dpt2)))
 // Eingang ist konstant
 #define ParamLOG_fE1LowDpt2Fix                       (knx.paramByte(LOG_ParamCalcIndex(LOG_fE1LowDpt2Fix)))
+// Eingang ist EIN, wenn Wert gleich
+#define ParamLOG_fE1Low0Dpt3Dir                      ((knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low0Dpt3Dir)) & LOG_fE1Low0Dpt3DirMask) >> LOG_fE1Low0Dpt3DirShift)
+// 
+#define ParamLOG_fE1Low0Dpt3Dim                      (knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low0Dpt3Dim)) & LOG_fE1Low0Dpt3DimMask)
+// ... oder wenn Wert gleich 
+#define ParamLOG_fE1Low1Dpt3Dir                      ((knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low1Dpt3Dir)) & LOG_fE1Low1Dpt3DirMask) >> LOG_fE1Low1Dpt3DirShift)
+// 
+#define ParamLOG_fE1Low1Dpt3Dim                      (knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low1Dpt3Dim)) & LOG_fE1Low1Dpt3DimMask)
+// ... oder wenn Wert gleich 
+#define ParamLOG_fE1Low2Dpt3Dir                      ((knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low2Dpt3Dir)) & LOG_fE1Low2Dpt3DirMask) >> LOG_fE1Low2Dpt3DirShift)
+// 
+#define ParamLOG_fE1Low2Dpt3Dim                      (knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low2Dpt3Dim)) & LOG_fE1Low2Dpt3DimMask)
+// ... oder wenn Wert gleich 
+#define ParamLOG_fE1Low3Dpt3Dir                      ((knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low3Dpt3Dir)) & LOG_fE1Low3Dpt3DirMask) >> LOG_fE1Low3Dpt3DirShift)
+// 
+#define ParamLOG_fE1Low3Dpt3Dim                      (knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low3Dpt3Dim)) & LOG_fE1Low3Dpt3DimMask)
+// Eingang ist konstant
+#define ParamLOG_fE1LowDpt3FixDir                    ((knx.paramByte(LOG_ParamCalcIndex(LOG_fE1LowDpt3FixDir)) & LOG_fE1LowDpt3FixDirMask) >> LOG_fE1LowDpt3FixDirShift)
+// 
+#define ParamLOG_fE1LowDpt3FixDim                    (knx.paramByte(LOG_ParamCalcIndex(LOG_fE1LowDpt3FixDim)) & LOG_fE1LowDpt3FixDimMask)
 // Von-Wert
 #define ParamLOG_fE1LowDpt5                          (knx.paramByte(LOG_ParamCalcIndex(LOG_fE1LowDpt5)))
 // Bis-Wert
@@ -2162,6 +2319,26 @@
 #define ParamLOG_fE2Low3Dpt2                         (knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low3Dpt2)))
 // Eingang ist konstant
 #define ParamLOG_fE2LowDpt2Fix                       (knx.paramByte(LOG_ParamCalcIndex(LOG_fE2LowDpt2Fix)))
+// Eingang ist EIN, wenn Wert gleich
+#define ParamLOG_fE2Low0Dpt3Dir                      ((knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low0Dpt3Dir)) & LOG_fE2Low0Dpt3DirMask) >> LOG_fE2Low0Dpt3DirShift)
+// 
+#define ParamLOG_fE2Low0Dpt3Dim                      (knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low0Dpt3Dim)) & LOG_fE2Low0Dpt3DimMask)
+// ... oder wenn Wert gleich 
+#define ParamLOG_fE2Low1Dpt3Dir                      ((knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low1Dpt3Dir)) & LOG_fE2Low1Dpt3DirMask) >> LOG_fE2Low1Dpt3DirShift)
+// 
+#define ParamLOG_fE2Low1Dpt3Dim                      (knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low1Dpt3Dim)) & LOG_fE2Low1Dpt3DimMask)
+// ... oder wenn Wert gleich 
+#define ParamLOG_fE2Low2Dpt3Dir                      ((knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low2Dpt3Dir)) & LOG_fE2Low2Dpt3DirMask) >> LOG_fE2Low2Dpt3DirShift)
+// 
+#define ParamLOG_fE2Low2Dpt3Dim                      (knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low2Dpt3Dim)) & LOG_fE2Low2Dpt3DimMask)
+// ... oder wenn Wert gleich 
+#define ParamLOG_fE2Low3Dpt3Dir                      ((knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low3Dpt3Dir)) & LOG_fE2Low3Dpt3DirMask) >> LOG_fE2Low3Dpt3DirShift)
+// 
+#define ParamLOG_fE2Low3Dpt3Dim                      (knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low3Dpt3Dim)) & LOG_fE2Low3Dpt3DimMask)
+// Eingang ist konstant
+#define ParamLOG_fE2LowDpt3FixDir                    ((knx.paramByte(LOG_ParamCalcIndex(LOG_fE2LowDpt3FixDir)) & LOG_fE2LowDpt3FixDirMask) >> LOG_fE2LowDpt3FixDirShift)
+// 
+#define ParamLOG_fE2LowDpt3FixDim                    (knx.paramByte(LOG_ParamCalcIndex(LOG_fE2LowDpt3FixDim)) & LOG_fE2LowDpt3FixDimMask)
 // Von-Wert
 #define ParamLOG_fE2LowDpt5                          (knx.paramByte(LOG_ParamCalcIndex(LOG_fE2LowDpt5)))
 // Bis-Wert
@@ -2544,24 +2721,24 @@
 #define ParamLOG_fTy4Month                           ((knx.paramByte(LOG_ParamCalcIndex(LOG_fTy4Month)) & LOG_fTy4MonthMask) >> LOG_fTy4MonthShift)
 // Interner Eingang 3
 #define ParamLOG_fI1                                 ((knx.paramByte(LOG_ParamCalcIndex(LOG_fI1)) & LOG_fI1Mask) >> LOG_fI1Shift)
-// Interner Eingang 4
-#define ParamLOG_fI2                                 ((knx.paramByte(LOG_ParamCalcIndex(LOG_fI2)) & LOG_fI2Mask) >> LOG_fI2Shift)
 // Art der Verknüpfung
 #define ParamLOG_fI1Kind                             ((knx.paramByte(LOG_ParamCalcIndex(LOG_fI1Kind)) & LOG_fI1KindMask) >> LOG_fI1KindShift)
-// Art der Verknüpfung
-#define ParamLOG_fI2Kind                             (knx.paramByte(LOG_ParamCalcIndex(LOG_fI2Kind)) & LOG_fI2KindMask)
+// Internen Eingang als Trigger nutzen(ist immer logisch EIN)
+#define ParamLOG_fI1AsTrigger                        ((bool)(knx.paramByte(LOG_ParamCalcIndex(LOG_fI1AsTrigger)) & LOG_fI1AsTriggerMask))
 // Internen Eingang verbinden mit Kanal Nr.
 #define ParamLOG_fI1Function                         (knx.paramByte(LOG_ParamCalcIndex(LOG_fI1Function)))
 // Internen Eingang verbinden mit Kanal Nr.
-#define ParamLOG_fI2Function                         (knx.paramByte(LOG_ParamCalcIndex(LOG_fI2Function)))
-// Internen Eingang verbinden mit Kanal Nr.
 #define ParamLOG_fI1FunctionRel                      ((int8_t)knx.paramByte(LOG_ParamCalcIndex(LOG_fI1FunctionRel)))
-// Internen Eingang verbinden mit Kanal Nr.
-#define ParamLOG_fI2FunctionRel                      ((int8_t)knx.paramByte(LOG_ParamCalcIndex(LOG_fI2FunctionRel)))
-// Internen Eingang als Trigger nutzen(ist immer logisch EIN)
-#define ParamLOG_fI1AsTrigger                        ((bool)(knx.paramByte(LOG_ParamCalcIndex(LOG_fI1AsTrigger)) & LOG_fI1AsTriggerMask))
+// Interner Eingang 4
+#define ParamLOG_fI2                                 ((knx.paramByte(LOG_ParamCalcIndex(LOG_fI2)) & LOG_fI2Mask) >> LOG_fI2Shift)
+// Art der Verknüpfung
+#define ParamLOG_fI2Kind                             ((knx.paramByte(LOG_ParamCalcIndex(LOG_fI2Kind)) & LOG_fI2KindMask) >> LOG_fI2KindShift)
 // Internen Eingang als Trigger nutzen(ist immer logisch EIN)
 #define ParamLOG_fI2AsTrigger                        ((bool)(knx.paramByte(LOG_ParamCalcIndex(LOG_fI2AsTrigger)) & LOG_fI2AsTriggerMask))
+// Internen Eingang verbinden mit Kanal Nr.
+#define ParamLOG_fI2Function                         (knx.paramByte(LOG_ParamCalcIndex(LOG_fI2Function)))
+// Internen Eingang verbinden mit Kanal Nr.
+#define ParamLOG_fI2FunctionRel                      ((int8_t)knx.paramByte(LOG_ParamCalcIndex(LOG_fI2FunctionRel)))
 // Zeit für Treppenlicht
 #define ParamLOG_fOStairtimeBase                     ((knx.paramByte(LOG_ParamCalcIndex(LOG_fOStairtimeBase)) & LOG_fOStairtimeBaseMask) >> LOG_fOStairtimeBaseShift)
 // Zeit für Treppenlicht
@@ -2636,6 +2813,10 @@
 #define ParamLOG_fOOnDpt1                            (knx.paramByte(LOG_ParamCalcIndex(LOG_fOOnDpt1)))
 //     Wert für EIN senden als
 #define ParamLOG_fOOnDpt2                            (knx.paramByte(LOG_ParamCalcIndex(LOG_fOOnDpt2)))
+//     Wert für EIN senden als
+#define ParamLOG_fOOnDpt3Dir                         ((knx.paramByte(LOG_ParamCalcIndex(LOG_fOOnDpt3Dir)) & LOG_fOOnDpt3DirMask) >> LOG_fOOnDpt3DirShift)
+// 
+#define ParamLOG_fOOnDpt3Dim                         (knx.paramByte(LOG_ParamCalcIndex(LOG_fOOnDpt3Dim)) & LOG_fOOnDpt3DimMask)
 //     Wert für EIN senden als 
 #define ParamLOG_fOOnDpt5                            (knx.paramByte(LOG_ParamCalcIndex(LOG_fOOnDpt5)))
 //     Wert für EIN senden als
@@ -2696,6 +2877,10 @@
 #define ParamLOG_fOOffDpt1                           (knx.paramByte(LOG_ParamCalcIndex(LOG_fOOffDpt1)))
 //     Wert für AUS senden als
 #define ParamLOG_fOOffDpt2                           (knx.paramByte(LOG_ParamCalcIndex(LOG_fOOffDpt2)))
+//     Wert für AUS senden als
+#define ParamLOG_fOOffDpt3Dir                        ((knx.paramByte(LOG_ParamCalcIndex(LOG_fOOffDpt3Dir)) & LOG_fOOffDpt3DirMask) >> LOG_fOOffDpt3DirShift)
+// 
+#define ParamLOG_fOOffDpt3Dim                        (knx.paramByte(LOG_ParamCalcIndex(LOG_fOOffDpt3Dim)) & LOG_fOOffDpt3DimMask)
 //     Wert für AUS senden als
 #define ParamLOG_fOOffDpt5                           (knx.paramByte(LOG_ParamCalcIndex(LOG_fOOffDpt5)))
 //     Wert für AUS senden als
@@ -2765,8 +2950,8 @@
 // Ausgang
 #define KoLOG_KOfO                                (knx.getGroupObject(LOG_KoCalcNumber(LOG_KoKOfO)))
 
-#define DFA_VisibleChannels                     12339      // uint8_t
-#define DFA_DiagnoseAccess                      12339      // 1 Bit, Bit 7
+#define DFA_VisibleChannels                     12407      // uint8_t
+#define DFA_DiagnoseAccess                      12408      // 1 Bit, Bit 7
 #define     DFA_DiagnoseAccessMask 0x80
 #define     DFA_DiagnoseAccessShift 7
 
@@ -2778,8 +2963,8 @@
 #define DFA_ChannelCount 4
 
 // Parameter per channel
-#define DFA_ParamBlockOffset 12343
-#define DFA_ParamBlockSize 722
+#define DFA_ParamBlockOffset 12409
+#define DFA_ParamBlockSize 790
 #define DFA_ParamCalcIndex(index) (index + DFA_ParamBlockOffset + _channelIndex * DFA_ParamBlockSize)
 
 #define DFA_aActive                              0      // 2 Bits, Bit 7-6
@@ -2816,86 +3001,6 @@
 #define DFA_aSymbolPairGH                        5      // 1 Bit, Bit 4
 #define     DFA_aSymbolPairGHMask 0x10
 #define     DFA_aSymbolPairGHShift 4
-#define DFA_aSymbolAInput                       18      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolAInputMask 0xC0
-#define     DFA_aSymbolAInputShift 6
-#define DFA_aSymbolAKoNumber                    19      // 15 Bits, Bit 15-1
-#define     DFA_aSymbolAKoNumberMask 0xFFFE
-#define     DFA_aSymbolAKoNumberShift 1
-#define DFA_aSymbolALogicNumber                 19      // uint16_t
-#define DFA_aSymbolATrigger                     21      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolATriggerMask 0xC0
-#define     DFA_aSymbolATriggerShift 6
-#define DFA_aSymbolBInput                       22      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolBInputMask 0xC0
-#define     DFA_aSymbolBInputShift 6
-#define DFA_aSymbolBKoNumber                    23      // 15 Bits, Bit 15-1
-#define     DFA_aSymbolBKoNumberMask 0xFFFE
-#define     DFA_aSymbolBKoNumberShift 1
-#define DFA_aSymbolBLogicNumber                 23      // uint16_t
-#define DFA_aSymbolBTrigger                     25      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolBTriggerMask 0xC0
-#define     DFA_aSymbolBTriggerShift 6
-#define DFA_aSymbolCInput                       26      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolCInputMask 0xC0
-#define     DFA_aSymbolCInputShift 6
-#define DFA_aSymbolCKoNumber                    27      // 15 Bits, Bit 15-1
-#define     DFA_aSymbolCKoNumberMask 0xFFFE
-#define     DFA_aSymbolCKoNumberShift 1
-#define DFA_aSymbolCLogicNumber                 27      // uint16_t
-#define DFA_aSymbolCTrigger                     29      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolCTriggerMask 0xC0
-#define     DFA_aSymbolCTriggerShift 6
-#define DFA_aSymbolDInput                       30      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolDInputMask 0xC0
-#define     DFA_aSymbolDInputShift 6
-#define DFA_aSymbolDKoNumber                    31      // 15 Bits, Bit 15-1
-#define     DFA_aSymbolDKoNumberMask 0xFFFE
-#define     DFA_aSymbolDKoNumberShift 1
-#define DFA_aSymbolDLogicNumber                 31      // uint16_t
-#define DFA_aSymbolDTrigger                     33      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolDTriggerMask 0xC0
-#define     DFA_aSymbolDTriggerShift 6
-#define DFA_aSymbolEInput                       34      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolEInputMask 0xC0
-#define     DFA_aSymbolEInputShift 6
-#define DFA_aSymbolEKoNumber                    35      // 15 Bits, Bit 15-1
-#define     DFA_aSymbolEKoNumberMask 0xFFFE
-#define     DFA_aSymbolEKoNumberShift 1
-#define DFA_aSymbolELogicNumber                 35      // uint16_t
-#define DFA_aSymbolETrigger                     37      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolETriggerMask 0xC0
-#define     DFA_aSymbolETriggerShift 6
-#define DFA_aSymbolFInput                       38      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolFInputMask 0xC0
-#define     DFA_aSymbolFInputShift 6
-#define DFA_aSymbolFKoNumber                    39      // 15 Bits, Bit 15-1
-#define     DFA_aSymbolFKoNumberMask 0xFFFE
-#define     DFA_aSymbolFKoNumberShift 1
-#define DFA_aSymbolFLogicNumber                 39      // uint16_t
-#define DFA_aSymbolFTrigger                     41      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolFTriggerMask 0xC0
-#define     DFA_aSymbolFTriggerShift 6
-#define DFA_aSymbolGInput                       42      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolGInputMask 0xC0
-#define     DFA_aSymbolGInputShift 6
-#define DFA_aSymbolGKoNumber                    43      // 15 Bits, Bit 15-1
-#define     DFA_aSymbolGKoNumberMask 0xFFFE
-#define     DFA_aSymbolGKoNumberShift 1
-#define DFA_aSymbolGLogicNumber                 43      // uint16_t
-#define DFA_aSymbolGTrigger                     45      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolGTriggerMask 0xC0
-#define     DFA_aSymbolGTriggerShift 6
-#define DFA_aSymbolHInput                       46      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolHInputMask 0xC0
-#define     DFA_aSymbolHInputShift 6
-#define DFA_aSymbolHKoNumber                    47      // 15 Bits, Bit 15-1
-#define     DFA_aSymbolHKoNumberMask 0xFFFE
-#define     DFA_aSymbolHKoNumberShift 1
-#define DFA_aSymbolHLogicNumber                 47      // uint16_t
-#define DFA_aSymbolHTrigger                     49      // 2 Bits, Bit 7-6
-#define     DFA_aSymbolHTriggerMask 0xC0
-#define     DFA_aSymbolHTriggerShift 6
 #define DFA_aOutput1Dpt                          6      // 8 Bits, Bit 7-0
 #define DFA_aOutput1IntervalBase                 7      // 2 Bits, Bit 7-6
 #define     DFA_aOutput1IntervalBaseMask 0xC0
@@ -2924,1284 +3029,1438 @@
 #define DFA_aOutput4IntervalTime                16      // 14 Bits, Bit 13-0
 #define     DFA_aOutput4IntervalTimeMask 0x3FFF
 #define     DFA_aOutput4IntervalTimeShift 0
-#define DFA_ad01A                               51      // 8 Bits, Bit 7-0
-#define DFA_ad01B                               52      // 8 Bits, Bit 7-0
-#define DFA_ad01C                               53      // 8 Bits, Bit 7-0
-#define DFA_ad01D                               54      // 8 Bits, Bit 7-0
-#define DFA_ad01E                               55      // 8 Bits, Bit 7-0
-#define DFA_ad01F                               56      // 8 Bits, Bit 7-0
-#define DFA_ad01G                               57      // 8 Bits, Bit 7-0
-#define DFA_ad01H                               58      // 8 Bits, Bit 7-0
-#define DFA_ad01T                               59      // 8 Bits, Bit 7-0
-#define DFA_ad01TBase                           60      // 2 Bits, Bit 7-6
+#define DFA_aSymbolAInput                       18      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolAInputMask 0xC0
+#define     DFA_aSymbolAInputShift 6
+#define DFA_aSymbolAKoNumber                    19      // 15 Bits, Bit 15-1
+#define     DFA_aSymbolAKoNumberMask 0xFFFE
+#define     DFA_aSymbolAKoNumberShift 1
+#define DFA_aSymbolALogicNumber                 19      // uint8_t
+#define DFA_aSymbolATrigger                     21      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolATriggerMask 0xC0
+#define     DFA_aSymbolATriggerShift 6
+#define DFA_aSymbolBInput                       22      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolBInputMask 0xC0
+#define     DFA_aSymbolBInputShift 6
+#define DFA_aSymbolBKoNumber                    23      // 15 Bits, Bit 15-1
+#define     DFA_aSymbolBKoNumberMask 0xFFFE
+#define     DFA_aSymbolBKoNumberShift 1
+#define DFA_aSymbolBLogicNumber                 23      // uint8_t
+#define DFA_aSymbolBTrigger                     25      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolBTriggerMask 0xC0
+#define     DFA_aSymbolBTriggerShift 6
+#define DFA_aSymbolCInput                       26      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolCInputMask 0xC0
+#define     DFA_aSymbolCInputShift 6
+#define DFA_aSymbolCKoNumber                    27      // 15 Bits, Bit 15-1
+#define     DFA_aSymbolCKoNumberMask 0xFFFE
+#define     DFA_aSymbolCKoNumberShift 1
+#define DFA_aSymbolCLogicNumber                 27      // uint8_t
+#define DFA_aSymbolCTrigger                     29      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolCTriggerMask 0xC0
+#define     DFA_aSymbolCTriggerShift 6
+#define DFA_aSymbolDInput                       30      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolDInputMask 0xC0
+#define     DFA_aSymbolDInputShift 6
+#define DFA_aSymbolDKoNumber                    31      // 15 Bits, Bit 15-1
+#define     DFA_aSymbolDKoNumberMask 0xFFFE
+#define     DFA_aSymbolDKoNumberShift 1
+#define DFA_aSymbolDLogicNumber                 31      // uint8_t
+#define DFA_aSymbolDTrigger                     33      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolDTriggerMask 0xC0
+#define     DFA_aSymbolDTriggerShift 6
+#define DFA_aSymbolEInput                       34      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolEInputMask 0xC0
+#define     DFA_aSymbolEInputShift 6
+#define DFA_aSymbolEKoNumber                    35      // 15 Bits, Bit 15-1
+#define     DFA_aSymbolEKoNumberMask 0xFFFE
+#define     DFA_aSymbolEKoNumberShift 1
+#define DFA_aSymbolELogicNumber                 35      // uint8_t
+#define DFA_aSymbolETrigger                     37      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolETriggerMask 0xC0
+#define     DFA_aSymbolETriggerShift 6
+#define DFA_aSymbolFInput                       38      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolFInputMask 0xC0
+#define     DFA_aSymbolFInputShift 6
+#define DFA_aSymbolFKoNumber                    39      // 15 Bits, Bit 15-1
+#define     DFA_aSymbolFKoNumberMask 0xFFFE
+#define     DFA_aSymbolFKoNumberShift 1
+#define DFA_aSymbolFLogicNumber                 39      // uint8_t
+#define DFA_aSymbolFTrigger                     41      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolFTriggerMask 0xC0
+#define     DFA_aSymbolFTriggerShift 6
+#define DFA_aSymbolGInput                       42      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolGInputMask 0xC0
+#define     DFA_aSymbolGInputShift 6
+#define DFA_aSymbolGKoNumber                    43      // 15 Bits, Bit 15-1
+#define     DFA_aSymbolGKoNumberMask 0xFFFE
+#define     DFA_aSymbolGKoNumberShift 1
+#define DFA_aSymbolGLogicNumber                 43      // uint8_t
+#define DFA_aSymbolGTrigger                     45      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolGTriggerMask 0xC0
+#define     DFA_aSymbolGTriggerShift 6
+#define DFA_aSymbolHInput                       46      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolHInputMask 0xC0
+#define     DFA_aSymbolHInputShift 6
+#define DFA_aSymbolHKoNumber                    47      // 15 Bits, Bit 15-1
+#define     DFA_aSymbolHKoNumberMask 0xFFFE
+#define     DFA_aSymbolHKoNumberShift 1
+#define DFA_aSymbolHLogicNumber                 47      // uint8_t
+#define DFA_aSymbolHTrigger                     49      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolHTriggerMask 0xC0
+#define     DFA_aSymbolHTriggerShift 6
+#define DFA_aSymbolTInput                       50      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolTInputMask 0xC0
+#define     DFA_aSymbolTInputShift 6
+#define DFA_aSymbolTKoNumber                    51      // 15 Bits, Bit 15-1
+#define     DFA_aSymbolTKoNumberMask 0xFFFE
+#define     DFA_aSymbolTKoNumberShift 1
+#define DFA_aSymbolTLogicNumber                 51      // uint8_t
+#define DFA_aSymbolTTrigger                     53      // 2 Bits, Bit 7-6
+#define     DFA_aSymbolTTriggerMask 0xC0
+#define     DFA_aSymbolTTriggerShift 6
+#define DFA_aCaLOG                              54      // uint8_t
+#define DFA_aCaT                                55      // 8 Bits, Bit 7-0
+#define DFA_aCaF                                56      // 8 Bits, Bit 7-0
+#define DFA_aCaU                                57      // 8 Bits, Bit 7-0
+#define DFA_aCbLOG                              58      // uint8_t
+#define DFA_aCbT                                59      // 8 Bits, Bit 7-0
+#define DFA_aCbF                                60      // 8 Bits, Bit 7-0
+#define DFA_aCbU                                61      // 8 Bits, Bit 7-0
+#define DFA_aCcLOG                              62      // uint8_t
+#define DFA_aCcT                                63      // 8 Bits, Bit 7-0
+#define DFA_aCcF                                64      // 8 Bits, Bit 7-0
+#define DFA_aCcU                                65      // 8 Bits, Bit 7-0
+#define DFA_aCdLOG                              66      // uint8_t
+#define DFA_aCdT                                67      // 8 Bits, Bit 7-0
+#define DFA_aCdF                                68      // 8 Bits, Bit 7-0
+#define DFA_aCdU                                69      // 8 Bits, Bit 7-0
+#define DFA_aCeLOG                              70      // uint8_t
+#define DFA_aCeT                                71      // 8 Bits, Bit 7-0
+#define DFA_aCeF                                72      // 8 Bits, Bit 7-0
+#define DFA_aCeU                                73      // 8 Bits, Bit 7-0
+#define DFA_aCfLOG                              74      // uint8_t
+#define DFA_aCfT                                75      // 8 Bits, Bit 7-0
+#define DFA_aCfF                                76      // 8 Bits, Bit 7-0
+#define DFA_aCfU                                77      // 8 Bits, Bit 7-0
+#define DFA_aCgLOG                              78      // uint8_t
+#define DFA_aCgT                                79      // 8 Bits, Bit 7-0
+#define DFA_aCgF                                80      // 8 Bits, Bit 7-0
+#define DFA_aCgU                                81      // 8 Bits, Bit 7-0
+#define DFA_aChLOG                              82      // uint8_t
+#define DFA_aChT                                83      // 8 Bits, Bit 7-0
+#define DFA_aChF                                84      // 8 Bits, Bit 7-0
+#define DFA_aChU                                85      // 8 Bits, Bit 7-0
+#define DFA_aCiLOG                              86      // uint8_t
+#define DFA_aCiT                                87      // 8 Bits, Bit 7-0
+#define DFA_aCiF                                88      // 8 Bits, Bit 7-0
+#define DFA_aCiU                                89      // 8 Bits, Bit 7-0
+#define DFA_aCjLOG                              90      // uint8_t
+#define DFA_aCjT                                91      // 8 Bits, Bit 7-0
+#define DFA_aCjF                                92      // 8 Bits, Bit 7-0
+#define DFA_aCjU                                93      // 8 Bits, Bit 7-0
+#define DFA_aCkLOG                              94      // uint8_t
+#define DFA_aCkT                                95      // 8 Bits, Bit 7-0
+#define DFA_aCkF                                96      // 8 Bits, Bit 7-0
+#define DFA_aCkU                                97      // 8 Bits, Bit 7-0
+#define DFA_aClLOG                              98      // uint8_t
+#define DFA_aClT                                99      // 8 Bits, Bit 7-0
+#define DFA_aClF                                100      // 8 Bits, Bit 7-0
+#define DFA_aClU                                101      // 8 Bits, Bit 7-0
+#define DFA_aCmLOG                              102      // uint8_t
+#define DFA_aCmT                                103      // 8 Bits, Bit 7-0
+#define DFA_aCmF                                104      // 8 Bits, Bit 7-0
+#define DFA_aCmU                                105      // 8 Bits, Bit 7-0
+#define DFA_aCnLOG                              106      // uint8_t
+#define DFA_aCnT                                107      // 8 Bits, Bit 7-0
+#define DFA_aCnF                                108      // 8 Bits, Bit 7-0
+#define DFA_aCnU                                109      // 8 Bits, Bit 7-0
+#define DFA_aCoLOG                              110      // uint8_t
+#define DFA_aCoT                                111      // 8 Bits, Bit 7-0
+#define DFA_aCoF                                112      // 8 Bits, Bit 7-0
+#define DFA_aCoU                                113      // 8 Bits, Bit 7-0
+#define DFA_aCpLOG                              114      // uint8_t
+#define DFA_aCpT                                115      // 8 Bits, Bit 7-0
+#define DFA_aCpF                                116      // 8 Bits, Bit 7-0
+#define DFA_aCpU                                117      // 8 Bits, Bit 7-0
+#define DFA_ad01A                               119      // 8 Bits, Bit 7-0
+#define DFA_ad01B                               120      // 8 Bits, Bit 7-0
+#define DFA_ad01C                               121      // 8 Bits, Bit 7-0
+#define DFA_ad01D                               122      // 8 Bits, Bit 7-0
+#define DFA_ad01E                               123      // 8 Bits, Bit 7-0
+#define DFA_ad01F                               124      // 8 Bits, Bit 7-0
+#define DFA_ad01G                               125      // 8 Bits, Bit 7-0
+#define DFA_ad01H                               126      // 8 Bits, Bit 7-0
+#define DFA_ad01T                               127      // 8 Bits, Bit 7-0
+#define DFA_ad01TBase                           128      // 2 Bits, Bit 7-6
 #define     DFA_ad01TBaseMask 0xC0
 #define     DFA_ad01TBaseShift 6
-#define DFA_ad01TTime                           60      // 14 Bits, Bit 13-0
+#define DFA_ad01TTime                           128      // 14 Bits, Bit 13-0
 #define     DFA_ad01TTimeMask 0x3FFF
 #define     DFA_ad01TTimeShift 0
-#define DFA_az01o1Send                          62      // 8 Bits, Bit 7-0
-#define DFA_az01o1Dpt1                          63      // 8 Bits, Bit 7-0
-#define DFA_az01o1Dpt2                          63      // 8 Bits, Bit 7-0
-#define DFA_az01o1Dpt5                          63      // uint8_t
-#define DFA_az01o1Dpt5001                       63      // uint8_t
-#define DFA_az01o1Dpt6                          63      // int8_t
-#define DFA_az01o1Dpt7                          63      // uint16_t
-#define DFA_az01o1Dpt8                          63      // int16_t
-#define DFA_az01o1Dpt9                          63      // float
-#define DFA_az01o1Dpt12                         63      // uint32_t
-#define DFA_az01o1Dpt13                         63      // int32_t
-#define DFA_az01o1Dpt14                         63      // float
-#define DFA_az01o1Dpt17                         63      // 8 Bits, Bit 7-0
-#define DFA_az01o1Dpt232                        63      // 24 Bits, Bit 31-8
+#define DFA_az01o1Send                          130      // 8 Bits, Bit 7-0
+#define DFA_az01o1Dpt1                          131      // 8 Bits, Bit 7-0
+#define DFA_az01o1Dpt2                          131      // 8 Bits, Bit 7-0
+#define DFA_az01o1Dpt5                          131      // uint8_t
+#define DFA_az01o1Dpt5001                       131      // uint8_t
+#define DFA_az01o1Dpt6                          131      // int8_t
+#define DFA_az01o1Dpt7                          131      // uint16_t
+#define DFA_az01o1Dpt8                          131      // int16_t
+#define DFA_az01o1Dpt9                          131      // float
+#define DFA_az01o1Dpt12                         131      // uint32_t
+#define DFA_az01o1Dpt13                         131      // int32_t
+#define DFA_az01o1Dpt14                         131      // float
+#define DFA_az01o1Dpt17                         131      // 8 Bits, Bit 7-0
+#define DFA_az01o1Dpt232                        131      // 24 Bits, Bit 31-8
 #define     DFA_az01o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az01o1Dpt232Shift 8
-#define DFA_az01o2Send                          67      // 8 Bits, Bit 7-0
-#define DFA_az01o2Dpt1                          68      // 8 Bits, Bit 7-0
-#define DFA_az01o2Dpt2                          68      // 8 Bits, Bit 7-0
-#define DFA_az01o2Dpt5                          68      // uint8_t
-#define DFA_az01o2Dpt5001                       68      // uint8_t
-#define DFA_az01o2Dpt6                          68      // int8_t
-#define DFA_az01o2Dpt7                          68      // uint16_t
-#define DFA_az01o2Dpt8                          68      // int16_t
-#define DFA_az01o2Dpt9                          68      // float
-#define DFA_az01o2Dpt12                         68      // uint32_t
-#define DFA_az01o2Dpt13                         68      // int32_t
-#define DFA_az01o2Dpt14                         68      // float
-#define DFA_az01o2Dpt17                         68      // 8 Bits, Bit 7-0
-#define DFA_az01o2Dpt232                        68      // 24 Bits, Bit 31-8
+#define DFA_az01o2Send                          135      // 8 Bits, Bit 7-0
+#define DFA_az01o2Dpt1                          136      // 8 Bits, Bit 7-0
+#define DFA_az01o2Dpt2                          136      // 8 Bits, Bit 7-0
+#define DFA_az01o2Dpt5                          136      // uint8_t
+#define DFA_az01o2Dpt5001                       136      // uint8_t
+#define DFA_az01o2Dpt6                          136      // int8_t
+#define DFA_az01o2Dpt7                          136      // uint16_t
+#define DFA_az01o2Dpt8                          136      // int16_t
+#define DFA_az01o2Dpt9                          136      // float
+#define DFA_az01o2Dpt12                         136      // uint32_t
+#define DFA_az01o2Dpt13                         136      // int32_t
+#define DFA_az01o2Dpt14                         136      // float
+#define DFA_az01o2Dpt17                         136      // 8 Bits, Bit 7-0
+#define DFA_az01o2Dpt232                        136      // 24 Bits, Bit 31-8
 #define     DFA_az01o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az01o2Dpt232Shift 8
-#define DFA_az01o3Send                          72      // 8 Bits, Bit 7-0
-#define DFA_az01o3Dpt1                          73      // 8 Bits, Bit 7-0
-#define DFA_az01o3Dpt2                          73      // 8 Bits, Bit 7-0
-#define DFA_az01o3Dpt5                          73      // uint8_t
-#define DFA_az01o3Dpt5001                       73      // uint8_t
-#define DFA_az01o3Dpt6                          73      // int8_t
-#define DFA_az01o3Dpt7                          73      // uint16_t
-#define DFA_az01o3Dpt8                          73      // int16_t
-#define DFA_az01o3Dpt9                          73      // float
-#define DFA_az01o3Dpt12                         73      // uint32_t
-#define DFA_az01o3Dpt13                         73      // int32_t
-#define DFA_az01o3Dpt14                         73      // float
-#define DFA_az01o3Dpt17                         73      // 8 Bits, Bit 7-0
-#define DFA_az01o3Dpt232                        73      // 24 Bits, Bit 31-8
+#define DFA_az01o3Send                          140      // 8 Bits, Bit 7-0
+#define DFA_az01o3Dpt1                          141      // 8 Bits, Bit 7-0
+#define DFA_az01o3Dpt2                          141      // 8 Bits, Bit 7-0
+#define DFA_az01o3Dpt5                          141      // uint8_t
+#define DFA_az01o3Dpt5001                       141      // uint8_t
+#define DFA_az01o3Dpt6                          141      // int8_t
+#define DFA_az01o3Dpt7                          141      // uint16_t
+#define DFA_az01o3Dpt8                          141      // int16_t
+#define DFA_az01o3Dpt9                          141      // float
+#define DFA_az01o3Dpt12                         141      // uint32_t
+#define DFA_az01o3Dpt13                         141      // int32_t
+#define DFA_az01o3Dpt14                         141      // float
+#define DFA_az01o3Dpt17                         141      // 8 Bits, Bit 7-0
+#define DFA_az01o3Dpt232                        141      // 24 Bits, Bit 31-8
 #define     DFA_az01o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az01o3Dpt232Shift 8
-#define DFA_az01o4Send                          77      // 8 Bits, Bit 7-0
-#define DFA_az01o4Dpt1                          78      // 8 Bits, Bit 7-0
-#define DFA_az01o4Dpt2                          78      // 8 Bits, Bit 7-0
-#define DFA_az01o4Dpt5                          78      // uint8_t
-#define DFA_az01o4Dpt5001                       78      // uint8_t
-#define DFA_az01o4Dpt6                          78      // int8_t
-#define DFA_az01o4Dpt7                          78      // uint16_t
-#define DFA_az01o4Dpt8                          78      // int16_t
-#define DFA_az01o4Dpt9                          78      // float
-#define DFA_az01o4Dpt12                         78      // uint32_t
-#define DFA_az01o4Dpt13                         78      // int32_t
-#define DFA_az01o4Dpt14                         78      // float
-#define DFA_az01o4Dpt16                         78      // char*, 14 Byte
-#define DFA_az01o4Dpt17                         78      // 8 Bits, Bit 7-0
-#define DFA_az01o4Dpt232                        78      // 24 Bits, Bit 31-8
+#define DFA_az01o4Send                          145      // 8 Bits, Bit 7-0
+#define DFA_az01o4Dpt1                          146      // 8 Bits, Bit 7-0
+#define DFA_az01o4Dpt2                          146      // 8 Bits, Bit 7-0
+#define DFA_az01o4Dpt5                          146      // uint8_t
+#define DFA_az01o4Dpt5001                       146      // uint8_t
+#define DFA_az01o4Dpt6                          146      // int8_t
+#define DFA_az01o4Dpt7                          146      // uint16_t
+#define DFA_az01o4Dpt8                          146      // int16_t
+#define DFA_az01o4Dpt9                          146      // float
+#define DFA_az01o4Dpt12                         146      // uint32_t
+#define DFA_az01o4Dpt13                         146      // int32_t
+#define DFA_az01o4Dpt14                         146      // float
+#define DFA_az01o4Dpt16                         146      // char*, 14 Byte
+#define DFA_az01o4Dpt17                         146      // 8 Bits, Bit 7-0
+#define DFA_az01o4Dpt232                        146      // 24 Bits, Bit 31-8
 #define     DFA_az01o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az01o4Dpt232Shift 8
-#define DFA_ad02A                               93      // 8 Bits, Bit 7-0
-#define DFA_ad02B                               94      // 8 Bits, Bit 7-0
-#define DFA_ad02C                               95      // 8 Bits, Bit 7-0
-#define DFA_ad02D                               96      // 8 Bits, Bit 7-0
-#define DFA_ad02E                               97      // 8 Bits, Bit 7-0
-#define DFA_ad02F                               98      // 8 Bits, Bit 7-0
-#define DFA_ad02G                               99      // 8 Bits, Bit 7-0
-#define DFA_ad02H                               100      // 8 Bits, Bit 7-0
-#define DFA_ad02T                               101      // 8 Bits, Bit 7-0
-#define DFA_ad02TBase                           102      // 2 Bits, Bit 7-6
+#define DFA_ad02A                               161      // 8 Bits, Bit 7-0
+#define DFA_ad02B                               162      // 8 Bits, Bit 7-0
+#define DFA_ad02C                               163      // 8 Bits, Bit 7-0
+#define DFA_ad02D                               164      // 8 Bits, Bit 7-0
+#define DFA_ad02E                               165      // 8 Bits, Bit 7-0
+#define DFA_ad02F                               166      // 8 Bits, Bit 7-0
+#define DFA_ad02G                               167      // 8 Bits, Bit 7-0
+#define DFA_ad02H                               168      // 8 Bits, Bit 7-0
+#define DFA_ad02T                               169      // 8 Bits, Bit 7-0
+#define DFA_ad02TBase                           170      // 2 Bits, Bit 7-6
 #define     DFA_ad02TBaseMask 0xC0
 #define     DFA_ad02TBaseShift 6
-#define DFA_ad02TTime                           102      // 14 Bits, Bit 13-0
+#define DFA_ad02TTime                           170      // 14 Bits, Bit 13-0
 #define     DFA_ad02TTimeMask 0x3FFF
 #define     DFA_ad02TTimeShift 0
-#define DFA_az02o1Send                          104      // 8 Bits, Bit 7-0
-#define DFA_az02o1Dpt1                          105      // 8 Bits, Bit 7-0
-#define DFA_az02o1Dpt2                          105      // 8 Bits, Bit 7-0
-#define DFA_az02o1Dpt5                          105      // uint8_t
-#define DFA_az02o1Dpt5001                       105      // uint8_t
-#define DFA_az02o1Dpt6                          105      // int8_t
-#define DFA_az02o1Dpt7                          105      // uint16_t
-#define DFA_az02o1Dpt8                          105      // int16_t
-#define DFA_az02o1Dpt9                          105      // float
-#define DFA_az02o1Dpt12                         105      // uint32_t
-#define DFA_az02o1Dpt13                         105      // int32_t
-#define DFA_az02o1Dpt14                         105      // float
-#define DFA_az02o1Dpt17                         105      // 8 Bits, Bit 7-0
-#define DFA_az02o1Dpt232                        105      // 24 Bits, Bit 31-8
+#define DFA_az02o1Send                          172      // 8 Bits, Bit 7-0
+#define DFA_az02o1Dpt1                          173      // 8 Bits, Bit 7-0
+#define DFA_az02o1Dpt2                          173      // 8 Bits, Bit 7-0
+#define DFA_az02o1Dpt5                          173      // uint8_t
+#define DFA_az02o1Dpt5001                       173      // uint8_t
+#define DFA_az02o1Dpt6                          173      // int8_t
+#define DFA_az02o1Dpt7                          173      // uint16_t
+#define DFA_az02o1Dpt8                          173      // int16_t
+#define DFA_az02o1Dpt9                          173      // float
+#define DFA_az02o1Dpt12                         173      // uint32_t
+#define DFA_az02o1Dpt13                         173      // int32_t
+#define DFA_az02o1Dpt14                         173      // float
+#define DFA_az02o1Dpt17                         173      // 8 Bits, Bit 7-0
+#define DFA_az02o1Dpt232                        173      // 24 Bits, Bit 31-8
 #define     DFA_az02o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az02o1Dpt232Shift 8
-#define DFA_az02o2Send                          109      // 8 Bits, Bit 7-0
-#define DFA_az02o2Dpt1                          110      // 8 Bits, Bit 7-0
-#define DFA_az02o2Dpt2                          110      // 8 Bits, Bit 7-0
-#define DFA_az02o2Dpt5                          110      // uint8_t
-#define DFA_az02o2Dpt5001                       110      // uint8_t
-#define DFA_az02o2Dpt6                          110      // int8_t
-#define DFA_az02o2Dpt7                          110      // uint16_t
-#define DFA_az02o2Dpt8                          110      // int16_t
-#define DFA_az02o2Dpt9                          110      // float
-#define DFA_az02o2Dpt12                         110      // uint32_t
-#define DFA_az02o2Dpt13                         110      // int32_t
-#define DFA_az02o2Dpt14                         110      // float
-#define DFA_az02o2Dpt17                         110      // 8 Bits, Bit 7-0
-#define DFA_az02o2Dpt232                        110      // 24 Bits, Bit 31-8
+#define DFA_az02o2Send                          177      // 8 Bits, Bit 7-0
+#define DFA_az02o2Dpt1                          178      // 8 Bits, Bit 7-0
+#define DFA_az02o2Dpt2                          178      // 8 Bits, Bit 7-0
+#define DFA_az02o2Dpt5                          178      // uint8_t
+#define DFA_az02o2Dpt5001                       178      // uint8_t
+#define DFA_az02o2Dpt6                          178      // int8_t
+#define DFA_az02o2Dpt7                          178      // uint16_t
+#define DFA_az02o2Dpt8                          178      // int16_t
+#define DFA_az02o2Dpt9                          178      // float
+#define DFA_az02o2Dpt12                         178      // uint32_t
+#define DFA_az02o2Dpt13                         178      // int32_t
+#define DFA_az02o2Dpt14                         178      // float
+#define DFA_az02o2Dpt17                         178      // 8 Bits, Bit 7-0
+#define DFA_az02o2Dpt232                        178      // 24 Bits, Bit 31-8
 #define     DFA_az02o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az02o2Dpt232Shift 8
-#define DFA_az02o3Send                          114      // 8 Bits, Bit 7-0
-#define DFA_az02o3Dpt1                          115      // 8 Bits, Bit 7-0
-#define DFA_az02o3Dpt2                          115      // 8 Bits, Bit 7-0
-#define DFA_az02o3Dpt5                          115      // uint8_t
-#define DFA_az02o3Dpt5001                       115      // uint8_t
-#define DFA_az02o3Dpt6                          115      // int8_t
-#define DFA_az02o3Dpt7                          115      // uint16_t
-#define DFA_az02o3Dpt8                          115      // int16_t
-#define DFA_az02o3Dpt9                          115      // float
-#define DFA_az02o3Dpt12                         115      // uint32_t
-#define DFA_az02o3Dpt13                         115      // int32_t
-#define DFA_az02o3Dpt14                         115      // float
-#define DFA_az02o3Dpt17                         115      // 8 Bits, Bit 7-0
-#define DFA_az02o3Dpt232                        115      // 24 Bits, Bit 31-8
+#define DFA_az02o3Send                          182      // 8 Bits, Bit 7-0
+#define DFA_az02o3Dpt1                          183      // 8 Bits, Bit 7-0
+#define DFA_az02o3Dpt2                          183      // 8 Bits, Bit 7-0
+#define DFA_az02o3Dpt5                          183      // uint8_t
+#define DFA_az02o3Dpt5001                       183      // uint8_t
+#define DFA_az02o3Dpt6                          183      // int8_t
+#define DFA_az02o3Dpt7                          183      // uint16_t
+#define DFA_az02o3Dpt8                          183      // int16_t
+#define DFA_az02o3Dpt9                          183      // float
+#define DFA_az02o3Dpt12                         183      // uint32_t
+#define DFA_az02o3Dpt13                         183      // int32_t
+#define DFA_az02o3Dpt14                         183      // float
+#define DFA_az02o3Dpt17                         183      // 8 Bits, Bit 7-0
+#define DFA_az02o3Dpt232                        183      // 24 Bits, Bit 31-8
 #define     DFA_az02o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az02o3Dpt232Shift 8
-#define DFA_az02o4Send                          119      // 8 Bits, Bit 7-0
-#define DFA_az02o4Dpt1                          120      // 8 Bits, Bit 7-0
-#define DFA_az02o4Dpt2                          120      // 8 Bits, Bit 7-0
-#define DFA_az02o4Dpt5                          120      // uint8_t
-#define DFA_az02o4Dpt5001                       120      // uint8_t
-#define DFA_az02o4Dpt6                          120      // int8_t
-#define DFA_az02o4Dpt7                          120      // uint16_t
-#define DFA_az02o4Dpt8                          120      // int16_t
-#define DFA_az02o4Dpt9                          120      // float
-#define DFA_az02o4Dpt12                         120      // uint32_t
-#define DFA_az02o4Dpt13                         120      // int32_t
-#define DFA_az02o4Dpt14                         120      // float
-#define DFA_az02o4Dpt16                         120      // char*, 14 Byte
-#define DFA_az02o4Dpt17                         120      // 8 Bits, Bit 7-0
-#define DFA_az02o4Dpt232                        120      // 24 Bits, Bit 31-8
+#define DFA_az02o4Send                          187      // 8 Bits, Bit 7-0
+#define DFA_az02o4Dpt1                          188      // 8 Bits, Bit 7-0
+#define DFA_az02o4Dpt2                          188      // 8 Bits, Bit 7-0
+#define DFA_az02o4Dpt5                          188      // uint8_t
+#define DFA_az02o4Dpt5001                       188      // uint8_t
+#define DFA_az02o4Dpt6                          188      // int8_t
+#define DFA_az02o4Dpt7                          188      // uint16_t
+#define DFA_az02o4Dpt8                          188      // int16_t
+#define DFA_az02o4Dpt9                          188      // float
+#define DFA_az02o4Dpt12                         188      // uint32_t
+#define DFA_az02o4Dpt13                         188      // int32_t
+#define DFA_az02o4Dpt14                         188      // float
+#define DFA_az02o4Dpt16                         188      // char*, 14 Byte
+#define DFA_az02o4Dpt17                         188      // 8 Bits, Bit 7-0
+#define DFA_az02o4Dpt232                        188      // 24 Bits, Bit 31-8
 #define     DFA_az02o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az02o4Dpt232Shift 8
-#define DFA_ad03A                               135      // 8 Bits, Bit 7-0
-#define DFA_ad03B                               136      // 8 Bits, Bit 7-0
-#define DFA_ad03C                               137      // 8 Bits, Bit 7-0
-#define DFA_ad03D                               138      // 8 Bits, Bit 7-0
-#define DFA_ad03E                               139      // 8 Bits, Bit 7-0
-#define DFA_ad03F                               140      // 8 Bits, Bit 7-0
-#define DFA_ad03G                               141      // 8 Bits, Bit 7-0
-#define DFA_ad03H                               142      // 8 Bits, Bit 7-0
-#define DFA_ad03T                               143      // 8 Bits, Bit 7-0
-#define DFA_ad03TBase                           144      // 2 Bits, Bit 7-6
+#define DFA_ad03A                               203      // 8 Bits, Bit 7-0
+#define DFA_ad03B                               204      // 8 Bits, Bit 7-0
+#define DFA_ad03C                               205      // 8 Bits, Bit 7-0
+#define DFA_ad03D                               206      // 8 Bits, Bit 7-0
+#define DFA_ad03E                               207      // 8 Bits, Bit 7-0
+#define DFA_ad03F                               208      // 8 Bits, Bit 7-0
+#define DFA_ad03G                               209      // 8 Bits, Bit 7-0
+#define DFA_ad03H                               210      // 8 Bits, Bit 7-0
+#define DFA_ad03T                               211      // 8 Bits, Bit 7-0
+#define DFA_ad03TBase                           212      // 2 Bits, Bit 7-6
 #define     DFA_ad03TBaseMask 0xC0
 #define     DFA_ad03TBaseShift 6
-#define DFA_ad03TTime                           144      // 14 Bits, Bit 13-0
+#define DFA_ad03TTime                           212      // 14 Bits, Bit 13-0
 #define     DFA_ad03TTimeMask 0x3FFF
 #define     DFA_ad03TTimeShift 0
-#define DFA_az03o1Send                          146      // 8 Bits, Bit 7-0
-#define DFA_az03o1Dpt1                          147      // 8 Bits, Bit 7-0
-#define DFA_az03o1Dpt2                          147      // 8 Bits, Bit 7-0
-#define DFA_az03o1Dpt5                          147      // uint8_t
-#define DFA_az03o1Dpt5001                       147      // uint8_t
-#define DFA_az03o1Dpt6                          147      // int8_t
-#define DFA_az03o1Dpt7                          147      // uint16_t
-#define DFA_az03o1Dpt8                          147      // int16_t
-#define DFA_az03o1Dpt9                          147      // float
-#define DFA_az03o1Dpt12                         147      // uint32_t
-#define DFA_az03o1Dpt13                         147      // int32_t
-#define DFA_az03o1Dpt14                         147      // float
-#define DFA_az03o1Dpt17                         147      // 8 Bits, Bit 7-0
-#define DFA_az03o1Dpt232                        147      // 24 Bits, Bit 31-8
+#define DFA_az03o1Send                          214      // 8 Bits, Bit 7-0
+#define DFA_az03o1Dpt1                          215      // 8 Bits, Bit 7-0
+#define DFA_az03o1Dpt2                          215      // 8 Bits, Bit 7-0
+#define DFA_az03o1Dpt5                          215      // uint8_t
+#define DFA_az03o1Dpt5001                       215      // uint8_t
+#define DFA_az03o1Dpt6                          215      // int8_t
+#define DFA_az03o1Dpt7                          215      // uint16_t
+#define DFA_az03o1Dpt8                          215      // int16_t
+#define DFA_az03o1Dpt9                          215      // float
+#define DFA_az03o1Dpt12                         215      // uint32_t
+#define DFA_az03o1Dpt13                         215      // int32_t
+#define DFA_az03o1Dpt14                         215      // float
+#define DFA_az03o1Dpt17                         215      // 8 Bits, Bit 7-0
+#define DFA_az03o1Dpt232                        215      // 24 Bits, Bit 31-8
 #define     DFA_az03o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az03o1Dpt232Shift 8
-#define DFA_az03o2Send                          151      // 8 Bits, Bit 7-0
-#define DFA_az03o2Dpt1                          152      // 8 Bits, Bit 7-0
-#define DFA_az03o2Dpt2                          152      // 8 Bits, Bit 7-0
-#define DFA_az03o2Dpt5                          152      // uint8_t
-#define DFA_az03o2Dpt5001                       152      // uint8_t
-#define DFA_az03o2Dpt6                          152      // int8_t
-#define DFA_az03o2Dpt7                          152      // uint16_t
-#define DFA_az03o2Dpt8                          152      // int16_t
-#define DFA_az03o2Dpt9                          152      // float
-#define DFA_az03o2Dpt12                         152      // uint32_t
-#define DFA_az03o2Dpt13                         152      // int32_t
-#define DFA_az03o2Dpt14                         152      // float
-#define DFA_az03o2Dpt17                         152      // 8 Bits, Bit 7-0
-#define DFA_az03o2Dpt232                        152      // 24 Bits, Bit 31-8
+#define DFA_az03o2Send                          219      // 8 Bits, Bit 7-0
+#define DFA_az03o2Dpt1                          220      // 8 Bits, Bit 7-0
+#define DFA_az03o2Dpt2                          220      // 8 Bits, Bit 7-0
+#define DFA_az03o2Dpt5                          220      // uint8_t
+#define DFA_az03o2Dpt5001                       220      // uint8_t
+#define DFA_az03o2Dpt6                          220      // int8_t
+#define DFA_az03o2Dpt7                          220      // uint16_t
+#define DFA_az03o2Dpt8                          220      // int16_t
+#define DFA_az03o2Dpt9                          220      // float
+#define DFA_az03o2Dpt12                         220      // uint32_t
+#define DFA_az03o2Dpt13                         220      // int32_t
+#define DFA_az03o2Dpt14                         220      // float
+#define DFA_az03o2Dpt17                         220      // 8 Bits, Bit 7-0
+#define DFA_az03o2Dpt232                        220      // 24 Bits, Bit 31-8
 #define     DFA_az03o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az03o2Dpt232Shift 8
-#define DFA_az03o3Send                          156      // 8 Bits, Bit 7-0
-#define DFA_az03o3Dpt1                          157      // 8 Bits, Bit 7-0
-#define DFA_az03o3Dpt2                          157      // 8 Bits, Bit 7-0
-#define DFA_az03o3Dpt5                          157      // uint8_t
-#define DFA_az03o3Dpt5001                       157      // uint8_t
-#define DFA_az03o3Dpt6                          157      // int8_t
-#define DFA_az03o3Dpt7                          157      // uint16_t
-#define DFA_az03o3Dpt8                          157      // int16_t
-#define DFA_az03o3Dpt9                          157      // float
-#define DFA_az03o3Dpt12                         157      // uint32_t
-#define DFA_az03o3Dpt13                         157      // int32_t
-#define DFA_az03o3Dpt14                         157      // float
-#define DFA_az03o3Dpt17                         157      // 8 Bits, Bit 7-0
-#define DFA_az03o3Dpt232                        157      // 24 Bits, Bit 31-8
+#define DFA_az03o3Send                          224      // 8 Bits, Bit 7-0
+#define DFA_az03o3Dpt1                          225      // 8 Bits, Bit 7-0
+#define DFA_az03o3Dpt2                          225      // 8 Bits, Bit 7-0
+#define DFA_az03o3Dpt5                          225      // uint8_t
+#define DFA_az03o3Dpt5001                       225      // uint8_t
+#define DFA_az03o3Dpt6                          225      // int8_t
+#define DFA_az03o3Dpt7                          225      // uint16_t
+#define DFA_az03o3Dpt8                          225      // int16_t
+#define DFA_az03o3Dpt9                          225      // float
+#define DFA_az03o3Dpt12                         225      // uint32_t
+#define DFA_az03o3Dpt13                         225      // int32_t
+#define DFA_az03o3Dpt14                         225      // float
+#define DFA_az03o3Dpt17                         225      // 8 Bits, Bit 7-0
+#define DFA_az03o3Dpt232                        225      // 24 Bits, Bit 31-8
 #define     DFA_az03o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az03o3Dpt232Shift 8
-#define DFA_az03o4Send                          161      // 8 Bits, Bit 7-0
-#define DFA_az03o4Dpt1                          162      // 8 Bits, Bit 7-0
-#define DFA_az03o4Dpt2                          162      // 8 Bits, Bit 7-0
-#define DFA_az03o4Dpt5                          162      // uint8_t
-#define DFA_az03o4Dpt5001                       162      // uint8_t
-#define DFA_az03o4Dpt6                          162      // int8_t
-#define DFA_az03o4Dpt7                          162      // uint16_t
-#define DFA_az03o4Dpt8                          162      // int16_t
-#define DFA_az03o4Dpt9                          162      // float
-#define DFA_az03o4Dpt12                         162      // uint32_t
-#define DFA_az03o4Dpt13                         162      // int32_t
-#define DFA_az03o4Dpt14                         162      // float
-#define DFA_az03o4Dpt16                         162      // char*, 14 Byte
-#define DFA_az03o4Dpt17                         162      // 8 Bits, Bit 7-0
-#define DFA_az03o4Dpt232                        162      // 24 Bits, Bit 31-8
+#define DFA_az03o4Send                          229      // 8 Bits, Bit 7-0
+#define DFA_az03o4Dpt1                          230      // 8 Bits, Bit 7-0
+#define DFA_az03o4Dpt2                          230      // 8 Bits, Bit 7-0
+#define DFA_az03o4Dpt5                          230      // uint8_t
+#define DFA_az03o4Dpt5001                       230      // uint8_t
+#define DFA_az03o4Dpt6                          230      // int8_t
+#define DFA_az03o4Dpt7                          230      // uint16_t
+#define DFA_az03o4Dpt8                          230      // int16_t
+#define DFA_az03o4Dpt9                          230      // float
+#define DFA_az03o4Dpt12                         230      // uint32_t
+#define DFA_az03o4Dpt13                         230      // int32_t
+#define DFA_az03o4Dpt14                         230      // float
+#define DFA_az03o4Dpt16                         230      // char*, 14 Byte
+#define DFA_az03o4Dpt17                         230      // 8 Bits, Bit 7-0
+#define DFA_az03o4Dpt232                        230      // 24 Bits, Bit 31-8
 #define     DFA_az03o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az03o4Dpt232Shift 8
-#define DFA_ad04A                               177      // 8 Bits, Bit 7-0
-#define DFA_ad04B                               178      // 8 Bits, Bit 7-0
-#define DFA_ad04C                               179      // 8 Bits, Bit 7-0
-#define DFA_ad04D                               180      // 8 Bits, Bit 7-0
-#define DFA_ad04E                               181      // 8 Bits, Bit 7-0
-#define DFA_ad04F                               182      // 8 Bits, Bit 7-0
-#define DFA_ad04G                               183      // 8 Bits, Bit 7-0
-#define DFA_ad04H                               184      // 8 Bits, Bit 7-0
-#define DFA_ad04T                               185      // 8 Bits, Bit 7-0
-#define DFA_ad04TBase                           186      // 2 Bits, Bit 7-6
+#define DFA_ad04A                               245      // 8 Bits, Bit 7-0
+#define DFA_ad04B                               246      // 8 Bits, Bit 7-0
+#define DFA_ad04C                               247      // 8 Bits, Bit 7-0
+#define DFA_ad04D                               248      // 8 Bits, Bit 7-0
+#define DFA_ad04E                               249      // 8 Bits, Bit 7-0
+#define DFA_ad04F                               250      // 8 Bits, Bit 7-0
+#define DFA_ad04G                               251      // 8 Bits, Bit 7-0
+#define DFA_ad04H                               252      // 8 Bits, Bit 7-0
+#define DFA_ad04T                               253      // 8 Bits, Bit 7-0
+#define DFA_ad04TBase                           254      // 2 Bits, Bit 7-6
 #define     DFA_ad04TBaseMask 0xC0
 #define     DFA_ad04TBaseShift 6
-#define DFA_ad04TTime                           186      // 14 Bits, Bit 13-0
+#define DFA_ad04TTime                           254      // 14 Bits, Bit 13-0
 #define     DFA_ad04TTimeMask 0x3FFF
 #define     DFA_ad04TTimeShift 0
-#define DFA_az04o1Send                          188      // 8 Bits, Bit 7-0
-#define DFA_az04o1Dpt1                          189      // 8 Bits, Bit 7-0
-#define DFA_az04o1Dpt2                          189      // 8 Bits, Bit 7-0
-#define DFA_az04o1Dpt5                          189      // uint8_t
-#define DFA_az04o1Dpt5001                       189      // uint8_t
-#define DFA_az04o1Dpt6                          189      // int8_t
-#define DFA_az04o1Dpt7                          189      // uint16_t
-#define DFA_az04o1Dpt8                          189      // int16_t
-#define DFA_az04o1Dpt9                          189      // float
-#define DFA_az04o1Dpt12                         189      // uint32_t
-#define DFA_az04o1Dpt13                         189      // int32_t
-#define DFA_az04o1Dpt14                         189      // float
-#define DFA_az04o1Dpt17                         189      // 8 Bits, Bit 7-0
-#define DFA_az04o1Dpt232                        189      // 24 Bits, Bit 31-8
+#define DFA_az04o1Send                          256      // 8 Bits, Bit 7-0
+#define DFA_az04o1Dpt1                          257      // 8 Bits, Bit 7-0
+#define DFA_az04o1Dpt2                          257      // 8 Bits, Bit 7-0
+#define DFA_az04o1Dpt5                          257      // uint8_t
+#define DFA_az04o1Dpt5001                       257      // uint8_t
+#define DFA_az04o1Dpt6                          257      // int8_t
+#define DFA_az04o1Dpt7                          257      // uint16_t
+#define DFA_az04o1Dpt8                          257      // int16_t
+#define DFA_az04o1Dpt9                          257      // float
+#define DFA_az04o1Dpt12                         257      // uint32_t
+#define DFA_az04o1Dpt13                         257      // int32_t
+#define DFA_az04o1Dpt14                         257      // float
+#define DFA_az04o1Dpt17                         257      // 8 Bits, Bit 7-0
+#define DFA_az04o1Dpt232                        257      // 24 Bits, Bit 31-8
 #define     DFA_az04o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az04o1Dpt232Shift 8
-#define DFA_az04o2Send                          193      // 8 Bits, Bit 7-0
-#define DFA_az04o2Dpt1                          194      // 8 Bits, Bit 7-0
-#define DFA_az04o2Dpt2                          194      // 8 Bits, Bit 7-0
-#define DFA_az04o2Dpt5                          194      // uint8_t
-#define DFA_az04o2Dpt5001                       194      // uint8_t
-#define DFA_az04o2Dpt6                          194      // int8_t
-#define DFA_az04o2Dpt7                          194      // uint16_t
-#define DFA_az04o2Dpt8                          194      // int16_t
-#define DFA_az04o2Dpt9                          194      // float
-#define DFA_az04o2Dpt12                         194      // uint32_t
-#define DFA_az04o2Dpt13                         194      // int32_t
-#define DFA_az04o2Dpt14                         194      // float
-#define DFA_az04o2Dpt17                         194      // 8 Bits, Bit 7-0
-#define DFA_az04o2Dpt232                        194      // 24 Bits, Bit 31-8
+#define DFA_az04o2Send                          261      // 8 Bits, Bit 7-0
+#define DFA_az04o2Dpt1                          262      // 8 Bits, Bit 7-0
+#define DFA_az04o2Dpt2                          262      // 8 Bits, Bit 7-0
+#define DFA_az04o2Dpt5                          262      // uint8_t
+#define DFA_az04o2Dpt5001                       262      // uint8_t
+#define DFA_az04o2Dpt6                          262      // int8_t
+#define DFA_az04o2Dpt7                          262      // uint16_t
+#define DFA_az04o2Dpt8                          262      // int16_t
+#define DFA_az04o2Dpt9                          262      // float
+#define DFA_az04o2Dpt12                         262      // uint32_t
+#define DFA_az04o2Dpt13                         262      // int32_t
+#define DFA_az04o2Dpt14                         262      // float
+#define DFA_az04o2Dpt17                         262      // 8 Bits, Bit 7-0
+#define DFA_az04o2Dpt232                        262      // 24 Bits, Bit 31-8
 #define     DFA_az04o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az04o2Dpt232Shift 8
-#define DFA_az04o3Send                          198      // 8 Bits, Bit 7-0
-#define DFA_az04o3Dpt1                          199      // 8 Bits, Bit 7-0
-#define DFA_az04o3Dpt2                          199      // 8 Bits, Bit 7-0
-#define DFA_az04o3Dpt5                          199      // uint8_t
-#define DFA_az04o3Dpt5001                       199      // uint8_t
-#define DFA_az04o3Dpt6                          199      // int8_t
-#define DFA_az04o3Dpt7                          199      // uint16_t
-#define DFA_az04o3Dpt8                          199      // int16_t
-#define DFA_az04o3Dpt9                          199      // float
-#define DFA_az04o3Dpt12                         199      // uint32_t
-#define DFA_az04o3Dpt13                         199      // int32_t
-#define DFA_az04o3Dpt14                         199      // float
-#define DFA_az04o3Dpt17                         199      // 8 Bits, Bit 7-0
-#define DFA_az04o3Dpt232                        199      // 24 Bits, Bit 31-8
+#define DFA_az04o3Send                          266      // 8 Bits, Bit 7-0
+#define DFA_az04o3Dpt1                          267      // 8 Bits, Bit 7-0
+#define DFA_az04o3Dpt2                          267      // 8 Bits, Bit 7-0
+#define DFA_az04o3Dpt5                          267      // uint8_t
+#define DFA_az04o3Dpt5001                       267      // uint8_t
+#define DFA_az04o3Dpt6                          267      // int8_t
+#define DFA_az04o3Dpt7                          267      // uint16_t
+#define DFA_az04o3Dpt8                          267      // int16_t
+#define DFA_az04o3Dpt9                          267      // float
+#define DFA_az04o3Dpt12                         267      // uint32_t
+#define DFA_az04o3Dpt13                         267      // int32_t
+#define DFA_az04o3Dpt14                         267      // float
+#define DFA_az04o3Dpt17                         267      // 8 Bits, Bit 7-0
+#define DFA_az04o3Dpt232                        267      // 24 Bits, Bit 31-8
 #define     DFA_az04o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az04o3Dpt232Shift 8
-#define DFA_az04o4Send                          203      // 8 Bits, Bit 7-0
-#define DFA_az04o4Dpt1                          204      // 8 Bits, Bit 7-0
-#define DFA_az04o4Dpt2                          204      // 8 Bits, Bit 7-0
-#define DFA_az04o4Dpt5                          204      // uint8_t
-#define DFA_az04o4Dpt5001                       204      // uint8_t
-#define DFA_az04o4Dpt6                          204      // int8_t
-#define DFA_az04o4Dpt7                          204      // uint16_t
-#define DFA_az04o4Dpt8                          204      // int16_t
-#define DFA_az04o4Dpt9                          204      // float
-#define DFA_az04o4Dpt12                         204      // uint32_t
-#define DFA_az04o4Dpt13                         204      // int32_t
-#define DFA_az04o4Dpt14                         204      // float
-#define DFA_az04o4Dpt16                         204      // char*, 14 Byte
-#define DFA_az04o4Dpt17                         204      // 8 Bits, Bit 7-0
-#define DFA_az04o4Dpt232                        204      // 24 Bits, Bit 31-8
+#define DFA_az04o4Send                          271      // 8 Bits, Bit 7-0
+#define DFA_az04o4Dpt1                          272      // 8 Bits, Bit 7-0
+#define DFA_az04o4Dpt2                          272      // 8 Bits, Bit 7-0
+#define DFA_az04o4Dpt5                          272      // uint8_t
+#define DFA_az04o4Dpt5001                       272      // uint8_t
+#define DFA_az04o4Dpt6                          272      // int8_t
+#define DFA_az04o4Dpt7                          272      // uint16_t
+#define DFA_az04o4Dpt8                          272      // int16_t
+#define DFA_az04o4Dpt9                          272      // float
+#define DFA_az04o4Dpt12                         272      // uint32_t
+#define DFA_az04o4Dpt13                         272      // int32_t
+#define DFA_az04o4Dpt14                         272      // float
+#define DFA_az04o4Dpt16                         272      // char*, 14 Byte
+#define DFA_az04o4Dpt17                         272      // 8 Bits, Bit 7-0
+#define DFA_az04o4Dpt232                        272      // 24 Bits, Bit 31-8
 #define     DFA_az04o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az04o4Dpt232Shift 8
-#define DFA_ad05A                               219      // 8 Bits, Bit 7-0
-#define DFA_ad05B                               220      // 8 Bits, Bit 7-0
-#define DFA_ad05C                               221      // 8 Bits, Bit 7-0
-#define DFA_ad05D                               222      // 8 Bits, Bit 7-0
-#define DFA_ad05E                               223      // 8 Bits, Bit 7-0
-#define DFA_ad05F                               224      // 8 Bits, Bit 7-0
-#define DFA_ad05G                               225      // 8 Bits, Bit 7-0
-#define DFA_ad05H                               226      // 8 Bits, Bit 7-0
-#define DFA_ad05T                               227      // 8 Bits, Bit 7-0
-#define DFA_ad05TBase                           228      // 2 Bits, Bit 7-6
+#define DFA_ad05A                               287      // 8 Bits, Bit 7-0
+#define DFA_ad05B                               288      // 8 Bits, Bit 7-0
+#define DFA_ad05C                               289      // 8 Bits, Bit 7-0
+#define DFA_ad05D                               290      // 8 Bits, Bit 7-0
+#define DFA_ad05E                               291      // 8 Bits, Bit 7-0
+#define DFA_ad05F                               292      // 8 Bits, Bit 7-0
+#define DFA_ad05G                               293      // 8 Bits, Bit 7-0
+#define DFA_ad05H                               294      // 8 Bits, Bit 7-0
+#define DFA_ad05T                               295      // 8 Bits, Bit 7-0
+#define DFA_ad05TBase                           296      // 2 Bits, Bit 7-6
 #define     DFA_ad05TBaseMask 0xC0
 #define     DFA_ad05TBaseShift 6
-#define DFA_ad05TTime                           228      // 14 Bits, Bit 13-0
+#define DFA_ad05TTime                           296      // 14 Bits, Bit 13-0
 #define     DFA_ad05TTimeMask 0x3FFF
 #define     DFA_ad05TTimeShift 0
-#define DFA_az05o1Send                          230      // 8 Bits, Bit 7-0
-#define DFA_az05o1Dpt1                          231      // 8 Bits, Bit 7-0
-#define DFA_az05o1Dpt2                          231      // 8 Bits, Bit 7-0
-#define DFA_az05o1Dpt5                          231      // uint8_t
-#define DFA_az05o1Dpt5001                       231      // uint8_t
-#define DFA_az05o1Dpt6                          231      // int8_t
-#define DFA_az05o1Dpt7                          231      // uint16_t
-#define DFA_az05o1Dpt8                          231      // int16_t
-#define DFA_az05o1Dpt9                          231      // float
-#define DFA_az05o1Dpt12                         231      // uint32_t
-#define DFA_az05o1Dpt13                         231      // int32_t
-#define DFA_az05o1Dpt14                         231      // float
-#define DFA_az05o1Dpt17                         231      // 8 Bits, Bit 7-0
-#define DFA_az05o1Dpt232                        231      // 24 Bits, Bit 31-8
+#define DFA_az05o1Send                          298      // 8 Bits, Bit 7-0
+#define DFA_az05o1Dpt1                          299      // 8 Bits, Bit 7-0
+#define DFA_az05o1Dpt2                          299      // 8 Bits, Bit 7-0
+#define DFA_az05o1Dpt5                          299      // uint8_t
+#define DFA_az05o1Dpt5001                       299      // uint8_t
+#define DFA_az05o1Dpt6                          299      // int8_t
+#define DFA_az05o1Dpt7                          299      // uint16_t
+#define DFA_az05o1Dpt8                          299      // int16_t
+#define DFA_az05o1Dpt9                          299      // float
+#define DFA_az05o1Dpt12                         299      // uint32_t
+#define DFA_az05o1Dpt13                         299      // int32_t
+#define DFA_az05o1Dpt14                         299      // float
+#define DFA_az05o1Dpt17                         299      // 8 Bits, Bit 7-0
+#define DFA_az05o1Dpt232                        299      // 24 Bits, Bit 31-8
 #define     DFA_az05o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az05o1Dpt232Shift 8
-#define DFA_az05o2Send                          235      // 8 Bits, Bit 7-0
-#define DFA_az05o2Dpt1                          236      // 8 Bits, Bit 7-0
-#define DFA_az05o2Dpt2                          236      // 8 Bits, Bit 7-0
-#define DFA_az05o2Dpt5                          236      // uint8_t
-#define DFA_az05o2Dpt5001                       236      // uint8_t
-#define DFA_az05o2Dpt6                          236      // int8_t
-#define DFA_az05o2Dpt7                          236      // uint16_t
-#define DFA_az05o2Dpt8                          236      // int16_t
-#define DFA_az05o2Dpt9                          236      // float
-#define DFA_az05o2Dpt12                         236      // uint32_t
-#define DFA_az05o2Dpt13                         236      // int32_t
-#define DFA_az05o2Dpt14                         236      // float
-#define DFA_az05o2Dpt17                         236      // 8 Bits, Bit 7-0
-#define DFA_az05o2Dpt232                        236      // 24 Bits, Bit 31-8
+#define DFA_az05o2Send                          303      // 8 Bits, Bit 7-0
+#define DFA_az05o2Dpt1                          304      // 8 Bits, Bit 7-0
+#define DFA_az05o2Dpt2                          304      // 8 Bits, Bit 7-0
+#define DFA_az05o2Dpt5                          304      // uint8_t
+#define DFA_az05o2Dpt5001                       304      // uint8_t
+#define DFA_az05o2Dpt6                          304      // int8_t
+#define DFA_az05o2Dpt7                          304      // uint16_t
+#define DFA_az05o2Dpt8                          304      // int16_t
+#define DFA_az05o2Dpt9                          304      // float
+#define DFA_az05o2Dpt12                         304      // uint32_t
+#define DFA_az05o2Dpt13                         304      // int32_t
+#define DFA_az05o2Dpt14                         304      // float
+#define DFA_az05o2Dpt17                         304      // 8 Bits, Bit 7-0
+#define DFA_az05o2Dpt232                        304      // 24 Bits, Bit 31-8
 #define     DFA_az05o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az05o2Dpt232Shift 8
-#define DFA_az05o3Send                          240      // 8 Bits, Bit 7-0
-#define DFA_az05o3Dpt1                          241      // 8 Bits, Bit 7-0
-#define DFA_az05o3Dpt2                          241      // 8 Bits, Bit 7-0
-#define DFA_az05o3Dpt5                          241      // uint8_t
-#define DFA_az05o3Dpt5001                       241      // uint8_t
-#define DFA_az05o3Dpt6                          241      // int8_t
-#define DFA_az05o3Dpt7                          241      // uint16_t
-#define DFA_az05o3Dpt8                          241      // int16_t
-#define DFA_az05o3Dpt9                          241      // float
-#define DFA_az05o3Dpt12                         241      // uint32_t
-#define DFA_az05o3Dpt13                         241      // int32_t
-#define DFA_az05o3Dpt14                         241      // float
-#define DFA_az05o3Dpt17                         241      // 8 Bits, Bit 7-0
-#define DFA_az05o3Dpt232                        241      // 24 Bits, Bit 31-8
+#define DFA_az05o3Send                          308      // 8 Bits, Bit 7-0
+#define DFA_az05o3Dpt1                          309      // 8 Bits, Bit 7-0
+#define DFA_az05o3Dpt2                          309      // 8 Bits, Bit 7-0
+#define DFA_az05o3Dpt5                          309      // uint8_t
+#define DFA_az05o3Dpt5001                       309      // uint8_t
+#define DFA_az05o3Dpt6                          309      // int8_t
+#define DFA_az05o3Dpt7                          309      // uint16_t
+#define DFA_az05o3Dpt8                          309      // int16_t
+#define DFA_az05o3Dpt9                          309      // float
+#define DFA_az05o3Dpt12                         309      // uint32_t
+#define DFA_az05o3Dpt13                         309      // int32_t
+#define DFA_az05o3Dpt14                         309      // float
+#define DFA_az05o3Dpt17                         309      // 8 Bits, Bit 7-0
+#define DFA_az05o3Dpt232                        309      // 24 Bits, Bit 31-8
 #define     DFA_az05o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az05o3Dpt232Shift 8
-#define DFA_az05o4Send                          245      // 8 Bits, Bit 7-0
-#define DFA_az05o4Dpt1                          246      // 8 Bits, Bit 7-0
-#define DFA_az05o4Dpt2                          246      // 8 Bits, Bit 7-0
-#define DFA_az05o4Dpt5                          246      // uint8_t
-#define DFA_az05o4Dpt5001                       246      // uint8_t
-#define DFA_az05o4Dpt6                          246      // int8_t
-#define DFA_az05o4Dpt7                          246      // uint16_t
-#define DFA_az05o4Dpt8                          246      // int16_t
-#define DFA_az05o4Dpt9                          246      // float
-#define DFA_az05o4Dpt12                         246      // uint32_t
-#define DFA_az05o4Dpt13                         246      // int32_t
-#define DFA_az05o4Dpt14                         246      // float
-#define DFA_az05o4Dpt16                         246      // char*, 14 Byte
-#define DFA_az05o4Dpt17                         246      // 8 Bits, Bit 7-0
-#define DFA_az05o4Dpt232                        246      // 24 Bits, Bit 31-8
+#define DFA_az05o4Send                          313      // 8 Bits, Bit 7-0
+#define DFA_az05o4Dpt1                          314      // 8 Bits, Bit 7-0
+#define DFA_az05o4Dpt2                          314      // 8 Bits, Bit 7-0
+#define DFA_az05o4Dpt5                          314      // uint8_t
+#define DFA_az05o4Dpt5001                       314      // uint8_t
+#define DFA_az05o4Dpt6                          314      // int8_t
+#define DFA_az05o4Dpt7                          314      // uint16_t
+#define DFA_az05o4Dpt8                          314      // int16_t
+#define DFA_az05o4Dpt9                          314      // float
+#define DFA_az05o4Dpt12                         314      // uint32_t
+#define DFA_az05o4Dpt13                         314      // int32_t
+#define DFA_az05o4Dpt14                         314      // float
+#define DFA_az05o4Dpt16                         314      // char*, 14 Byte
+#define DFA_az05o4Dpt17                         314      // 8 Bits, Bit 7-0
+#define DFA_az05o4Dpt232                        314      // 24 Bits, Bit 31-8
 #define     DFA_az05o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az05o4Dpt232Shift 8
-#define DFA_ad06A                               261      // 8 Bits, Bit 7-0
-#define DFA_ad06B                               262      // 8 Bits, Bit 7-0
-#define DFA_ad06C                               263      // 8 Bits, Bit 7-0
-#define DFA_ad06D                               264      // 8 Bits, Bit 7-0
-#define DFA_ad06E                               265      // 8 Bits, Bit 7-0
-#define DFA_ad06F                               266      // 8 Bits, Bit 7-0
-#define DFA_ad06G                               267      // 8 Bits, Bit 7-0
-#define DFA_ad06H                               268      // 8 Bits, Bit 7-0
-#define DFA_ad06T                               269      // 8 Bits, Bit 7-0
-#define DFA_ad06TBase                           270      // 2 Bits, Bit 7-6
+#define DFA_ad06A                               329      // 8 Bits, Bit 7-0
+#define DFA_ad06B                               330      // 8 Bits, Bit 7-0
+#define DFA_ad06C                               331      // 8 Bits, Bit 7-0
+#define DFA_ad06D                               332      // 8 Bits, Bit 7-0
+#define DFA_ad06E                               333      // 8 Bits, Bit 7-0
+#define DFA_ad06F                               334      // 8 Bits, Bit 7-0
+#define DFA_ad06G                               335      // 8 Bits, Bit 7-0
+#define DFA_ad06H                               336      // 8 Bits, Bit 7-0
+#define DFA_ad06T                               337      // 8 Bits, Bit 7-0
+#define DFA_ad06TBase                           338      // 2 Bits, Bit 7-6
 #define     DFA_ad06TBaseMask 0xC0
 #define     DFA_ad06TBaseShift 6
-#define DFA_ad06TTime                           270      // 14 Bits, Bit 13-0
+#define DFA_ad06TTime                           338      // 14 Bits, Bit 13-0
 #define     DFA_ad06TTimeMask 0x3FFF
 #define     DFA_ad06TTimeShift 0
-#define DFA_az06o1Send                          272      // 8 Bits, Bit 7-0
-#define DFA_az06o1Dpt1                          273      // 8 Bits, Bit 7-0
-#define DFA_az06o1Dpt2                          273      // 8 Bits, Bit 7-0
-#define DFA_az06o1Dpt5                          273      // uint8_t
-#define DFA_az06o1Dpt5001                       273      // uint8_t
-#define DFA_az06o1Dpt6                          273      // int8_t
-#define DFA_az06o1Dpt7                          273      // uint16_t
-#define DFA_az06o1Dpt8                          273      // int16_t
-#define DFA_az06o1Dpt9                          273      // float
-#define DFA_az06o1Dpt12                         273      // uint32_t
-#define DFA_az06o1Dpt13                         273      // int32_t
-#define DFA_az06o1Dpt14                         273      // float
-#define DFA_az06o1Dpt17                         273      // 8 Bits, Bit 7-0
-#define DFA_az06o1Dpt232                        273      // 24 Bits, Bit 31-8
+#define DFA_az06o1Send                          340      // 8 Bits, Bit 7-0
+#define DFA_az06o1Dpt1                          341      // 8 Bits, Bit 7-0
+#define DFA_az06o1Dpt2                          341      // 8 Bits, Bit 7-0
+#define DFA_az06o1Dpt5                          341      // uint8_t
+#define DFA_az06o1Dpt5001                       341      // uint8_t
+#define DFA_az06o1Dpt6                          341      // int8_t
+#define DFA_az06o1Dpt7                          341      // uint16_t
+#define DFA_az06o1Dpt8                          341      // int16_t
+#define DFA_az06o1Dpt9                          341      // float
+#define DFA_az06o1Dpt12                         341      // uint32_t
+#define DFA_az06o1Dpt13                         341      // int32_t
+#define DFA_az06o1Dpt14                         341      // float
+#define DFA_az06o1Dpt17                         341      // 8 Bits, Bit 7-0
+#define DFA_az06o1Dpt232                        341      // 24 Bits, Bit 31-8
 #define     DFA_az06o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az06o1Dpt232Shift 8
-#define DFA_az06o2Send                          277      // 8 Bits, Bit 7-0
-#define DFA_az06o2Dpt1                          278      // 8 Bits, Bit 7-0
-#define DFA_az06o2Dpt2                          278      // 8 Bits, Bit 7-0
-#define DFA_az06o2Dpt5                          278      // uint8_t
-#define DFA_az06o2Dpt5001                       278      // uint8_t
-#define DFA_az06o2Dpt6                          278      // int8_t
-#define DFA_az06o2Dpt7                          278      // uint16_t
-#define DFA_az06o2Dpt8                          278      // int16_t
-#define DFA_az06o2Dpt9                          278      // float
-#define DFA_az06o2Dpt12                         278      // uint32_t
-#define DFA_az06o2Dpt13                         278      // int32_t
-#define DFA_az06o2Dpt14                         278      // float
-#define DFA_az06o2Dpt17                         278      // 8 Bits, Bit 7-0
-#define DFA_az06o2Dpt232                        278      // 24 Bits, Bit 31-8
+#define DFA_az06o2Send                          345      // 8 Bits, Bit 7-0
+#define DFA_az06o2Dpt1                          346      // 8 Bits, Bit 7-0
+#define DFA_az06o2Dpt2                          346      // 8 Bits, Bit 7-0
+#define DFA_az06o2Dpt5                          346      // uint8_t
+#define DFA_az06o2Dpt5001                       346      // uint8_t
+#define DFA_az06o2Dpt6                          346      // int8_t
+#define DFA_az06o2Dpt7                          346      // uint16_t
+#define DFA_az06o2Dpt8                          346      // int16_t
+#define DFA_az06o2Dpt9                          346      // float
+#define DFA_az06o2Dpt12                         346      // uint32_t
+#define DFA_az06o2Dpt13                         346      // int32_t
+#define DFA_az06o2Dpt14                         346      // float
+#define DFA_az06o2Dpt17                         346      // 8 Bits, Bit 7-0
+#define DFA_az06o2Dpt232                        346      // 24 Bits, Bit 31-8
 #define     DFA_az06o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az06o2Dpt232Shift 8
-#define DFA_az06o3Send                          282      // 8 Bits, Bit 7-0
-#define DFA_az06o3Dpt1                          283      // 8 Bits, Bit 7-0
-#define DFA_az06o3Dpt2                          283      // 8 Bits, Bit 7-0
-#define DFA_az06o3Dpt5                          283      // uint8_t
-#define DFA_az06o3Dpt5001                       283      // uint8_t
-#define DFA_az06o3Dpt6                          283      // int8_t
-#define DFA_az06o3Dpt7                          283      // uint16_t
-#define DFA_az06o3Dpt8                          283      // int16_t
-#define DFA_az06o3Dpt9                          283      // float
-#define DFA_az06o3Dpt12                         283      // uint32_t
-#define DFA_az06o3Dpt13                         283      // int32_t
-#define DFA_az06o3Dpt14                         283      // float
-#define DFA_az06o3Dpt17                         283      // 8 Bits, Bit 7-0
-#define DFA_az06o3Dpt232                        283      // 24 Bits, Bit 31-8
+#define DFA_az06o3Send                          350      // 8 Bits, Bit 7-0
+#define DFA_az06o3Dpt1                          351      // 8 Bits, Bit 7-0
+#define DFA_az06o3Dpt2                          351      // 8 Bits, Bit 7-0
+#define DFA_az06o3Dpt5                          351      // uint8_t
+#define DFA_az06o3Dpt5001                       351      // uint8_t
+#define DFA_az06o3Dpt6                          351      // int8_t
+#define DFA_az06o3Dpt7                          351      // uint16_t
+#define DFA_az06o3Dpt8                          351      // int16_t
+#define DFA_az06o3Dpt9                          351      // float
+#define DFA_az06o3Dpt12                         351      // uint32_t
+#define DFA_az06o3Dpt13                         351      // int32_t
+#define DFA_az06o3Dpt14                         351      // float
+#define DFA_az06o3Dpt17                         351      // 8 Bits, Bit 7-0
+#define DFA_az06o3Dpt232                        351      // 24 Bits, Bit 31-8
 #define     DFA_az06o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az06o3Dpt232Shift 8
-#define DFA_az06o4Send                          287      // 8 Bits, Bit 7-0
-#define DFA_az06o4Dpt1                          288      // 8 Bits, Bit 7-0
-#define DFA_az06o4Dpt2                          288      // 8 Bits, Bit 7-0
-#define DFA_az06o4Dpt5                          288      // uint8_t
-#define DFA_az06o4Dpt5001                       288      // uint8_t
-#define DFA_az06o4Dpt6                          288      // int8_t
-#define DFA_az06o4Dpt7                          288      // uint16_t
-#define DFA_az06o4Dpt8                          288      // int16_t
-#define DFA_az06o4Dpt9                          288      // float
-#define DFA_az06o4Dpt12                         288      // uint32_t
-#define DFA_az06o4Dpt13                         288      // int32_t
-#define DFA_az06o4Dpt14                         288      // float
-#define DFA_az06o4Dpt16                         288      // char*, 14 Byte
-#define DFA_az06o4Dpt17                         288      // 8 Bits, Bit 7-0
-#define DFA_az06o4Dpt232                        288      // 24 Bits, Bit 31-8
+#define DFA_az06o4Send                          355      // 8 Bits, Bit 7-0
+#define DFA_az06o4Dpt1                          356      // 8 Bits, Bit 7-0
+#define DFA_az06o4Dpt2                          356      // 8 Bits, Bit 7-0
+#define DFA_az06o4Dpt5                          356      // uint8_t
+#define DFA_az06o4Dpt5001                       356      // uint8_t
+#define DFA_az06o4Dpt6                          356      // int8_t
+#define DFA_az06o4Dpt7                          356      // uint16_t
+#define DFA_az06o4Dpt8                          356      // int16_t
+#define DFA_az06o4Dpt9                          356      // float
+#define DFA_az06o4Dpt12                         356      // uint32_t
+#define DFA_az06o4Dpt13                         356      // int32_t
+#define DFA_az06o4Dpt14                         356      // float
+#define DFA_az06o4Dpt16                         356      // char*, 14 Byte
+#define DFA_az06o4Dpt17                         356      // 8 Bits, Bit 7-0
+#define DFA_az06o4Dpt232                        356      // 24 Bits, Bit 31-8
 #define     DFA_az06o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az06o4Dpt232Shift 8
-#define DFA_ad07A                               303      // 8 Bits, Bit 7-0
-#define DFA_ad07B                               304      // 8 Bits, Bit 7-0
-#define DFA_ad07C                               305      // 8 Bits, Bit 7-0
-#define DFA_ad07D                               306      // 8 Bits, Bit 7-0
-#define DFA_ad07E                               307      // 8 Bits, Bit 7-0
-#define DFA_ad07F                               308      // 8 Bits, Bit 7-0
-#define DFA_ad07G                               309      // 8 Bits, Bit 7-0
-#define DFA_ad07H                               310      // 8 Bits, Bit 7-0
-#define DFA_ad07T                               311      // 8 Bits, Bit 7-0
-#define DFA_ad07TBase                           312      // 2 Bits, Bit 7-6
+#define DFA_ad07A                               371      // 8 Bits, Bit 7-0
+#define DFA_ad07B                               372      // 8 Bits, Bit 7-0
+#define DFA_ad07C                               373      // 8 Bits, Bit 7-0
+#define DFA_ad07D                               374      // 8 Bits, Bit 7-0
+#define DFA_ad07E                               375      // 8 Bits, Bit 7-0
+#define DFA_ad07F                               376      // 8 Bits, Bit 7-0
+#define DFA_ad07G                               377      // 8 Bits, Bit 7-0
+#define DFA_ad07H                               378      // 8 Bits, Bit 7-0
+#define DFA_ad07T                               379      // 8 Bits, Bit 7-0
+#define DFA_ad07TBase                           380      // 2 Bits, Bit 7-6
 #define     DFA_ad07TBaseMask 0xC0
 #define     DFA_ad07TBaseShift 6
-#define DFA_ad07TTime                           312      // 14 Bits, Bit 13-0
+#define DFA_ad07TTime                           380      // 14 Bits, Bit 13-0
 #define     DFA_ad07TTimeMask 0x3FFF
 #define     DFA_ad07TTimeShift 0
-#define DFA_az07o1Send                          314      // 8 Bits, Bit 7-0
-#define DFA_az07o1Dpt1                          315      // 8 Bits, Bit 7-0
-#define DFA_az07o1Dpt2                          315      // 8 Bits, Bit 7-0
-#define DFA_az07o1Dpt5                          315      // uint8_t
-#define DFA_az07o1Dpt5001                       315      // uint8_t
-#define DFA_az07o1Dpt6                          315      // int8_t
-#define DFA_az07o1Dpt7                          315      // uint16_t
-#define DFA_az07o1Dpt8                          315      // int16_t
-#define DFA_az07o1Dpt9                          315      // float
-#define DFA_az07o1Dpt12                         315      // uint32_t
-#define DFA_az07o1Dpt13                         315      // int32_t
-#define DFA_az07o1Dpt14                         315      // float
-#define DFA_az07o1Dpt17                         315      // 8 Bits, Bit 7-0
-#define DFA_az07o1Dpt232                        315      // 24 Bits, Bit 31-8
+#define DFA_az07o1Send                          382      // 8 Bits, Bit 7-0
+#define DFA_az07o1Dpt1                          383      // 8 Bits, Bit 7-0
+#define DFA_az07o1Dpt2                          383      // 8 Bits, Bit 7-0
+#define DFA_az07o1Dpt5                          383      // uint8_t
+#define DFA_az07o1Dpt5001                       383      // uint8_t
+#define DFA_az07o1Dpt6                          383      // int8_t
+#define DFA_az07o1Dpt7                          383      // uint16_t
+#define DFA_az07o1Dpt8                          383      // int16_t
+#define DFA_az07o1Dpt9                          383      // float
+#define DFA_az07o1Dpt12                         383      // uint32_t
+#define DFA_az07o1Dpt13                         383      // int32_t
+#define DFA_az07o1Dpt14                         383      // float
+#define DFA_az07o1Dpt17                         383      // 8 Bits, Bit 7-0
+#define DFA_az07o1Dpt232                        383      // 24 Bits, Bit 31-8
 #define     DFA_az07o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az07o1Dpt232Shift 8
-#define DFA_az07o2Send                          319      // 8 Bits, Bit 7-0
-#define DFA_az07o2Dpt1                          320      // 8 Bits, Bit 7-0
-#define DFA_az07o2Dpt2                          320      // 8 Bits, Bit 7-0
-#define DFA_az07o2Dpt5                          320      // uint8_t
-#define DFA_az07o2Dpt5001                       320      // uint8_t
-#define DFA_az07o2Dpt6                          320      // int8_t
-#define DFA_az07o2Dpt7                          320      // uint16_t
-#define DFA_az07o2Dpt8                          320      // int16_t
-#define DFA_az07o2Dpt9                          320      // float
-#define DFA_az07o2Dpt12                         320      // uint32_t
-#define DFA_az07o2Dpt13                         320      // int32_t
-#define DFA_az07o2Dpt14                         320      // float
-#define DFA_az07o2Dpt17                         320      // 8 Bits, Bit 7-0
-#define DFA_az07o2Dpt232                        320      // 24 Bits, Bit 31-8
+#define DFA_az07o2Send                          387      // 8 Bits, Bit 7-0
+#define DFA_az07o2Dpt1                          388      // 8 Bits, Bit 7-0
+#define DFA_az07o2Dpt2                          388      // 8 Bits, Bit 7-0
+#define DFA_az07o2Dpt5                          388      // uint8_t
+#define DFA_az07o2Dpt5001                       388      // uint8_t
+#define DFA_az07o2Dpt6                          388      // int8_t
+#define DFA_az07o2Dpt7                          388      // uint16_t
+#define DFA_az07o2Dpt8                          388      // int16_t
+#define DFA_az07o2Dpt9                          388      // float
+#define DFA_az07o2Dpt12                         388      // uint32_t
+#define DFA_az07o2Dpt13                         388      // int32_t
+#define DFA_az07o2Dpt14                         388      // float
+#define DFA_az07o2Dpt17                         388      // 8 Bits, Bit 7-0
+#define DFA_az07o2Dpt232                        388      // 24 Bits, Bit 31-8
 #define     DFA_az07o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az07o2Dpt232Shift 8
-#define DFA_az07o3Send                          324      // 8 Bits, Bit 7-0
-#define DFA_az07o3Dpt1                          325      // 8 Bits, Bit 7-0
-#define DFA_az07o3Dpt2                          325      // 8 Bits, Bit 7-0
-#define DFA_az07o3Dpt5                          325      // uint8_t
-#define DFA_az07o3Dpt5001                       325      // uint8_t
-#define DFA_az07o3Dpt6                          325      // int8_t
-#define DFA_az07o3Dpt7                          325      // uint16_t
-#define DFA_az07o3Dpt8                          325      // int16_t
-#define DFA_az07o3Dpt9                          325      // float
-#define DFA_az07o3Dpt12                         325      // uint32_t
-#define DFA_az07o3Dpt13                         325      // int32_t
-#define DFA_az07o3Dpt14                         325      // float
-#define DFA_az07o3Dpt17                         325      // 8 Bits, Bit 7-0
-#define DFA_az07o3Dpt232                        325      // 24 Bits, Bit 31-8
+#define DFA_az07o3Send                          392      // 8 Bits, Bit 7-0
+#define DFA_az07o3Dpt1                          393      // 8 Bits, Bit 7-0
+#define DFA_az07o3Dpt2                          393      // 8 Bits, Bit 7-0
+#define DFA_az07o3Dpt5                          393      // uint8_t
+#define DFA_az07o3Dpt5001                       393      // uint8_t
+#define DFA_az07o3Dpt6                          393      // int8_t
+#define DFA_az07o3Dpt7                          393      // uint16_t
+#define DFA_az07o3Dpt8                          393      // int16_t
+#define DFA_az07o3Dpt9                          393      // float
+#define DFA_az07o3Dpt12                         393      // uint32_t
+#define DFA_az07o3Dpt13                         393      // int32_t
+#define DFA_az07o3Dpt14                         393      // float
+#define DFA_az07o3Dpt17                         393      // 8 Bits, Bit 7-0
+#define DFA_az07o3Dpt232                        393      // 24 Bits, Bit 31-8
 #define     DFA_az07o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az07o3Dpt232Shift 8
-#define DFA_az07o4Send                          329      // 8 Bits, Bit 7-0
-#define DFA_az07o4Dpt1                          330      // 8 Bits, Bit 7-0
-#define DFA_az07o4Dpt2                          330      // 8 Bits, Bit 7-0
-#define DFA_az07o4Dpt5                          330      // uint8_t
-#define DFA_az07o4Dpt5001                       330      // uint8_t
-#define DFA_az07o4Dpt6                          330      // int8_t
-#define DFA_az07o4Dpt7                          330      // uint16_t
-#define DFA_az07o4Dpt8                          330      // int16_t
-#define DFA_az07o4Dpt9                          330      // float
-#define DFA_az07o4Dpt12                         330      // uint32_t
-#define DFA_az07o4Dpt13                         330      // int32_t
-#define DFA_az07o4Dpt14                         330      // float
-#define DFA_az07o4Dpt16                         330      // char*, 14 Byte
-#define DFA_az07o4Dpt17                         330      // 8 Bits, Bit 7-0
-#define DFA_az07o4Dpt232                        330      // 24 Bits, Bit 31-8
+#define DFA_az07o4Send                          397      // 8 Bits, Bit 7-0
+#define DFA_az07o4Dpt1                          398      // 8 Bits, Bit 7-0
+#define DFA_az07o4Dpt2                          398      // 8 Bits, Bit 7-0
+#define DFA_az07o4Dpt5                          398      // uint8_t
+#define DFA_az07o4Dpt5001                       398      // uint8_t
+#define DFA_az07o4Dpt6                          398      // int8_t
+#define DFA_az07o4Dpt7                          398      // uint16_t
+#define DFA_az07o4Dpt8                          398      // int16_t
+#define DFA_az07o4Dpt9                          398      // float
+#define DFA_az07o4Dpt12                         398      // uint32_t
+#define DFA_az07o4Dpt13                         398      // int32_t
+#define DFA_az07o4Dpt14                         398      // float
+#define DFA_az07o4Dpt16                         398      // char*, 14 Byte
+#define DFA_az07o4Dpt17                         398      // 8 Bits, Bit 7-0
+#define DFA_az07o4Dpt232                        398      // 24 Bits, Bit 31-8
 #define     DFA_az07o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az07o4Dpt232Shift 8
-#define DFA_ad08A                               345      // 8 Bits, Bit 7-0
-#define DFA_ad08B                               346      // 8 Bits, Bit 7-0
-#define DFA_ad08C                               347      // 8 Bits, Bit 7-0
-#define DFA_ad08D                               348      // 8 Bits, Bit 7-0
-#define DFA_ad08E                               349      // 8 Bits, Bit 7-0
-#define DFA_ad08F                               350      // 8 Bits, Bit 7-0
-#define DFA_ad08G                               351      // 8 Bits, Bit 7-0
-#define DFA_ad08H                               352      // 8 Bits, Bit 7-0
-#define DFA_ad08T                               353      // 8 Bits, Bit 7-0
-#define DFA_ad08TBase                           354      // 2 Bits, Bit 7-6
+#define DFA_ad08A                               413      // 8 Bits, Bit 7-0
+#define DFA_ad08B                               414      // 8 Bits, Bit 7-0
+#define DFA_ad08C                               415      // 8 Bits, Bit 7-0
+#define DFA_ad08D                               416      // 8 Bits, Bit 7-0
+#define DFA_ad08E                               417      // 8 Bits, Bit 7-0
+#define DFA_ad08F                               418      // 8 Bits, Bit 7-0
+#define DFA_ad08G                               419      // 8 Bits, Bit 7-0
+#define DFA_ad08H                               420      // 8 Bits, Bit 7-0
+#define DFA_ad08T                               421      // 8 Bits, Bit 7-0
+#define DFA_ad08TBase                           422      // 2 Bits, Bit 7-6
 #define     DFA_ad08TBaseMask 0xC0
 #define     DFA_ad08TBaseShift 6
-#define DFA_ad08TTime                           354      // 14 Bits, Bit 13-0
+#define DFA_ad08TTime                           422      // 14 Bits, Bit 13-0
 #define     DFA_ad08TTimeMask 0x3FFF
 #define     DFA_ad08TTimeShift 0
-#define DFA_az08o1Send                          356      // 8 Bits, Bit 7-0
-#define DFA_az08o1Dpt1                          357      // 8 Bits, Bit 7-0
-#define DFA_az08o1Dpt2                          357      // 8 Bits, Bit 7-0
-#define DFA_az08o1Dpt5                          357      // uint8_t
-#define DFA_az08o1Dpt5001                       357      // uint8_t
-#define DFA_az08o1Dpt6                          357      // int8_t
-#define DFA_az08o1Dpt7                          357      // uint16_t
-#define DFA_az08o1Dpt8                          357      // int16_t
-#define DFA_az08o1Dpt9                          357      // float
-#define DFA_az08o1Dpt12                         357      // uint32_t
-#define DFA_az08o1Dpt13                         357      // int32_t
-#define DFA_az08o1Dpt14                         357      // float
-#define DFA_az08o1Dpt17                         357      // 8 Bits, Bit 7-0
-#define DFA_az08o1Dpt232                        357      // 24 Bits, Bit 31-8
+#define DFA_az08o1Send                          424      // 8 Bits, Bit 7-0
+#define DFA_az08o1Dpt1                          425      // 8 Bits, Bit 7-0
+#define DFA_az08o1Dpt2                          425      // 8 Bits, Bit 7-0
+#define DFA_az08o1Dpt5                          425      // uint8_t
+#define DFA_az08o1Dpt5001                       425      // uint8_t
+#define DFA_az08o1Dpt6                          425      // int8_t
+#define DFA_az08o1Dpt7                          425      // uint16_t
+#define DFA_az08o1Dpt8                          425      // int16_t
+#define DFA_az08o1Dpt9                          425      // float
+#define DFA_az08o1Dpt12                         425      // uint32_t
+#define DFA_az08o1Dpt13                         425      // int32_t
+#define DFA_az08o1Dpt14                         425      // float
+#define DFA_az08o1Dpt17                         425      // 8 Bits, Bit 7-0
+#define DFA_az08o1Dpt232                        425      // 24 Bits, Bit 31-8
 #define     DFA_az08o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az08o1Dpt232Shift 8
-#define DFA_az08o2Send                          361      // 8 Bits, Bit 7-0
-#define DFA_az08o2Dpt1                          362      // 8 Bits, Bit 7-0
-#define DFA_az08o2Dpt2                          362      // 8 Bits, Bit 7-0
-#define DFA_az08o2Dpt5                          362      // uint8_t
-#define DFA_az08o2Dpt5001                       362      // uint8_t
-#define DFA_az08o2Dpt6                          362      // int8_t
-#define DFA_az08o2Dpt7                          362      // uint16_t
-#define DFA_az08o2Dpt8                          362      // int16_t
-#define DFA_az08o2Dpt9                          362      // float
-#define DFA_az08o2Dpt12                         362      // uint32_t
-#define DFA_az08o2Dpt13                         362      // int32_t
-#define DFA_az08o2Dpt14                         362      // float
-#define DFA_az08o2Dpt17                         362      // 8 Bits, Bit 7-0
-#define DFA_az08o2Dpt232                        362      // 24 Bits, Bit 31-8
+#define DFA_az08o2Send                          429      // 8 Bits, Bit 7-0
+#define DFA_az08o2Dpt1                          430      // 8 Bits, Bit 7-0
+#define DFA_az08o2Dpt2                          430      // 8 Bits, Bit 7-0
+#define DFA_az08o2Dpt5                          430      // uint8_t
+#define DFA_az08o2Dpt5001                       430      // uint8_t
+#define DFA_az08o2Dpt6                          430      // int8_t
+#define DFA_az08o2Dpt7                          430      // uint16_t
+#define DFA_az08o2Dpt8                          430      // int16_t
+#define DFA_az08o2Dpt9                          430      // float
+#define DFA_az08o2Dpt12                         430      // uint32_t
+#define DFA_az08o2Dpt13                         430      // int32_t
+#define DFA_az08o2Dpt14                         430      // float
+#define DFA_az08o2Dpt17                         430      // 8 Bits, Bit 7-0
+#define DFA_az08o2Dpt232                        430      // 24 Bits, Bit 31-8
 #define     DFA_az08o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az08o2Dpt232Shift 8
-#define DFA_az08o3Send                          366      // 8 Bits, Bit 7-0
-#define DFA_az08o3Dpt1                          367      // 8 Bits, Bit 7-0
-#define DFA_az08o3Dpt2                          367      // 8 Bits, Bit 7-0
-#define DFA_az08o3Dpt5                          367      // uint8_t
-#define DFA_az08o3Dpt5001                       367      // uint8_t
-#define DFA_az08o3Dpt6                          367      // int8_t
-#define DFA_az08o3Dpt7                          367      // uint16_t
-#define DFA_az08o3Dpt8                          367      // int16_t
-#define DFA_az08o3Dpt9                          367      // float
-#define DFA_az08o3Dpt12                         367      // uint32_t
-#define DFA_az08o3Dpt13                         367      // int32_t
-#define DFA_az08o3Dpt14                         367      // float
-#define DFA_az08o3Dpt17                         367      // 8 Bits, Bit 7-0
-#define DFA_az08o3Dpt232                        367      // 24 Bits, Bit 31-8
+#define DFA_az08o3Send                          434      // 8 Bits, Bit 7-0
+#define DFA_az08o3Dpt1                          435      // 8 Bits, Bit 7-0
+#define DFA_az08o3Dpt2                          435      // 8 Bits, Bit 7-0
+#define DFA_az08o3Dpt5                          435      // uint8_t
+#define DFA_az08o3Dpt5001                       435      // uint8_t
+#define DFA_az08o3Dpt6                          435      // int8_t
+#define DFA_az08o3Dpt7                          435      // uint16_t
+#define DFA_az08o3Dpt8                          435      // int16_t
+#define DFA_az08o3Dpt9                          435      // float
+#define DFA_az08o3Dpt12                         435      // uint32_t
+#define DFA_az08o3Dpt13                         435      // int32_t
+#define DFA_az08o3Dpt14                         435      // float
+#define DFA_az08o3Dpt17                         435      // 8 Bits, Bit 7-0
+#define DFA_az08o3Dpt232                        435      // 24 Bits, Bit 31-8
 #define     DFA_az08o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az08o3Dpt232Shift 8
-#define DFA_az08o4Send                          371      // 8 Bits, Bit 7-0
-#define DFA_az08o4Dpt1                          372      // 8 Bits, Bit 7-0
-#define DFA_az08o4Dpt2                          372      // 8 Bits, Bit 7-0
-#define DFA_az08o4Dpt5                          372      // uint8_t
-#define DFA_az08o4Dpt5001                       372      // uint8_t
-#define DFA_az08o4Dpt6                          372      // int8_t
-#define DFA_az08o4Dpt7                          372      // uint16_t
-#define DFA_az08o4Dpt8                          372      // int16_t
-#define DFA_az08o4Dpt9                          372      // float
-#define DFA_az08o4Dpt12                         372      // uint32_t
-#define DFA_az08o4Dpt13                         372      // int32_t
-#define DFA_az08o4Dpt14                         372      // float
-#define DFA_az08o4Dpt16                         372      // char*, 14 Byte
-#define DFA_az08o4Dpt17                         372      // 8 Bits, Bit 7-0
-#define DFA_az08o4Dpt232                        372      // 24 Bits, Bit 31-8
+#define DFA_az08o4Send                          439      // 8 Bits, Bit 7-0
+#define DFA_az08o4Dpt1                          440      // 8 Bits, Bit 7-0
+#define DFA_az08o4Dpt2                          440      // 8 Bits, Bit 7-0
+#define DFA_az08o4Dpt5                          440      // uint8_t
+#define DFA_az08o4Dpt5001                       440      // uint8_t
+#define DFA_az08o4Dpt6                          440      // int8_t
+#define DFA_az08o4Dpt7                          440      // uint16_t
+#define DFA_az08o4Dpt8                          440      // int16_t
+#define DFA_az08o4Dpt9                          440      // float
+#define DFA_az08o4Dpt12                         440      // uint32_t
+#define DFA_az08o4Dpt13                         440      // int32_t
+#define DFA_az08o4Dpt14                         440      // float
+#define DFA_az08o4Dpt16                         440      // char*, 14 Byte
+#define DFA_az08o4Dpt17                         440      // 8 Bits, Bit 7-0
+#define DFA_az08o4Dpt232                        440      // 24 Bits, Bit 31-8
 #define     DFA_az08o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az08o4Dpt232Shift 8
-#define DFA_ad09A                               387      // 8 Bits, Bit 7-0
-#define DFA_ad09B                               388      // 8 Bits, Bit 7-0
-#define DFA_ad09C                               389      // 8 Bits, Bit 7-0
-#define DFA_ad09D                               390      // 8 Bits, Bit 7-0
-#define DFA_ad09E                               391      // 8 Bits, Bit 7-0
-#define DFA_ad09F                               392      // 8 Bits, Bit 7-0
-#define DFA_ad09G                               393      // 8 Bits, Bit 7-0
-#define DFA_ad09H                               394      // 8 Bits, Bit 7-0
-#define DFA_ad09T                               395      // 8 Bits, Bit 7-0
-#define DFA_ad09TBase                           396      // 2 Bits, Bit 7-6
+#define DFA_ad09A                               455      // 8 Bits, Bit 7-0
+#define DFA_ad09B                               456      // 8 Bits, Bit 7-0
+#define DFA_ad09C                               457      // 8 Bits, Bit 7-0
+#define DFA_ad09D                               458      // 8 Bits, Bit 7-0
+#define DFA_ad09E                               459      // 8 Bits, Bit 7-0
+#define DFA_ad09F                               460      // 8 Bits, Bit 7-0
+#define DFA_ad09G                               461      // 8 Bits, Bit 7-0
+#define DFA_ad09H                               462      // 8 Bits, Bit 7-0
+#define DFA_ad09T                               463      // 8 Bits, Bit 7-0
+#define DFA_ad09TBase                           464      // 2 Bits, Bit 7-6
 #define     DFA_ad09TBaseMask 0xC0
 #define     DFA_ad09TBaseShift 6
-#define DFA_ad09TTime                           396      // 14 Bits, Bit 13-0
+#define DFA_ad09TTime                           464      // 14 Bits, Bit 13-0
 #define     DFA_ad09TTimeMask 0x3FFF
 #define     DFA_ad09TTimeShift 0
-#define DFA_az09o1Send                          398      // 8 Bits, Bit 7-0
-#define DFA_az09o1Dpt1                          399      // 8 Bits, Bit 7-0
-#define DFA_az09o1Dpt2                          399      // 8 Bits, Bit 7-0
-#define DFA_az09o1Dpt5                          399      // uint8_t
-#define DFA_az09o1Dpt5001                       399      // uint8_t
-#define DFA_az09o1Dpt6                          399      // int8_t
-#define DFA_az09o1Dpt7                          399      // uint16_t
-#define DFA_az09o1Dpt8                          399      // int16_t
-#define DFA_az09o1Dpt9                          399      // float
-#define DFA_az09o1Dpt12                         399      // uint32_t
-#define DFA_az09o1Dpt13                         399      // int32_t
-#define DFA_az09o1Dpt14                         399      // float
-#define DFA_az09o1Dpt17                         399      // 8 Bits, Bit 7-0
-#define DFA_az09o1Dpt232                        399      // 24 Bits, Bit 31-8
+#define DFA_az09o1Send                          466      // 8 Bits, Bit 7-0
+#define DFA_az09o1Dpt1                          467      // 8 Bits, Bit 7-0
+#define DFA_az09o1Dpt2                          467      // 8 Bits, Bit 7-0
+#define DFA_az09o1Dpt5                          467      // uint8_t
+#define DFA_az09o1Dpt5001                       467      // uint8_t
+#define DFA_az09o1Dpt6                          467      // int8_t
+#define DFA_az09o1Dpt7                          467      // uint16_t
+#define DFA_az09o1Dpt8                          467      // int16_t
+#define DFA_az09o1Dpt9                          467      // float
+#define DFA_az09o1Dpt12                         467      // uint32_t
+#define DFA_az09o1Dpt13                         467      // int32_t
+#define DFA_az09o1Dpt14                         467      // float
+#define DFA_az09o1Dpt17                         467      // 8 Bits, Bit 7-0
+#define DFA_az09o1Dpt232                        467      // 24 Bits, Bit 31-8
 #define     DFA_az09o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az09o1Dpt232Shift 8
-#define DFA_az09o2Send                          403      // 8 Bits, Bit 7-0
-#define DFA_az09o2Dpt1                          404      // 8 Bits, Bit 7-0
-#define DFA_az09o2Dpt2                          404      // 8 Bits, Bit 7-0
-#define DFA_az09o2Dpt5                          404      // uint8_t
-#define DFA_az09o2Dpt5001                       404      // uint8_t
-#define DFA_az09o2Dpt6                          404      // int8_t
-#define DFA_az09o2Dpt7                          404      // uint16_t
-#define DFA_az09o2Dpt8                          404      // int16_t
-#define DFA_az09o2Dpt9                          404      // float
-#define DFA_az09o2Dpt12                         404      // uint32_t
-#define DFA_az09o2Dpt13                         404      // int32_t
-#define DFA_az09o2Dpt14                         404      // float
-#define DFA_az09o2Dpt17                         404      // 8 Bits, Bit 7-0
-#define DFA_az09o2Dpt232                        404      // 24 Bits, Bit 31-8
+#define DFA_az09o2Send                          471      // 8 Bits, Bit 7-0
+#define DFA_az09o2Dpt1                          472      // 8 Bits, Bit 7-0
+#define DFA_az09o2Dpt2                          472      // 8 Bits, Bit 7-0
+#define DFA_az09o2Dpt5                          472      // uint8_t
+#define DFA_az09o2Dpt5001                       472      // uint8_t
+#define DFA_az09o2Dpt6                          472      // int8_t
+#define DFA_az09o2Dpt7                          472      // uint16_t
+#define DFA_az09o2Dpt8                          472      // int16_t
+#define DFA_az09o2Dpt9                          472      // float
+#define DFA_az09o2Dpt12                         472      // uint32_t
+#define DFA_az09o2Dpt13                         472      // int32_t
+#define DFA_az09o2Dpt14                         472      // float
+#define DFA_az09o2Dpt17                         472      // 8 Bits, Bit 7-0
+#define DFA_az09o2Dpt232                        472      // 24 Bits, Bit 31-8
 #define     DFA_az09o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az09o2Dpt232Shift 8
-#define DFA_az09o3Send                          408      // 8 Bits, Bit 7-0
-#define DFA_az09o3Dpt1                          409      // 8 Bits, Bit 7-0
-#define DFA_az09o3Dpt2                          409      // 8 Bits, Bit 7-0
-#define DFA_az09o3Dpt5                          409      // uint8_t
-#define DFA_az09o3Dpt5001                       409      // uint8_t
-#define DFA_az09o3Dpt6                          409      // int8_t
-#define DFA_az09o3Dpt7                          409      // uint16_t
-#define DFA_az09o3Dpt8                          409      // int16_t
-#define DFA_az09o3Dpt9                          409      // float
-#define DFA_az09o3Dpt12                         409      // uint32_t
-#define DFA_az09o3Dpt13                         409      // int32_t
-#define DFA_az09o3Dpt14                         409      // float
-#define DFA_az09o3Dpt17                         409      // 8 Bits, Bit 7-0
-#define DFA_az09o3Dpt232                        409      // 24 Bits, Bit 31-8
+#define DFA_az09o3Send                          476      // 8 Bits, Bit 7-0
+#define DFA_az09o3Dpt1                          477      // 8 Bits, Bit 7-0
+#define DFA_az09o3Dpt2                          477      // 8 Bits, Bit 7-0
+#define DFA_az09o3Dpt5                          477      // uint8_t
+#define DFA_az09o3Dpt5001                       477      // uint8_t
+#define DFA_az09o3Dpt6                          477      // int8_t
+#define DFA_az09o3Dpt7                          477      // uint16_t
+#define DFA_az09o3Dpt8                          477      // int16_t
+#define DFA_az09o3Dpt9                          477      // float
+#define DFA_az09o3Dpt12                         477      // uint32_t
+#define DFA_az09o3Dpt13                         477      // int32_t
+#define DFA_az09o3Dpt14                         477      // float
+#define DFA_az09o3Dpt17                         477      // 8 Bits, Bit 7-0
+#define DFA_az09o3Dpt232                        477      // 24 Bits, Bit 31-8
 #define     DFA_az09o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az09o3Dpt232Shift 8
-#define DFA_az09o4Send                          413      // 8 Bits, Bit 7-0
-#define DFA_az09o4Dpt1                          414      // 8 Bits, Bit 7-0
-#define DFA_az09o4Dpt2                          414      // 8 Bits, Bit 7-0
-#define DFA_az09o4Dpt5                          414      // uint8_t
-#define DFA_az09o4Dpt5001                       414      // uint8_t
-#define DFA_az09o4Dpt6                          414      // int8_t
-#define DFA_az09o4Dpt7                          414      // uint16_t
-#define DFA_az09o4Dpt8                          414      // int16_t
-#define DFA_az09o4Dpt9                          414      // float
-#define DFA_az09o4Dpt12                         414      // uint32_t
-#define DFA_az09o4Dpt13                         414      // int32_t
-#define DFA_az09o4Dpt14                         414      // float
-#define DFA_az09o4Dpt16                         414      // char*, 14 Byte
-#define DFA_az09o4Dpt17                         414      // 8 Bits, Bit 7-0
-#define DFA_az09o4Dpt232                        414      // 24 Bits, Bit 31-8
+#define DFA_az09o4Send                          481      // 8 Bits, Bit 7-0
+#define DFA_az09o4Dpt1                          482      // 8 Bits, Bit 7-0
+#define DFA_az09o4Dpt2                          482      // 8 Bits, Bit 7-0
+#define DFA_az09o4Dpt5                          482      // uint8_t
+#define DFA_az09o4Dpt5001                       482      // uint8_t
+#define DFA_az09o4Dpt6                          482      // int8_t
+#define DFA_az09o4Dpt7                          482      // uint16_t
+#define DFA_az09o4Dpt8                          482      // int16_t
+#define DFA_az09o4Dpt9                          482      // float
+#define DFA_az09o4Dpt12                         482      // uint32_t
+#define DFA_az09o4Dpt13                         482      // int32_t
+#define DFA_az09o4Dpt14                         482      // float
+#define DFA_az09o4Dpt16                         482      // char*, 14 Byte
+#define DFA_az09o4Dpt17                         482      // 8 Bits, Bit 7-0
+#define DFA_az09o4Dpt232                        482      // 24 Bits, Bit 31-8
 #define     DFA_az09o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az09o4Dpt232Shift 8
-#define DFA_ad10A                               429      // 8 Bits, Bit 7-0
-#define DFA_ad10B                               430      // 8 Bits, Bit 7-0
-#define DFA_ad10C                               431      // 8 Bits, Bit 7-0
-#define DFA_ad10D                               432      // 8 Bits, Bit 7-0
-#define DFA_ad10E                               433      // 8 Bits, Bit 7-0
-#define DFA_ad10F                               434      // 8 Bits, Bit 7-0
-#define DFA_ad10G                               435      // 8 Bits, Bit 7-0
-#define DFA_ad10H                               436      // 8 Bits, Bit 7-0
-#define DFA_ad10T                               437      // 8 Bits, Bit 7-0
-#define DFA_ad10TBase                           438      // 2 Bits, Bit 7-6
+#define DFA_ad10A                               497      // 8 Bits, Bit 7-0
+#define DFA_ad10B                               498      // 8 Bits, Bit 7-0
+#define DFA_ad10C                               499      // 8 Bits, Bit 7-0
+#define DFA_ad10D                               500      // 8 Bits, Bit 7-0
+#define DFA_ad10E                               501      // 8 Bits, Bit 7-0
+#define DFA_ad10F                               502      // 8 Bits, Bit 7-0
+#define DFA_ad10G                               503      // 8 Bits, Bit 7-0
+#define DFA_ad10H                               504      // 8 Bits, Bit 7-0
+#define DFA_ad10T                               505      // 8 Bits, Bit 7-0
+#define DFA_ad10TBase                           506      // 2 Bits, Bit 7-6
 #define     DFA_ad10TBaseMask 0xC0
 #define     DFA_ad10TBaseShift 6
-#define DFA_ad10TTime                           438      // 14 Bits, Bit 13-0
+#define DFA_ad10TTime                           506      // 14 Bits, Bit 13-0
 #define     DFA_ad10TTimeMask 0x3FFF
 #define     DFA_ad10TTimeShift 0
-#define DFA_az10o1Send                          440      // 8 Bits, Bit 7-0
-#define DFA_az10o1Dpt1                          441      // 8 Bits, Bit 7-0
-#define DFA_az10o1Dpt2                          441      // 8 Bits, Bit 7-0
-#define DFA_az10o1Dpt5                          441      // uint8_t
-#define DFA_az10o1Dpt5001                       441      // uint8_t
-#define DFA_az10o1Dpt6                          441      // int8_t
-#define DFA_az10o1Dpt7                          441      // uint16_t
-#define DFA_az10o1Dpt8                          441      // int16_t
-#define DFA_az10o1Dpt9                          441      // float
-#define DFA_az10o1Dpt12                         441      // uint32_t
-#define DFA_az10o1Dpt13                         441      // int32_t
-#define DFA_az10o1Dpt14                         441      // float
-#define DFA_az10o1Dpt17                         441      // 8 Bits, Bit 7-0
-#define DFA_az10o1Dpt232                        441      // 24 Bits, Bit 31-8
+#define DFA_az10o1Send                          508      // 8 Bits, Bit 7-0
+#define DFA_az10o1Dpt1                          509      // 8 Bits, Bit 7-0
+#define DFA_az10o1Dpt2                          509      // 8 Bits, Bit 7-0
+#define DFA_az10o1Dpt5                          509      // uint8_t
+#define DFA_az10o1Dpt5001                       509      // uint8_t
+#define DFA_az10o1Dpt6                          509      // int8_t
+#define DFA_az10o1Dpt7                          509      // uint16_t
+#define DFA_az10o1Dpt8                          509      // int16_t
+#define DFA_az10o1Dpt9                          509      // float
+#define DFA_az10o1Dpt12                         509      // uint32_t
+#define DFA_az10o1Dpt13                         509      // int32_t
+#define DFA_az10o1Dpt14                         509      // float
+#define DFA_az10o1Dpt17                         509      // 8 Bits, Bit 7-0
+#define DFA_az10o1Dpt232                        509      // 24 Bits, Bit 31-8
 #define     DFA_az10o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az10o1Dpt232Shift 8
-#define DFA_az10o2Send                          445      // 8 Bits, Bit 7-0
-#define DFA_az10o2Dpt1                          446      // 8 Bits, Bit 7-0
-#define DFA_az10o2Dpt2                          446      // 8 Bits, Bit 7-0
-#define DFA_az10o2Dpt5                          446      // uint8_t
-#define DFA_az10o2Dpt5001                       446      // uint8_t
-#define DFA_az10o2Dpt6                          446      // int8_t
-#define DFA_az10o2Dpt7                          446      // uint16_t
-#define DFA_az10o2Dpt8                          446      // int16_t
-#define DFA_az10o2Dpt9                          446      // float
-#define DFA_az10o2Dpt12                         446      // uint32_t
-#define DFA_az10o2Dpt13                         446      // int32_t
-#define DFA_az10o2Dpt14                         446      // float
-#define DFA_az10o2Dpt17                         446      // 8 Bits, Bit 7-0
-#define DFA_az10o2Dpt232                        446      // 24 Bits, Bit 31-8
+#define DFA_az10o2Send                          513      // 8 Bits, Bit 7-0
+#define DFA_az10o2Dpt1                          514      // 8 Bits, Bit 7-0
+#define DFA_az10o2Dpt2                          514      // 8 Bits, Bit 7-0
+#define DFA_az10o2Dpt5                          514      // uint8_t
+#define DFA_az10o2Dpt5001                       514      // uint8_t
+#define DFA_az10o2Dpt6                          514      // int8_t
+#define DFA_az10o2Dpt7                          514      // uint16_t
+#define DFA_az10o2Dpt8                          514      // int16_t
+#define DFA_az10o2Dpt9                          514      // float
+#define DFA_az10o2Dpt12                         514      // uint32_t
+#define DFA_az10o2Dpt13                         514      // int32_t
+#define DFA_az10o2Dpt14                         514      // float
+#define DFA_az10o2Dpt17                         514      // 8 Bits, Bit 7-0
+#define DFA_az10o2Dpt232                        514      // 24 Bits, Bit 31-8
 #define     DFA_az10o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az10o2Dpt232Shift 8
-#define DFA_az10o3Send                          450      // 8 Bits, Bit 7-0
-#define DFA_az10o3Dpt1                          451      // 8 Bits, Bit 7-0
-#define DFA_az10o3Dpt2                          451      // 8 Bits, Bit 7-0
-#define DFA_az10o3Dpt5                          451      // uint8_t
-#define DFA_az10o3Dpt5001                       451      // uint8_t
-#define DFA_az10o3Dpt6                          451      // int8_t
-#define DFA_az10o3Dpt7                          451      // uint16_t
-#define DFA_az10o3Dpt8                          451      // int16_t
-#define DFA_az10o3Dpt9                          451      // float
-#define DFA_az10o3Dpt12                         451      // uint32_t
-#define DFA_az10o3Dpt13                         451      // int32_t
-#define DFA_az10o3Dpt14                         451      // float
-#define DFA_az10o3Dpt17                         451      // 8 Bits, Bit 7-0
-#define DFA_az10o3Dpt232                        451      // 24 Bits, Bit 31-8
+#define DFA_az10o3Send                          518      // 8 Bits, Bit 7-0
+#define DFA_az10o3Dpt1                          519      // 8 Bits, Bit 7-0
+#define DFA_az10o3Dpt2                          519      // 8 Bits, Bit 7-0
+#define DFA_az10o3Dpt5                          519      // uint8_t
+#define DFA_az10o3Dpt5001                       519      // uint8_t
+#define DFA_az10o3Dpt6                          519      // int8_t
+#define DFA_az10o3Dpt7                          519      // uint16_t
+#define DFA_az10o3Dpt8                          519      // int16_t
+#define DFA_az10o3Dpt9                          519      // float
+#define DFA_az10o3Dpt12                         519      // uint32_t
+#define DFA_az10o3Dpt13                         519      // int32_t
+#define DFA_az10o3Dpt14                         519      // float
+#define DFA_az10o3Dpt17                         519      // 8 Bits, Bit 7-0
+#define DFA_az10o3Dpt232                        519      // 24 Bits, Bit 31-8
 #define     DFA_az10o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az10o3Dpt232Shift 8
-#define DFA_az10o4Send                          455      // 8 Bits, Bit 7-0
-#define DFA_az10o4Dpt1                          456      // 8 Bits, Bit 7-0
-#define DFA_az10o4Dpt2                          456      // 8 Bits, Bit 7-0
-#define DFA_az10o4Dpt5                          456      // uint8_t
-#define DFA_az10o4Dpt5001                       456      // uint8_t
-#define DFA_az10o4Dpt6                          456      // int8_t
-#define DFA_az10o4Dpt7                          456      // uint16_t
-#define DFA_az10o4Dpt8                          456      // int16_t
-#define DFA_az10o4Dpt9                          456      // float
-#define DFA_az10o4Dpt12                         456      // uint32_t
-#define DFA_az10o4Dpt13                         456      // int32_t
-#define DFA_az10o4Dpt14                         456      // float
-#define DFA_az10o4Dpt16                         456      // char*, 14 Byte
-#define DFA_az10o4Dpt17                         456      // 8 Bits, Bit 7-0
-#define DFA_az10o4Dpt232                        456      // 24 Bits, Bit 31-8
+#define DFA_az10o4Send                          523      // 8 Bits, Bit 7-0
+#define DFA_az10o4Dpt1                          524      // 8 Bits, Bit 7-0
+#define DFA_az10o4Dpt2                          524      // 8 Bits, Bit 7-0
+#define DFA_az10o4Dpt5                          524      // uint8_t
+#define DFA_az10o4Dpt5001                       524      // uint8_t
+#define DFA_az10o4Dpt6                          524      // int8_t
+#define DFA_az10o4Dpt7                          524      // uint16_t
+#define DFA_az10o4Dpt8                          524      // int16_t
+#define DFA_az10o4Dpt9                          524      // float
+#define DFA_az10o4Dpt12                         524      // uint32_t
+#define DFA_az10o4Dpt13                         524      // int32_t
+#define DFA_az10o4Dpt14                         524      // float
+#define DFA_az10o4Dpt16                         524      // char*, 14 Byte
+#define DFA_az10o4Dpt17                         524      // 8 Bits, Bit 7-0
+#define DFA_az10o4Dpt232                        524      // 24 Bits, Bit 31-8
 #define     DFA_az10o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az10o4Dpt232Shift 8
-#define DFA_ad11A                               471      // 8 Bits, Bit 7-0
-#define DFA_ad11B                               472      // 8 Bits, Bit 7-0
-#define DFA_ad11C                               473      // 8 Bits, Bit 7-0
-#define DFA_ad11D                               474      // 8 Bits, Bit 7-0
-#define DFA_ad11E                               475      // 8 Bits, Bit 7-0
-#define DFA_ad11F                               476      // 8 Bits, Bit 7-0
-#define DFA_ad11G                               477      // 8 Bits, Bit 7-0
-#define DFA_ad11H                               478      // 8 Bits, Bit 7-0
-#define DFA_ad11T                               479      // 8 Bits, Bit 7-0
-#define DFA_ad11TBase                           480      // 2 Bits, Bit 7-6
+#define DFA_ad11A                               539      // 8 Bits, Bit 7-0
+#define DFA_ad11B                               540      // 8 Bits, Bit 7-0
+#define DFA_ad11C                               541      // 8 Bits, Bit 7-0
+#define DFA_ad11D                               542      // 8 Bits, Bit 7-0
+#define DFA_ad11E                               543      // 8 Bits, Bit 7-0
+#define DFA_ad11F                               544      // 8 Bits, Bit 7-0
+#define DFA_ad11G                               545      // 8 Bits, Bit 7-0
+#define DFA_ad11H                               546      // 8 Bits, Bit 7-0
+#define DFA_ad11T                               547      // 8 Bits, Bit 7-0
+#define DFA_ad11TBase                           548      // 2 Bits, Bit 7-6
 #define     DFA_ad11TBaseMask 0xC0
 #define     DFA_ad11TBaseShift 6
-#define DFA_ad11TTime                           480      // 14 Bits, Bit 13-0
+#define DFA_ad11TTime                           548      // 14 Bits, Bit 13-0
 #define     DFA_ad11TTimeMask 0x3FFF
 #define     DFA_ad11TTimeShift 0
-#define DFA_az11o1Send                          482      // 8 Bits, Bit 7-0
-#define DFA_az11o1Dpt1                          483      // 8 Bits, Bit 7-0
-#define DFA_az11o1Dpt2                          483      // 8 Bits, Bit 7-0
-#define DFA_az11o1Dpt5                          483      // uint8_t
-#define DFA_az11o1Dpt5001                       483      // uint8_t
-#define DFA_az11o1Dpt6                          483      // int8_t
-#define DFA_az11o1Dpt7                          483      // uint16_t
-#define DFA_az11o1Dpt8                          483      // int16_t
-#define DFA_az11o1Dpt9                          483      // float
-#define DFA_az11o1Dpt12                         483      // uint32_t
-#define DFA_az11o1Dpt13                         483      // int32_t
-#define DFA_az11o1Dpt14                         483      // float
-#define DFA_az11o1Dpt17                         483      // 8 Bits, Bit 7-0
-#define DFA_az11o1Dpt232                        483      // 24 Bits, Bit 31-8
+#define DFA_az11o1Send                          550      // 8 Bits, Bit 7-0
+#define DFA_az11o1Dpt1                          551      // 8 Bits, Bit 7-0
+#define DFA_az11o1Dpt2                          551      // 8 Bits, Bit 7-0
+#define DFA_az11o1Dpt5                          551      // uint8_t
+#define DFA_az11o1Dpt5001                       551      // uint8_t
+#define DFA_az11o1Dpt6                          551      // int8_t
+#define DFA_az11o1Dpt7                          551      // uint16_t
+#define DFA_az11o1Dpt8                          551      // int16_t
+#define DFA_az11o1Dpt9                          551      // float
+#define DFA_az11o1Dpt12                         551      // uint32_t
+#define DFA_az11o1Dpt13                         551      // int32_t
+#define DFA_az11o1Dpt14                         551      // float
+#define DFA_az11o1Dpt17                         551      // 8 Bits, Bit 7-0
+#define DFA_az11o1Dpt232                        551      // 24 Bits, Bit 31-8
 #define     DFA_az11o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az11o1Dpt232Shift 8
-#define DFA_az11o2Send                          487      // 8 Bits, Bit 7-0
-#define DFA_az11o2Dpt1                          488      // 8 Bits, Bit 7-0
-#define DFA_az11o2Dpt2                          488      // 8 Bits, Bit 7-0
-#define DFA_az11o2Dpt5                          488      // uint8_t
-#define DFA_az11o2Dpt5001                       488      // uint8_t
-#define DFA_az11o2Dpt6                          488      // int8_t
-#define DFA_az11o2Dpt7                          488      // uint16_t
-#define DFA_az11o2Dpt8                          488      // int16_t
-#define DFA_az11o2Dpt9                          488      // float
-#define DFA_az11o2Dpt12                         488      // uint32_t
-#define DFA_az11o2Dpt13                         488      // int32_t
-#define DFA_az11o2Dpt14                         488      // float
-#define DFA_az11o2Dpt17                         488      // 8 Bits, Bit 7-0
-#define DFA_az11o2Dpt232                        488      // 24 Bits, Bit 31-8
+#define DFA_az11o2Send                          555      // 8 Bits, Bit 7-0
+#define DFA_az11o2Dpt1                          556      // 8 Bits, Bit 7-0
+#define DFA_az11o2Dpt2                          556      // 8 Bits, Bit 7-0
+#define DFA_az11o2Dpt5                          556      // uint8_t
+#define DFA_az11o2Dpt5001                       556      // uint8_t
+#define DFA_az11o2Dpt6                          556      // int8_t
+#define DFA_az11o2Dpt7                          556      // uint16_t
+#define DFA_az11o2Dpt8                          556      // int16_t
+#define DFA_az11o2Dpt9                          556      // float
+#define DFA_az11o2Dpt12                         556      // uint32_t
+#define DFA_az11o2Dpt13                         556      // int32_t
+#define DFA_az11o2Dpt14                         556      // float
+#define DFA_az11o2Dpt17                         556      // 8 Bits, Bit 7-0
+#define DFA_az11o2Dpt232                        556      // 24 Bits, Bit 31-8
 #define     DFA_az11o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az11o2Dpt232Shift 8
-#define DFA_az11o3Send                          492      // 8 Bits, Bit 7-0
-#define DFA_az11o3Dpt1                          493      // 8 Bits, Bit 7-0
-#define DFA_az11o3Dpt2                          493      // 8 Bits, Bit 7-0
-#define DFA_az11o3Dpt5                          493      // uint8_t
-#define DFA_az11o3Dpt5001                       493      // uint8_t
-#define DFA_az11o3Dpt6                          493      // int8_t
-#define DFA_az11o3Dpt7                          493      // uint16_t
-#define DFA_az11o3Dpt8                          493      // int16_t
-#define DFA_az11o3Dpt9                          493      // float
-#define DFA_az11o3Dpt12                         493      // uint32_t
-#define DFA_az11o3Dpt13                         493      // int32_t
-#define DFA_az11o3Dpt14                         493      // float
-#define DFA_az11o3Dpt17                         493      // 8 Bits, Bit 7-0
-#define DFA_az11o3Dpt232                        493      // 24 Bits, Bit 31-8
+#define DFA_az11o3Send                          560      // 8 Bits, Bit 7-0
+#define DFA_az11o3Dpt1                          561      // 8 Bits, Bit 7-0
+#define DFA_az11o3Dpt2                          561      // 8 Bits, Bit 7-0
+#define DFA_az11o3Dpt5                          561      // uint8_t
+#define DFA_az11o3Dpt5001                       561      // uint8_t
+#define DFA_az11o3Dpt6                          561      // int8_t
+#define DFA_az11o3Dpt7                          561      // uint16_t
+#define DFA_az11o3Dpt8                          561      // int16_t
+#define DFA_az11o3Dpt9                          561      // float
+#define DFA_az11o3Dpt12                         561      // uint32_t
+#define DFA_az11o3Dpt13                         561      // int32_t
+#define DFA_az11o3Dpt14                         561      // float
+#define DFA_az11o3Dpt17                         561      // 8 Bits, Bit 7-0
+#define DFA_az11o3Dpt232                        561      // 24 Bits, Bit 31-8
 #define     DFA_az11o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az11o3Dpt232Shift 8
-#define DFA_az11o4Send                          497      // 8 Bits, Bit 7-0
-#define DFA_az11o4Dpt1                          498      // 8 Bits, Bit 7-0
-#define DFA_az11o4Dpt2                          498      // 8 Bits, Bit 7-0
-#define DFA_az11o4Dpt5                          498      // uint8_t
-#define DFA_az11o4Dpt5001                       498      // uint8_t
-#define DFA_az11o4Dpt6                          498      // int8_t
-#define DFA_az11o4Dpt7                          498      // uint16_t
-#define DFA_az11o4Dpt8                          498      // int16_t
-#define DFA_az11o4Dpt9                          498      // float
-#define DFA_az11o4Dpt12                         498      // uint32_t
-#define DFA_az11o4Dpt13                         498      // int32_t
-#define DFA_az11o4Dpt14                         498      // float
-#define DFA_az11o4Dpt16                         498      // char*, 14 Byte
-#define DFA_az11o4Dpt17                         498      // 8 Bits, Bit 7-0
-#define DFA_az11o4Dpt232                        498      // 24 Bits, Bit 31-8
+#define DFA_az11o4Send                          565      // 8 Bits, Bit 7-0
+#define DFA_az11o4Dpt1                          566      // 8 Bits, Bit 7-0
+#define DFA_az11o4Dpt2                          566      // 8 Bits, Bit 7-0
+#define DFA_az11o4Dpt5                          566      // uint8_t
+#define DFA_az11o4Dpt5001                       566      // uint8_t
+#define DFA_az11o4Dpt6                          566      // int8_t
+#define DFA_az11o4Dpt7                          566      // uint16_t
+#define DFA_az11o4Dpt8                          566      // int16_t
+#define DFA_az11o4Dpt9                          566      // float
+#define DFA_az11o4Dpt12                         566      // uint32_t
+#define DFA_az11o4Dpt13                         566      // int32_t
+#define DFA_az11o4Dpt14                         566      // float
+#define DFA_az11o4Dpt16                         566      // char*, 14 Byte
+#define DFA_az11o4Dpt17                         566      // 8 Bits, Bit 7-0
+#define DFA_az11o4Dpt232                        566      // 24 Bits, Bit 31-8
 #define     DFA_az11o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az11o4Dpt232Shift 8
-#define DFA_ad12A                               513      // 8 Bits, Bit 7-0
-#define DFA_ad12B                               514      // 8 Bits, Bit 7-0
-#define DFA_ad12C                               515      // 8 Bits, Bit 7-0
-#define DFA_ad12D                               516      // 8 Bits, Bit 7-0
-#define DFA_ad12E                               517      // 8 Bits, Bit 7-0
-#define DFA_ad12F                               518      // 8 Bits, Bit 7-0
-#define DFA_ad12G                               519      // 8 Bits, Bit 7-0
-#define DFA_ad12H                               520      // 8 Bits, Bit 7-0
-#define DFA_ad12T                               521      // 8 Bits, Bit 7-0
-#define DFA_ad12TBase                           522      // 2 Bits, Bit 7-6
+#define DFA_ad12A                               581      // 8 Bits, Bit 7-0
+#define DFA_ad12B                               582      // 8 Bits, Bit 7-0
+#define DFA_ad12C                               583      // 8 Bits, Bit 7-0
+#define DFA_ad12D                               584      // 8 Bits, Bit 7-0
+#define DFA_ad12E                               585      // 8 Bits, Bit 7-0
+#define DFA_ad12F                               586      // 8 Bits, Bit 7-0
+#define DFA_ad12G                               587      // 8 Bits, Bit 7-0
+#define DFA_ad12H                               588      // 8 Bits, Bit 7-0
+#define DFA_ad12T                               589      // 8 Bits, Bit 7-0
+#define DFA_ad12TBase                           590      // 2 Bits, Bit 7-6
 #define     DFA_ad12TBaseMask 0xC0
 #define     DFA_ad12TBaseShift 6
-#define DFA_ad12TTime                           522      // 14 Bits, Bit 13-0
+#define DFA_ad12TTime                           590      // 14 Bits, Bit 13-0
 #define     DFA_ad12TTimeMask 0x3FFF
 #define     DFA_ad12TTimeShift 0
-#define DFA_az12o1Send                          524      // 8 Bits, Bit 7-0
-#define DFA_az12o1Dpt1                          525      // 8 Bits, Bit 7-0
-#define DFA_az12o1Dpt2                          525      // 8 Bits, Bit 7-0
-#define DFA_az12o1Dpt5                          525      // uint8_t
-#define DFA_az12o1Dpt5001                       525      // uint8_t
-#define DFA_az12o1Dpt6                          525      // int8_t
-#define DFA_az12o1Dpt7                          525      // uint16_t
-#define DFA_az12o1Dpt8                          525      // int16_t
-#define DFA_az12o1Dpt9                          525      // float
-#define DFA_az12o1Dpt12                         525      // uint32_t
-#define DFA_az12o1Dpt13                         525      // int32_t
-#define DFA_az12o1Dpt14                         525      // float
-#define DFA_az12o1Dpt17                         525      // 8 Bits, Bit 7-0
-#define DFA_az12o1Dpt232                        525      // 24 Bits, Bit 31-8
+#define DFA_az12o1Send                          592      // 8 Bits, Bit 7-0
+#define DFA_az12o1Dpt1                          593      // 8 Bits, Bit 7-0
+#define DFA_az12o1Dpt2                          593      // 8 Bits, Bit 7-0
+#define DFA_az12o1Dpt5                          593      // uint8_t
+#define DFA_az12o1Dpt5001                       593      // uint8_t
+#define DFA_az12o1Dpt6                          593      // int8_t
+#define DFA_az12o1Dpt7                          593      // uint16_t
+#define DFA_az12o1Dpt8                          593      // int16_t
+#define DFA_az12o1Dpt9                          593      // float
+#define DFA_az12o1Dpt12                         593      // uint32_t
+#define DFA_az12o1Dpt13                         593      // int32_t
+#define DFA_az12o1Dpt14                         593      // float
+#define DFA_az12o1Dpt17                         593      // 8 Bits, Bit 7-0
+#define DFA_az12o1Dpt232                        593      // 24 Bits, Bit 31-8
 #define     DFA_az12o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az12o1Dpt232Shift 8
-#define DFA_az12o2Send                          529      // 8 Bits, Bit 7-0
-#define DFA_az12o2Dpt1                          530      // 8 Bits, Bit 7-0
-#define DFA_az12o2Dpt2                          530      // 8 Bits, Bit 7-0
-#define DFA_az12o2Dpt5                          530      // uint8_t
-#define DFA_az12o2Dpt5001                       530      // uint8_t
-#define DFA_az12o2Dpt6                          530      // int8_t
-#define DFA_az12o2Dpt7                          530      // uint16_t
-#define DFA_az12o2Dpt8                          530      // int16_t
-#define DFA_az12o2Dpt9                          530      // float
-#define DFA_az12o2Dpt12                         530      // uint32_t
-#define DFA_az12o2Dpt13                         530      // int32_t
-#define DFA_az12o2Dpt14                         530      // float
-#define DFA_az12o2Dpt17                         530      // 8 Bits, Bit 7-0
-#define DFA_az12o2Dpt232                        530      // 24 Bits, Bit 31-8
+#define DFA_az12o2Send                          597      // 8 Bits, Bit 7-0
+#define DFA_az12o2Dpt1                          598      // 8 Bits, Bit 7-0
+#define DFA_az12o2Dpt2                          598      // 8 Bits, Bit 7-0
+#define DFA_az12o2Dpt5                          598      // uint8_t
+#define DFA_az12o2Dpt5001                       598      // uint8_t
+#define DFA_az12o2Dpt6                          598      // int8_t
+#define DFA_az12o2Dpt7                          598      // uint16_t
+#define DFA_az12o2Dpt8                          598      // int16_t
+#define DFA_az12o2Dpt9                          598      // float
+#define DFA_az12o2Dpt12                         598      // uint32_t
+#define DFA_az12o2Dpt13                         598      // int32_t
+#define DFA_az12o2Dpt14                         598      // float
+#define DFA_az12o2Dpt17                         598      // 8 Bits, Bit 7-0
+#define DFA_az12o2Dpt232                        598      // 24 Bits, Bit 31-8
 #define     DFA_az12o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az12o2Dpt232Shift 8
-#define DFA_az12o3Send                          534      // 8 Bits, Bit 7-0
-#define DFA_az12o3Dpt1                          535      // 8 Bits, Bit 7-0
-#define DFA_az12o3Dpt2                          535      // 8 Bits, Bit 7-0
-#define DFA_az12o3Dpt5                          535      // uint8_t
-#define DFA_az12o3Dpt5001                       535      // uint8_t
-#define DFA_az12o3Dpt6                          535      // int8_t
-#define DFA_az12o3Dpt7                          535      // uint16_t
-#define DFA_az12o3Dpt8                          535      // int16_t
-#define DFA_az12o3Dpt9                          535      // float
-#define DFA_az12o3Dpt12                         535      // uint32_t
-#define DFA_az12o3Dpt13                         535      // int32_t
-#define DFA_az12o3Dpt14                         535      // float
-#define DFA_az12o3Dpt17                         535      // 8 Bits, Bit 7-0
-#define DFA_az12o3Dpt232                        535      // 24 Bits, Bit 31-8
+#define DFA_az12o3Send                          602      // 8 Bits, Bit 7-0
+#define DFA_az12o3Dpt1                          603      // 8 Bits, Bit 7-0
+#define DFA_az12o3Dpt2                          603      // 8 Bits, Bit 7-0
+#define DFA_az12o3Dpt5                          603      // uint8_t
+#define DFA_az12o3Dpt5001                       603      // uint8_t
+#define DFA_az12o3Dpt6                          603      // int8_t
+#define DFA_az12o3Dpt7                          603      // uint16_t
+#define DFA_az12o3Dpt8                          603      // int16_t
+#define DFA_az12o3Dpt9                          603      // float
+#define DFA_az12o3Dpt12                         603      // uint32_t
+#define DFA_az12o3Dpt13                         603      // int32_t
+#define DFA_az12o3Dpt14                         603      // float
+#define DFA_az12o3Dpt17                         603      // 8 Bits, Bit 7-0
+#define DFA_az12o3Dpt232                        603      // 24 Bits, Bit 31-8
 #define     DFA_az12o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az12o3Dpt232Shift 8
-#define DFA_az12o4Send                          539      // 8 Bits, Bit 7-0
-#define DFA_az12o4Dpt1                          540      // 8 Bits, Bit 7-0
-#define DFA_az12o4Dpt2                          540      // 8 Bits, Bit 7-0
-#define DFA_az12o4Dpt5                          540      // uint8_t
-#define DFA_az12o4Dpt5001                       540      // uint8_t
-#define DFA_az12o4Dpt6                          540      // int8_t
-#define DFA_az12o4Dpt7                          540      // uint16_t
-#define DFA_az12o4Dpt8                          540      // int16_t
-#define DFA_az12o4Dpt9                          540      // float
-#define DFA_az12o4Dpt12                         540      // uint32_t
-#define DFA_az12o4Dpt13                         540      // int32_t
-#define DFA_az12o4Dpt14                         540      // float
-#define DFA_az12o4Dpt16                         540      // char*, 14 Byte
-#define DFA_az12o4Dpt17                         540      // 8 Bits, Bit 7-0
-#define DFA_az12o4Dpt232                        540      // 24 Bits, Bit 31-8
+#define DFA_az12o4Send                          607      // 8 Bits, Bit 7-0
+#define DFA_az12o4Dpt1                          608      // 8 Bits, Bit 7-0
+#define DFA_az12o4Dpt2                          608      // 8 Bits, Bit 7-0
+#define DFA_az12o4Dpt5                          608      // uint8_t
+#define DFA_az12o4Dpt5001                       608      // uint8_t
+#define DFA_az12o4Dpt6                          608      // int8_t
+#define DFA_az12o4Dpt7                          608      // uint16_t
+#define DFA_az12o4Dpt8                          608      // int16_t
+#define DFA_az12o4Dpt9                          608      // float
+#define DFA_az12o4Dpt12                         608      // uint32_t
+#define DFA_az12o4Dpt13                         608      // int32_t
+#define DFA_az12o4Dpt14                         608      // float
+#define DFA_az12o4Dpt16                         608      // char*, 14 Byte
+#define DFA_az12o4Dpt17                         608      // 8 Bits, Bit 7-0
+#define DFA_az12o4Dpt232                        608      // 24 Bits, Bit 31-8
 #define     DFA_az12o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az12o4Dpt232Shift 8
-#define DFA_ad13A                               555      // 8 Bits, Bit 7-0
-#define DFA_ad13B                               556      // 8 Bits, Bit 7-0
-#define DFA_ad13C                               557      // 8 Bits, Bit 7-0
-#define DFA_ad13D                               558      // 8 Bits, Bit 7-0
-#define DFA_ad13E                               559      // 8 Bits, Bit 7-0
-#define DFA_ad13F                               560      // 8 Bits, Bit 7-0
-#define DFA_ad13G                               561      // 8 Bits, Bit 7-0
-#define DFA_ad13H                               562      // 8 Bits, Bit 7-0
-#define DFA_ad13T                               563      // 8 Bits, Bit 7-0
-#define DFA_ad13TBase                           564      // 2 Bits, Bit 7-6
+#define DFA_ad13A                               623      // 8 Bits, Bit 7-0
+#define DFA_ad13B                               624      // 8 Bits, Bit 7-0
+#define DFA_ad13C                               625      // 8 Bits, Bit 7-0
+#define DFA_ad13D                               626      // 8 Bits, Bit 7-0
+#define DFA_ad13E                               627      // 8 Bits, Bit 7-0
+#define DFA_ad13F                               628      // 8 Bits, Bit 7-0
+#define DFA_ad13G                               629      // 8 Bits, Bit 7-0
+#define DFA_ad13H                               630      // 8 Bits, Bit 7-0
+#define DFA_ad13T                               631      // 8 Bits, Bit 7-0
+#define DFA_ad13TBase                           632      // 2 Bits, Bit 7-6
 #define     DFA_ad13TBaseMask 0xC0
 #define     DFA_ad13TBaseShift 6
-#define DFA_ad13TTime                           564      // 14 Bits, Bit 13-0
+#define DFA_ad13TTime                           632      // 14 Bits, Bit 13-0
 #define     DFA_ad13TTimeMask 0x3FFF
 #define     DFA_ad13TTimeShift 0
-#define DFA_az13o1Send                          566      // 8 Bits, Bit 7-0
-#define DFA_az13o1Dpt1                          567      // 8 Bits, Bit 7-0
-#define DFA_az13o1Dpt2                          567      // 8 Bits, Bit 7-0
-#define DFA_az13o1Dpt5                          567      // uint8_t
-#define DFA_az13o1Dpt5001                       567      // uint8_t
-#define DFA_az13o1Dpt6                          567      // int8_t
-#define DFA_az13o1Dpt7                          567      // uint16_t
-#define DFA_az13o1Dpt8                          567      // int16_t
-#define DFA_az13o1Dpt9                          567      // float
-#define DFA_az13o1Dpt12                         567      // uint32_t
-#define DFA_az13o1Dpt13                         567      // int32_t
-#define DFA_az13o1Dpt14                         567      // float
-#define DFA_az13o1Dpt17                         567      // 8 Bits, Bit 7-0
-#define DFA_az13o1Dpt232                        567      // 24 Bits, Bit 31-8
+#define DFA_az13o1Send                          634      // 8 Bits, Bit 7-0
+#define DFA_az13o1Dpt1                          635      // 8 Bits, Bit 7-0
+#define DFA_az13o1Dpt2                          635      // 8 Bits, Bit 7-0
+#define DFA_az13o1Dpt5                          635      // uint8_t
+#define DFA_az13o1Dpt5001                       635      // uint8_t
+#define DFA_az13o1Dpt6                          635      // int8_t
+#define DFA_az13o1Dpt7                          635      // uint16_t
+#define DFA_az13o1Dpt8                          635      // int16_t
+#define DFA_az13o1Dpt9                          635      // float
+#define DFA_az13o1Dpt12                         635      // uint32_t
+#define DFA_az13o1Dpt13                         635      // int32_t
+#define DFA_az13o1Dpt14                         635      // float
+#define DFA_az13o1Dpt17                         635      // 8 Bits, Bit 7-0
+#define DFA_az13o1Dpt232                        635      // 24 Bits, Bit 31-8
 #define     DFA_az13o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az13o1Dpt232Shift 8
-#define DFA_az13o2Send                          571      // 8 Bits, Bit 7-0
-#define DFA_az13o2Dpt1                          572      // 8 Bits, Bit 7-0
-#define DFA_az13o2Dpt2                          572      // 8 Bits, Bit 7-0
-#define DFA_az13o2Dpt5                          572      // uint8_t
-#define DFA_az13o2Dpt5001                       572      // uint8_t
-#define DFA_az13o2Dpt6                          572      // int8_t
-#define DFA_az13o2Dpt7                          572      // uint16_t
-#define DFA_az13o2Dpt8                          572      // int16_t
-#define DFA_az13o2Dpt9                          572      // float
-#define DFA_az13o2Dpt12                         572      // uint32_t
-#define DFA_az13o2Dpt13                         572      // int32_t
-#define DFA_az13o2Dpt14                         572      // float
-#define DFA_az13o2Dpt17                         572      // 8 Bits, Bit 7-0
-#define DFA_az13o2Dpt232                        572      // 24 Bits, Bit 31-8
+#define DFA_az13o2Send                          639      // 8 Bits, Bit 7-0
+#define DFA_az13o2Dpt1                          640      // 8 Bits, Bit 7-0
+#define DFA_az13o2Dpt2                          640      // 8 Bits, Bit 7-0
+#define DFA_az13o2Dpt5                          640      // uint8_t
+#define DFA_az13o2Dpt5001                       640      // uint8_t
+#define DFA_az13o2Dpt6                          640      // int8_t
+#define DFA_az13o2Dpt7                          640      // uint16_t
+#define DFA_az13o2Dpt8                          640      // int16_t
+#define DFA_az13o2Dpt9                          640      // float
+#define DFA_az13o2Dpt12                         640      // uint32_t
+#define DFA_az13o2Dpt13                         640      // int32_t
+#define DFA_az13o2Dpt14                         640      // float
+#define DFA_az13o2Dpt17                         640      // 8 Bits, Bit 7-0
+#define DFA_az13o2Dpt232                        640      // 24 Bits, Bit 31-8
 #define     DFA_az13o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az13o2Dpt232Shift 8
-#define DFA_az13o3Send                          576      // 8 Bits, Bit 7-0
-#define DFA_az13o3Dpt1                          577      // 8 Bits, Bit 7-0
-#define DFA_az13o3Dpt2                          577      // 8 Bits, Bit 7-0
-#define DFA_az13o3Dpt5                          577      // uint8_t
-#define DFA_az13o3Dpt5001                       577      // uint8_t
-#define DFA_az13o3Dpt6                          577      // int8_t
-#define DFA_az13o3Dpt7                          577      // uint16_t
-#define DFA_az13o3Dpt8                          577      // int16_t
-#define DFA_az13o3Dpt9                          577      // float
-#define DFA_az13o3Dpt12                         577      // uint32_t
-#define DFA_az13o3Dpt13                         577      // int32_t
-#define DFA_az13o3Dpt14                         577      // float
-#define DFA_az13o3Dpt17                         577      // 8 Bits, Bit 7-0
-#define DFA_az13o3Dpt232                        577      // 24 Bits, Bit 31-8
+#define DFA_az13o3Send                          644      // 8 Bits, Bit 7-0
+#define DFA_az13o3Dpt1                          645      // 8 Bits, Bit 7-0
+#define DFA_az13o3Dpt2                          645      // 8 Bits, Bit 7-0
+#define DFA_az13o3Dpt5                          645      // uint8_t
+#define DFA_az13o3Dpt5001                       645      // uint8_t
+#define DFA_az13o3Dpt6                          645      // int8_t
+#define DFA_az13o3Dpt7                          645      // uint16_t
+#define DFA_az13o3Dpt8                          645      // int16_t
+#define DFA_az13o3Dpt9                          645      // float
+#define DFA_az13o3Dpt12                         645      // uint32_t
+#define DFA_az13o3Dpt13                         645      // int32_t
+#define DFA_az13o3Dpt14                         645      // float
+#define DFA_az13o3Dpt17                         645      // 8 Bits, Bit 7-0
+#define DFA_az13o3Dpt232                        645      // 24 Bits, Bit 31-8
 #define     DFA_az13o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az13o3Dpt232Shift 8
-#define DFA_az13o4Send                          581      // 8 Bits, Bit 7-0
-#define DFA_az13o4Dpt1                          582      // 8 Bits, Bit 7-0
-#define DFA_az13o4Dpt2                          582      // 8 Bits, Bit 7-0
-#define DFA_az13o4Dpt5                          582      // uint8_t
-#define DFA_az13o4Dpt5001                       582      // uint8_t
-#define DFA_az13o4Dpt6                          582      // int8_t
-#define DFA_az13o4Dpt7                          582      // uint16_t
-#define DFA_az13o4Dpt8                          582      // int16_t
-#define DFA_az13o4Dpt9                          582      // float
-#define DFA_az13o4Dpt12                         582      // uint32_t
-#define DFA_az13o4Dpt13                         582      // int32_t
-#define DFA_az13o4Dpt14                         582      // float
-#define DFA_az13o4Dpt16                         582      // char*, 14 Byte
-#define DFA_az13o4Dpt17                         582      // 8 Bits, Bit 7-0
-#define DFA_az13o4Dpt232                        582      // 24 Bits, Bit 31-8
+#define DFA_az13o4Send                          649      // 8 Bits, Bit 7-0
+#define DFA_az13o4Dpt1                          650      // 8 Bits, Bit 7-0
+#define DFA_az13o4Dpt2                          650      // 8 Bits, Bit 7-0
+#define DFA_az13o4Dpt5                          650      // uint8_t
+#define DFA_az13o4Dpt5001                       650      // uint8_t
+#define DFA_az13o4Dpt6                          650      // int8_t
+#define DFA_az13o4Dpt7                          650      // uint16_t
+#define DFA_az13o4Dpt8                          650      // int16_t
+#define DFA_az13o4Dpt9                          650      // float
+#define DFA_az13o4Dpt12                         650      // uint32_t
+#define DFA_az13o4Dpt13                         650      // int32_t
+#define DFA_az13o4Dpt14                         650      // float
+#define DFA_az13o4Dpt16                         650      // char*, 14 Byte
+#define DFA_az13o4Dpt17                         650      // 8 Bits, Bit 7-0
+#define DFA_az13o4Dpt232                        650      // 24 Bits, Bit 31-8
 #define     DFA_az13o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az13o4Dpt232Shift 8
-#define DFA_ad14A                               597      // 8 Bits, Bit 7-0
-#define DFA_ad14B                               598      // 8 Bits, Bit 7-0
-#define DFA_ad14C                               599      // 8 Bits, Bit 7-0
-#define DFA_ad14D                               600      // 8 Bits, Bit 7-0
-#define DFA_ad14E                               601      // 8 Bits, Bit 7-0
-#define DFA_ad14F                               602      // 8 Bits, Bit 7-0
-#define DFA_ad14G                               603      // 8 Bits, Bit 7-0
-#define DFA_ad14H                               604      // 8 Bits, Bit 7-0
-#define DFA_ad14T                               605      // 8 Bits, Bit 7-0
-#define DFA_ad14TBase                           606      // 2 Bits, Bit 7-6
+#define DFA_ad14A                               665      // 8 Bits, Bit 7-0
+#define DFA_ad14B                               666      // 8 Bits, Bit 7-0
+#define DFA_ad14C                               667      // 8 Bits, Bit 7-0
+#define DFA_ad14D                               668      // 8 Bits, Bit 7-0
+#define DFA_ad14E                               669      // 8 Bits, Bit 7-0
+#define DFA_ad14F                               670      // 8 Bits, Bit 7-0
+#define DFA_ad14G                               671      // 8 Bits, Bit 7-0
+#define DFA_ad14H                               672      // 8 Bits, Bit 7-0
+#define DFA_ad14T                               673      // 8 Bits, Bit 7-0
+#define DFA_ad14TBase                           674      // 2 Bits, Bit 7-6
 #define     DFA_ad14TBaseMask 0xC0
 #define     DFA_ad14TBaseShift 6
-#define DFA_ad14TTime                           606      // 14 Bits, Bit 13-0
+#define DFA_ad14TTime                           674      // 14 Bits, Bit 13-0
 #define     DFA_ad14TTimeMask 0x3FFF
 #define     DFA_ad14TTimeShift 0
-#define DFA_az14o1Send                          608      // 8 Bits, Bit 7-0
-#define DFA_az14o1Dpt1                          609      // 8 Bits, Bit 7-0
-#define DFA_az14o1Dpt2                          609      // 8 Bits, Bit 7-0
-#define DFA_az14o1Dpt5                          609      // uint8_t
-#define DFA_az14o1Dpt5001                       609      // uint8_t
-#define DFA_az14o1Dpt6                          609      // int8_t
-#define DFA_az14o1Dpt7                          609      // uint16_t
-#define DFA_az14o1Dpt8                          609      // int16_t
-#define DFA_az14o1Dpt9                          609      // float
-#define DFA_az14o1Dpt12                         609      // uint32_t
-#define DFA_az14o1Dpt13                         609      // int32_t
-#define DFA_az14o1Dpt14                         609      // float
-#define DFA_az14o1Dpt17                         609      // 8 Bits, Bit 7-0
-#define DFA_az14o1Dpt232                        609      // 24 Bits, Bit 31-8
+#define DFA_az14o1Send                          676      // 8 Bits, Bit 7-0
+#define DFA_az14o1Dpt1                          677      // 8 Bits, Bit 7-0
+#define DFA_az14o1Dpt2                          677      // 8 Bits, Bit 7-0
+#define DFA_az14o1Dpt5                          677      // uint8_t
+#define DFA_az14o1Dpt5001                       677      // uint8_t
+#define DFA_az14o1Dpt6                          677      // int8_t
+#define DFA_az14o1Dpt7                          677      // uint16_t
+#define DFA_az14o1Dpt8                          677      // int16_t
+#define DFA_az14o1Dpt9                          677      // float
+#define DFA_az14o1Dpt12                         677      // uint32_t
+#define DFA_az14o1Dpt13                         677      // int32_t
+#define DFA_az14o1Dpt14                         677      // float
+#define DFA_az14o1Dpt17                         677      // 8 Bits, Bit 7-0
+#define DFA_az14o1Dpt232                        677      // 24 Bits, Bit 31-8
 #define     DFA_az14o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az14o1Dpt232Shift 8
-#define DFA_az14o2Send                          613      // 8 Bits, Bit 7-0
-#define DFA_az14o2Dpt1                          614      // 8 Bits, Bit 7-0
-#define DFA_az14o2Dpt2                          614      // 8 Bits, Bit 7-0
-#define DFA_az14o2Dpt5                          614      // uint8_t
-#define DFA_az14o2Dpt5001                       614      // uint8_t
-#define DFA_az14o2Dpt6                          614      // int8_t
-#define DFA_az14o2Dpt7                          614      // uint16_t
-#define DFA_az14o2Dpt8                          614      // int16_t
-#define DFA_az14o2Dpt9                          614      // float
-#define DFA_az14o2Dpt12                         614      // uint32_t
-#define DFA_az14o2Dpt13                         614      // int32_t
-#define DFA_az14o2Dpt14                         614      // float
-#define DFA_az14o2Dpt17                         614      // 8 Bits, Bit 7-0
-#define DFA_az14o2Dpt232                        614      // 24 Bits, Bit 31-8
+#define DFA_az14o2Send                          681      // 8 Bits, Bit 7-0
+#define DFA_az14o2Dpt1                          682      // 8 Bits, Bit 7-0
+#define DFA_az14o2Dpt2                          682      // 8 Bits, Bit 7-0
+#define DFA_az14o2Dpt5                          682      // uint8_t
+#define DFA_az14o2Dpt5001                       682      // uint8_t
+#define DFA_az14o2Dpt6                          682      // int8_t
+#define DFA_az14o2Dpt7                          682      // uint16_t
+#define DFA_az14o2Dpt8                          682      // int16_t
+#define DFA_az14o2Dpt9                          682      // float
+#define DFA_az14o2Dpt12                         682      // uint32_t
+#define DFA_az14o2Dpt13                         682      // int32_t
+#define DFA_az14o2Dpt14                         682      // float
+#define DFA_az14o2Dpt17                         682      // 8 Bits, Bit 7-0
+#define DFA_az14o2Dpt232                        682      // 24 Bits, Bit 31-8
 #define     DFA_az14o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az14o2Dpt232Shift 8
-#define DFA_az14o3Send                          618      // 8 Bits, Bit 7-0
-#define DFA_az14o3Dpt1                          619      // 8 Bits, Bit 7-0
-#define DFA_az14o3Dpt2                          619      // 8 Bits, Bit 7-0
-#define DFA_az14o3Dpt5                          619      // uint8_t
-#define DFA_az14o3Dpt5001                       619      // uint8_t
-#define DFA_az14o3Dpt6                          619      // int8_t
-#define DFA_az14o3Dpt7                          619      // uint16_t
-#define DFA_az14o3Dpt8                          619      // int16_t
-#define DFA_az14o3Dpt9                          619      // float
-#define DFA_az14o3Dpt12                         619      // uint32_t
-#define DFA_az14o3Dpt13                         619      // int32_t
-#define DFA_az14o3Dpt14                         619      // float
-#define DFA_az14o3Dpt17                         619      // 8 Bits, Bit 7-0
-#define DFA_az14o3Dpt232                        619      // 24 Bits, Bit 31-8
+#define DFA_az14o3Send                          686      // 8 Bits, Bit 7-0
+#define DFA_az14o3Dpt1                          687      // 8 Bits, Bit 7-0
+#define DFA_az14o3Dpt2                          687      // 8 Bits, Bit 7-0
+#define DFA_az14o3Dpt5                          687      // uint8_t
+#define DFA_az14o3Dpt5001                       687      // uint8_t
+#define DFA_az14o3Dpt6                          687      // int8_t
+#define DFA_az14o3Dpt7                          687      // uint16_t
+#define DFA_az14o3Dpt8                          687      // int16_t
+#define DFA_az14o3Dpt9                          687      // float
+#define DFA_az14o3Dpt12                         687      // uint32_t
+#define DFA_az14o3Dpt13                         687      // int32_t
+#define DFA_az14o3Dpt14                         687      // float
+#define DFA_az14o3Dpt17                         687      // 8 Bits, Bit 7-0
+#define DFA_az14o3Dpt232                        687      // 24 Bits, Bit 31-8
 #define     DFA_az14o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az14o3Dpt232Shift 8
-#define DFA_az14o4Send                          623      // 8 Bits, Bit 7-0
-#define DFA_az14o4Dpt1                          624      // 8 Bits, Bit 7-0
-#define DFA_az14o4Dpt2                          624      // 8 Bits, Bit 7-0
-#define DFA_az14o4Dpt5                          624      // uint8_t
-#define DFA_az14o4Dpt5001                       624      // uint8_t
-#define DFA_az14o4Dpt6                          624      // int8_t
-#define DFA_az14o4Dpt7                          624      // uint16_t
-#define DFA_az14o4Dpt8                          624      // int16_t
-#define DFA_az14o4Dpt9                          624      // float
-#define DFA_az14o4Dpt12                         624      // uint32_t
-#define DFA_az14o4Dpt13                         624      // int32_t
-#define DFA_az14o4Dpt14                         624      // float
-#define DFA_az14o4Dpt16                         624      // char*, 14 Byte
-#define DFA_az14o4Dpt17                         624      // 8 Bits, Bit 7-0
-#define DFA_az14o4Dpt232                        624      // 24 Bits, Bit 31-8
+#define DFA_az14o4Send                          691      // 8 Bits, Bit 7-0
+#define DFA_az14o4Dpt1                          692      // 8 Bits, Bit 7-0
+#define DFA_az14o4Dpt2                          692      // 8 Bits, Bit 7-0
+#define DFA_az14o4Dpt5                          692      // uint8_t
+#define DFA_az14o4Dpt5001                       692      // uint8_t
+#define DFA_az14o4Dpt6                          692      // int8_t
+#define DFA_az14o4Dpt7                          692      // uint16_t
+#define DFA_az14o4Dpt8                          692      // int16_t
+#define DFA_az14o4Dpt9                          692      // float
+#define DFA_az14o4Dpt12                         692      // uint32_t
+#define DFA_az14o4Dpt13                         692      // int32_t
+#define DFA_az14o4Dpt14                         692      // float
+#define DFA_az14o4Dpt16                         692      // char*, 14 Byte
+#define DFA_az14o4Dpt17                         692      // 8 Bits, Bit 7-0
+#define DFA_az14o4Dpt232                        692      // 24 Bits, Bit 31-8
 #define     DFA_az14o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az14o4Dpt232Shift 8
-#define DFA_ad15A                               639      // 8 Bits, Bit 7-0
-#define DFA_ad15B                               640      // 8 Bits, Bit 7-0
-#define DFA_ad15C                               641      // 8 Bits, Bit 7-0
-#define DFA_ad15D                               642      // 8 Bits, Bit 7-0
-#define DFA_ad15E                               643      // 8 Bits, Bit 7-0
-#define DFA_ad15F                               644      // 8 Bits, Bit 7-0
-#define DFA_ad15G                               645      // 8 Bits, Bit 7-0
-#define DFA_ad15H                               646      // 8 Bits, Bit 7-0
-#define DFA_ad15T                               647      // 8 Bits, Bit 7-0
-#define DFA_ad15TBase                           648      // 2 Bits, Bit 7-6
+#define DFA_ad15A                               707      // 8 Bits, Bit 7-0
+#define DFA_ad15B                               708      // 8 Bits, Bit 7-0
+#define DFA_ad15C                               709      // 8 Bits, Bit 7-0
+#define DFA_ad15D                               710      // 8 Bits, Bit 7-0
+#define DFA_ad15E                               711      // 8 Bits, Bit 7-0
+#define DFA_ad15F                               712      // 8 Bits, Bit 7-0
+#define DFA_ad15G                               713      // 8 Bits, Bit 7-0
+#define DFA_ad15H                               714      // 8 Bits, Bit 7-0
+#define DFA_ad15T                               715      // 8 Bits, Bit 7-0
+#define DFA_ad15TBase                           716      // 2 Bits, Bit 7-6
 #define     DFA_ad15TBaseMask 0xC0
 #define     DFA_ad15TBaseShift 6
-#define DFA_ad15TTime                           648      // 14 Bits, Bit 13-0
+#define DFA_ad15TTime                           716      // 14 Bits, Bit 13-0
 #define     DFA_ad15TTimeMask 0x3FFF
 #define     DFA_ad15TTimeShift 0
-#define DFA_az15o1Send                          650      // 8 Bits, Bit 7-0
-#define DFA_az15o1Dpt1                          651      // 8 Bits, Bit 7-0
-#define DFA_az15o1Dpt2                          651      // 8 Bits, Bit 7-0
-#define DFA_az15o1Dpt5                          651      // uint8_t
-#define DFA_az15o1Dpt5001                       651      // uint8_t
-#define DFA_az15o1Dpt6                          651      // int8_t
-#define DFA_az15o1Dpt7                          651      // uint16_t
-#define DFA_az15o1Dpt8                          651      // int16_t
-#define DFA_az15o1Dpt9                          651      // float
-#define DFA_az15o1Dpt12                         651      // uint32_t
-#define DFA_az15o1Dpt13                         651      // int32_t
-#define DFA_az15o1Dpt14                         651      // float
-#define DFA_az15o1Dpt17                         651      // 8 Bits, Bit 7-0
-#define DFA_az15o1Dpt232                        651      // 24 Bits, Bit 31-8
+#define DFA_az15o1Send                          718      // 8 Bits, Bit 7-0
+#define DFA_az15o1Dpt1                          719      // 8 Bits, Bit 7-0
+#define DFA_az15o1Dpt2                          719      // 8 Bits, Bit 7-0
+#define DFA_az15o1Dpt5                          719      // uint8_t
+#define DFA_az15o1Dpt5001                       719      // uint8_t
+#define DFA_az15o1Dpt6                          719      // int8_t
+#define DFA_az15o1Dpt7                          719      // uint16_t
+#define DFA_az15o1Dpt8                          719      // int16_t
+#define DFA_az15o1Dpt9                          719      // float
+#define DFA_az15o1Dpt12                         719      // uint32_t
+#define DFA_az15o1Dpt13                         719      // int32_t
+#define DFA_az15o1Dpt14                         719      // float
+#define DFA_az15o1Dpt17                         719      // 8 Bits, Bit 7-0
+#define DFA_az15o1Dpt232                        719      // 24 Bits, Bit 31-8
 #define     DFA_az15o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az15o1Dpt232Shift 8
-#define DFA_az15o2Send                          655      // 8 Bits, Bit 7-0
-#define DFA_az15o2Dpt1                          656      // 8 Bits, Bit 7-0
-#define DFA_az15o2Dpt2                          656      // 8 Bits, Bit 7-0
-#define DFA_az15o2Dpt5                          656      // uint8_t
-#define DFA_az15o2Dpt5001                       656      // uint8_t
-#define DFA_az15o2Dpt6                          656      // int8_t
-#define DFA_az15o2Dpt7                          656      // uint16_t
-#define DFA_az15o2Dpt8                          656      // int16_t
-#define DFA_az15o2Dpt9                          656      // float
-#define DFA_az15o2Dpt12                         656      // uint32_t
-#define DFA_az15o2Dpt13                         656      // int32_t
-#define DFA_az15o2Dpt14                         656      // float
-#define DFA_az15o2Dpt17                         656      // 8 Bits, Bit 7-0
-#define DFA_az15o2Dpt232                        656      // 24 Bits, Bit 31-8
+#define DFA_az15o2Send                          723      // 8 Bits, Bit 7-0
+#define DFA_az15o2Dpt1                          724      // 8 Bits, Bit 7-0
+#define DFA_az15o2Dpt2                          724      // 8 Bits, Bit 7-0
+#define DFA_az15o2Dpt5                          724      // uint8_t
+#define DFA_az15o2Dpt5001                       724      // uint8_t
+#define DFA_az15o2Dpt6                          724      // int8_t
+#define DFA_az15o2Dpt7                          724      // uint16_t
+#define DFA_az15o2Dpt8                          724      // int16_t
+#define DFA_az15o2Dpt9                          724      // float
+#define DFA_az15o2Dpt12                         724      // uint32_t
+#define DFA_az15o2Dpt13                         724      // int32_t
+#define DFA_az15o2Dpt14                         724      // float
+#define DFA_az15o2Dpt17                         724      // 8 Bits, Bit 7-0
+#define DFA_az15o2Dpt232                        724      // 24 Bits, Bit 31-8
 #define     DFA_az15o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az15o2Dpt232Shift 8
-#define DFA_az15o3Send                          660      // 8 Bits, Bit 7-0
-#define DFA_az15o3Dpt1                          661      // 8 Bits, Bit 7-0
-#define DFA_az15o3Dpt2                          661      // 8 Bits, Bit 7-0
-#define DFA_az15o3Dpt5                          661      // uint8_t
-#define DFA_az15o3Dpt5001                       661      // uint8_t
-#define DFA_az15o3Dpt6                          661      // int8_t
-#define DFA_az15o3Dpt7                          661      // uint16_t
-#define DFA_az15o3Dpt8                          661      // int16_t
-#define DFA_az15o3Dpt9                          661      // float
-#define DFA_az15o3Dpt12                         661      // uint32_t
-#define DFA_az15o3Dpt13                         661      // int32_t
-#define DFA_az15o3Dpt14                         661      // float
-#define DFA_az15o3Dpt17                         661      // 8 Bits, Bit 7-0
-#define DFA_az15o3Dpt232                        661      // 24 Bits, Bit 31-8
+#define DFA_az15o3Send                          728      // 8 Bits, Bit 7-0
+#define DFA_az15o3Dpt1                          729      // 8 Bits, Bit 7-0
+#define DFA_az15o3Dpt2                          729      // 8 Bits, Bit 7-0
+#define DFA_az15o3Dpt5                          729      // uint8_t
+#define DFA_az15o3Dpt5001                       729      // uint8_t
+#define DFA_az15o3Dpt6                          729      // int8_t
+#define DFA_az15o3Dpt7                          729      // uint16_t
+#define DFA_az15o3Dpt8                          729      // int16_t
+#define DFA_az15o3Dpt9                          729      // float
+#define DFA_az15o3Dpt12                         729      // uint32_t
+#define DFA_az15o3Dpt13                         729      // int32_t
+#define DFA_az15o3Dpt14                         729      // float
+#define DFA_az15o3Dpt17                         729      // 8 Bits, Bit 7-0
+#define DFA_az15o3Dpt232                        729      // 24 Bits, Bit 31-8
 #define     DFA_az15o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az15o3Dpt232Shift 8
-#define DFA_az15o4Send                          665      // 8 Bits, Bit 7-0
-#define DFA_az15o4Dpt1                          666      // 8 Bits, Bit 7-0
-#define DFA_az15o4Dpt2                          666      // 8 Bits, Bit 7-0
-#define DFA_az15o4Dpt5                          666      // uint8_t
-#define DFA_az15o4Dpt5001                       666      // uint8_t
-#define DFA_az15o4Dpt6                          666      // int8_t
-#define DFA_az15o4Dpt7                          666      // uint16_t
-#define DFA_az15o4Dpt8                          666      // int16_t
-#define DFA_az15o4Dpt9                          666      // float
-#define DFA_az15o4Dpt12                         666      // uint32_t
-#define DFA_az15o4Dpt13                         666      // int32_t
-#define DFA_az15o4Dpt14                         666      // float
-#define DFA_az15o4Dpt16                         666      // char*, 14 Byte
-#define DFA_az15o4Dpt17                         666      // 8 Bits, Bit 7-0
-#define DFA_az15o4Dpt232                        666      // 24 Bits, Bit 31-8
+#define DFA_az15o4Send                          733      // 8 Bits, Bit 7-0
+#define DFA_az15o4Dpt1                          734      // 8 Bits, Bit 7-0
+#define DFA_az15o4Dpt2                          734      // 8 Bits, Bit 7-0
+#define DFA_az15o4Dpt5                          734      // uint8_t
+#define DFA_az15o4Dpt5001                       734      // uint8_t
+#define DFA_az15o4Dpt6                          734      // int8_t
+#define DFA_az15o4Dpt7                          734      // uint16_t
+#define DFA_az15o4Dpt8                          734      // int16_t
+#define DFA_az15o4Dpt9                          734      // float
+#define DFA_az15o4Dpt12                         734      // uint32_t
+#define DFA_az15o4Dpt13                         734      // int32_t
+#define DFA_az15o4Dpt14                         734      // float
+#define DFA_az15o4Dpt16                         734      // char*, 14 Byte
+#define DFA_az15o4Dpt17                         734      // 8 Bits, Bit 7-0
+#define DFA_az15o4Dpt232                        734      // 24 Bits, Bit 31-8
 #define     DFA_az15o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az15o4Dpt232Shift 8
-#define DFA_ad16A                               681      // 8 Bits, Bit 7-0
-#define DFA_ad16B                               682      // 8 Bits, Bit 7-0
-#define DFA_ad16C                               683      // 8 Bits, Bit 7-0
-#define DFA_ad16D                               684      // 8 Bits, Bit 7-0
-#define DFA_ad16E                               685      // 8 Bits, Bit 7-0
-#define DFA_ad16F                               686      // 8 Bits, Bit 7-0
-#define DFA_ad16G                               687      // 8 Bits, Bit 7-0
-#define DFA_ad16H                               688      // 8 Bits, Bit 7-0
-#define DFA_ad16T                               689      // 8 Bits, Bit 7-0
-#define DFA_ad16TBase                           690      // 2 Bits, Bit 7-6
+#define DFA_ad16A                               749      // 8 Bits, Bit 7-0
+#define DFA_ad16B                               750      // 8 Bits, Bit 7-0
+#define DFA_ad16C                               751      // 8 Bits, Bit 7-0
+#define DFA_ad16D                               752      // 8 Bits, Bit 7-0
+#define DFA_ad16E                               753      // 8 Bits, Bit 7-0
+#define DFA_ad16F                               754      // 8 Bits, Bit 7-0
+#define DFA_ad16G                               755      // 8 Bits, Bit 7-0
+#define DFA_ad16H                               756      // 8 Bits, Bit 7-0
+#define DFA_ad16T                               757      // 8 Bits, Bit 7-0
+#define DFA_ad16TBase                           758      // 2 Bits, Bit 7-6
 #define     DFA_ad16TBaseMask 0xC0
 #define     DFA_ad16TBaseShift 6
-#define DFA_ad16TTime                           690      // 14 Bits, Bit 13-0
+#define DFA_ad16TTime                           758      // 14 Bits, Bit 13-0
 #define     DFA_ad16TTimeMask 0x3FFF
 #define     DFA_ad16TTimeShift 0
-#define DFA_az16o1Send                          692      // 8 Bits, Bit 7-0
-#define DFA_az16o1Dpt1                          693      // 8 Bits, Bit 7-0
-#define DFA_az16o1Dpt2                          693      // 8 Bits, Bit 7-0
-#define DFA_az16o1Dpt5                          693      // uint8_t
-#define DFA_az16o1Dpt5001                       693      // uint8_t
-#define DFA_az16o1Dpt6                          693      // int8_t
-#define DFA_az16o1Dpt7                          693      // uint16_t
-#define DFA_az16o1Dpt8                          693      // int16_t
-#define DFA_az16o1Dpt9                          693      // float
-#define DFA_az16o1Dpt12                         693      // uint32_t
-#define DFA_az16o1Dpt13                         693      // int32_t
-#define DFA_az16o1Dpt14                         693      // float
-#define DFA_az16o1Dpt17                         693      // 8 Bits, Bit 7-0
-#define DFA_az16o1Dpt232                        693      // 24 Bits, Bit 31-8
+#define DFA_az16o1Send                          760      // 8 Bits, Bit 7-0
+#define DFA_az16o1Dpt1                          761      // 8 Bits, Bit 7-0
+#define DFA_az16o1Dpt2                          761      // 8 Bits, Bit 7-0
+#define DFA_az16o1Dpt5                          761      // uint8_t
+#define DFA_az16o1Dpt5001                       761      // uint8_t
+#define DFA_az16o1Dpt6                          761      // int8_t
+#define DFA_az16o1Dpt7                          761      // uint16_t
+#define DFA_az16o1Dpt8                          761      // int16_t
+#define DFA_az16o1Dpt9                          761      // float
+#define DFA_az16o1Dpt12                         761      // uint32_t
+#define DFA_az16o1Dpt13                         761      // int32_t
+#define DFA_az16o1Dpt14                         761      // float
+#define DFA_az16o1Dpt17                         761      // 8 Bits, Bit 7-0
+#define DFA_az16o1Dpt232                        761      // 24 Bits, Bit 31-8
 #define     DFA_az16o1Dpt232Mask 0xFFFFFF00
 #define     DFA_az16o1Dpt232Shift 8
-#define DFA_az16o2Send                          697      // 8 Bits, Bit 7-0
-#define DFA_az16o2Dpt1                          698      // 8 Bits, Bit 7-0
-#define DFA_az16o2Dpt2                          698      // 8 Bits, Bit 7-0
-#define DFA_az16o2Dpt5                          698      // uint8_t
-#define DFA_az16o2Dpt5001                       698      // uint8_t
-#define DFA_az16o2Dpt6                          698      // int8_t
-#define DFA_az16o2Dpt7                          698      // uint16_t
-#define DFA_az16o2Dpt8                          698      // int16_t
-#define DFA_az16o2Dpt9                          698      // float
-#define DFA_az16o2Dpt12                         698      // uint32_t
-#define DFA_az16o2Dpt13                         698      // int32_t
-#define DFA_az16o2Dpt14                         698      // float
-#define DFA_az16o2Dpt17                         698      // 8 Bits, Bit 7-0
-#define DFA_az16o2Dpt232                        698      // 24 Bits, Bit 31-8
+#define DFA_az16o2Send                          765      // 8 Bits, Bit 7-0
+#define DFA_az16o2Dpt1                          766      // 8 Bits, Bit 7-0
+#define DFA_az16o2Dpt2                          766      // 8 Bits, Bit 7-0
+#define DFA_az16o2Dpt5                          766      // uint8_t
+#define DFA_az16o2Dpt5001                       766      // uint8_t
+#define DFA_az16o2Dpt6                          766      // int8_t
+#define DFA_az16o2Dpt7                          766      // uint16_t
+#define DFA_az16o2Dpt8                          766      // int16_t
+#define DFA_az16o2Dpt9                          766      // float
+#define DFA_az16o2Dpt12                         766      // uint32_t
+#define DFA_az16o2Dpt13                         766      // int32_t
+#define DFA_az16o2Dpt14                         766      // float
+#define DFA_az16o2Dpt17                         766      // 8 Bits, Bit 7-0
+#define DFA_az16o2Dpt232                        766      // 24 Bits, Bit 31-8
 #define     DFA_az16o2Dpt232Mask 0xFFFFFF00
 #define     DFA_az16o2Dpt232Shift 8
-#define DFA_az16o3Send                          702      // 8 Bits, Bit 7-0
-#define DFA_az16o3Dpt1                          703      // 8 Bits, Bit 7-0
-#define DFA_az16o3Dpt2                          703      // 8 Bits, Bit 7-0
-#define DFA_az16o3Dpt5                          703      // uint8_t
-#define DFA_az16o3Dpt5001                       703      // uint8_t
-#define DFA_az16o3Dpt6                          703      // int8_t
-#define DFA_az16o3Dpt7                          703      // uint16_t
-#define DFA_az16o3Dpt8                          703      // int16_t
-#define DFA_az16o3Dpt9                          703      // float
-#define DFA_az16o3Dpt12                         703      // uint32_t
-#define DFA_az16o3Dpt13                         703      // int32_t
-#define DFA_az16o3Dpt14                         703      // float
-#define DFA_az16o3Dpt17                         703      // 8 Bits, Bit 7-0
-#define DFA_az16o3Dpt232                        703      // 24 Bits, Bit 31-8
+#define DFA_az16o3Send                          770      // 8 Bits, Bit 7-0
+#define DFA_az16o3Dpt1                          771      // 8 Bits, Bit 7-0
+#define DFA_az16o3Dpt2                          771      // 8 Bits, Bit 7-0
+#define DFA_az16o3Dpt5                          771      // uint8_t
+#define DFA_az16o3Dpt5001                       771      // uint8_t
+#define DFA_az16o3Dpt6                          771      // int8_t
+#define DFA_az16o3Dpt7                          771      // uint16_t
+#define DFA_az16o3Dpt8                          771      // int16_t
+#define DFA_az16o3Dpt9                          771      // float
+#define DFA_az16o3Dpt12                         771      // uint32_t
+#define DFA_az16o3Dpt13                         771      // int32_t
+#define DFA_az16o3Dpt14                         771      // float
+#define DFA_az16o3Dpt17                         771      // 8 Bits, Bit 7-0
+#define DFA_az16o3Dpt232                        771      // 24 Bits, Bit 31-8
 #define     DFA_az16o3Dpt232Mask 0xFFFFFF00
 #define     DFA_az16o3Dpt232Shift 8
-#define DFA_az16o4Send                          707      // 8 Bits, Bit 7-0
-#define DFA_az16o4Dpt1                          708      // 8 Bits, Bit 7-0
-#define DFA_az16o4Dpt2                          708      // 8 Bits, Bit 7-0
-#define DFA_az16o4Dpt5                          708      // uint8_t
-#define DFA_az16o4Dpt5001                       708      // uint8_t
-#define DFA_az16o4Dpt6                          708      // int8_t
-#define DFA_az16o4Dpt7                          708      // uint16_t
-#define DFA_az16o4Dpt8                          708      // int16_t
-#define DFA_az16o4Dpt9                          708      // float
-#define DFA_az16o4Dpt12                         708      // uint32_t
-#define DFA_az16o4Dpt13                         708      // int32_t
-#define DFA_az16o4Dpt14                         708      // float
-#define DFA_az16o4Dpt16                         708      // char*, 14 Byte
-#define DFA_az16o4Dpt17                         708      // 8 Bits, Bit 7-0
-#define DFA_az16o4Dpt232                        708      // 24 Bits, Bit 31-8
+#define DFA_az16o4Send                          775      // 8 Bits, Bit 7-0
+#define DFA_az16o4Dpt1                          776      // 8 Bits, Bit 7-0
+#define DFA_az16o4Dpt2                          776      // 8 Bits, Bit 7-0
+#define DFA_az16o4Dpt5                          776      // uint8_t
+#define DFA_az16o4Dpt5001                       776      // uint8_t
+#define DFA_az16o4Dpt6                          776      // int8_t
+#define DFA_az16o4Dpt7                          776      // uint16_t
+#define DFA_az16o4Dpt8                          776      // int16_t
+#define DFA_az16o4Dpt9                          776      // float
+#define DFA_az16o4Dpt12                         776      // uint32_t
+#define DFA_az16o4Dpt13                         776      // int32_t
+#define DFA_az16o4Dpt14                         776      // float
+#define DFA_az16o4Dpt16                         776      // char*, 14 Byte
+#define DFA_az16o4Dpt17                         776      // 8 Bits, Bit 7-0
+#define DFA_az16o4Dpt232                        776      // 24 Bits, Bit 31-8
 #define     DFA_az16o4Dpt232Mask 0xFFFFFF00
 #define     DFA_az16o4Dpt232Shift 8
 
@@ -4231,70 +4490,6 @@
 #define ParamDFA_aSymbolPairEF                       ((bool)(knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolPairEF)) & DFA_aSymbolPairEFMask))
 // Kombination G/H
 #define ParamDFA_aSymbolPairGH                       ((bool)(knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolPairGH)) & DFA_aSymbolPairGHMask))
-// KO Eingabe 1
-#define ParamDFA_aSymbolAInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolAInput)) & DFA_aSymbolAInputMask) >> DFA_aSymbolAInputShift)
-// KO-Nummer Eingabe 1
-#define ParamDFA_aSymbolAKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolAKoNumber)) & DFA_aSymbolAKoNumberMask) >> DFA_aSymbolAKoNumberShift)
-// Logik-Kanal-Ausgangs-Nummer Eingabe 1
-#define ParamDFA_aSymbolALogicNumber                 (knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolALogicNumber)))
-// Eingabewert 1
-#define ParamDFA_aSymbolATrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolATrigger)) & DFA_aSymbolATriggerMask) >> DFA_aSymbolATriggerShift)
-// KO Eingabe 2
-#define ParamDFA_aSymbolBInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolBInput)) & DFA_aSymbolBInputMask) >> DFA_aSymbolBInputShift)
-// KO-Nummer Eingabe 2
-#define ParamDFA_aSymbolBKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolBKoNumber)) & DFA_aSymbolBKoNumberMask) >> DFA_aSymbolBKoNumberShift)
-// Logik-Kanal-Ausgangs-Nummer Eingabe 2
-#define ParamDFA_aSymbolBLogicNumber                 (knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolBLogicNumber)))
-// Eingabewert 2
-#define ParamDFA_aSymbolBTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolBTrigger)) & DFA_aSymbolBTriggerMask) >> DFA_aSymbolBTriggerShift)
-// KO Eingabe 3
-#define ParamDFA_aSymbolCInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolCInput)) & DFA_aSymbolCInputMask) >> DFA_aSymbolCInputShift)
-// KO-Nummer Eingabe 3
-#define ParamDFA_aSymbolCKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolCKoNumber)) & DFA_aSymbolCKoNumberMask) >> DFA_aSymbolCKoNumberShift)
-// Logik-Kanal-Ausgangs-Nummer Eingabe 3
-#define ParamDFA_aSymbolCLogicNumber                 (knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolCLogicNumber)))
-// Eingabewert 3
-#define ParamDFA_aSymbolCTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolCTrigger)) & DFA_aSymbolCTriggerMask) >> DFA_aSymbolCTriggerShift)
-// KO Eingabe 4
-#define ParamDFA_aSymbolDInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolDInput)) & DFA_aSymbolDInputMask) >> DFA_aSymbolDInputShift)
-// KO-Nummer Eingabe 4
-#define ParamDFA_aSymbolDKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolDKoNumber)) & DFA_aSymbolDKoNumberMask) >> DFA_aSymbolDKoNumberShift)
-// Logik-Kanal-Ausgangs-Nummer Eingabe 4
-#define ParamDFA_aSymbolDLogicNumber                 (knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolDLogicNumber)))
-// Eingabewert 4
-#define ParamDFA_aSymbolDTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolDTrigger)) & DFA_aSymbolDTriggerMask) >> DFA_aSymbolDTriggerShift)
-// KO Eingabe 5
-#define ParamDFA_aSymbolEInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolEInput)) & DFA_aSymbolEInputMask) >> DFA_aSymbolEInputShift)
-// KO-Nummer Eingabe 5
-#define ParamDFA_aSymbolEKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolEKoNumber)) & DFA_aSymbolEKoNumberMask) >> DFA_aSymbolEKoNumberShift)
-// Logik-Kanal-Ausgangs-Nummer Eingabe 5
-#define ParamDFA_aSymbolELogicNumber                 (knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolELogicNumber)))
-// Eingabewert 5
-#define ParamDFA_aSymbolETrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolETrigger)) & DFA_aSymbolETriggerMask) >> DFA_aSymbolETriggerShift)
-// KO Eingabe 6
-#define ParamDFA_aSymbolFInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolFInput)) & DFA_aSymbolFInputMask) >> DFA_aSymbolFInputShift)
-// KO-Nummer Eingabe 6
-#define ParamDFA_aSymbolFKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolFKoNumber)) & DFA_aSymbolFKoNumberMask) >> DFA_aSymbolFKoNumberShift)
-// Logik-Kanal-Ausgangs-Nummer Eingabe 6
-#define ParamDFA_aSymbolFLogicNumber                 (knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolFLogicNumber)))
-// Eingabewert 6
-#define ParamDFA_aSymbolFTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolFTrigger)) & DFA_aSymbolFTriggerMask) >> DFA_aSymbolFTriggerShift)
-// KO Eingabe 7
-#define ParamDFA_aSymbolGInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolGInput)) & DFA_aSymbolGInputMask) >> DFA_aSymbolGInputShift)
-// KO-Nummer Eingabe 7
-#define ParamDFA_aSymbolGKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolGKoNumber)) & DFA_aSymbolGKoNumberMask) >> DFA_aSymbolGKoNumberShift)
-// Logik-Kanal-Ausgangs-Nummer Eingabe 7
-#define ParamDFA_aSymbolGLogicNumber                 (knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolGLogicNumber)))
-// Eingabewert 7
-#define ParamDFA_aSymbolGTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolGTrigger)) & DFA_aSymbolGTriggerMask) >> DFA_aSymbolGTriggerShift)
-// KO Eingabe 8
-#define ParamDFA_aSymbolHInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolHInput)) & DFA_aSymbolHInputMask) >> DFA_aSymbolHInputShift)
-// KO-Nummer Eingabe 8
-#define ParamDFA_aSymbolHKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolHKoNumber)) & DFA_aSymbolHKoNumberMask) >> DFA_aSymbolHKoNumberShift)
-// Logik-Kanal-Ausgangs-Nummer Eingabe 8
-#define ParamDFA_aSymbolHLogicNumber                 (knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolHLogicNumber)))
-// Eingabewert 8
-#define ParamDFA_aSymbolHTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolHTrigger)) & DFA_aSymbolHTriggerMask) >> DFA_aSymbolHTriggerShift)
 // Datentyp Ausgabe 1
 #define ParamDFA_aOutput1Dpt                         (knx.paramByte(DFA_ParamCalcIndex(DFA_aOutput1Dpt)))
 // Sendeintervall Zeitbasis
@@ -4327,6 +4522,206 @@
 #define ParamDFA_aOutput4IntervalTime                (knx.paramWord(DFA_ParamCalcIndex(DFA_aOutput4IntervalTime)) & DFA_aOutput4IntervalTimeMask)
 // Sendeintervall Zeit (in Millisekunden)
 #define ParamDFA_aOutput4IntervalTimeMS              (paramDelay(knx.paramWord(DFA_ParamCalcIndex(DFA_aOutput4IntervalTime))))
+// KO Eingabe 1
+#define ParamDFA_aSymbolAInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolAInput)) & DFA_aSymbolAInputMask) >> DFA_aSymbolAInputShift)
+// KO-Nummer Eingabe 1
+#define ParamDFA_aSymbolAKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolAKoNumber)) & DFA_aSymbolAKoNumberMask) >> DFA_aSymbolAKoNumberShift)
+// Logik-Kanal-Ausgangs-Nummer Eingabe 1
+#define ParamDFA_aSymbolALogicNumber                 (knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolALogicNumber)))
+// Eingabewert 1
+#define ParamDFA_aSymbolATrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolATrigger)) & DFA_aSymbolATriggerMask) >> DFA_aSymbolATriggerShift)
+// KO Eingabe 2
+#define ParamDFA_aSymbolBInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolBInput)) & DFA_aSymbolBInputMask) >> DFA_aSymbolBInputShift)
+// KO-Nummer Eingabe 2
+#define ParamDFA_aSymbolBKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolBKoNumber)) & DFA_aSymbolBKoNumberMask) >> DFA_aSymbolBKoNumberShift)
+// Logik-Kanal-Ausgangs-Nummer Eingabe 2
+#define ParamDFA_aSymbolBLogicNumber                 (knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolBLogicNumber)))
+// Eingabewert 2
+#define ParamDFA_aSymbolBTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolBTrigger)) & DFA_aSymbolBTriggerMask) >> DFA_aSymbolBTriggerShift)
+// KO Eingabe 3
+#define ParamDFA_aSymbolCInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolCInput)) & DFA_aSymbolCInputMask) >> DFA_aSymbolCInputShift)
+// KO-Nummer Eingabe 3
+#define ParamDFA_aSymbolCKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolCKoNumber)) & DFA_aSymbolCKoNumberMask) >> DFA_aSymbolCKoNumberShift)
+// Logik-Kanal-Ausgangs-Nummer Eingabe 3
+#define ParamDFA_aSymbolCLogicNumber                 (knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolCLogicNumber)))
+// Eingabewert 3
+#define ParamDFA_aSymbolCTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolCTrigger)) & DFA_aSymbolCTriggerMask) >> DFA_aSymbolCTriggerShift)
+// KO Eingabe 4
+#define ParamDFA_aSymbolDInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolDInput)) & DFA_aSymbolDInputMask) >> DFA_aSymbolDInputShift)
+// KO-Nummer Eingabe 4
+#define ParamDFA_aSymbolDKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolDKoNumber)) & DFA_aSymbolDKoNumberMask) >> DFA_aSymbolDKoNumberShift)
+// Logik-Kanal-Ausgangs-Nummer Eingabe 4
+#define ParamDFA_aSymbolDLogicNumber                 (knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolDLogicNumber)))
+// Eingabewert 4
+#define ParamDFA_aSymbolDTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolDTrigger)) & DFA_aSymbolDTriggerMask) >> DFA_aSymbolDTriggerShift)
+// KO Eingabe 5
+#define ParamDFA_aSymbolEInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolEInput)) & DFA_aSymbolEInputMask) >> DFA_aSymbolEInputShift)
+// KO-Nummer Eingabe 5
+#define ParamDFA_aSymbolEKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolEKoNumber)) & DFA_aSymbolEKoNumberMask) >> DFA_aSymbolEKoNumberShift)
+// Logik-Kanal-Ausgangs-Nummer Eingabe 5
+#define ParamDFA_aSymbolELogicNumber                 (knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolELogicNumber)))
+// Eingabewert 5
+#define ParamDFA_aSymbolETrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolETrigger)) & DFA_aSymbolETriggerMask) >> DFA_aSymbolETriggerShift)
+// KO Eingabe 6
+#define ParamDFA_aSymbolFInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolFInput)) & DFA_aSymbolFInputMask) >> DFA_aSymbolFInputShift)
+// KO-Nummer Eingabe 6
+#define ParamDFA_aSymbolFKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolFKoNumber)) & DFA_aSymbolFKoNumberMask) >> DFA_aSymbolFKoNumberShift)
+// Logik-Kanal-Ausgangs-Nummer Eingabe 6
+#define ParamDFA_aSymbolFLogicNumber                 (knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolFLogicNumber)))
+// Eingabewert 6
+#define ParamDFA_aSymbolFTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolFTrigger)) & DFA_aSymbolFTriggerMask) >> DFA_aSymbolFTriggerShift)
+// KO Eingabe 7
+#define ParamDFA_aSymbolGInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolGInput)) & DFA_aSymbolGInputMask) >> DFA_aSymbolGInputShift)
+// KO-Nummer Eingabe 7
+#define ParamDFA_aSymbolGKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolGKoNumber)) & DFA_aSymbolGKoNumberMask) >> DFA_aSymbolGKoNumberShift)
+// Logik-Kanal-Ausgangs-Nummer Eingabe 7
+#define ParamDFA_aSymbolGLogicNumber                 (knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolGLogicNumber)))
+// Eingabewert 7
+#define ParamDFA_aSymbolGTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolGTrigger)) & DFA_aSymbolGTriggerMask) >> DFA_aSymbolGTriggerShift)
+// KO Eingabe 8
+#define ParamDFA_aSymbolHInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolHInput)) & DFA_aSymbolHInputMask) >> DFA_aSymbolHInputShift)
+// KO-Nummer Eingabe 8
+#define ParamDFA_aSymbolHKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolHKoNumber)) & DFA_aSymbolHKoNumberMask) >> DFA_aSymbolHKoNumberShift)
+// Logik-Kanal-Ausgangs-Nummer Eingabe 8
+#define ParamDFA_aSymbolHLogicNumber                 (knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolHLogicNumber)))
+// Eingabewert 8
+#define ParamDFA_aSymbolHTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolHTrigger)) & DFA_aSymbolHTriggerMask) >> DFA_aSymbolHTriggerShift)
+// Direktes Auslösen von Timeout (Symbol T)
+#define ParamDFA_aSymbolTInput                       ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolTInput)) & DFA_aSymbolTInputMask) >> DFA_aSymbolTInputShift)
+// KO-Nummer für Symbol T
+#define ParamDFA_aSymbolTKoNumber                    ((knx.paramWord(DFA_ParamCalcIndex(DFA_aSymbolTKoNumber)) & DFA_aSymbolTKoNumberMask) >> DFA_aSymbolTKoNumberShift)
+// Logik-Kanal-Ausgangs-Nummer für Symbol T
+#define ParamDFA_aSymbolTLogicNumber                 (knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolTLogicNumber)))
+// Eingabewert zum Auslösen von Timeout
+#define ParamDFA_aSymbolTTrigger                     ((knx.paramByte(DFA_ParamCalcIndex(DFA_aSymbolTTrigger)) & DFA_aSymbolTTriggerMask) >> DFA_aSymbolTTriggerShift)
+// Bedingungsauswertung 1 - Logikkanal
+#define ParamDFA_aCaLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCaLOG)))
+// Bedingungsauswertung 1 - Folgezustand bei 1
+#define ParamDFA_aCaT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCaT)))
+// Bedingungsauswertung 1 - Folgezustand bei 0
+#define ParamDFA_aCaF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCaF)))
+// Bedingungsauswertung 1 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCaU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCaU)))
+// Bedingungsauswertung 2 - Logikkanal
+#define ParamDFA_aCbLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCbLOG)))
+// Bedingungsauswertung 2 - Folgezustand bei 1
+#define ParamDFA_aCbT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCbT)))
+// Bedingungsauswertung 2 - Folgezustand bei 0
+#define ParamDFA_aCbF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCbF)))
+// Bedingungsauswertung 2 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCbU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCbU)))
+// Bedingungsauswertung 3 - Logikkanal
+#define ParamDFA_aCcLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCcLOG)))
+// Bedingungsauswertung 3 - Folgezustand bei 1
+#define ParamDFA_aCcT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCcT)))
+// Bedingungsauswertung 3 - Folgezustand bei 0
+#define ParamDFA_aCcF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCcF)))
+// Bedingungsauswertung 3 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCcU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCcU)))
+// Bedingungsauswertung 4 - Logikkanal
+#define ParamDFA_aCdLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCdLOG)))
+// Bedingungsauswertung 4 - Folgezustand bei 1
+#define ParamDFA_aCdT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCdT)))
+// Bedingungsauswertung 4 - Folgezustand bei 0
+#define ParamDFA_aCdF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCdF)))
+// Bedingungsauswertung 4 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCdU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCdU)))
+// Bedingungsauswertung 5 - Logikkanal
+#define ParamDFA_aCeLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCeLOG)))
+// Bedingungsauswertung 5 - Folgezustand bei 1
+#define ParamDFA_aCeT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCeT)))
+// Bedingungsauswertung 5 - Folgezustand bei 0
+#define ParamDFA_aCeF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCeF)))
+// Bedingungsauswertung 5 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCeU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCeU)))
+// Bedingungsauswertung 6 - Logikkanal
+#define ParamDFA_aCfLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCfLOG)))
+// Bedingungsauswertung 6 - Folgezustand bei 1
+#define ParamDFA_aCfT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCfT)))
+// Bedingungsauswertung 6 - Folgezustand bei 0
+#define ParamDFA_aCfF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCfF)))
+// Bedingungsauswertung 6 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCfU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCfU)))
+// Bedingungsauswertung 7 - Logikkanal
+#define ParamDFA_aCgLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCgLOG)))
+// Bedingungsauswertung 7 - Folgezustand bei 1
+#define ParamDFA_aCgT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCgT)))
+// Bedingungsauswertung 7 - Folgezustand bei 0
+#define ParamDFA_aCgF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCgF)))
+// Bedingungsauswertung 7 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCgU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCgU)))
+// Bedingungsauswertung 8 - Logikkanal
+#define ParamDFA_aChLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aChLOG)))
+// Bedingungsauswertung 8 - Folgezustand bei 1
+#define ParamDFA_aChT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aChT)))
+// Bedingungsauswertung 8 - Folgezustand bei 0
+#define ParamDFA_aChF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aChF)))
+// Bedingungsauswertung 8 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aChU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aChU)))
+// Bedingungsauswertung 9 - Logikkanal
+#define ParamDFA_aCiLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCiLOG)))
+// Bedingungsauswertung 9 - Folgezustand bei 1
+#define ParamDFA_aCiT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCiT)))
+// Bedingungsauswertung 9 - Folgezustand bei 0
+#define ParamDFA_aCiF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCiF)))
+// Bedingungsauswertung 9 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCiU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCiU)))
+// Bedingungsauswertung 10 - Logikkanal
+#define ParamDFA_aCjLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCjLOG)))
+// Bedingungsauswertung 10 - Folgezustand bei 1
+#define ParamDFA_aCjT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCjT)))
+// Bedingungsauswertung 10 - Folgezustand bei 0
+#define ParamDFA_aCjF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCjF)))
+// Bedingungsauswertung 10 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCjU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCjU)))
+// Bedingungsauswertung 11 - Logikkanal
+#define ParamDFA_aCkLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCkLOG)))
+// Bedingungsauswertung 11 - Folgezustand bei 1
+#define ParamDFA_aCkT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCkT)))
+// Bedingungsauswertung 11 - Folgezustand bei 0
+#define ParamDFA_aCkF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCkF)))
+// Bedingungsauswertung 11 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCkU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCkU)))
+// Bedingungsauswertung 12 - Logikkanal
+#define ParamDFA_aClLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aClLOG)))
+// Bedingungsauswertung 12 - Folgezustand bei 1
+#define ParamDFA_aClT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aClT)))
+// Bedingungsauswertung 12 - Folgezustand bei 0
+#define ParamDFA_aClF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aClF)))
+// Bedingungsauswertung 12 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aClU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aClU)))
+// Bedingungsauswertung 13 - Logikkanal
+#define ParamDFA_aCmLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCmLOG)))
+// Bedingungsauswertung 13 - Folgezustand bei 1
+#define ParamDFA_aCmT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCmT)))
+// Bedingungsauswertung 13 - Folgezustand bei 0
+#define ParamDFA_aCmF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCmF)))
+// Bedingungsauswertung 13 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCmU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCmU)))
+// Bedingungsauswertung 14 - Logikkanal
+#define ParamDFA_aCnLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCnLOG)))
+// Bedingungsauswertung 14 - Folgezustand bei 1
+#define ParamDFA_aCnT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCnT)))
+// Bedingungsauswertung 14 - Folgezustand bei 0
+#define ParamDFA_aCnF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCnF)))
+// Bedingungsauswertung 14 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCnU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCnU)))
+// Bedingungsauswertung 15 - Logikkanal
+#define ParamDFA_aCoLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCoLOG)))
+// Bedingungsauswertung 15 - Folgezustand bei 1
+#define ParamDFA_aCoT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCoT)))
+// Bedingungsauswertung 15 - Folgezustand bei 0
+#define ParamDFA_aCoF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCoF)))
+// Bedingungsauswertung 15 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCoU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCoU)))
+// Bedingungsauswertung 16 - Logikkanal
+#define ParamDFA_aCpLOG                              (knx.paramByte(DFA_ParamCalcIndex(DFA_aCpLOG)))
+// Bedingungsauswertung 16 - Folgezustand bei 1
+#define ParamDFA_aCpT                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCpT)))
+// Bedingungsauswertung 16 - Folgezustand bei 0
+#define ParamDFA_aCpF                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCpF)))
+// Bedingungsauswertung 16 - Folgezustand bei UNDEFINIERT
+#define ParamDFA_aCpU                                (knx.paramByte(DFA_ParamCalcIndex(DFA_aCpU)))
 // trans(01,1)
 #define ParamDFA_ad01A                               (knx.paramByte(DFA_ParamCalcIndex(DFA_ad01A)))
 // trans(01,2)
@@ -6551,13 +6946,6 @@
 #define DFA_KoKOaRunSet 1
 #define DFA_KoKOaState 2
 #define DFA_KoKOaStateI 3
-#define DFA_KoKOaDummy01 4
-#define DFA_KoKOaDummy02 5
-#define DFA_KoKOaDummy03 6
-#define DFA_KoKOaDummy04 7
-#define DFA_KoKOaDummy05 8
-#define DFA_KoKOaDummy06 9
-#define DFA_KoKOaDummy07 10
 #define DFA_KoKOaInput1 11
 #define DFA_KoKOaInput2 12
 #define DFA_KoKOaInput3 13
@@ -6566,40 +6954,21 @@
 #define DFA_KoKOaInput6 16
 #define DFA_KoKOaInput7 17
 #define DFA_KoKOaInput8 18
-#define DFA_KoKOaDummy08 19
-#define DFA_KoKOaDummy09 20
+#define DFA_KoKOaInputT 19
 #define DFA_KoKOaOutput1 21
 #define DFA_KoKOaOutput2 22
 #define DFA_KoKOaOutput3 23
 #define DFA_KoKOaOutput4 24
-#define DFA_KoKOaDummy10 25
-#define DFA_KoKOaDummy11 26
-#define DFA_KoKOaDummy12 27
-#define DFA_KoKOaDummy13 28
 #define DFA_KoKOaDummy14 29
 
-// Ausführen status
+// läuft?
 #define KoDFA_KOaRunning                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaRunning)))
-// Ausführen setzen
+// starten/pausieren
 #define KoDFA_KOaRunSet                           (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaRunSet)))
 // Zustand
 #define KoDFA_KOaState                            (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaState)))
 // Zustand setzen
 #define KoDFA_KOaStateI                           (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaStateI)))
-// Dummy01
-#define KoDFA_KOaDummy01                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy01)))
-// Dummy02
-#define KoDFA_KOaDummy02                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy02)))
-// Dummy03
-#define KoDFA_KOaDummy03                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy03)))
-// Dummy04
-#define KoDFA_KOaDummy04                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy04)))
-// Dummy05
-#define KoDFA_KOaDummy05                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy05)))
-// Dummy06
-#define KoDFA_KOaDummy06                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy06)))
-// Dummy07
-#define KoDFA_KOaDummy07                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy07)))
 // Eingang 1
 #define KoDFA_KOaInput1                           (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaInput1)))
 // Eingang 2
@@ -6616,10 +6985,8 @@
 #define KoDFA_KOaInput7                           (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaInput7)))
 // Eingang 8
 #define KoDFA_KOaInput8                           (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaInput8)))
-// Dummy08
-#define KoDFA_KOaDummy08                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy08)))
-// Dummy09
-#define KoDFA_KOaDummy09                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy09)))
+// Eingang T
+#define KoDFA_KOaInputT                           (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaInputT)))
 // Wertausgang 1
 #define KoDFA_KOaOutput1                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaOutput1)))
 // Wertausgang 2
@@ -6628,14 +6995,6 @@
 #define KoDFA_KOaOutput3                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaOutput3)))
 // Wertausgang 4
 #define KoDFA_KOaOutput4                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaOutput4)))
-// Dummy10
-#define KoDFA_KOaDummy10                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy10)))
-// Dummy11
-#define KoDFA_KOaDummy11                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy11)))
-// Dummy12
-#define KoDFA_KOaDummy12                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy12)))
-// Dummy13
-#define KoDFA_KOaDummy13                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy13)))
 // Dummy14
 #define KoDFA_KOaDummy14                          (knx.getGroupObject(DFA_KoCalcNumber(DFA_KoKOaDummy14)))
 
@@ -6647,8 +7006,18 @@
 #define BASE_KommentarModuleModuleParamSize 0
 #define BASE_KommentarModuleSubmodulesParamSize 0
 #define BASE_KommentarModuleParamSize 0
-#define BASE_KommentarModuleParamOffset 15231
+#define BASE_KommentarModuleParamOffset 15569
 #define BASE_KommentarModuleCalcIndex(index, m1) (index + BASE_KommentarModuleParamOffset + _channelIndex * BASE_KommentarModuleCount * BASE_KommentarModuleParamSize + m1 * BASE_KommentarModuleParamSize)
 
 
 
+#ifdef MAIN_FirmwareRevision
+#ifndef FIRMWARE_REVISION
+#define FIRMWARE_REVISION MAIN_FirmwareRevision
+#endif
+#endif
+#ifdef MAIN_FirmwareName
+#ifndef FIRMWARE_NAME
+#define FIRMWARE_NAME MAIN_FirmwareName
+#endif
+#endif

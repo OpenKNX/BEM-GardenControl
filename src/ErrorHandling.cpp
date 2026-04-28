@@ -8,6 +8,7 @@
 #include "HelperFunc.h"
 #include "I2C_IOExpander.h"
 #include "LED_Statusanzeige.h"
+#include "handleVentilRelais.h"
 #ifdef ADC_enable
     #include "ReadADC.h"
 #endif
@@ -37,6 +38,7 @@ bool error_vcc_12V_old = false;
 uint32_t delayTimer = 0;
 uint32_t delayTimer_DiagKO = 0;
 uint32_t timer1sek = 0;
+uint32_t timer500ms = 0;
 uint32_t RestartTimer_5V_Relais = 0;
 
 uint8_t error = 0;
@@ -50,7 +52,7 @@ void restart_Relais_5V()
     {
         digitalWrite(get_SSR_EN_PIN(), true);
         restart_5V_Relais = false;
-        Serial.println("------> Restart");
+        Serial.println("------> Restart 5V Relais");
     }
 }
 
@@ -60,7 +62,6 @@ void processCheck24VAC()
     if (digitalRead(get_5V_status_PIN()))
     {
         error = 0;
-        Serial.println("------> ERROR = 0");
         error = 1 << ERROR_24V_AC;
 #ifdef ADC_enable
         clearInitFlags_ADC();
@@ -79,22 +80,22 @@ void processCheck24VAC()
             delayTimer = millis();
         }
         error &= ~(1 << ERROR_24V_AC);
+
     }
 
-    if (delayCheck(timer1sek, 500))
+    if (delayCheck(timer500ms, 503))
     {
-        timer1sek = millis();
-        if (digitalRead(get_5V_status_PIN()))
+        timer500ms = millis();
+        if (get_24V_AC_Error())
         {
             setLED_24VAC(false);
-            // Serial.println("------> 24VAC OFF LED AUS");
         }
         else
         {
             setLED_24VAC(true);
         }
 
-        if (error != 0 && !digitalRead(get_5V_status_PIN()))
+        if (error != 0 && get_24V_AC_Error() == 0)
         {
             setLED_ERROR(true);
         }
@@ -107,100 +108,115 @@ void processCheck24VAC()
 
 uint8_t processErrorHandling()
 {
-    // error = 0;
+
     //  Check ext Relais 5V
     if (!digitalRead(get_SSR_FAULT_PIN()))
     {
         error |= 1 << ERROR_Relais_5V;
-        /* RestartTimer_5V_Relais = millis();
-         digitalWrite(get_SSR_EN_PIN(), false);
-         restart_5V_Relais = true;
-         Serial.println("------> STOPP");
-         */
     }
     else
     {
         error &= ~(1 << ERROR_Relais_5V);
     }
 
-    // read +5V Output  fault
-    if (!get_IOExpander_TOP_Input(get_5V_Output_fault_PIN()))
+    // All checks neccessary only when 24VAC is available
+    if (get_24V_AC_Error() == 0)
     {
-        error |= 1 << ERROR_VCC_5V;
-        counter_5V_VCC_error = 0;
-    }
-    else
-    {
-        counter_5V_VCC_error++;
-        if (counter_5V_VCC_error > 100)
+        // read +5V Output fault
+        if (!get_IOExpander_TOP_Input(get_5V_Output_fault_PIN()))
         {
-            error &= ~(1 << ERROR_VCC_5V);
+            error |= 1 << ERROR_VCC_5V;
+            counter_5V_VCC_error = 0;
         }
-    }
+        else
+        {
+            counter_5V_VCC_error++;
+            if (counter_5V_VCC_error > 100)
+            {
+                error &= ~(1 << ERROR_VCC_5V);
+            }
+        }
 
-    // read +12V Output  fault
-    if (get_12V_Output_fault_PIN() != 255 && get_IOExpander_TOP_Input(get_12V_Output_fault_PIN()))
-    {
-        error |= 1 << ERROR_VCC_12V;
-        counter_12V_VCC_error = 0;
-        if (error_vcc_12V_old == false)
+        // read +12V Output  fault
+        if (get_12V_Output_fault_PIN() != 255 && get_IOExpander_TOP_Input(get_12V_Output_fault_PIN()))
         {
-            set_IOExpander_TOP_Output(4, LOW);
-            error_vcc_12V_old = true;
+            error |= 1 << ERROR_VCC_12V;
+            counter_12V_VCC_error = 0;
+            if (error_vcc_12V_old == false)
+            {
+                set_IOExpander_TOP_Output(4, LOW);
+                error_vcc_12V_old = true;
+            }
         }
-    }
-    else
-    {
-        counter_12V_VCC_error++;
-        if (counter_12V_VCC_error > 100)
+        else
         {
-            error &= ~(1 << ERROR_VCC_12V);
+            counter_12V_VCC_error++;
+            if (counter_12V_VCC_error > 100)
+            {
+                error &= ~(1 << ERROR_VCC_12V);
+            }
+            if (error_vcc_12V_old == true)
+            {
+                set_IOExpander_TOP_Output(4, HIGH);
+                error_vcc_12V_old = false;
+            }
         }
-        if (error_vcc_12V_old == true)
-        {
-            set_IOExpander_TOP_Output(4, HIGH);
-            error_vcc_12V_old = false;
-        }
-    }
 
-    // read +24V Output  fault
-    if (get_24V_Output_fault_PIN() != 255 && get_IOExpander_TOP_Input(get_24V_Output_fault_PIN()))
-    {
-        error |= 1 << ERROR_VCC_24V;
+        // read +24V Output  fault
+        if (get_24V_Output_fault_PIN() != 255 && get_IOExpander_TOP_Input(get_24V_Output_fault_PIN()))
+        {
+            error |= 1 << ERROR_VCC_24V;
+        }
+        else
+        {
+            error &= ~(1 << ERROR_VCC_24V);
+        }
+
+        // read +24V 4-20mA CH1
+        if (check_24V_4_20mA_CH1())
+        {
+            error |= 1 << ERROR_24V_4_20mA_CH1;
+        }
+        else
+        {
+            error &= ~(1 << ERROR_24V_4_20mA_CH1);
+        }
+
+        // read +24V 4-20mA CH2
+        if (check_24V_4_20mA_CH2())
+        {
+            error |= 1 << ERROR_24V_4_20mA_CH2;
+        }
+        else
+        {
+            error &= ~(1 << ERROR_24V_4_20mA_CH2);
+        }
+
+        // read ERROR_VCC12_or_VCC24 (only for special HW)
+        if (get_12_or_24V_Output_fault_PIN() != 255 && !get_IOExpander_TOP_Input(get_12_or_24V_Output_fault_PIN()))
+        {
+            // error |= 1 << ERROR_VCC12_or_VCC24;
+        }
+        else
+        {
+            // error &= ~(1 << ERROR_VCC12_or_VCC24);
+        }
     }
     else
     {
+        // only each 1sek the Status LEDs will be shut off
+        if (delayCheck(timer1sek, 991))
+        {
+            timer1sek = millis();
+            setLED_OFF_ALL(); // clear all Status LEDs
+        }
+        // clear all error bits
+        error &= ~(1 << ERROR_VCC_5V);
+        error &= ~(1 << ERROR_VCC_12V);
         error &= ~(1 << ERROR_VCC_24V);
-    }
-
-    // read +24V 4-20mA CH1
-    if (check_24V_4_20mA_CH1())
-    {
-        error |= 1 << ERROR_24V_4_20mA_CH1;
-    }
-    else
-    {
         error &= ~(1 << ERROR_24V_4_20mA_CH1);
-    }
-
-    // read +24V 4-20mA CH2
-    if (check_24V_4_20mA_CH2())
-    {
-        error |= 1 << ERROR_24V_4_20mA_CH2;
-    }
-    else
-    {
         error &= ~(1 << ERROR_24V_4_20mA_CH2);
-    }
-
-    // read ERROR_VCC12_or_VCC24 (only for special HW)
-    if (get_12_or_24V_Output_fault_PIN() != 255 && !get_IOExpander_TOP_Input(get_12_or_24V_Output_fault_PIN()))
-    {
-        // error |= 1 << ERROR_VCC12_or_VCC24;
-    }
-    else
-    {
-        // error &= ~(1 << ERROR_VCC12_or_VCC24);
+        error &= ~(1 << ERROR_VCC12_or_VCC24);
     }
 
     if (error_old != error && delayCheck(delayTimer_DiagKO, DelayTime_DiagKO))
@@ -210,7 +226,7 @@ uint8_t processErrorHandling()
         delayTimer_DiagKO = millis();
     }
 
-    restart_Relais_5V();
+    // restart_Relais_5V();
 
     return error;
 }
@@ -242,7 +258,7 @@ bool get_12V_or_24V_Error()
 
 bool get_24V_AC_Error()
 {
-    return digitalRead(get_5V_status_PIN());
+    return (error >> ERROR_24V_AC) & 1;
 }
 
 bool get_ADC_Ready_Flag_TOP()

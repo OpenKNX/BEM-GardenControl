@@ -131,9 +131,6 @@ void processInput_4_20mA(bool readyFlag)
                     case SensorType_current:
                         value2.ladcValue = getAdcVoltage_BOT(channel2);
                         break;
-                    case SensorType_percent:
-                        value2.ladcValue = getAdcVoltage_BOT(channel2);
-                        break;
                     default:
 
                         switch (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)))
@@ -198,18 +195,20 @@ void processInput_4_20mA(bool readyFlag)
 #endif
                 }
                 // STEP 4: Preset KO
-                switch (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)))
+                switch (knx.paramByte(getParCUR(CUR_CHSensorTypes2, channel2)))
                 {
                     case SensorType_percent:
 #ifdef Input_4_20mA_Output
+                        SERIAL_PORT.print("Prozent: ");
                         SERIAL_PORT.println(value2.ladcValue);
 #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                        knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue * 2.55, getDPT(VAL_DPT_5));
+                        knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue * 2.55, getDPT(VAL_DPT_5)); 
                         break;
 
                     case SensorType_litre:
 #ifdef Input_4_20mA_Output
+                        SERIAL_PORT.print("liter: ");
                         SERIAL_PORT.println(value2.ladcValue);
 #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
@@ -218,6 +217,7 @@ void processInput_4_20mA(bool readyFlag)
 
                     case SensorType_volume:
 #ifdef Input_4_20mA_Output
+                        SERIAL_PORT.print("Volumen: ");
                         SERIAL_PORT.println(value2.ladcValue);
 #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
@@ -226,6 +226,9 @@ void processInput_4_20mA(bool readyFlag)
 
                     default:
 #ifdef Input_4_20mA_Output
+                        SERIAL_PORT.print("DPT9: ");
+                        SERIAL_PORT.print( knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)));
+                        SERIAL_PORT.print(": ");         
                         SERIAL_PORT.println(value2.ladcValue);
 #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)

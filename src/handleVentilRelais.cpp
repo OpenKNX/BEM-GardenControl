@@ -44,7 +44,7 @@ void processVentil()
         }
         initVentil = true;
     }
-    if (!get_5V_Error())
+    if (!get_24V_AC_Error())
     {
         // check of state chnage and Send new Status
         for (int ch = 0; ch < BEM_ChannelCount; ch++)
@@ -58,11 +58,16 @@ void processVentil()
                 SERIAL_PORT.println(ventil_State[ch]);
                 knx.getGroupObject(BEM_KoOffset + (ch * BEM_KoBlockSize + BEM_Ko_Status_ventil)).value(ventil_State[ch], getDPT(VAL_DPT_1));
                 ventil_State_old[ch] = ventil_State[ch];
+                return;
             }
         }
         displayCleared_Ventil = false;
     }
-    else
+}
+
+void process_ventil_states()
+{
+    if (get_24V_AC_Error())
     {
         // check of state chnage and Send new Status
         for (int ch = 0; ch < BEM_ChannelCount; ch++)
@@ -138,6 +143,14 @@ void set_Ventil_Sperrobjekt(uint8_t ch, bool state)
     ventil_Sperrobjekt[ch] = state;
 }
 
+void clear_ALL_Ventil_states()
+{
+    for (int i = 0; i < BEM_ChannelCount; i++)
+    {
+        set_Ventil_State(i, false);
+    }
+}
+
 /*****************************************************************************
  * Relais
  ****************************************************************************/
@@ -169,11 +182,16 @@ void processRelais()
                 SERIAL_PORT.println(relais_State[ch]);
                 knx.getGroupObject(REL_KoOffset + (ch * REL_KoBlockSize + REL_Ko_Status_relais)).value(relais_State[ch], getDPT(VAL_DPT_1));
                 relais_State_old[ch] = relais_State[ch];
+                return;
             }
         }
         displayCleared_Relais = false;
     }
-    else
+}
+
+void process_relais_states()
+{
+    if (get_24V_AC_Error())
     {
         // check of state chnage and Send new Status
         for (int ch = 0; ch < REL_ChannelCount; ch++)
@@ -189,7 +207,7 @@ void processRelais()
         {
             setLED_OFF_Relais();
             displayCleared_Relais = true;
-            SERIAL_PORT.println("Ventile: Display clear");
+            SERIAL_PORT.println("Relais: Display clear");
         }
     }
 }
@@ -208,11 +226,11 @@ void control_Relais(uint8_t nr, bool state)
     switch (nr)
     {
         case 0:
-            set_IOExpander_BOT_Output(12, state);
+            set_IOExpander_BOT_Output(13, state);
             setLED_Relais(LEDRelais1, !state);
             break;
         case 1:
-            set_IOExpander_BOT_Output(13, state);
+            set_IOExpander_BOT_Output(12, state);
             setLED_Relais(LEDRelais2, !state);
             break;
         default:
@@ -237,6 +255,14 @@ void set_Relais_Sperrobjekt(uint8_t ch, bool state)
     SERIAL_PORT.print(": ");
     SERIAL_PORT.println(state);
     relais_Sperrobjekt[ch] = state;
+}
+
+void clear_ALL_Relais_states()
+{
+    for (int i = 0; i < REL_ChannelCount; i++)
+    {
+        set_Relais_State(i, false);
+    }
 }
 
 /*****************************************************************************

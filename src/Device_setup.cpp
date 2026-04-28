@@ -373,7 +373,7 @@ void initHW()
 
             digitalWrite(get_PROG_LED_PIN(), LOW);
             digitalWrite(get_SSR_EN_PIN(), LOW);
-            digitalWrite(get_5V_EN_PIN(), HIGH);  // deafault = 5V OFF (PIN=HIGH)
+            digitalWrite(get_5V_EN_PIN(), HIGH); // deafault = 5V OFF (PIN=HIGH)
             digitalWrite(get_Status_PIN(), LOW);
             break;
 
@@ -394,6 +394,7 @@ void initHW_Top()
     Wire1.setSCL(15);
 
     Wire1.begin();
+    Wire1.setClock(400000UL);
 
     init_IOExpander_GPIOs_TOP();
 
