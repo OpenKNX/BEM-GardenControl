@@ -833,6 +833,7 @@ bool processADConversation_TOP()
 
 bool processADConversation_BOT()
 {
+
     if (!get_24V_AC_Error())
     {
         switch (get_HW_ID_BOT())
@@ -1053,6 +1054,10 @@ bool processADConversation_BOT()
                                 }
                                 ADC_State_BOT = Set_BOT;
                             }
+                            else
+                            {
+                                ADC_State_BOT = wait_Init; // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC again
+                            }
                             break;
                         case Set_BOT:
                             switch (ADC_BOT_CH)
@@ -1088,14 +1093,17 @@ bool processADConversation_BOT()
                                     case ADC_1: // 4-20mA CH1
                                         readAdcI2cValue_BOT(0);
                                         ADC_BOT_CH = ADC_2;
+                                        ADC_State_BOT = Set_BOT;
                                         break;
                                     case ADC_2: // 4-20mA CH2
                                         readAdcI2cValue_BOT(1);
                                         ADC_BOT_CH = ADC_3;
+                                        ADC_State_BOT = Set_BOT;
                                         break;
                                     case ADC_3: // HSS CS1
                                         readAdcI2cValue_BOT(2);
                                         ADC_BOT_CH = ADC_4;
+                                        ADC_State_BOT = Set_BOT;
                                         break;
                                     case ADC_4: // HSS CS2
                                         readAdcI2cValue_BOT(3);
@@ -1107,12 +1115,8 @@ bool processADConversation_BOT()
                                     default:
                                         Serial.println("Wrong StateADC BOT CH");
                                         break;
+                                        // ADC_State_BOT = wait_Init;
                                 }
-                                ADC_State_BOT = wait_Init;
-                            }
-                            else
-                            {
-                                ADC_State_BOT = wait_Init; // When ADC is not init after pwr cycle, go back to "wait_init" to init the ADC again
                             }
                             break;
 

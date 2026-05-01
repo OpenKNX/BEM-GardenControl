@@ -38,12 +38,12 @@ union InputADCValuesOLD
 
 float calculateSensorValueLinearFunction(uint8_t channel, float a, float b, bool Div)
 {
-    return ((getAdcVoltage_TOP(channel))-b) / a;
+    return ((getAdcVoltage_TOP(channel)) - b) / a;
 }
 
 float calculateSensorValueLinearFunction2(uint8_t channel, float a, float b, bool Div)
 {
-    return ((getAdcVoltage_TOP(channel))*a) + b;
+    return ((getAdcVoltage_TOP(channel)) * a) + b;
 }
 
 void processInput_ADC(bool readyFlag)
@@ -79,7 +79,7 @@ void processInput_ADC(bool readyFlag)
                 lSend = true;
             }
 
-            if (delayCheck(processDelay[channel], 1000) || lSend)
+            if (delayCheck(processDelay[channel], 500) || lSend)
             {
                 switch (knx.paramByte(getParADC(ADC_CHSensorType, channel)))
                 {
@@ -104,8 +104,8 @@ void processInput_ADC(bool readyFlag)
 
                             default:
                                 // STEP 2: Get new Sensor value
-                                //value.ladcValue = calculateSensorValueLinearFunction2(channel, knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0, knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
-                                value.ladcValue = (getAdcVoltage_TOP(channel)*(int16_t)knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0) + (int16_t)knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0;
+                                // value.ladcValue = calculateSensorValueLinearFunction2(channel, knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0, knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0, knx.paramByte(getParADC(ADC_CHVoltageDiv, channel)));
+                                value.ladcValue = (getAdcVoltage_TOP(channel) * (int16_t)knx.paramWord(getParADC(ADC_CHGeradeM, channel)) / 100.0) + (int16_t)knx.paramWord(getParADC(ADC_CHGeradeB, channel)) / 100.0;
     #ifdef InputADC_Output
                                 SERIAL_PORT.print(getAdcVoltage_TOP(channel));
                                 SERIAL_PORT.print(" | ");
@@ -208,13 +208,13 @@ void processInput_ADC(bool readyFlag)
                         SERIAL_PORT.println(value.ladcValue);
     #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                        if(knx.paramByte(getParADC(ADC_CHSMT50DPTType,channel)) == 0)
+                        if (knx.paramByte(getParADC(ADC_CHSMT50DPTType, channel)) == 0)
                         {
-                        knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend((uint8_t)(value.ladcValue * 2.55), getDPT(VAL_DPT_5));
+                            knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend((uint8_t)(value.ladcValue * 2.55), getDPT(VAL_DPT_5));
                         }
                         else
                         {
-                        knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue, getDPT(VAL_DPT_9));
+                            knx.getGroupObject(getComADC(ADC_KoGO_BASE__1, channel)).valueNoSend(value.ladcValue, getDPT(VAL_DPT_9));
                         }
 
                         break;

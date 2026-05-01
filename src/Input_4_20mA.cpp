@@ -87,6 +87,10 @@ void processInput_4_20mA(bool readyFlag)
     if (!get_24V_AC_Error())
     {
 
+        // SERIAL_PORT.println(readyFlag);
+        // SERIAL_PORT.println(Input_x_20mA_CH_inaktiv);
+        // SERIAL_PORT.println(knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)));
+
         if (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)) != Input_x_20mA_CH_inaktiv && readyFlag)
         {
 
@@ -96,32 +100,32 @@ void processInput_4_20mA(bool readyFlag)
             if (lCycle && delayCheck(sendDelay2[channel2], lCycle))
             {
                 lSend = true;
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                 SERIAL_PORT.println("-> Zyklisch Senden <-");
-#endif
+    #endif
             }
 
-            if (delayCheck(processDelay2[channel2], 1000) || lSend)
+            if (delayCheck(processDelay2[channel2], 507) || lSend)
             {
                 // SERIAL_PORT.println(knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)));
 
                 switch (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)))
                 {
                     case Input_4_20mA:
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                         SERIAL_PORT.print("4_20mA_CH");
                         SERIAL_PORT.print(channel2);
                         SERIAL_PORT.print(": ");
                         SERIAL_PORT.print(lCycle);
                         SERIAL_PORT.print(": ");
-#endif
+    #endif
                         break;
                     case Input_0_20mA:
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                         SERIAL_PORT.print("0_20mA_CH");
                         SERIAL_PORT.print(channel2);
                         SERIAL_PORT.print(": ");
-#endif
+    #endif
                         break;
                 }
 
@@ -143,21 +147,21 @@ void processInput_4_20mA(bool readyFlag)
                                 break;
                             default:
                                 value2.ladcValue = 0;
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                                 SERIAL_PORT.print("Wrong Par");
-#endif
+    #endif
                                 break;
                         }
                         break;
                 }
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                 SERIAL_PORT.print(value2.ladcValue);
                 SERIAL_PORT.print(" | ");
                 SERIAL_PORT.print(knx.paramWord(getParCUR(CUR_CHPoint4mA, channel2)));
                 SERIAL_PORT.print(" | ");
                 SERIAL_PORT.print(knx.paramWord(getParCUR(CUR_CHPoint20mA, channel2)));
                 SERIAL_PORT.print(" | ");
-#endif
+    #endif
                 // STEP 2: Check value Change "Absolut"
                 // STEP 2a: read Parameter DPT Format
                 lAbsolute = (knx.paramWord(getParCUR(CUR_CHSendenAbsolut2, channel2)));
@@ -166,9 +170,9 @@ void processInput_4_20mA(bool readyFlag)
                 if (lAbsolute > 0 && (abs(value2.ladcValue - valueOld2.ladcValue[channel2])) >= lAbsolute)
                 {
                     lSend = true;
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                     SERIAL_PORT.print(" Abs ");
-#endif
+    #endif
                 }
                 // STEP 3: Check value Change "Releative"
                 // STEP 3a: read Parameter DPT Format
@@ -190,47 +194,47 @@ void processInput_4_20mA(bool readyFlag)
                 if (lAbsolute > 0 && value2.ladcValue > 0.2 && roundf(abs(value2.ladcValue - valueOld2.ladcValue[channel2])) >= value2.ladcValue / 100 * lAbsolute)
                 {
                     lSend = true;
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                     SERIAL_PORT.print(" Rel ");
-#endif
+    #endif
                 }
                 // STEP 4: Preset KO
                 switch (knx.paramByte(getParCUR(CUR_CHSensorTypes2, channel2)))
                 {
                     case SensorType_percent:
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                         SERIAL_PORT.print("Prozent: ");
                         SERIAL_PORT.println(value2.ladcValue);
-#endif
+    #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
-                        knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue * 2.55, getDPT(VAL_DPT_5)); 
+                        knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue * 2.55, getDPT(VAL_DPT_5));
                         break;
 
                     case SensorType_litre:
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                         SERIAL_PORT.print("liter: ");
                         SERIAL_PORT.println(value2.ladcValue);
-#endif
+    #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
                         knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue, getDPT(VAL_DPT_12));
                         break;
 
                     case SensorType_volume:
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                         SERIAL_PORT.print("Volumen: ");
                         SERIAL_PORT.println(value2.ladcValue);
-#endif
+    #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
                         knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue, getDPT(VAL_DPT_12));
                         break;
 
                     default:
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                         SERIAL_PORT.print("DPT9: ");
-                        SERIAL_PORT.print( knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)));
-                        SERIAL_PORT.print(": ");         
+                        SERIAL_PORT.print(knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)));
+                        SERIAL_PORT.print(": ");
                         SERIAL_PORT.println(value2.ladcValue);
-#endif
+    #endif
                         // we always store the new value in KO, even it it is not sent (to satisfy potential read request)
                         knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).valueNoSend(value2.ladcValue, getDPT(VAL_DPT_9));
                         break;
@@ -241,12 +245,12 @@ void processInput_4_20mA(bool readyFlag)
 
             if (lSend)
             {
-#ifdef Input_4_20mA_Output
+    #ifdef Input_4_20mA_Output
                 SERIAL_PORT.print("->KNX_4-20mA CH");
                 SERIAL_PORT.print(channel2);
                 SERIAL_PORT.print(": senden: ");
                 SERIAL_PORT.println(value2.ladcValue);
-#endif
+    #endif
                 knx.getGroupObject(getComCUR(CUR_KoCUR_BASE__1, channel2)).objectWritten();
                 valueOld2.ladcValue[channel2] = value2.ladcValue;
                 sendDelay2[channel2] = millis();

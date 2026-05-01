@@ -3,8 +3,8 @@
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
 
 
-  <op:config name="%ApplicationVersion%" value="1.1" />
-  <op:config name="%ReplacesVersions%" value="0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0" />
+  <op:config name="%ApplicationVersion%" value="1.2" />
+  <op:config name="%ReplacesVersions%" value="0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1" />
 
   <op:config name="%BASE_ExtendedSave%" value="1" />
   <op:config name="%BASE_PeriodicSave%" value="1" />
