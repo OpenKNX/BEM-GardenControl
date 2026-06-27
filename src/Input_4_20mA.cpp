@@ -1,4 +1,5 @@
 
+#include <math.h>
 #include <stdint.h>
 
 #include "ErrorHandling.h"
@@ -50,6 +51,8 @@ float calculateSensorValueLinearFunction(uint8_t channel2, float a, float b)
 float calculateSensorValueLinearFunction2(uint8_t channel2, uint8_t p1y, int16_t p1x, int16_t p2x)
 {
     float store = p2x - p1x;
+    if (store == 0) // 4mA- and 20mA-points equal (e.g. both unconfigured) -> avoid div by zero / NaN
+        return 0;
     float m = (20 - p1y) / store;
     float b = p1y - (m * p1x);
     return ((getAdcVoltage_BOT(channel2)) - b) / m;
@@ -167,7 +170,7 @@ void processInput_4_20mA(bool readyFlag)
                 lAbsolute = (knx.paramWord(getParCUR(CUR_CHSendenAbsolut2, channel2)));
 
                 // STEP 2b: Check if Change detected
-                if (lAbsolute > 0 && (abs(value2.ladcValue - valueOld2.ladcValue[channel2])) >= lAbsolute)
+                if (lAbsolute > 0 && (fabsf(value2.ladcValue - valueOld2.ladcValue[channel2])) >= lAbsolute)
                 {
                     lSend = true;
     #ifdef Input_4_20mA_Output
@@ -176,7 +179,7 @@ void processInput_4_20mA(bool readyFlag)
                 }
                 // STEP 3: Check value Change "Releative"
                 // STEP 3a: read Parameter DPT Format
-                switch (knx.paramByte(getParCUR(CUR_CHSensorType2, channel2)))
+                switch (knx.paramByte(getParCUR(CUR_CHSensorTypes2, channel2)))
                 {
                     case SensorType_humidity:
                         lAbsolute = 100;
@@ -191,7 +194,7 @@ void processInput_4_20mA(bool readyFlag)
                         break;
                 }
                 // STEP 3b: Check if Change detected
-                if (lAbsolute > 0 && value2.ladcValue > 0.2 && roundf(abs(value2.ladcValue - valueOld2.ladcValue[channel2])) >= value2.ladcValue / 100 * lAbsolute)
+                if (lAbsolute > 0 && value2.ladcValue > 0.2 && roundf(fabsf(value2.ladcValue - valueOld2.ladcValue[channel2])) >= value2.ladcValue / 100 * lAbsolute)
                 {
                     lSend = true;
     #ifdef Input_4_20mA_Output
