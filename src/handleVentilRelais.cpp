@@ -9,9 +9,6 @@
 #include "ErrorHandling.h"
 #include "LED_Statusanzeige.h"
 
-bool initVentil = false;
-bool initRelay = false;
-
 bool ventil_State[BEM_ChannelCount] = {0};
 bool ventil_State_old[BEM_ChannelCount] = {0};
 bool ventil_Sperrobjekt[BEM_ChannelCount] = {0};
@@ -22,7 +19,6 @@ bool relais_Sperrobjekt[REL_ChannelCount] = {0};
 
 bool relais_5V_State = false;
 bool relais_5V_State_old = false;
-bool relais_5V_startup_flag = true;
 
 bool displayCleared_Ventil = false;
 bool displayCleared_Relais = false;
@@ -32,18 +28,6 @@ bool displayCleared_Relais = false;
  ****************************************************************************/
 void processVentil()
 {
-    if (!initVentil)
-    {
-        SERIAL_PORT.println("Senden Status Objekte Ventil");
-        if ((knx.paramByte(BEM_KOsStateSendStartup) >> BEM_KOsStateSendStartupShift) & 1) // Senden bei Startup "AN"
-        {
-            for (int i = 0; i < BEM_ChannelCount; i++)
-            {
-                knx.getGroupObject(BEM_KoOffset + (i * BEM_KoBlockSize + BEM_Ko_Status_ventil)).objectWritten();
-            }
-        }
-        initVentil = true;
-    }
     if (!get_24V_AC_Error())
     {
         // check of state chnage and Send new Status
@@ -156,18 +140,6 @@ void clear_ALL_Ventil_states()
  ****************************************************************************/
 void processRelais()
 {
-    if (!initRelay)
-    {
-        SERIAL_PORT.println("Senden Status Objekte Relays");
-        if ((knx.paramByte(BEM_KOsStateSendStartup) >> BEM_KOsStateSendStartupShift) & 1) // Senden bei Startup "AN"
-        {
-            for (int i = 0; i < REL_ChannelCount; i++)
-            {
-                knx.getGroupObject(REL_KoOffset + (i * REL_KoBlockSize + REL_Ko_Status_relais)).objectWritten();
-            }
-        }
-        initRelay = true;
-    }
     if (!get_24V_AC_Error())
     {
         // check of state chnage and Send new Status
@@ -265,6 +237,34 @@ void clear_ALL_Relais_states()
     }
 }
 
+void sendStartupOutputStates()
+{
+    // Queue startup status telegrams only after the OpenKNX startup delay.
+    // Logic prepares its external-KO lookup in processAfterStartupDelay(), so
+    // earlier writes can be missed by local logic inputs.
+    if ((knx.paramByte(BEM_KOsStateSendStartup) >> BEM_KOsStateSendStartupShift) & 1)
+    {
+        SERIAL_PORT.println("Senden Status Objekte Ventil");
+        for (int i = 0; i < BEM_ChannelCount; i++)
+        {
+            knx.getGroupObject(BEM_KoOffset + (i * BEM_KoBlockSize + BEM_Ko_Status_ventil)).objectWritten();
+        }
+
+        SERIAL_PORT.println("Senden Status Objekte Relays");
+        for (int i = 0; i < REL_ChannelCount; i++)
+        {
+            knx.getGroupObject(REL_KoOffset + (i * REL_KoBlockSize + REL_Ko_Status_relais)).objectWritten();
+        }
+    }
+
+    // The external 5 V relay has its own startup-send parameter.
+    if ((knx.paramByte(BEM_ext5VRelaisStartState) >> BEM_ext5VRelaisStartStateShift) & 1)
+    {
+        SERIAL_PORT.println("Senden Status Objekt 5V Relais");
+        knx.getGroupObject(BEM_Ko_Status_5V_relais).objectWritten();
+    }
+}
+
 /*****************************************************************************
  * externes 5V Relais
  ****************************************************************************/
@@ -276,15 +276,6 @@ void control_5V_Relais(bool state)
 
 void process_5V_Relais()
 {
-    if (relais_5V_startup_flag)
-    {
-        if ((knx.paramByte(BEM_ext5VRelaisStartState) >> BEM_ext5VRelaisStartStateShift) & 1) // Senden bei Startup "AN"
-        {
-            knx.getGroupObject(BEM_Ko_Status_5V_relais).value(relais_5V_State, getDPT(VAL_DPT_1));
-        }
-        relais_5V_startup_flag = false;
-    }
-
     if (relais_5V_State_old != relais_5V_State)
     {
         control_5V_Relais(relais_5V_State);

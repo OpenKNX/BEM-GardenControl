@@ -7,6 +7,7 @@ void processRelais();
 void process_ventil_states();
 void process_relais_states();
 void process_5V_Relais();
+void sendStartupOutputStates();
 void set_Ventil_State(uint8_t ch, bool state);
 void set_Ventil_State_single(uint8_t ch);
 void set_Ventil_Sperrobjekt(uint8_t ch, bool state);
