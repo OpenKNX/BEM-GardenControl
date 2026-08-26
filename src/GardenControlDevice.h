@@ -10,6 +10,7 @@ class GardenControlDevice : public OpenKNX::Module
 
     // void processReadRequests();
     void processInputKo(GroupObject &iKo);
+    void processAfterStartupDelay() override;
     // void showHelp() override;
     // bool processCommand(const std::string cmd, bool debugKo) override;
     void setup();

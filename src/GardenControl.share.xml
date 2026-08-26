@@ -65,7 +65,7 @@
                   Offset="0" BitOffset="3" />
                 <Parameter Id="%AID%_UP-%TT%00004" Name="KOsStateSendStartup"
                   ParameterType="%AID%_PT-OnOFF" Text="Status KOs senden nach Startup" Value="1"
-                  Offset="0" BitOffset="3" />
+                  Offset="0" BitOffset="4" />
               </Union>
             </Parameters>
             <ParameterRefs>
