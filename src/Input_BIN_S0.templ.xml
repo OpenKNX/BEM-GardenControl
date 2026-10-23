@@ -289,7 +289,7 @@
                     Icon="square-wave-flip" HelpContext="Empty"
                     Text="Binäreingang %C%: {{0:...}}"
                     TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
-                    <Channel Id="%AID%_CH-BIN%C%" Number="BIN%C%" Name="DigitalKanal%C%"
+                    <Channel Id="%AID%_CH-%PREFIX%" Number="%PREFIX%" Name="DigitalKanal%C%"
                       Text="Binäreingang %C%: {{0:...}}"
                       TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
                       <ParameterBlock Id="%AID%_PB-BIN%C%Wrapper" Inline="true">
@@ -331,7 +331,7 @@
                     Icon="square-wave-flip" HelpContext="Empty"
                     Text="S0-Eingnang %C%: {{0:...}}"
                     TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
-                    <Channel Id="%AID%_CH-S0%C%" Number="S0%C%" Name="S0Kanal%C%"
+                    <Channel Id="%AID%_CH-%PREFIX%" Number="%PREFIX%" Name="S0Kanal%C%"
                       Text="S0-Eingnang %C%: {{0:...}}"
                       TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
                       <ParameterBlock Id="%AID%_PB-BIN%C%Wrapper" Inline="true">
@@ -513,7 +513,7 @@
                     Icon="square-wave-flip" HelpContext="Empty"
                     Text="Impulseingang %C%: {{0:...}}"
                     TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
-                    <Channel Id="%AID%_CH-IMP%C%" Number="IMP%C%" Name="IMPKanal%C%"
+                    <Channel Id="%AID%_CH-%PREFIX%" Number="IMP%PREFIX%" Name="IMPKanal%C%"
                       Text="Impulseingang %C%: {{0:...}}"
                       TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
                       <ParameterBlock Id="%AID%_PB-BIN%C%Wrapper" Inline="true">
@@ -543,7 +543,7 @@
                 </when>
               </choose>
             </ChannelIndependentBlock>
-            <Channel Id="%AID%_CH-4" Number="4" Name="Hidden-Channel-List">
+            <Channel Id="%AID%_CH-%PREFIX%" Number="%PREFIX%" Name="Hidden-Channel-List">
               <ParameterBlock Id="%AID%_PB-nnn" Name="Channel-List">
                 <ParameterRefRef RefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001" Cell="%C%,1" />
                 <ParameterRefRef RefId="%AID%_UP-%TT%%CC%009_R-%TT%%CC%00901" Cell="%C%,2" />

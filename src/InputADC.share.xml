@@ -79,7 +79,7 @@
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
-            <Channel Id="%AID%_CH-3" Name="Standard" Number="3" Text="Analogeingänge 0-12V">
+            <Channel Id="%AID%_CH-%PREFIX%" Name="Standard" Number="%PREFIX%" Text="Analogeingänge 0-12V">
               <ParameterBlock Id="%AID%_PB-nnn" Name="ADC" Text="Analogeingänge 0-12V" Icon="alpha-v-circle-outline" HelpContext="Empty" ShowInComObjectTree="true">
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Auswahl Analogeingänge 0-12V" UIHint="Headline" />
                 <ParameterBlock Id="%AID%_PB-nnn" Inline="true" Layout="Table" Text="#">

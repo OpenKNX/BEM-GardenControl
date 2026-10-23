@@ -66,10 +66,10 @@
             <ChannelIndependentBlock>
               <choose ParamRefId="%AID%_UP-%TT%%CC%001_R-%TT%%CC%00101">
                 <when test="1">
-                  <ParameterBlock Id="%AID%_PB-3" Name="MagnetVentilKanal" Text="Ventil %C%: {{0:...}}"
+                  <ParameterBlock Id="%AID%_PB-nnn" Name="MagnetVentilKanal" Text="Ventil %C%: {{0:...}}"
                     Icon="valve-open" HelpContext="Empty"
                     TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
-                    <Channel Id="%AID%_CH-ENO%C%" Number="ENO%C%" Name="MagnetventilKanal%C%"
+                    <Channel Id="%AID%_CH-%C%" Number="%PREFIX%" Name="MagnetventilKanal%C%"
                       Text="Ventil %C%: {{0:...}}"
                       TextParameterRefId="%AID%_P-%TT%%CC%000_R-%TT%%CC%00001">
                       <ParameterBlock Id="%AID%_PB-ENO%C%Wrapper" Inline="true">

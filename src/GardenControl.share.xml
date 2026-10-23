@@ -55,7 +55,7 @@
                 <Parameter Id="%AID%_UP-%TT%00000" Name="ext5VRelais" ParameterType="%AID%_PT-YesNo"
                   Text="externes +5V Relais vorhanden?" Value="1" Offset="0" BitOffset="0" />
                 <Parameter Id="%AID%_UP-%TT%00001" Name="ext5VRelaisStateBegin"
-                  ParameterType="%AID%_PT-OnOFF" Text="externes +5V Relais Zustand nach Startup" Value="1" 
+                  ParameterType="%AID%_PT-OnOFF" Text="externes +5V Relais Zustand nach Startup" Value="1"
                   Offset="0" BitOffset="1" />
                 <Parameter Id="%AID%_UP-%TT%00002" Name="ext5VRelaisStartState"
                   ParameterType="%AID%_PT-OnOFF" Text="externes +5V Relais Status KO senden nach Startup" Value="0"
@@ -65,7 +65,7 @@
                   Offset="0" BitOffset="3" />
                 <Parameter Id="%AID%_UP-%TT%00004" Name="KOsStateSendStartup"
                   ParameterType="%AID%_PT-OnOFF" Text="Status KOs senden nach Startup" Value="0"
-                  Offset="0" BitOffset="3" />  
+                  Offset="0" BitOffset="3" />
               </Union>
             </Parameters>
             <ParameterRefs>
@@ -105,7 +105,7 @@
           </Static>
           <!-- Here statrs the UI definition -->
           <Dynamic>
-            <Channel Id="%AID%_CH-1" Name="Standard" Number="1" Text="Magnetventile">
+            <Channel Id="%AID%_CH-%PREFIX%" Name="Standard" Number="%PREFIX%" Text="Magnetventile">
               <!-- A tab page with general settings -->
               <ParameterBlock Id="%AID%_PB-nnn" Name="General" Text="Allgemein" Icon="cog-outline" HelpContext="BEM-Dokumentation">
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Garden Control" UIHint="Headline" />
